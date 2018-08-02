@@ -1,0 +1,146 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage{mathrsfs}
+\usepackage{float}
+% ======    PACKAGES
+\usepackage{slivkins-setup,slivkins-theorems}
+%\usepackage{amsmath, amsfonts, amssymb, amsthm, amsbsy, amscd, bm, bbm}
+\usepackage{amsbsy, amscd, bm, bbm}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage[small,bf]{caption}
+\setlength{\captionmargin}{30pt}
+\usepackage{subcaption}
+\captionsetup[sub]{margin=10pt,font=small}
+\usepackage{color}
+\usepackage{ifthen}
+\usepackage{xspace}
+\usepackage[noend]{algorithmic}
+\usepackage{algorithm}
+\usepackage[colorlinks,citecolor={black},urlcolor={black},linkcolor={black}]{hyperref}
+\usepackage{url}
+\usepackage{tocbibind}
+\usepackage{enumerate}
+\usepackage{mdframed}
+\usepackage{comment}
+
+
+\DeclareMathOperator*{\argmin}{argmin}
+
+% a very useful package for edits and comments, from David Kempe (USC)
+\usepackage{color-edits}
+%\usepackage[suppress]{color-edits}  % use this to suppress the package
+\addauthor{as}{red}      % as for Alex
+\addauthor{jm}{blue}     % jm for Jieming
+\addauthor{ni}{green}     % ni for Nicole
+\addauthor{sw}{magenta}     % sw for Steven
+% e.g. for Alex, provides \asedit{}, \ascomment{} and \asdelete{}.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newtheorem{theorem}{Theorem}[section]
+%\newtheorem{corollary}[theorem]{Corollary}
+%\newtheorem{conjecture}[theorem]{Conjecture}
+%\newtheorem{proposition}[theorem]{Proposition}
+%\newtheorem{definition}[theorem]{Definition}
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{remark}{Remark}[section]
+%\newtheorem{claim}{Claim}[section]
+%\newtheorem{example}{Example}[section]
+
+\newcommand{\term}[1]{\ensuremath{\mathtt{#1}}}
+\newcommand{\thread}{\term{thread}}
+
+\newcommand{\DT}{\mD} % Alex' notation for distribution over types.
+
+\def\DKL{\textbf{D}_{\term{KL}}}
+\def\D{\mathbb{D}}
+\def\E{\mathbb{E}}
+
+\def\A{\mathcal{A}}
+\def\M{\mathcal{M}}
+\def\S{\mathcal{S}}
+\def\X{\mathcal{X}}
+\def\EX{\term{EX}}
+\def\Ds{*}
+\def\EE{\mathcal{E}}
+\def\varTheta{\bold{\Theta}}
+\def\varOmega{\bold{\Omega}}
+
+\def\ALGG{Greedy }
+\def\ALGPG{Parallel Greedy }
+\def\2LEVEL{Two-level Policy}
+\def\Ber{\emph{Ber} }
+
+
+\title{Bayesian Exploration with Unbiased History}
+
+
+
+\author{
+}
+\begin{document}
+\begin{titlepage}
+\maketitle
+
+\thispagestyle{empty}
+\begin{abstract}
+aaa
+\end{abstract}
+\end{titlepage}
+
+\input{model}
+
+
+\section{Social Learning}
+\begin{lemma}
+\ALGG of $T_c$ rounds pulls each arm w.p. at least $p_c$. 
+\end{lemma}
+
+
+\begin{corollary}
+\ALGPG of $c \cdot T_c \cdot \frac{1}{p_c} \cdot \log(1/\delta)$ rounds pulls each at least once w.p. $1-\delta$. \jmcomment{Do we actually need this?}
+\end{corollary}
+
+\section{Two-level Recommendation Policy}
+Run $T_2$ \ALGG in parallel and then show the later agents the entire history. 
+
+\begin{lemma}
+For each arm $i$, any $t > 0$ and $\varepsilon \leq 1/2$, let $p$ be the probability that there exists $t \leq \tau \leq T$ such that the empirical mean of the first $\tau$ pulls of arm $i$ is $\varepsilon$ away from $\mu_i$. Then we have 
+\[
+p \leq \frac{2}{\varepsilon^2} \exp(-2\varepsilon^2 t).
+\]
+\end{lemma}
+
+\begin{proof}
+For each $\tau \in \{t,...,T\}$, let $p_{\tau}$ be the probability that the empirical mean of the first $\tau$ pulls of arm $i$ is $\varepsilon$ away from $\mu_i$. By Chernoff bound, we have
+\[
+p_{\tau} \leq 2 \exp(-2\varepsilon^2 \tau).
+\]
+
+By union bound,
+\[
+p \leq \sum_{\tau = t}^T p_{\tau} \leq 2 \exp(-2\varepsilon^2 t)  \cdot \frac{1}{1-\exp(-2\varepsilon^2)}.
+\]
+
+We know that for any $ x \in [0,1]$, $e^{-x} \leq 1-x/2$. There we have
+\[
+p \leq  2 \exp(-2\varepsilon^2 t)  \cdot \frac{1}{1-(1-\varepsilon^2)} =  \frac{2}{\varepsilon^2} \exp(-2\varepsilon^2 t).
+\]
+\end{proof}
+
+\begin{theorem}
+\2LEVEL gets expected regret $O(T^{2/3} \log(T)^{1/3})$. If $\delta$, the expected regret is $O(\log(T) \cdot \delta^{-2})$. 
+\end{theorem}
+
+\begin{proof}
+We will analyze the case when agents after \ALGG only uses empirical mean.
+\end{proof}
+
+\section{Multi-level Recommendation Policy}
+The $r$-th level of $l$-level policy has number of agents equal to
+\[
+T^{(2^{l-1}+\cdots+2^{l-r})/(2^{l-1}+2^{l-2}+\cdots + 1)}.
+\]
+\end{document}
