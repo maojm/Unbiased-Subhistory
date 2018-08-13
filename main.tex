@@ -73,6 +73,9 @@
 \def\2LEVEL{Two-level Policy}
 \def\Ber{\emph{Ber} }
 
+\def\pmn{\hat{\mu}}
+\def\emn{\bar{\mu}}
+ 
 
 \title{Bayesian Exploration with Unbiased History}
 
@@ -103,44 +106,12 @@ aaa
 \ALGPG of $c \cdot T_c \cdot \frac{1}{p_c} \cdot \log(1/\delta)$ rounds pulls each at least once w.p. $1-\delta$. \jmcomment{Do we actually need this?}
 \end{corollary}
 
-\section{Two-level Recommendation Policy}
-Run $T_2$ \ALGG in parallel and then show the later agents the entire history. 
+\input{2level}
 
-\begin{lemma}
-For each arm $i$, any $t > 0$ and $\varepsilon \leq 1/2$, let $p$ be the probability that there exists $t \leq \tau \leq T$ such that the empirical mean of the first $\tau$ pulls of arm $i$ is $\varepsilon$ away from $\mu_i$. Then we have 
-\[
-p \leq \frac{2}{\varepsilon^2} \exp(-2\varepsilon^2 t).
-\]
-\end{lemma}
+\input{3level}
 
-\begin{proof}
-For each $\tau \in \{t,...,T\}$, let $p_{\tau}$ be the probability that the empirical mean of the first $\tau$ pulls of arm $i$ is $\varepsilon$ away from $\mu_i$. By Chernoff bound, we have
-\[
-p_{\tau} \leq 2 \exp(-2\varepsilon^2 \tau).
-\]
 
-By union bound,
-\[
-p \leq \sum_{\tau = t}^T p_{\tau} \leq 2 \exp(-2\varepsilon^2 t)  \cdot \frac{1}{1-\exp(-2\varepsilon^2)}.
-\]
+\appendix
 
-We know that for any $ x \in [0,1]$, $e^{-x} \leq 1-x/2$. There we have
-\[
-p \leq  2 \exp(-2\varepsilon^2 t)  \cdot \frac{1}{1-(1-\varepsilon^2)} =  \frac{2}{\varepsilon^2} \exp(-2\varepsilon^2 t).
-\]
-\end{proof}
-
-\begin{theorem}
-\2LEVEL gets expected regret $O(T^{2/3} \log(T)^{1/3})$. If $\delta$, the expected regret is $O(\log(T) \cdot \delta^{-2})$. 
-\end{theorem}
-
-\begin{proof}
-We will analyze the case when agents after \ALGG only uses empirical mean.
-\end{proof}
-
-\section{Multi-level Recommendation Policy}
-The $r$-th level of $l$-level policy has number of agents equal to
-\[
-T^{(2^{l-1}+\cdots+2^{l-r})/(2^{l-1}+2^{l-2}+\cdots + 1)}.
-\]
+\input{posterior}
 \end{document}

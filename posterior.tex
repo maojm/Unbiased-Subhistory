@@ -1,0 +1,51 @@
+%!TEX root = main.tex
+\section{Posterior Mean}
+
+\begin{example}
+Let the prior distribution be the uniform distribution over two Bernoulli distributions. Suppose there are $a$ 1's in $n$ samples. Then the posterior mean is $\frac{a+1}{n+2}$ and the empirical mean is $\frac{a}{n}$. Their difference is at most $\frac{1}{n+2}$. 
+\end{example}
+
+\begin{example}
+Let the prior distribution be the sum of two independent 0-mean Gaussians. The first Gaussian is sampled once and has variance $\alpha^2$. The second Gaussian is sampled for each sample and has variance $\beta^2$. Suppose there are $n$ samples with empirical mean $m$. The posterior mean is $\frac{n \cdot m \cdot \alpha^2}{n \cdot \alpha^2 + \beta^2}$. The difference between the posterior mean and the empirical mean is $\frac{m\beta^2}{n\cdot \alpha^2 + \beta^2}$.
+\end{example}
+
+\begin{assumption}
+\label{ass:post}
+For any arm $i$ and any $m >0$, let $H_m$ be the random variables of $m$ pulls of arm $i$. Let $\emn(H_m)$ be the empirical mean and $\pmn(H_m)$ be the posterior mean. With probability at least $1 - \exp(m)$, we have $|\emn(H_m) - \pmn(H_m)| \leq \frac{1}{m}$. 
+\end{assumption}
+
+\begin{lemma}
+\label{lem:post}
+For any arbitrary strategy of pulling arms for $T$ rounds, let its history to be $G_T$. We allow this strategy to be adaptive based on history. Fix an arm $i$. Let $m_i(G_T)$ be the number of pulls of arm $i$, $\pmn_i(G_T)$ be the posterior mean of arm $i$. Let $H_{m(G_T)}$ be the sub history of arm $i$ in $G_T$. Then $\pmn_i(G_T)$ is the same as the posterior mean of seeing $H_{m_i(G_T)}$ after $m_i(G_T)$ pulls of arm $i$.
+\end{lemma}
+
+\begin{proof}
+Let's assume there are $m^0_i(G_T)$ 0's and $m^1_i(G_T)$ 1's among of $m_i(G_T)$ pulls of arm $i$ in $G_T$. By the definition of posterior mean, we have
+\[
+\pmn_i(G_T) = \E[\mu_i|G_T] = \frac{\sum_{x_i} x_i \cdot \Pr[\mu_i=x_i, G_T]}{\sum_{x_i} \Pr[\mu_i=x_i, G_T]}.
+\]
+
+We also know that 
+\[
+\frac{\Pr[\mu_i = x_i, G_T]}{\Pr[\mu_i = x_i', G_T]} = \frac{\Pr[\mu_i = x_i] \cdot  (1-x_i)^{m^0_i(G_T)}x_i^{m^1_i(G_T)}}{\Pr[\mu_i = x_i'] \cdot (1-x_i)^{m^0_i(G_T)}(x_i')^{m^1_i(G_T)} }.
+\]
+
+Therefore ,
+\[
+\pmn_i(G_T) = \frac{\sum_{x_i} x_i \cdot \Pr[\mu_i = x_i] \cdot  (1-x_i)^{m^0_i(G_T)}x_i^{m^1_i(G_T)}}{\sum_{x_i}\Pr[\mu_i = x_i] \cdot  (1-x_i)^{m^0_i(G_T)}x_i^{m^1_i(G_T)}}
+\]
+
+Finally, by the definition of posterior mean, the posterior mean of seeing $H_{m_i(G_T)}$ after $m_i(G_T)$ pulls of arm $i$ is
+\[
+\frac{\sum_{x_i} x_i \cdot \Pr[\mu_i = x_i] \cdot  (1-x_i)^{m^0_i(G_T)}x_i^{m^1_i(G_T)}}{\sum_{x_i}\Pr[\mu_i = x_i] \cdot  (1-x_i)^{m^0_i(G_T)}x_i^{m^1_i(G_T)}} = \pmn_i(G_T).
+\]
+\end{proof}
+
+\begin{corollary}
+\label{cor:post}
+For any arbitrary strategy of pulling arms for $T$ rounds, let its history to be $G_T$. We allow this strategy to be adaptive based on history. Fix an arm $i$. Let $m(G_T)$ be the number of pulls of arm $i$, $\emn(G_T)$ be the empirical mean of arm $i$ and $\pmn(G_T)$ be the posterior mean of arm $i$. Let $p_0$ be the probability that $m(G_T) \geq m_0$. With probability $p_0 - 2\exp(m_0)$, $|\emn(G_T) - \pmn(G_T)| \leq \frac{1}{m(G_T)}$.
+\end{corollary}
+
+\begin{proof}
+Simply by applying Assumption \ref{ass:post}, Lemma \ref{lem:post} and union bound.
+\end{proof}
