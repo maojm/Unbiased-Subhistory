@@ -76,6 +76,8 @@
 \def\pmn{\hat{\mu}}
 \def\emn{\bar{\mu}}
  
+\def\GdT{T_G}
+\def\GdP{p_G}
 
 \title{Bayesian Exploration with Unbiased History}
 
@@ -98,12 +100,13 @@ aaa
 
 \section{Social Learning}
 \begin{lemma}
-\ALGG of $T_c$ rounds pulls each arm w.p. at least $p_c$. 
+\label{lem:greedy}
+\ALGG of $\GdT$ rounds pulls each arm w.p. at least $\GdP$. 
 \end{lemma}
 
 
 \begin{corollary}
-\ALGPG of $c \cdot T_c \cdot \frac{1}{p_c} \cdot \log(1/\delta)$ rounds pulls each at least once w.p. $1-\delta$. \jmcomment{Do we actually need this?}
+\ALGPG of $c \cdot \GdT \cdot \frac{1}{\GdP} \cdot \log(1/\delta)$ rounds pulls each at least once w.p. $1-\delta$. \jmcomment{Do we actually need this?}
 \end{corollary}
 
 \input{2level}

@@ -1,8 +1,9 @@
 %!TEX root = main.tex
 \section{Two-level Recommendation Policy}
-Run $T_2$ \ALGG in parallel and then show the later agents the history of first $T_2$ rounds.
+Run $T_1$ \ALGG in parallel and then show the later agents the history of first $T_1$ rounds. We will pick $T_1$ in Theorem \ref{thm:2level}. 
 
 \begin{lemma}
+\label{lem:2level1}
 For each arm $i$, any $t > 0$ and $\varepsilon \leq 1/2$, let $p$ be the probability that there exists $t \leq \tau \leq T$ such that the empirical mean of the first $\tau$ pulls of arm $i$ is $\varepsilon$ away from $\mu_i$. Then we have 
 \[
 p \leq \frac{2}{\varepsilon^2} \exp(-2\varepsilon^2 t).
@@ -27,9 +28,26 @@ p \leq  2 \exp(-2\varepsilon^2 t)  \cdot \frac{1}{1-(1-\varepsilon^2)} =  \frac{
 \end{proof}
 
 \begin{theorem}
-\2LEVEL gets expected regret $O(T^{2/3} \log(T)^{1/3})$. If $\delta$, the expected regret is $O(\log(T) \cdot \delta^{-2})$. 
+\label{thm:2level}
+With proper setting of $T_1$, \2LEVEL gets expected regret $O(T^{2/3} \log(T)^{1/3})$. If we know the gap between the means of the best arm and second best arm is at least $\delta$, the expected regret is $O(\log(T) \cdot \delta^{-2})$. 
 \end{theorem}
 
 \begin{proof}
-We will analyze the case when agents after \ALGG only uses empirical mean.
+The first $T_1 \cdot \GdT$ rounds will get total regret at most $T_1 \cdot \GdT$.  We focus on the regret of the rest $T - T_1 \cdot \GdT$ rounds. We will analyze the regret assuming in these rounds agents just pick the arm with the best empirical mean during the first $T_1 \cdot \GdT$. This will give an upper bound to the actual regret as agents choosing the arm with the best posterior mean will get no worse regret. 
+
+Let $H$ be the random variable of the history of first $T_1 \cdot \GdT$ rounds. By Lemma \ref{lem:greedy}, we know that each arm $i$ has at least $T_1 \cdot \GdP$  pulls in $H$ in expectation. By multiplicative Chernoff bound, with probability at least $1 - K \cdot \exp(T_1 \cdot \GdP/8)$, each arm gets at least $\frac{1}{2} \cdot T_1 \cdot \GdP$ pulls in $H$. 
+
+Suppose we are in the case that each arm gets at least $\frac{1}{2} \cdot T_1 \cdot \GdP$ pulls in $H$. By Lemma \ref{lem:2level1}, we know that, with probability $1- \frac{2K}{\varepsilon^2} \cdot \exp(-\varepsilon^2 \cdot T_1 \cdot \GdP)$, for all arm $i$, the empirical mean of arm $i$ in $H$, $\emn_i(H)$ satisfies that $|\emn_i(H) - \mu_i| < \varepsilon$. 
+
+Therefore with probability at least $ 1- K \cdot \exp(T_1 \cdot \GdP/8) - \frac{2K}{\varepsilon^2} \cdot \exp(-\varepsilon^2 \cdot T_1 \cdot \GdP)$, the regret in the last $T - T_1 \cdot \GdT$ rounds is at most $(T-T_1 \cdot \GdT) \cdot (2\varepsilon )$. Therefore the total regret in expectation is at most 
+\[
+T_1 \cdot \GdT + 2T\varepsilon + T \cdot \left(K \cdot \exp(T_1 \cdot \GdP/8) + \frac{2K}{\varepsilon^2} \cdot \exp(-\varepsilon^2 \cdot T_1 \cdot \GdP)\right).
+\]
+By setting $T_1 =\frac{2}{\GdP}\cdot T^{2/3} \log(T)^{1/3}$ and $\varepsilon = T^{-1/3} \log(T)^{1/3}$, the above term is $O(T^{2/3}\log(T)^{1/3})$. 
+
+Suppose we know the gap between the means of the best arm and second best arm is at least $\delta$, we can set $\varepsilon = \delta/2$ and with probability at least $1- K \cdot \exp(T_1 \cdot \GdP/8) - \frac{2K}{\varepsilon^2} \cdot \exp(-\varepsilon^2 \cdot T_1 \cdot \GdP)$, the arm with the best empirical mean in the first $T_1 \cdot \GdT$ rounds is the arm with the highest mean. Therefore the regret in expectation is at most
+\[
+T_1 \cdot \GdT + \cdot \left(K \cdot \exp(T_1 \cdot \GdP/8) + \frac{2K}{\varepsilon^2} \cdot \exp(-\varepsilon^2 \cdot T_1 \cdot \GdP)\right).
+\]
+By setting $T_1 = \frac{3\log(T) }{\varepsilon^2 \GdP}$, the above term is $O(\log(T) \cdot \delta^{-2})$. 
 \end{proof}
