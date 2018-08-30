@@ -1,7 +1,163 @@
 %!TEX root = main.tex
 
 \section{Three-level Recommendation Policy}
-The $r$-th level of $l$-level policy has number of agents equal to
+In this section, we show how to get $o(T^{2/3})$ regret with a 3-level recommendation policy. For simplicity, we assume there are only 2 arms.
+
+For 3-level recommendation policy, set $T_1 = T^{4/7}\log^{-1/7}(T)$ and $T_2 = T^{6/7}\log^{-5/7}(T)$. The first level has $S = 2^10\log(T)$ groups of agents. Each group runs $T_1$ \ALGG of $T_G$ rounds in parallel. The second level also has $S$ groups of agents. Each group has $T_2$ agents and they observe the history of corresponding group in the first level. All the rest agents are in the third level and they observe the entire history of the first two levels. 
+
+Needs to draw a figure here.
+
+\begin{theorem}
+The 3-level recommendation policy gets expected regret $O(T^{4/7} \log^{6/7}(T))$. 
+\end{theorem}
+
+\begin{proof}
+Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. We do a case analysis based on $\mu_1-\mu_2$. (some intuition and explanation of these cases?)
+
+Before we start with the case analysis, we first define several clean events and show that the intersection of them happens with high probability. 
+\begin{itemize}
+\item For $a \in \{1,2\}$, define $q_a$ to be the expected number of arm $a$ pulls in one run of \ALGG used in the first level. By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$ For the $s$-th first-level group, define $W_1^{a,s}$ to be the event that the number of arm $a$ pulls in the $s$ group is between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Chernoff bound,
 \[
-T^{(2^{l-1}+\cdots+2^{l-r})/(2^{l-1}+2^{l-2}+\cdots + 1)}.
+\Pr[W_1^{a,s}] \geq 1-2\exp(-2\log(T)) \geq 1-2/T^2.
 \]
+Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a,s}W_1^{a,s}$). By union bound, we have
+\[
+\Pr[W_1] \geq 1- \frac{4S}{T^2}.
+\]
+\item For each first-level group and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in this group pull arm $a$. For the $s$-th first-level group and arm $a$, define $W_2^{s,a,t_1,t_2}$ to be the event that the mean of $t_1$-th to $t_2$-th pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t_2-t_1+1}}$ away from $\mu_a$. By Chernoff bound, 
+\[
+\Pr[W_2^{s,a,t_1,t_2}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
+\]
+
+Define $W_2$ to be the intersection of all these events (i.e. $W_2 = \bigcap_{a,s,t_1,t_2} W_2^{s,a,t_1,t_2}$). By union bound, we have
+\[
+\Pr[W_2] \geq 1- \frac{4S}{T^2}.
+\]
+
+\item For all the groups in the first two levels and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in the first two levels pull arm $a$. Define $W_3^{a,t}$ to be the event that the mean of the first $t$ pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$.
+
+By Chernoff bound, 
+\[
+\Pr[W_3^{a,t}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
+\]
+Define $W_3$ to be the intersection of all these events (i.e. $W_3 = \bigcap_{a,t} W_3^{a,t}$). By union bound, we have
+\[
+\Pr[W_3] \geq 1- \frac{4}{T^3}.
+\]
+
+\item Consider the tapes defined in the second bullet again. For the $s$-th first-level group and arm $a$, define $W_4^{s,a,high}$  to be the event that first $q_a T_1$ pulls of arm $a$ in the corresponding tape has empirical mean at least $\mu_a + 1/\sqrt{q_a T_1}$ and define  $W_4^{s,a,low}$  to be the event that first $q_a T_1$ pulls of arm $a$ in the corresponding tape has empirical mean at most $\mu_a - 1/\sqrt{q_a T_1}$. By Berry-Essen Theorem and $\mu_a \in [1/3,2/3]$, we have
+\[
+\Pr[W_4^{s,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{q_aT_1}} > 1/4.
+\]
+The last inequality follows when $T$ is large than some constant.
+Similarly we also have 
+\[
+\Pr[W_4^{s,a,low}] > 1/4.
+\]
+Since $W_4^{s,a,high}$ is independent with $W_4^{s,3-a,low}$, we have
+\[
+\Pr[W_4^{s,a,high} \cap W_4^{s,3-a,low}] =\Pr[W_4^{s,a,high}] \cdot  \Pr[W_4^{s,3-a,low}]>(1/4)^2 = 1/16.
+\]
+Now define $W_4$ as $\bigcap_a \bigcup_s (W_4^{s,a,high} \cap W_4^{s,3-a,low})$. Notice that $(W_4^{s,a,high} \cap W_4^{s,3-a,low})$ are independent across different $s$'s. So by union bound, we have
+\[
+\Pr[W_4] \geq 1- 2(1-1/16)^S \geq 1 -2 /T.
+\]
+\end{itemize}
+
+By union bound, the intersection of these clean events (i.e. $\bigcap_{i=1}^4 W_i$) happens with probability $1-O(1/T)$. When this intersection does not happen, since the probability is $O(1/T)$, it cost expected regret $O(1/T) \cdot T = O(1)$. 
+
+Now we assume the intersection of clean events happens and we summarize what these clean events imply.
+
+\begin{itemize}
+\item For the $s$-th first-level group and arm $a$, define $\bar{\mu}_a^{1,s}$ to be the empirical mean of arm $a$ pulls in this group. $W_1^{a,s}$, $W_2^{a,s,1,t}$ for $ = q_a T_1- \GdT \sqrt{T_1\log(T)},...,q_a T_1- \GdT \sqrt{T_1\log(T)}$ together imply that
+\[
+|\bar{\mu}_a^{1,s} - \mu_a| \leq \sqrt{\frac{2\log(T)}{q_a T_1- \GdT \sqrt{T_1\log(T)}}} \leq \sqrt{\frac{4\log(T)}{q_a T_1}}.
+\]
+The last inequality holds when $T$ is larger than some constant.
+\item For each arm $a$, define $\bar{\mu}_a$ to be the empirical mean of arm $a$ pulls in the first two levels. $W_1^{a,s}$ for $s=1,...,S$ and $W_3^{a,t}$ for $t \geq  (q_a T_1- \GdT \sqrt{T_1\log(T)})S$ together imply that
+\[
+|\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{S\left(q_a T_1- \GdT \sqrt{T_1\log(T)}\right)}} \leq \sqrt{\frac{4\log(T)}{S q_a T_1}} .
+\]
+The last inequality holds when $T$ larger than some constant.
+
+If there are at least $T_2$ pulls of arm $a$ in the first two levels, 
+\[
+|\bar{\mu}_a-\mu_a| \leq \sqrt{\frac{2\log(T)}{T_2}}. 
+\]
+
+\item For each $a \in \{1,2\}$, $W_4$ implies that there exists $s_a$ such that $W_4^{s_a,a,high}$ and $W_4^{s_a,3-a,low}$ happen. $W_4^{s_a,a,high}$,  $W_1^{s_a,a}$, $W_2^{s,a,t, q_aT_1}$ for $t = q_a T_1- \GdT \sqrt{T_1\log(T)}+1, ...,q_aT_1-1$ and $W_2^{s,a,q_aT_1,t}$ for $t= q_aT_1,...,q_a T_1+ \GdT \sqrt{T_1\log(T)}$ together imply that 
+\begin{align*}
+\bar{\mu}_a ^{1,s_a} &\geq \mu_a + \left(q_aT_1 \cdot \frac{1}{\sqrt{q_aT_1}} - \GdT \sqrt{T_1\log(T)} \cdot \sqrt{\frac{2\log(T)}{ \GdT \sqrt{T_1\log(T)}}} \right) \cdot \frac{1}{q_a T_1+ \GdT \sqrt{T_1\log(T)}} \\
+&> \mu_a + \frac{1}{4\sqrt{q_aT_1}}.
+\end{align*}
+The second last inequality holds when $T$ larger than some constant.
+Similarly, we also have
+\[
+\bar{\mu}_{3-a} ^{1,s_a} < \mu_{3-a}   - \frac{1}{4\sqrt{q_{3-a} T_1}}.
+\]
+\end{itemize}
+
+Finally we proceed to the case analysis. We give upper bounds on the expected regret conditioned on the intersection of clean events.
+
+\begin{itemize}
+\item $\mu_1 - \mu_2 \geq 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
++ \sqrt{\frac{4\log(T)}{q_2T_1}}\right)$. In this case, we want to show that agents in the second and the third levels all pull arm 1. 
+
+First consider the $s$-th second-level group. We know that 
+\[
+\bar{\mu}_1^{1,s} - \bar{\mu}_2^{1,s} \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{q_1T_1}} - \sqrt{\frac{4\log(T)}{q_2T_1}} \geq  \sqrt{\frac{4\log(T)}{q_1T_1}} 
++ \sqrt{\frac{4\log(T)}{q_2T_1}}.
+\]
+By Assumption \ref{ass:embehave}, we know agents in the $s$-th second-level group will all pull arm 1.
+
+Now consider the agents in the third level group. Recall $\bar{\mu}_a$ is the empirical mean of arm $a$ in the history they see. We have
+\[
+\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{Sq_1T_1}} - \sqrt{\frac{4\log(T)}{Sq_2T_1}} \geq  \sqrt{\frac{4\log(T)}{q_1T_1}} 
++ \sqrt{\frac{4\log(T)}{q_2T_1}}.
+\]
+By Assumption \ref{ass:embehave}, we know agents in the third-level group will all pull arm 1.
+
+Therefore the expected regret is at most $S T_G T_1 = O(T^{4/7} \log^{6/7}(T))$. 
+
+
+\item $2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} 
++ \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \leq \mu_1-\mu_2 < 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
++ \sqrt{\frac{4\log(T)}{q_2T_1}}\right)$. In this case, we want to show agents in the third level all pull arm 1. Recall $\bar{\mu}_a$ is the empirical mean of arm $a$ in the first two levels. We have
+\[
+\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{Sq_1T_1}} - \sqrt{\frac{4\log(T)}{Sq_2T_1}} \geq  \sqrt{\frac{4\log(T)}{Sq_1T_1}} 
++ \sqrt{\frac{4\log(T)}{Sq_2T_1}}.
+\]
+By Assumption \ref{ass:embehave}, we know agents in the third-level group will all pull arm 1.
+Therefore the expected regret is at most 
+\[
+(S T_G T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
++ \sqrt{\frac{4\log(T)}{q_2T_1}}\right) = O(T^{4/7} \log^{6/7}(T))
+\]
+
+\item $ 3\sqrt{\frac{2\log(T)}{T_2}} < \mu_1-\mu_2 < 2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} 
++ \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right)$. In this case, we just need to make sure that agents in the third level all pull arm 1. To do so, we need both arms to be pulled at least $T_2$ rounds in the second level.  
+
+Now consider the $s_a$-th second-level group. We have
+\begin{align*}
+\bar{\mu}_a^{1,s_a} - \bar{\mu}_{3-a}^{1,s_a} &> \mu_a + \frac{1}{4\sqrt{q_aT_1}} -\mu_{3-a} +\frac{1}{4\sqrt{q_{3-a}T_1}} \\
+&> \frac{1}{4\sqrt{q_1T_1}}+ \frac{1}{4\sqrt{q_2T_1}} - 2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} 
++ \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \\
+&\geq \frac{1}{8\sqrt{q_1T_1}}+ \frac{1}{8\sqrt{q_2T_1}}.
+\end{align*}
+By Assumption \ref{ass:embehave}, we know agents in the $s_a$-th second-level group will all pull arm $a$. Therefore in the first two levels, both arms are pulled at least $T_2$ times. Now consider the third-level. We have
+\[
+\bar{\mu}_1 - \bar{\mu}_2  \geq \mu_1 -\mu_2 - 2\sqrt{\frac{2\log(T)}{T_2}} \geq \sqrt{\frac{2\log(T)}{T_2}}.
+\]
+By Assumption \ref{ass:embehave}, we know agents in the third-level group will all pull arm 1.
+
+Therefore the expected regret is at most 
+\[
+(S T_G T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} 
++ \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \leq O(T^{4/7} \log^{6/7}(T))
+\]
+
+
+\item $\mu_1 - \mu_2 \leq 3\sqrt{\frac{2\log(T)}{T_2}}$. This is the easy case. Even always pulling the sub-optimal arm (i.e. arm 2) gives regret at most $T \cdot (\mu_1-\mu_2) = O(T^{4/7} \log^{6/7}(T))$. 
+\end{itemize}
+
+\end{proof}

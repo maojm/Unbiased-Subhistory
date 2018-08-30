@@ -1,5 +1,5 @@
 %!TEX root = main.tex
-\section{Model and Preliminaries}
+\section{Our Model}
 \label{sec:model}
 
 \emph{Bayesian Exploration} is a game between a principal and $T$ agents who arrive one by one. Each round $t$ proceeds as follows: a new agent $t$ arrives, receives a message $m_t$ from the principal, chooses an action $a_t$ from a fixed action space $\A = \{1,...,K\}$, and collects a reward $r_t\in \{0,1\}$ that is immediately observed by the principal. 
@@ -17,4 +17,14 @@ The messages $m_t$ are generated according to a randomized online algorithm $\pi
 \begin{remark}
 Why not arbitrary sub-history?
 \end{remark}
+
+\xhdr{Agents behavior.} We assumes agent estimates the mean of each arm as $\hat{\mu}_a$'s and pick the arm with the best $\hat{\mu}_a$'s. For each agent, we also define $\bar{\mu}_a$ as the empirical average of arm $a$ given the history and we make the following assumption:
+\begin{assumption}
+\label{ass:embehave}
+Let constant $c_m = 0.00001$. For each agent $t$ and arm $a$, if arm $a$ has been pulled $t_a$ times in the history, then
+\[
+|\hat{\mu}^t_a - \bar{\mu}^t_a | < \frac{c}{\sqrt{t_a}}.
+\]
+\end{assumption}
+
 
