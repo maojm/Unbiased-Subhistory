@@ -1,0 +1,26 @@
+%!TEX root = main.tex
+
+\section{$L$-level Recommendation Policy}
+In this section, we design an $L$-level recommendation policy for $L > 3$. By having more than 3 levels, we get even smaller regret. 
+
+Our recommendation policy has $L$ levels and each level has $S^2$ groups for $S = \log(T)$. Label the groups in the $l$-th level as $G_{l,a,b}$ for $a,b \in [S]$. 
+
+We set the group size as following. For $l < L$,
+\[
+T_l = T^{\frac{2^{L-1} + 2^{L-2} + \cdots + 2^{L-l}}{2^{L-1}+ 2^{L-2} + \cdots + 1}}.
+\]
+and 
+\[
+T_L = T/S^2 - T_1 \cdot \GdT - T_2 - \cdots - T_{l-1}. 
+\]
+Each first-level group ($G_{1,a,b}$ for $a,b\in [S]$) has $T_1$ \ALGG runs in parallel. For $l \geq 2$, there are $T_l$ agents in group $G_{l,a,b}$. $T_L$ is a little bit different because we want total number of agents to be $T$. 
+
+Finally we define the information flow. Agents in the first level only observe the history defined in the \ALGG. For agents in group $G_{l,a,b}$ with $l\geq 2$, they observe all the history in the first $l-2$ levels and history in group $G_{l-1,b,c}$ for all $c \in [S]$. For agents which are not in the first level, if they are in the same group, they observe the same history.
+
+\begin{theorem}
+The $L$-level recommendation policy gets expected regret $O\left(T^{\frac{2^{L-1}}{2^L-1}} \log^2(T) L \right)$. In particular, if we pick $L = \log\log(T)$, then we get regret $O(T^{1/2} \log^2(T) \log\log(T))$.  
+\end{theorem}
+
+\begin{proof}
+
+\end{proof}
