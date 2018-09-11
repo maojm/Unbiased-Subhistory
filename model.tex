@@ -21,9 +21,9 @@ Why not arbitrary sub-history?
 \xhdr{Agents behavior.} We assumes agent estimates the mean of each arm as $\hat{\mu}_a$'s and pick the arm with the best $\hat{\mu}_a$'s. For each agent, we also define $\bar{\mu}_a$ as the empirical average of arm $a$ given the history and we make the following assumption:
 \begin{assumption}
 \label{ass:embehave}
-Let constant $c_m = 0.00001$. For each agent $t$ and arm $a$, if arm $a$ has been pulled $t_a$ times in the history, then
+Let constant $c_m = 1/16$. For each agent $t$ and arm $a$, if arm $a$ has been pulled $t_a$ times in the history, then
 \[
-|\hat{\mu}^t_a - \bar{\mu}^t_a | < \frac{c}{\sqrt{t_a}}.
+|\hat{\mu}^t_a - \bar{\mu}^t_a | < \frac{c_m}{\sqrt{t_a}}.
 \]
 \end{assumption}
 
