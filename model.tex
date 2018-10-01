@@ -18,13 +18,17 @@ The messages $m_t$ are generated according to a randomized online algorithm $\pi
 Why not arbitrary sub-history?
 \end{remark}
 
-\xhdr{Agents behavior.} We assumes agent estimates the mean of each arm as $\hat{\mu}_a$'s and pick the arm with the best $\hat{\mu}_a$'s. For each agent, we also define $\bar{\mu}_a$ as the empirical average of arm $a$ given the history and we make the following assumption:
+\xhdr{Agents behavior.} We assume agent $t$ estimates the mean of each arm as $\hat{\mu}_a^t$'s and pick the arm with the highest $\hat{\mu}_a^t$'s. We also define $\bar{\mu}_a^t$ as the empirical average of arm $a$ given the history. We assume each agent's estimate $\hat{\mu}_a^t$ is close to the empirical average $\bar{\mu}_a^t$, more specifically as the following assumption:
 \begin{assumption}
 \label{ass:embehave}
-Let constant $c_m = 1/16$. For each agent $t$ and arm $a$, if arm $a$ has been pulled $t_a$ times in the history, then
+Let constant $c_m = 1/16$. There exists a constant $c_T$ such that the following is true. For each agent $t$ and arm $a$, let $t_a$ be the number of times arm $a$ has been pulled in the history observed by agent $t$. 
+\begin{itemize}
+\item \textbf{Close to the empirical average:} If $t_a \geq c_T$, 
 \[
 |\hat{\mu}^t_a - \bar{\mu}^t_a | < \frac{c_m}{\sqrt{t_a}}.
 \]
+\item \textbf{Initial value:} If $t_a = 0$, $\hat{\mu}^t_a$ is at least $1/3$. 
+\end{itemize}
 \end{assumption}
 
-
+We allow different agents to have different behavior models as long as they satisfy Assumption \ref{ass:embehave}. More specifically, we assume each agent's behavior model is sampled from an unknown distribution independently. 

@@ -1,0 +1,20 @@
+%!TEX root = main.tex
+\section{\ALGG}
+We first consider \ALGG which simply shows agents the full history. We discuss in this section the exploration of \ALGG under Assumption \ref{ass:embehave}.
+
+\begin{lemma}
+\label{lem:greedy}
+There exist two constants $\GdT = O_K(1)$ and $\GdP = \Omega_K(1)$ such that for any arm $a$, with probability at least $\GdP$, \ALGG of $\GdT$ rounds pulls this arm at least once. 
+\end{lemma}
+
+\begin{proof}
+Set $\GdT = (K-1) \cdot c_T + 1$ and $\GdP = (1/3)^{\GdT}$. We fix the behavior of agents in $\GdT$ rounds and consider the case that all realized rewards in $\GdT$ rounds are 0. 
+
+In this case, we want to show that arm $a$ is pulled at least once. We prove by contradiction. Suppose arm $a$ is not pulled. By averaging argument, we know that there is some other arm $a'$ which is pulled at least $c_T + 1$ rounds. Suppose in round $t$, arm $a'$ is pulled exactly $c_T + 1$ times. By Assumption \ref{ass:embehave}, we know 
+\[
+\hat{\mu}_{a'}^t \leq 0 + c_m / \sqrt{c_T} < 1/3. 
+\]
+On the other hand, we have $\hat{\mu}_a^t \geq 1/3 > \hat{\mu}_{a'}^t$. This contradicts with the fact that in round $t$, arm $a'$ is pulled. 
+
+On the other hand, we know that this case happens with probability at least $(1/3)^{\GdT} = \GdP$ as each arm's mean is at most $2/3$. To sum up, we know that with probability at least $\GdP$, \ALGG of $\GdT$ rounds pulls arm $a$ at least once. 
+\end{proof}
