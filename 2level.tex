@@ -1,53 +1,103 @@
 %!TEX root = main.tex
-\section{Two-level Recommendation Policy}
-Run $T_1$ \ALGG in parallel and then show the later agents the history of first $T_1$ rounds. We will pick $T_1$ in Theorem \ref{thm:2level}. 
+\section{Warm-up: Two-level Recommendation Policy}
+In this section, we are going to show a two-level recommendation policy that gets sublinear regret.
+In this first level, we run $T_1$ \ALGG ``in parallel''. More specifically, we divide the first $T_1 \cdot \GdT$ agents into $T_1$ groups and agents only observe the history of all previous agents in the same group.
+In the second level, we show the rest $T-T_1\cdot \GdT$ agents the history of first $T_1 \cdot \GdT$ rounds. We will pick $T_1$ in Theorem \ref{thm:2level}. 
+See also Figure \ref{fig:2level} for a graphical view of the information flow.
 
-\begin{lemma}
-\label{lem:2level1}
-For each arm $i$, any $t > 0$ and $\varepsilon \leq 1/2$, let $p$ be the probability that there exists $t \leq \tau \leq T$ such that the empirical mean of the first $\tau$ pulls of arm $i$ is $\varepsilon$ away from $\mu_i$. Then we have 
-\[
-p \leq \frac{2}{\varepsilon^2} \exp(-2\varepsilon^2 t).
-\]
-\end{lemma}
-
-\begin{proof}
-For each $\tau \in \{t,...,T\}$, let $p_{\tau}$ be the probability that the empirical mean of the first $\tau$ pulls of arm $i$ is $\varepsilon$ away from $\mu_i$. By Chernoff bound, we have
-\[
-p_{\tau} \leq 2 \exp(-2\varepsilon^2 \tau).
-\]
-
-By union bound,
-\[
-p \leq \sum_{\tau = t}^T p_{\tau} \leq 2 \exp(-2\varepsilon^2 t)  \cdot \frac{1}{1-\exp(-2\varepsilon^2)}.
-\]
-
-We know that for any $ x \in [0,1]$, $e^{-x} \leq 1-x/2$. There we have
-\[
-p \leq  2 \exp(-2\varepsilon^2 t)  \cdot \frac{1}{1-(1-\varepsilon^2)} =  \frac{2}{\varepsilon^2} \exp(-2\varepsilon^2 t).
-\]
-\end{proof}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}  
+ \filldraw[fill=blue!20!white]
+ (0,2)--(10,2)--(10,3)--(0,3)--cycle;
+  \filldraw[fill=red!20!white]
+  (0,0)--(1,0)--(1,1)--(0,1)--cycle;
+  \draw[dashed] (0.5,1)--(5,2);
+  \filldraw[fill=red!20!white]
+  (1,0)--(2,0)--(2,1)--(1,1)--cycle;
+  \draw[dashed] (1.5,1)--(5,2);
+  \filldraw[fill=red!20!white]
+  (2,0)--(3,0)--(3,1)--(2,1)--cycle;
+  \draw[dashed] (2.5,1)--(5,2);
+  \filldraw[fill=red!20!white]
+  (3,0)--(4,0)--(4,1)--(3,1)--cycle;
+  \draw[dashed] (3.5,1)--(5,2);
+  \filldraw[fill=red!20!white]
+  (9,0)--(10,0)--(10,1)--(9,1)--cycle;
+  \draw[dashed] (9.5,1)--(5,2);
+  \node at(5,0.5){$\cdots$};
+  \node at(6,0.5){$\cdots$};
+  \node at(7,0.5){$\cdots$};
+  \node at(8,0.5){$\cdots$};
+  \node at(5,2.5){$T -T_1 \cdot \GdT$};
+  \node at(0.5,0.5){$\GdT$};
+  \node at(1.5,0.5){$\GdT$};
+  \node at(2.5,0.5){$\GdT$};
+  \node at(3.5,0.5){$\GdT$};
+  \node at(9.5,0.5){$\GdT$};
+  \node at(-2,0.5){\textbf{First Level}};
+  \node at(-2,2.5){\textbf{Second Level}};
+\end{tikzpicture}
+\caption{2-level Recommendation Policy.}
+\label{fig:2level}
+\end{figure}
 
 \begin{theorem}
 \label{thm:2level}
-With proper setting of $T_1$, \2LEVEL gets expected regret $O(T^{2/3} \log(T)^{1/3})$. If we know the gap between the means of the best arm and second best arm is at least $\delta$, the expected regret is $O(\log(T) \cdot \delta^{-2})$. 
+With proper setting of $T_1$, our two-level recommendation policy gets expected regret $O(T^{2/3} \log(T)^{1/3})$. If we know the gap between the means of the best arm and second best arm is larger than $\Delta$, we can make the expected regret is $O(\log(T) \cdot \Delta^{-2})$. 
 \end{theorem}
 
 \begin{proof}
-The first $T_1 \cdot \GdT$ rounds will get total regret at most $T_1 \cdot \GdT$.  We focus on the regret of the rest $T - T_1 \cdot \GdT$ rounds. We will analyze the regret assuming in these rounds agents just pick the arm with the best empirical mean during the first $T_1 \cdot \GdT$. This will give an upper bound to the actual regret as agents choosing the arm with the best posterior mean will get no worse regret. 
+We will set $T_1$ later in the proof. For now, we just need to make $T_1 \geq \frac{4\GdT^2}{\GdP^2}\log(T)$.
 
-Let $H$ be the random variable of the history of first $T_1 \cdot \GdT$ rounds. By Lemma \ref{lem:greedy}, we know that each arm $i$ has at least $T_1 \cdot \GdP$  pulls in $H$ in expectation. By multiplicative Chernoff bound, with probability at least $1 - K \cdot \exp(T_1 \cdot \GdP/8)$, each arm gets at least $\frac{1}{2} \cdot T_1 \cdot \GdP$ pulls in $H$. 
+The first $T_1 \cdot \GdT$ rounds will get total regret at most $T_1 \cdot \GdT$.  We focus on the regret of the rest $T - T_1 \cdot \GdT$ rounds. We first consider the following two clean events and we show that they together imply upper bounds on $|\hat{\mu}^t_a - \mu_a|$'s for $t > T_1 \cdot \GdT$.
 
-Suppose we are in the case that each arm gets at least $\frac{1}{2} \cdot T_1 \cdot \GdP$ pulls in $H$. By Lemma \ref{lem:2level1}, we know that, with probability $1- \frac{2K}{\varepsilon^2} \cdot \exp(-\varepsilon^2 \cdot T_1 \cdot \GdP)$, for all arm $i$, the empirical mean of arm $i$ in $H$, $\emn_i(H)$ satisfies that $|\emn_i(H) - \mu_i| < \varepsilon$. 
-
-Therefore with probability at least $ 1- K \cdot \exp(T_1 \cdot \GdP/8) - \frac{2K}{\varepsilon^2} \cdot \exp(-\varepsilon^2 \cdot T_1 \cdot \GdP)$, the regret in the last $T - T_1 \cdot \GdT$ rounds is at most $(T-T_1 \cdot \GdT) \cdot (2\varepsilon )$. Therefore the total regret in expectation is at most 
+\begin{itemize}
+\item For each arm $a$, define $q_a$ to be the expected number of arm $a$ pulls in one run of \ALGG used in the first level. By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$ Define $W_1^a$ to be the event that the number of arm $a$ pulls in the first level is at least $q_a T_1- \GdT \sqrt{T_1\log(T)} \geq q_a T_1 / 2$. By Chernoff bound,
 \[
-T_1 \cdot \GdT + 2T\varepsilon + T \cdot \left(K \cdot \exp(T_1 \cdot \GdP/8) + \frac{2K}{\varepsilon^2} \cdot \exp(-\varepsilon^2 \cdot T_1 \cdot \GdP)\right).
+\Pr[W_1^a] \geq 1-\exp(-2\log(T)) \geq 1-1/T^2.
 \]
-By setting $T_1 =\frac{2}{\GdP}\cdot T^{2/3} \log(T)^{1/3}$ and $\varepsilon = T^{-1/3} \log(T)^{1/3}$, the above term is $O(T^{2/3}\log(T)^{1/3})$. 
-
-Suppose we know the gap between the means of the best arm and second best arm is at least $\delta$, we can set $\varepsilon = \delta/2$ and with probability at least $1- K \cdot \exp(T_1 \cdot \GdP/8) - \frac{2K}{\varepsilon^2} \cdot \exp(-\varepsilon^2 \cdot T_1 \cdot \GdP)$, the arm with the best empirical mean in the first $T_1 \cdot \GdT$ rounds is the arm with the highest mean. Therefore the regret in expectation is at most
+Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a}W_1^a$). By union bound, we have
 \[
-T_1 \cdot \GdT + \cdot \left(K \cdot \exp(T_1 \cdot \GdP/8) + \frac{2K}{\varepsilon^2} \cdot \exp(-\varepsilon^2 \cdot T_1 \cdot \GdP)\right).
+\Pr[W_1] \geq 1- \frac{K}{T^2} \geq 1 - \frac{1}{T}.
 \]
-By setting $T_1 = \frac{3\log(T) }{\varepsilon^2 \GdP}$, the above term is $O(\log(T) \cdot \delta^{-2})$. 
+\item For each arm $a$, imagine there is a tape of $T$ arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agent pull arm $a$. Define $W^{a,t}_2$ to be the event that the empirical mean of the first $t$ pulls of arm $a$ is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. Define $W_2$ to be the intersection of these events (i.e. $\bigcap_{a,t} W^{a,t}_2$).
+By Chernoff bound,
+\[
+\Pr[W^{a,t}_2] \geq 1 - 2\exp(-4\log(T)) \geq 1-2/T^4.
+\]
+By union bound, 
+\[
+\Pr[W_2] \geq 1 - KT \cdot \frac{2}{T^4} \geq 1 - \frac{2}{T}.
+\]
+\end{itemize}
+
+By union bound, we know $\Pr[W_1 \cap W_2] \geq 1 - 3/T$. Now we consider the case when $W_1 \cap W_2$ happens. 
+
+For any arm $a$ and agent $t$ in the second level, by $W_1$ and $W_2$, we have
+\[
+|\bar{\mu}^t_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{q_aT_1 /2}}.
+\]
+By $W_1$ and Assumption \ref{ass:embehave}, we have
+\[
+|\bar{\mu}^t_a - \hat{\mu}^t_a| \leq \frac{c_m}{\sqrt{q_aT_1/2}}.
+\]
+Therefore,
+\[
+|\bar{\mu}^t_a - \mu_a|\leq \sqrt{\frac{2\log(T)}{q_aT_1 /2}}+\frac{c_m}{\sqrt{q_aT_1/2}} \leq 3 \sqrt{\frac{\log(T)}{\GdP T_1 }}
+\]
+So the second-level agents will pick an arm $a$ which has $\mu_a$ at most $6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$ away from $\mu_1$. To sum up, the total expected regret is at most 
+\[
+T_1 \cdot \GdT + T \cdot (1-\Pr[W_1 \cap W_2]) + T \cdot  6 \sqrt{\frac{\log(T)}{\GdP T_1 }}.
+\]
+By setting $T_1 = T^{2/3}\log(T)^{1/3}$, we get expected regret $O(T^{2/3}\log(T)^{1/3})$.
+
+Notice that if we know the gap between the means of the best arm and second best arm is larger than $\Delta$, we can set 
+\[
+T_1 = \max\left( \frac{4\GdT^2}{\GdP^2}\log(T), \frac{36 }{\Delta^2 \cdot p_G} \log(T) \right).
+\]
+In this case, since $\Delta \geq 6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$, we know agents in the second level will all pull arm 1. Therefore, the total expected regret is at most
+\[
+T_1 \cdot \GdT + T \cdot (1- \Pr[W_1 \cap W_2]) = O(\Delta^{-2} \log(T)).
+\]
 \end{proof}
