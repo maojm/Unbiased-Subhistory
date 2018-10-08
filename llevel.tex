@@ -19,6 +19,104 @@ Each first-level group ($G_{1,u,v}$ for $u,v\in [S]$) has $T_1$ \ALGG runs in pa
 
 Finally we define the information flow. Agents in the first level only observe the history defined in the \ALGG run. For agents in group $G_{l,u,v}$ with $l\geq 2$, they observe all the history in the first $l-2$ levels (both $G$-groups and $\Gamma$-groups) and history in group $G_{l-1,v,w}$ for all $w \in [S]$. Agents in group $\Gamma_{l,u,v}$ observe the same history as agents in group $G_{l,u,v}$.
 
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}  
+ \foreach \x in {0,3,6,9}
+ {
+ \filldraw[fill=orange!20!white]
+ (\x+0,10)--(\x+0.8,10)--(\x+0.8,11)--(\x+0,11)--cycle;
+ \filldraw[fill=orange!30!white]
+ (\x+0.8,10)--(\x+2.8,10)--(\x+2.8,11)--(\x+0.8,11)--cycle;
+ \filldraw[fill=purple!20!white]
+ (\x+0,7.5)--(\x+0.8,7.5)--(\x+0.8,8.5)--(\x+0,8.5)--cycle;
+ \filldraw[fill=purple!30!white]
+ (\x+0.8,7.5)--(\x+2.8,7.5)--(\x+2.8,8.5)--(\x+0.8,8.5)--cycle;
+ \filldraw[fill=green!20!white]
+ (\x+0,5)--(\x+0.8,5)--(\x+0.8,6)--(\x+0,6)--cycle;
+ \filldraw[fill=green!30!white]
+ (\x+0.8,5)--(\x+2.8,5)--(\x+2.8,6)--(\x+0.8,6)--cycle;
+ \filldraw[fill=blue!20!white]
+ (\x+0,2.5)--(\x+0.8,2.5)--(\x+0.8,3.5)--(\x+0,3.5)--cycle;
+ \filldraw[fill=blue!30!white]
+ (\x+0.8,2.5)--(\x+2.8,2.5)--(\x+2.8,3.5)--(\x+0.8,3.5)--cycle;
+ \filldraw[fill=red!20!white]
+ (\x+0,0)--(\x+2.8,0)--(\x+2.8,1)--(\x+0,1)--cycle;
+ \draw[dashed] (\x+0.4,0)--(\x+0.4,1); 
+ \draw[dashed] (\x+0.8,0)--(\x+0.8,1); 
+ \draw[dashed] (\x+1.2,0)--(\x+1.2,1); 
+ \draw[dashed] (\x+1.6,0)--(\x+1.6,1);  
+ \draw[dashed] (\x+2,0)--(\x+2,1);  
+ \draw[dashed] (\x+2.4,0)--(\x+2.4,1);  
+ \node at(\x+0.4,3){$T_{l-2}$};
+ \node at(\x+1.8,3){$T_{l-2} (S-1)$};
+ \node at(\x+0.4,5.5){$T_{l-1}$};
+ \node at(\x+1.8,5.5){$T_{l-1} (S-1)$};
+ \node at(\x+0.4,8){$T_l$};
+ \node at(\x+1.8,8){$T_l (S-1)$};
+ \node at(\x+0.4,10.5){$T_L$};
+ \node at(\x+1.8,10.5){$T_L (S-1)$};
+ \node at(\x+1.4,0.5){$T_1 \cdot \GdT$};
+ }
+\foreach \y in {0,2.5,5,7.5,10}
+{
+  \node at (12.5,\y+0.5){$\cdots$};
+} 
+\foreach \u in {1,2}
+{
+	\foreach \v in {1,2}
+	{
+	\pgfmathsetmacro{\x}{((\u-1)*2+(\v-1))*3};
+	\pgfmathsetmacro{\xa}{((\u-1))*3};
+	\pgfmathsetmacro{\xb}{(2+(\u-1))*3};
+   \node at(\x+0.6,7){$G_{l,\u,\v}$};
+   \node at(\x+0.6,4.5){$G_{l-1,\u,\v}$};
+   \node at(\x+0.6,2){$G_{l-2,\u,\v}$};
+   \node at(\x+2,7){$\Gamma_{l,\u,\v}$};
+   \node at(\x+2,4.5){$\Gamma_{l-1,\u,\v}$};
+   \node at(\x+2,2){$\Gamma_{l-2,\u,\v}$};
+   %\draw[dashed] (\x+0.4,3.5)--(\xa+0.4,5);  
+   %\draw[dashed] (\x+0.4,3.5)--(\xb+0.4,5);  
+   %\draw[dashed] (\x+0.4,3.5)--(\xa+1.8,5);  
+   %\draw[dashed] (\x+0.4,3.5)--(\xb+1.8,5);  
+   
+   
+   %\draw[dashed] (\x+0.4,6)--(\xa+0.4,7.5);  
+   %\draw[dashed] (\x+0.4,6)--(\xb+0.4,7.5);  
+   %\draw[dashed] (\x+0.4,6)--(\xa+1.8,7.5);  
+   %\draw[dashed] (\x+0.4,6)--(\xb+1.8,7.5);  
+	}
+}
+
+   \draw[dashed] (0+1.8,3.5)--(6.4,7.5);  	
+   \draw[dashed] (3+1.8,3.5)--(6.4,7.5);  	
+   \draw[dashed] (6+1.8,3.5)--(6.4,7.5);  	
+   \draw[dashed] (9+1.8,3.5)--(6.4,7.5);  	
+   
+   \draw[dashed] (0+0.4,3.5)--(6.4,7.5);  	
+   \draw[dashed] (3+0.4,3.5)--(6.4,7.5);  	
+   \draw[dashed] (6+0.4,3.5)--(6.4,7.5);  	
+   \draw[dashed] (9+0.4,3.5)--(6.4,7.5);  	
+   
+   \draw[dashed] (0+0.4,6)--(6.4,7.5);  	
+   \draw[dashed] (3+0.4,6)--(6.4,7.5);  	
+  \node at (6,1.5)[rotate = 90]{$\cdots$};
+  \node at (-1,1.5)[rotate = 90]{$\cdots$};
+  \node at (6,9.5)[rotate = 90]{$\cdots$};
+  \node at (-1,9.5)[rotate = 90]{$\cdots$};
+  \node at(-1.2,0.5){\textbf{Level 1}};
+  \node at(-1.2,3){\textbf{Level $l-2$}};
+  \node at(-1.2,5.5){\textbf{Level $l-1$}};
+  \node at(-1.2,8){\textbf{Level $l$}};
+  \node at(-1.2,10.5){\textbf{Level $L$}};
+  \draw[->] (13.3,0)--(13.3,12);
+  \node at(13.7,6)[ rotate=90]{Time};
+  \draw [rounded corners=5mm, line width=1mm, red](-0.2,1.75)--(12,1.75)--(12,9)--(-0.2,9)--cycle;\draw [rounded corners=2.5mm, line width=0.5mm, brown](5.9,6.5)--(8.9,6.5)--(8.9,8.8)--(5.9,8.8)--cycle;
+\end{tikzpicture}
+\caption{$l$-level Recommendation Policy.}
+\label{fig:llevel}
+\end{figure}
+
 \begin{theorem}
 The $L$-level recommendation policy gets expected regret $O\left(T^{\frac{2^{L-1}}{2^L-1}} \log^2(T) \right)$ for $L \leq \log(\ln(T)/\log(10S^3))$. In particular, if we pick $L = \log(\ln(T)/\log(10S^3))$, the expected regret is at most $O(T^{1/2} \log^5(T))$. 
 \end{theorem}
