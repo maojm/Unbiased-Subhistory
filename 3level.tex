@@ -1,9 +1,10 @@
 %!TEX root = main.tex
 
-\section{Three-level Recommendation Policy}
+\section{3-level Recommendation Policy}
 In this section, we show how to get $o(T^{2/3})$ regret with a 3-level recommendation policy. For simplicity, we assume there are only 2 arms.
 
-For 3-level recommendation policy, set $T_1 = T^{4/7}\log^{-1/7}(T)$ and $T_2 = T^{6/7}\log^{-5/7}(T)$. The first level has $S = 2^{10}\log(T)$ groups of agents. Each group runs $T_1$ \ALGG of $T_G$ rounds in parallel. The second level also has $S$ groups of agents. Each group has $T_2$ agents and they observe the history of corresponding group in the first level. All the rest agents are in the third level and they observe the entire history of the first two levels. 
+The 3-level recommendation policy is constructed as followings. Set $T_1 = T^{4/7}\log^{-1/7}(T)$ and $T_2 = T^{6/7}\log^{-5/7}(T)$. The first level has $S = 2^{10}\log(T)$ groups of agents. Each group runs $T_1$ \ALGG of $T_G$ rounds in parallel. The second level also has $S$ groups of agents. Each group has $T_2$ agents and they observe the history of corresponding group in the first level. All the rest agents are in the third level and they observe the entire history of the first two levels. 
+See also Figure \ref{fig:3level} for a graphical view of the information flow.
 
 \begin{figure}[H]
 \centering
@@ -18,6 +19,10 @@ For 3-level recommendation policy, set $T_1 = T^{4/7}\log^{-1/7}(T)$ and $T_2 = 
  \filldraw[fill=red!20!white]
  (\x+0,0)--(\x+2,0)--(\x+2,1)--(\x+0,1)--cycle;
  \draw[dashed] (\x+1,1)--(\x+1,2);
+ \draw[dashed] (\x+0.2,1)--(\x+1,2);
+ \draw[dashed] (\x+0.6,1)--(\x+1,2);
+ \draw[dashed] (\x+1.4,1)--(\x+1,2);
+ \draw[dashed] (\x+1.8,1)--(\x+1,2);
  \draw[dashed] (\x+0.4,0)--(\x+0.4,1); 
  \draw[dashed] (\x+0.8,0)--(\x+0.8,1); 
  \draw[dashed] (\x+1.2,0)--(\x+1.2,1); 
@@ -28,9 +33,11 @@ For 3-level recommendation policy, set $T_1 = T^{4/7}\log^{-1/7}(T)$ and $T_2 = 
   \node at(5,4.5){$T -S(T_1 \cdot \GdT + T_2)$};
   \node at (6,1.5){$\cdots$};
   \node at (7,1.5){$\cdots$};
-  \node at(-2,0.5){\textbf{First Level}};
-  \node at(-2,2.5){\textbf{Second Level}};
-  \node at(-2,4.5){\textbf{Third Level}};
+  \node at(-1,0.5){\textbf{Level 1}};
+  \node at(-1,2.5){\textbf{Level 2}};
+  \node at(-1,4.5){\textbf{Levle 3}};
+  \draw[->] (11,0)--(11,5);
+  \node at(11.5,2.5)[ rotate=90]{Time};
 \end{tikzpicture}
 \caption{3-level Recommendation Policy.}
 \label{fig:3level}
@@ -42,7 +49,7 @@ The 3-level recommendation policy gets expected regret $O(T^{4/7} \log^{6/7}(T))
 \end{theorem}
 
 \begin{proof}
-Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. We do a case analysis based on $\mu_1-\mu_2$. (some intuition and explanation of these cases?)
+Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. We do a case analysis based on $\mu_1-\mu_2$. 
 
 Before we start with the case analysis, we first define several clean events and show that the intersection of them happens with high probability. 
 \begin{itemize}
@@ -64,9 +71,7 @@ Define $W_2$ to be the intersection of all these events (i.e. $W_2 = \bigcap_{a,
 \Pr[W_2] \geq 1- \frac{4S}{T^2}.
 \]
 
-\item For all the groups in the first two levels and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in the first two levels pull arm $a$. Define $W_3^{a,t}$ to be the event that the mean of the first $t$ pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$.
-
-By Chernoff bound, 
+\item For all the groups in the first two levels and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in the first two levels pull arm $a$. Define $W_3^{a,t}$ to be the event that the mean of the first $t$ pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. By Chernoff bound, 
 \[
 \Pr[W_3^{a,t}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
 \]
@@ -88,13 +93,13 @@ Since $W_4^{s,a,high}$ is independent with $W_4^{s,3-a,low}$, we have
 \[
 \Pr[W_4^{s,a,high} \cap W_4^{s,3-a,low}] =\Pr[W_4^{s,a,high}] \cdot  \Pr[W_4^{s,3-a,low}]>(1/4)^2 = 1/16.
 \]
-Now define $W_4$ as $\bigcap_a \bigcup_s (W_4^{s,a,high} \cap W_4^{s,3-a,low})$. Notice that $(W_4^{s,a,high} \cap W_4^{s,3-a,low})$ are independent across different $s$'s. So by union bound, we have
+Now define $W_4$ as $\bigcap_a \bigcup_s (W_4^{s,a,high} \cap W_4^{s,3-a,low})$. Notice that $(W_4^{s,a,high} \cap W_4^{s,3-a,low})$ are independent across different $s$'s. By union bound, we have
 \[
 \Pr[W_4] \geq 1- 2(1-1/16)^S \geq 1 -2 /T.
 \]
 \end{itemize}
 
-By union bound, the intersection of these clean events (i.e. $\bigcap_{i=1}^4 W_i$) happens with probability $1-O(1/T)$. When this intersection does not happen, since the probability is $O(1/T)$, it cost expected regret $O(1/T) \cdot T = O(1)$. 
+By union bound, the intersection of these clean events (i.e. $\bigcap_{i=1}^4 W_i$) happens with probability $1-O(1/T)$. When this intersection does not happen, since the probability is $O(1/T)$, it contributes $O(1/T) \cdot T = O(1)$ to the expected regret. 
 
 Now we assume the intersection of clean events happens and we summarize what these clean events imply.
 
