@@ -3,8 +3,10 @@
 \section{3-level Recommendation Policy}
 In this section, we show how to get $o(T^{2/3})$ regret with a 3-level recommendation policy. For simplicity, we assume there are only 2 arms.
 
-The 3-level recommendation policy is constructed as followings. Set $T_1 = T^{4/7}\log^{-1/7}(T)$ and $T_2 = T^{6/7}\log^{-5/7}(T)$. The first level has $S = 2^{10}\log(T)$ groups of agents. Each group runs $T_1$ \ALGG of $T_G$ rounds in parallel. The second level also has $S$ groups of agents. Each group has $T_2$ agents and they observe the history of corresponding group in the first level. All the rest agents are in the third level and they observe the entire history of the first two levels. 
+The 3-level recommendation policy is constructed as following. Set $T_1 = T^{4/7}\log^{-1/7}(T)$ and $T_2 = T^{6/7}\log^{-5/7}(T)$. The first level has $S = 2^{10}\log(T)$ groups of agents. Each group runs $T_1$ \ALGG of $T_G$ rounds in parallel. The second level also has $S$ groups of agents. Each group has $T_2$ agents and they observe the history of corresponding group in the first level. All the rest agents are in the third level and they observe the entire history of the first two levels. 
 See also Figure \ref{fig:3level} for a graphical view of the information flow.
+
+Here we give some intuition about how the 3-level recommendation policy works. The main idea is to do the exploration more adaptively. In the first level, agents explore both arms. In the second level, agents will pull the best arm when $\mu_1 - \mu_2$ is large ($\tilde{\Omega}(1/\sqrt{T_1})$). Otherwise agents will explore both arms more. In the third level, agents will pull the best arm unless $\mu_1-\mu_2$ is much smaller ($\tilde{O}(1/\sqrt{T_2})$). In the proof, we need not only the concentration argument as the 2-level recommendation policy, but also the anti-concentration argument to show that agents explore more in the second round if $\mu_1-\mu_2$ is not too big.
 
 \begin{figure}[H]
 \centering
