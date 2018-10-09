@@ -13,9 +13,9 @@ and
 \[
 T_L = (T - T_1 \cdot \GdT\cdot S^2 - (T_2 + \cdots + T_{l-1}) S^3) /S^3
 \]
-We restrict $L$ to be at most $\log(\ln(T)/\log(10S^3))$ so that $T_l / T_{l-1} \geq T^{1/2^L} \geq 10S^3$ for $l = 2,...,L-1$. $T_L$ is a little bit different because we want total number of agents to be $T$. 
+We restrict $L$ to be at most $\log(\ln(T)/\log(S^4))$ so that $T_l / T_{l-1} \geq T^{1/2^L} \geq S^4$ for $l = 2,...,L-1$. $T_L$ is a little bit different because we want total number of agents to be $T$. 
  
-Each first-level group ($G_{1,u,v}$ for $u,v\in [S]$) has $T_1$ \ALGG runs in parallel. For $l \geq 2$, there are $T_l$ agents in group $G_{l,u,v}$ and there are $T_l (S-1)$ agents in group $\Gamma_{l,u,v}$. 
+Each first-level group ($G_{1,u,v}$ for $u,v\in [S]$) has $T_1$ \ALGG of $\GdT$ rounds in parallel. For $l \geq 2$, there are $T_l$ agents in group $G_{l,u,v}$ and there are $T_l (S-1)$ agents in group $\Gamma_{l,u,v}$. 
 
 Finally we define the information flow. Agents in the first level only observe the history defined in the \ALGG run. For agents in group $G_{l,u,v}$ with $l\geq 2$, they observe all the history in the first $l-2$ levels (both $G$-groups and $\Gamma$-groups) and history in group $G_{l-1,v,w}$ for all $w \in [S]$. Agents in group $\Gamma_{l,u,v}$ observe the same history as agents in group $G_{l,u,v}$.
 
@@ -93,10 +93,10 @@ Finally we define the information flow. Agents in the first level only observe t
    \draw[dashed] (6+1.8,3.5)--(6.4,7.5);  	
    \draw[dashed] (9+1.8,3.5)--(6.4,7.5);  	
    
-   \draw[dashed] (0+0.4,3.5)--(6.4,7.5);  	
-   \draw[dashed] (3+0.4,3.5)--(6.4,7.5);  	
-   \draw[dashed] (6+0.4,3.5)--(6.4,7.5);  	
-   \draw[dashed] (9+0.4,3.5)--(6.4,7.5);  	
+   %\draw[dashed] (0+0.4,3.5)--(6.4,7.5);  	
+   %\draw[dashed] (3+0.4,3.5)--(6.4,7.5);  	
+   %\draw[dashed] (6+0.4,3.5)--(6.4,7.5);  	
+   %\draw[dashed] (9+0.4,3.5)--(6.4,7.5);  	
    
    \draw[dashed] (0+0.4,6)--(6.4,7.5);  	
    \draw[dashed] (3+0.4,6)--(6.4,7.5);  	
@@ -232,12 +232,12 @@ By Assumption \ref{ass:embehave}, we have
 &> \frac{1}{8\sqrt{q_aT_1S}} + \frac{1}{8\sqrt{q_{3-a} T_1S}} -   \frac{c_m}{\sqrt{q_aT_1S/2}} - \frac{c_m}{\sqrt{q_{3-a} T_1S/2}}\\
 &>0.
 \end{align*}
-The last inequality holds since $c_m$ is a small enough constant defined in Assumption \ref{ass:embehave}. Therefore we know agents in groups $G_{2,1,u_a},...,G_{2,S,u_a}$ and $\Gamma_{l,1,u},...,\Gamma_{l,S,u}$ all pull arm $a$.
+The last inequality holds since $c_m$ is a small enough constant defined in Assumption \ref{ass:embehave}. Therefore we know agents in groups $G_{2,1,u_a},...,G_{2,S,u_a}$ and $\Gamma_{2,1,u_a},...,\Gamma_{2,S,u_a}$ all pull arm $a$.
 
-Now we consider the case when $l > 2$ and assume the claim is true for smaller $l$'s. For each arm $a$, $W_3$ implies that there exists $u_a$ such that $W^{l-1,u_a,a,high}_3$ and $W^{l-1,u_a,3-a,low}_3$ happen. Recall $n^{l-1,u_a,a}$ is the number of arm $a$ pulls in groups $G_{l-1,u_a,1},...,G_{l-1,u_a,S}$. The induction hypothesis implies that $n^{l-1,u_a,a} \geq T_{l-1}$. $W^{l-1,u_a,a,high}_3$ together with $n^{l-1,u_a,a} \geq T_{l-1}$ implies that the empirical mean of arm $a$ pulls in group $G_{l-1,u_a,1},...,G_{l-1,u_a,S}$ is at least $\mu_a + 1/\sqrt{n^{l-1,u_a,a}}$. For any agent $t$ in groups $G_{l,1,u_a},...,G_{l,S,u_a}$ and $\Gamma_{l,1,u_a},...,\Gamma_{l,S,u_a}$, it observes history of groups $G_{l-1,u_a,1},...,G_{l-1,u_a,S}$ and all groups in levels below level $l-1$. Notice that the groups in the first $l-2$ levels have $(T_1 \GdT + T_2 + \cdots +T_{l-2})S^2 \leq T_{l-1}/(12\log(T)) \leq n^{l-1,u_a,a}/(12\log(T))$ agents. By $W_2$, we have
+Now we consider the case when $l > 2$ and assume the claim is true for smaller $l$'s. For each arm $a$, $W_3$ implies that there exists $u_a$ such that $W^{l-1,u_a,a,high}_3$ and $W^{l-1,u_a,3-a,low}_3$ happen. Recall $n^{l-1,u_a,a}$ is the number of arm $a$ pulls in groups $G_{l-1,u_a,1},...,G_{l-1,u_a,S}$. The induction hypothesis implies that $n^{l-1,u_a,a} \geq T_{l-1}$. $W^{l-1,u_a,a,high}_3$ together with $n^{l-1,u_a,a} \geq T_{l-1}$ implies that the empirical mean of arm $a$ pulls in group $G_{l-1,u_a,1},...,G_{l-1,u_a,S}$ is at least $\mu_a + 1/\sqrt{n^{l-1,u_a,a}}$. For any agent $t$ in groups $G_{l,1,u_a},...,G_{l,S,u_a}$ and $\Gamma_{l,1,u_a},...,\Gamma_{l,S,u_a}$, it observes history of groups $G_{l-1,u_a,1},...,G_{l-1,u_a,S}$ and all groups in levels below level $l-1$. Notice that the groups in the first $l-2$ levels have at most $(T_1 \GdT + T_2 + \cdots +T_{l-2})S^3 \leq T_{l-1}/(12\log(T)) \leq n^{l-1,u_a,a}/(12\log(T))$ agents. By $W_2$, we have
 \begin{align*}
-\bar{\mu}_a ^t &\geq \mu_a + \left(n^{l-1,u_a,a}  \cdot \frac{1}{\sqrt{n^{l-1,u_a,a} }}- (T_1 \GdT + T_2 + \cdots +T_{l-2})S^2\cdot \sqrt{\frac{3\log(T)}{ (T_1 \GdT + T_2 + \cdots +T_{l-2})S^2}} \right) \\
-&~~~\cdot \frac{1}{n^{l-1,u_a,a}+ (T_1 \GdT + T_2 + \cdots +T_{l-2})S^2} \\
+\bar{\mu}_a ^t &\geq \mu_a + \left(n^{l-1,u_a,a}  \cdot \frac{1}{\sqrt{n^{l-1,u_a,a} }}- (T_1 \GdT + T_2 + \cdots +T_{l-2})S^3\cdot \sqrt{\frac{3\log(T)}{ (T_1 \GdT + T_2 + \cdots +T_{l-2})S^3}} \right) \\
+&~~~\cdot \frac{1}{n^{l-1,u_a,a}+ (T_1 \GdT + T_2 + \cdots +T_{l-2})S^3} \\
 &> \mu_a + \frac{1}{4\sqrt{n^{l-1,u_a,a}  }}.
 \end{align*}
 The third last inequality holds when $T$ larger than some constant.
@@ -270,7 +270,7 @@ For any $2 \leq l \leq L$, if $\varepsilon_{l-1} S < \mu_1 - \mu_2 < \varepsilon
 We argue in 2 cases $\varepsilon_{l-1} \sqrt{S} \leq \mu_1 - \mu_2 \leq \varepsilon_{l-2}$ for $l \geq 2$ and $\varepsilon_{l-2}  \leq \mu_1 - \mu_2 \leq \varepsilon_{l-2} \sqrt{S}$ for $l > 2$. Since our recommendation policy's first level is slightly different from other levels, we need to argue case $\varepsilon_{l-1} \sqrt{S} \leq \mu_1 - \mu_2 \leq \varepsilon_{l-2}$ for $l=2$ and case $\varepsilon_{l-2}  \leq \mu_1 - \mu_2 \leq \varepsilon_{l-2} \sqrt{S}$ for $l =3$ separately.
 
 \begin{itemize}
-\item $\varepsilon_{l-1} S \leq \mu_1 - \mu_2 \leq \varepsilon_{l-2}$ for $l > 2$(i.e. $\varepsilon_1S\leq \mu_1 - \mu_2 \leq \varepsilon_0$): We know agents in level at least 2 will observe at least $q_aT_1/2$ pulls of arm $a$ for $a \in \{1,2\}$. By $W_2$, for any agent in level at least 2, we have
+\item $\varepsilon_{l-1} S \leq \mu_1 - \mu_2 \leq \varepsilon_{l-2}$ for $l = 2$(i.e. $\varepsilon_1S\leq \mu_1 - \mu_2 \leq \varepsilon_0$): We know agents in level at least 2 will observe at least $q_aT_1/2$ pulls of arm $a$ for $a \in \{1,2\}$. By $W_2$, for any agent in level at least 2, we have
 \[
 |\bar{\mu}_a^t - \mu_a| \leq \sqrt{\frac{3\log(T)}{Sq_aT_1/2}}.
 \]
@@ -332,9 +332,15 @@ By Claim \ref{clm:l2_exploit}, we know that the expected regret conditioned the 
 \end{align*}
 \end{proof}
 
+Now we are going to change the parameters of the $L$-level recommendation policy a little bit and prove the below corollary. We will keep $S$ the same (i.e. $S = 2^{10}\log(T)$). We are going to change $L$ and $T_1,...,T_L$. We set $L = \log(T)/\log(10S^3)$, $T_l = (10S^3)^l$ for $l=1,...,L-1$ and $T_L = (T - T_1 \GdT S^2 - S^3\sum_{l=2}^{L-1} T_l)/S^3$.  
 \begin{corollary}
 With the proper setting of $L$ and $T_1,...,T_L$ discribed above, the $L$-level recommendation policy gets expected regret $O(polylog(T) /\Delta)$. Here $\Delta = \mu_1 -\mu_2$ and the $L$-level recommendation policy does not need to know $\Delta$ ahead of the time. Moreover, agent $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
 \end{corollary}
 
 \begin{proof}
 \end{proof}
+
+
+\begin{claim}
+Extended to constant number of arms.
+\end{claim}
