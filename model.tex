@@ -5,7 +5,7 @@
 \emph{Incentivizing Exploration} is a game between a principal and $T$ agents who arrive one by one. Each round $t$ proceeds as follows: a new agent $t$ arrives, receives a message $m_t$ from the principal, chooses an arm $a_t$ from a fixed arm space $\A = \{1,...,K\}$, and collects a reward $r_t\in \{0,1\}$ that is immediately observed by the principal. 
 We mostly focus on the case when $K=2$. We also discuss how to generalize our results to the case when $K$ is a constant greater than 2.
 
-Each arm $a \in \A$ has a state $\mu_a$ drawn from $\D_a$ before the game starts. For the agent in round $t$ who picks arm $a_t$, the reward $r_t$ is distributed as $\Ber(\mu_{a_t})$.  
+Each arm $a \in \A$ has a state $\mu_a$ drawn from $\D_a$ before the game starts. For the agent in round $t$ who picks arm $a_t$, the reward $r_t$ is distributed as $\Ber(\mu_{a_t})$.\swcomment{do we plan to generalize to real-valued?}
 
 The messages $m_t$ are generated according to a randomized online algorithm $\pi$ termed ``recommendation policy".
 
@@ -20,7 +20,7 @@ The messages $m_t$ are generated according to a randomized online algorithm $\pi
 Why not arbitrary sub-history?
 \end{remark}
 
-\xhdr{Agents' behavior.} We assume agent $t$ estimates the mean of each arm as $\hat{\mu}_a^t$'s and picks the arm with the highest $\hat{\mu}_a^t$. We define $\bar{\mu}_a^t$ as the empirical average of arm $a$ given the history. We assume each agent's estimate $\hat{\mu}_a^t$ is close to the empirical average $\bar{\mu}_a^t$, more specifically as the following assumption:
+\xhdr{Agents' behavior.} We assume agent $t$ estimates the mean of each arm as $\hat{\mu}_a^t$'s and picks the arm with the highest $\hat{\mu}_a^t$. We define $\bar{\mu}_a^t$ as the empirical average of arm $a$ given the history\swcomment{sub-history he receives?}. We assume each agent's estimate $\hat{\mu}_a^t$ is close to the empirical average $\bar{\mu}_a^t$, more specifically as the following assumption:
 \begin{assumption}
 \label{ass:embehave}
 Set constant $c_m = 1/16$. There exists a constant $c_T$ such that the following is true. For each agent $t$ and arm $a$, let $t_a$ be the number of times arm $a$ has been pulled in the history observed by agent $t$. 
