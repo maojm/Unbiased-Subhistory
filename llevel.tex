@@ -3,22 +3,10 @@
 \section{$L$-level Recommendation Policy}
 In this section, we design an $L$-level recommendation policy for $L > 3$ and 2 arms. By having more than 3 levels, we get even smaller regret. 
 
-Our recommendation policy has $L$ levels and two types of groups: $G$-groups and $\Gamma$-groups. Each level has $S^2$ $G$-groups for $S = 2^{10}\log(T)$. Label the $G$-groups in the $l$-th level as $G_{l,u,v}$ for $u,v \in [S]$. Level $2$ to level $L$ also have $S^2$ $\Gamma$-groups. Label the $\Gamma$-groups in the $l$-th level as $\Gamma_{l,u,v}$ for $u,v \in [S]$. 
-
-We set the group size as following. For $l < L$,
-\[
-T_l = T^{\frac{2^{L-1} + 2^{L-2} + \cdots + 2^{L-l}}{2^{L-1}+ 2^{L-2} + \cdots + 1}}/S^3.
-\]
-and 
-\[
-T_L = (T - T_1 \cdot \GdT\cdot S^2 - (T_2 + \cdots + T_{l-1}) S^3) /S^3
-\]
-We restrict $L$ to be at most $\log(\ln(T)/\log(S^4))$ so that $T_l / T_{l-1} \geq T^{1/2^L} \geq S^4$ for $l = 2,...,L-1$. $T_L$ is a little bit different because we want total number of agents to be $T$. 
- 
-Each first-level group ($G_{1,u,v}$ for $u,v\in [S]$) has $T_1$ \ALGG of $\GdT$ rounds in parallel. For $l \geq 2$, there are $T_l$ agents in group $G_{l,u,v}$ and there are $T_l (S-1)$ agents in group $\Gamma_{l,u,v}$. 
+Our recommendation policy has $L$ levels and two types of groups: $G$-groups and $\Gamma$-groups. Each level has $S^2$ $G$-groups for $S = 2^{10}\log(T)$. Label the $G$-groups in the $l$-th level as $G_{l,u,v}$ for $u,v \in [S]$. Level $2$ to level $L$ also have $S^2$ $\Gamma$-groups. Label the $\Gamma$-groups in the $l$-th level as $\Gamma_{l,u,v}$ for $u,v \in [S]$. Each first-level group ($G_{1,u,v}$ for $u,v\in [S]$) has $T_1$ \ALGG of $\GdT$ rounds in parallel. For $l \geq 2$, there are $T_l$ agents in group $G_{l,u,v}$ and there are $T_l (S-1)$ agents in group $\Gamma_{l,u,v}$. We will pick $T_1,...,T_L$ in the proof of Theorem \ref{thm:llevel}.
 
 Finally we define the information flow. Agents in the first level only observe the history defined in the \ALGG run. For agents in group $G_{l,u,v}$ with $l\geq 2$, they observe all the history in the first $l-2$ levels (both $G$-groups and $\Gamma$-groups) and history in group $G_{l-1,v,w}$ for all $w \in [S]$. Agents in group $\Gamma_{l,u,v}$ observe the same history as agents in group $G_{l,u,v}$.
-
+ 
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}  
@@ -118,14 +106,19 @@ Finally we define the information flow. Agents in the first level only observe t
 \end{figure}
 
 \begin{theorem}
-The $L$-level recommendation policy gets expected regret $O\left(T^{\frac{2^{L-1}}{2^L-1}} \log^2(T) \right)$ for $L \leq \log(\ln(T)/\log(10S^3))$. In particular, if we pick $L = \log(\ln(T)/\log(10S^3))$, the expected regret is at most $O(T^{1/2} \log^5(T))$. 
+\label{thm:llevel}
+The $L$-level recommendation policy gets expected regret $O\left(T^{2^{L-1}/(2^L-1)} \log^2(T) \right)$ for $L \leq \log(\ln(T)/\log(S^4))$. In particular, if we pick $L = \log(\ln(T)/\log(S^4))$, the expected regret is $O(T^{1/2} polylog(T))$. 
 \end{theorem}
 
 \begin{proof}
-Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. Similarly as the proof of Theorem \ref{thm:3level}, we start with some clean events.
+Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. We will set $T_l$'s later in the proof. Before that, we are only going to assume $T_l / T_{l-1} \geq S^4$ for $l=2,...,L-1$ and $T_1 \geq S^4$. 
+
+Similarly as the proof of Theorem \ref{thm:3level}, we start with some clean events.
 
 \begin{itemize}
-\item For $a \in \{1,2\}$, define $q_a$ to be the expected number of arm $a$ pulls in one run of \ALGG used in the first level. By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$ For group $G_{1,u,v}$, define $W_1^{a,u,v}$ to be the event that the number of arm $a$ pulls in this group is between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Chernoff bound,
+\item  \textbf{Concentration of the number of arm $a$ pulls in the first level:} 
+
+For $a \in \{1,2\}$, define $q_a$ to be the expected number of arm $a$ pulls in one run of \ALGG used in the first level. By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$ For group $G_{1,u,v}$, define $W_1^{a,u,v}$ to be the event that the number of arm $a$ pulls in this group is between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Chernoff bound,
 \[
 \Pr[W_1^{a,u,v}] \geq 1-2\exp(-2\log(T)) \geq 1-2/T^2.
 \]
@@ -135,7 +128,9 @@ Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a,
 \]
 
 
-\item For each agent $t$ and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in agent $t$'s observed history pull arm $a$.  Define $W_2^{t,a,t_1,t_2}$ to be the event that the mean of $t_1$-th to $t_2$-th pulls in the tape is at most $\sqrt{\frac{3\log(T)}{t_2-t_1+1}}$ away from $\mu_a$. By Chernoff bound, 
+\item \textbf{Concentration of the empirical mean of arm $a$ pulls in the history observed by agent $t$:}
+
+ For each agent $t$ and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in agent $t$'s observed history pull arm $a$.  Define $W_2^{t,a,t_1,t_2}$ to be the event that the mean of $t_1$-th to $t_2$-th pulls in the tape is at most $\sqrt{\frac{3\log(T)}{t_2-t_1+1}}$ away from $\mu_a$. By Chernoff bound, 
 \[
 \Pr[W_2^{t,a,t_1,t_2}] \geq 1 - 2\exp(-6\log(T)) \geq 1- 2/T^6.
 \]
@@ -146,7 +141,9 @@ Define $W_2$ to be the intersection of all these events (i.e. $W_2 = \bigcap_{t,
 \]
 
 
-\item For $2\leq l \leq L-1$, $u\in [S]$ and each arm $a$, define $n^{l,u,a}$ to be the number of arm $a$ pulls in groups $G_{l,u,1},...,G_{l,u,S}$. Define $W_3^{l,u,a,high}$ as the event that $n^{l,u,a} \geq T_l$ implies the empirical mean of arm $a$ pulls in group $G_{l,u,1},...,G_{l,u,S}$ is at least $\mu_a + 1/\sqrt{n^{l,u,a}}$. Define $W_3^{l,u,a,low}$ as the event that $n^{l,u,a} \geq T_l$ implies the empirical mean of arm $a$ pulls in group $G_{l,u,1},...,G_{l,u,S}$ is at most $\mu_a - 1/\sqrt{n^{l,u,a}}$.
+\item \textbf{Anti-concentration of the empirical mean of arm $a$ pulls in the $l$-th level  for $l \geq 2$:}
+
+For $2\leq l \leq L-1$, $u\in [S]$ and each arm $a$, define $n^{l,u,a}$ to be the number of arm $a$ pulls in groups $G_{l,u,1},...,G_{l,u,S}$. Define $W_3^{l,u,a,high}$ as the event that $n^{l,u,a} \geq T_l$ implies the empirical mean of arm $a$ pulls in group $G_{l,u,1},...,G_{l,u,S}$ is at least $\mu_a + 1/\sqrt{n^{l,u,a}}$. Define $W_3^{l,u,a,low}$ as the event that $n^{l,u,a} \geq T_l$ implies the empirical mean of arm $a$ pulls in group $G_{l,u,1},...,G_{l,u,S}$ is at most $\mu_a - 1/\sqrt{n^{l,u,a}}$.
 
 Define $H_l$ to be random variable the history of all agents in the first $l-1$ levels and which agents are chosen in the $l$-th level. Let $h_l$ be some realization of $H_l$. Notice that once we fix $H_l$, $n^{l,u,a}$ is also fixed. 
 
@@ -171,7 +168,9 @@ Since this holds for all $h_l$'s, we have $\Pr[W_3^{l,a}] \geq 1-1/T^2$. Finally
 W_3 \geq 1 - 2L/T^2.
 \]
 
-\item For first-level groups $G_{1,u,1},...,G_{1,u,S}$ and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in these groups pull arm $a$. Define $W_4^{u,a,high}$  to be the event that first $q_a T_1 S$ pulls of arm $a$ in the tape has empirical mean at least $\mu_a + 1/\sqrt{q_a T_1 S}$ and define $W_4^{u,a,low}$  to be the event that first $q_a T_1S$ pulls of arm $a$ in the tape has empirical mean at most $\mu_a - 1/\sqrt{q_a T_1S }$. By Berry-Essen Theorem and $\mu_a \in [1/3,2/3]$, we have
+\item \textbf{Anti-concentration of the empirical mean of arm $a$ pulls in the first level:}
+
+For first-level groups $G_{1,u,1},...,G_{1,u,S}$ and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in these groups pull arm $a$. Define $W_4^{u,a,high}$  to be the event that first $q_a T_1 S$ pulls of arm $a$ in the tape has empirical mean at least $\mu_a + 1/\sqrt{q_a T_1 S}$ and define $W_4^{u,a,low}$  to be the event that first $q_a T_1S$ pulls of arm $a$ in the tape has empirical mean at most $\mu_a - 1/\sqrt{q_a T_1S }$. By Berry-Essen Theorem and $\mu_a \in [1/3,2/3]$, we have
 \[
 \Pr[W_4^{u,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{q_aT_1S}} > 1/4.
 \]
@@ -215,7 +214,7 @@ $W_4^{u_a,a,high}$,  $W_1^{a,u_a,v}$ and $W_2$ together imply that
 \bar{\mu}_a ^t &\geq \mu_a + \left(q_aT_1S \cdot \frac{1}{\sqrt{q_aT_1S}} - \GdT \sqrt{T_1\log(T)} S\cdot \sqrt{\frac{3\log(T)}{ \GdT \sqrt{T_1\log(T)}S}} \right) \cdot \frac{1}{(q_a T_1+ \GdT \sqrt{T_1\log(T)})S} \\
 &> \mu_a + \frac{1}{4\sqrt{q_aT_1S}}.
 \end{align*}
-The second last inequality holds when $T$ larger than some constant.
+The second last inequality holds when $T$ is larger than some constant.
 Similarly, we also have
 \[
 \bar{\mu}_{3-a}^t< \mu_{3-a}   - \frac{1}{4\sqrt{q_{3-a} T_1S}}.
@@ -263,7 +262,7 @@ Therefore agents in groups $G_{l,1,u_a},...,G_{l,S,u_a}$ and $\Gamma_{l,1,u_a},.
 
 \begin{claim}
 \label{clm:l2_exploit}
-For any $2 \leq l \leq L$, if $\varepsilon_{l-1} S < \mu_1 - \mu_2 < \varepsilon_{l-2} S$, there are no pulls of arm 2 in groups with level $l,...,L$. 
+For any $2 \leq l \leq L$, if $\varepsilon_{l-1} S\leq \mu_1 - \mu_2 < \varepsilon_{l-2} S$, there are no pulls of arm 2 in groups with level $l,...,L$. 
 \end{claim}
 
 \begin{proof}
@@ -324,20 +323,45 @@ Therefore agents in level at least $l$ will all pull arm 1.
 \end{itemize}
 \end{proof}
 
+Now we set the group sizes $T_l$'s as following. For $l < L$,
+\[
+T_l = T^{\frac{2^{L-1} + 2^{L-2} + \cdots + 2^{L-l}}{2^{L-1}+ 2^{L-2} + \cdots + 1}}/S^3.
+\]
+and 
+\[
+T_L = (T - T_1 \cdot \GdT\cdot S^2 - (T_2 + \cdots + T_{l-1}) S^3) /S^3
+\]
+We restrict $L$ to be at most $\log(\ln(T)/\log(S^4))$ so that $T_l / T_{l-1} \geq T^{1/2^L} \geq S^4$ for $l = 2,...,L-1$. $T_L$ is a little bit different because we want total number of agents to be $T$. 
+
 By Claim \ref{clm:l2_exploit}, we know that the expected regret conditioned the intersection of clean events is at most 
 \begin{align*}
 &\max\left( T_1T_GS^2 , \max_{l \geq 2} \varepsilon_{l-1}S(T_1T_GS^2 + T_2 S^3 + \cdots + T_lS^3)\right) \\
 \leq & \max\left( T_1T_GS^2 , \max_{l \geq 2} 2 \varepsilon_{l-1} T_l S^4 \right)\\
-= &O(T^{\frac{2^{L-1}}{2^L-1}} \log^2(T)).
+= &O\left(T^{2^{L-1}/(2^L-1)} \log^2(T) \right).
 \end{align*}
 \end{proof}
 
-Now we are going to change the parameters of the $L$-level recommendation policy a little bit and prove the below corollary. We will keep $S$ the same (i.e. $S = 2^{10}\log(T)$). We are going to change $L$ and $T_1,...,T_L$. We set $L = \log(T)/\log(10S^3)$, $T_l = (10S^3)^l$ for $l=1,...,L-1$ and $T_L = (T - T_1 \GdT S^2 - S^3\sum_{l=2}^{L-1} T_l)/S^3$.  
+Now we are going to change the parameters of the $L$-level recommendation policy a little bit and prove the below corollary. We will keep $S$ the same (i.e. $S = 2^{10}\log(T)$). We are going to change $L$ and $T_1,...,T_L$. We set $L = \log(T)/\log(S^4)$, $T_l = (S^4)^l$ for $l=1,...,L-1$ and $T_L = (T - T_1 \GdT S^2 - S^3\sum_{l=2}^{L-1} T_l)/S^3$.  
 \begin{corollary}
-With the proper setting of $L$ and $T_1,...,T_L$ discribed above, the $L$-level recommendation policy gets expected regret $O(polylog(T) /\Delta)$. Here $\Delta = \mu_1 -\mu_2$ and the $L$-level recommendation policy does not need to know $\Delta$ ahead of the time. Moreover, agent $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
+With the proper setting of $L$ and $T_1,...,T_L$ described above, the $L$-level recommendation policy gets expected regret $O(\min(polylog(T) /\Delta,  T\Delta))$. Here $\Delta = \mu_1 -\mu_2$ and the $L$-level recommendation policy does not need to know $\Delta$. Moreover, agent $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
 \end{corollary}
 
 \begin{proof}
+Notice that in the proof of Theorem \ref{thm:llevel}, by the end of Claim \ref{clm:l2_exploit}, the only constraint we need about $T_l$'s is that $T_l / T_{l-1} \geq S^4$ for $l=2,...,L-1$ and $T_1 \geq S^4$. And our new settings of $T_l$'s still satisfy this constraint. So we can reuse the proof of Theorem \ref{thm:llevel} till the end of Claim \ref{clm:l2_exploit}.
+
+First of all, notice that even always picking the sub-optimal arm gives expected regret $T(\mu_1-\mu_2) = T\Delta$. In the rest of the proof, we just need to show the expected regret is $O(polylog(T)/\Delta)$. Now consider two cases:
+\begin{itemize}
+\item $\Delta < \varepsilon_{L-1} S$. In this case, we know $T\Delta = O(polylog(T)/\Delta)$. So the expected regret is $O(T\Delta) = O(polylog(T) /\Delta)$.
+\item $\Delta \geq \varepsilon_{L-1} S$. In this case, we can find $l \in \{2,...,L\}$ such that $\varepsilon_{l-1} S\leq \Delta < \varepsilon_{l-2} S$. By Claim \ref{clm:l2_exploit}, we can bound the expected regret by
+\begin{align*}
+&\Delta \cdot (T_1 \GdT S^2  +T_2 S^3+ \cdots T_{l-1} S^3)\\
+=& O(\Delta T_{l-1}S^3) \\
+=&O(\Delta T_{l-2}S^7) \\
+=&O(\Delta\cdot  \frac{1}{\varepsilon^2_{l-2}}\cdot S^6)\\
+=&O(\Delta \cdot \frac{1}{\Delta^2}\cdot S^8)\\
+=&O(polylog(T)/\Delta).
+\end{align*}
+\end{itemize}
 \end{proof}
 
 
