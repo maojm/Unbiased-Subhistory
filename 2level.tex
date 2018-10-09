@@ -59,7 +59,9 @@ We will set $T_1$ later in the proof. For now, we just need to know we will make
 The first $T_1 \cdot \GdT$ rounds will get total regret at most $T_1 \cdot \GdT$.  We focus on bounding the regret of the rest $T - T_1 \cdot \GdT$ rounds. We consider the following two clean events. We will first bound the probability that both of them happen and then we will show that they together imply upper bounds on $|\hat{\mu}^t_a - \mu_a|$'s for any agent $t$ in the second level. Recall $\hat{\mu}^t_a$ is the estimated mean of arm $a$ by agent $t$ and agent $t$ picks the arm with the highest $\hat{\mu}^t_a$.
 
 \begin{itemize}
-\item For each arm $a$, define $q_a$ to be the expected number of arm $a$ pulls in one run of \ALGG used in the first level. By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$. Define $W_1^a$ to be the event that the number of arm $a$ pulls in the first level is at least $q_a T_1- \GdT \sqrt{T_1\log(T)} \geq q_a T_1 / 2$. By Chernoff bound,
+\item \textbf{Concentration of the number of arm $a$ pulls in the first level:} 
+
+For each arm $a$, define $q_a$ to be the expected number of arm $a$ pulls in one run of \ALGG used in the first level. By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$. Define $W_1^a$ to be the event that the number of arm $a$ pulls in the first level is at least $q_a T_1- \GdT \sqrt{T_1\log(T)} \geq q_a T_1 / 2$. By Chernoff bound,
 \[
 \Pr[W_1^a] \geq 1-\exp(-2\log(T)) \geq 1-1/T^2.
 \]
@@ -67,7 +69,9 @@ Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a}
 \[
 \Pr[W_1] \geq 1- \frac{K}{T^2} \geq 1 - \frac{1}{T}.
 \]
-\item For each arm $a$, imagine there is a tape of $T$ arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agent pull arm $a$. Define $W^{a,t}_2$ to be the event that the empirical mean of the first $t$ pulls of arm $a$ is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. Define $W_2$ to be the intersection of these events (i.e. $\bigcap_{a,t} W^{a,t}_2$).
+\item  \textbf{Concentration of the empirical mean of arm $a$ pulls in the first level:}
+
+For each arm $a$, imagine there is a tape of $T$ arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agent pull arm $a$. Define $W^{a,t}_2$ to be the event that the empirical mean of the first $t$ pulls of arm $a$ is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. Define $W_2$ to be the intersection of these events (i.e. $\bigcap_{a,t} W^{a,t}_2$).
 By Chernoff bound,
 \[
 \Pr[W^{a,t}_2] \geq 1 - 2\exp(-4\log(T)) \geq 1-2/T^4.

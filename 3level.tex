@@ -55,7 +55,9 @@ Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to b
 
 Before we start with the case analysis, we first define several clean events and show that the intersection of them happens with high probability. 
 \begin{itemize}
-\item For $a \in \{1,2\}$, define $q_a$ to be the expected number of arm $a$ pulls in one run of \ALGG used in the first level. By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$ For the $s$-th first-level group, define $W_1^{a,s}$ to be the event that the number of arm $a$ pulls in the $s$-th first-level group is between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Chernoff bound,
+\item \textbf{Concentration of the number of arm $a$ pulls in the first level:} 
+
+For $a \in \{1,2\}$, define $q_a$ to be the expected number of arm $a$ pulls in one run of \ALGG used in the first level. By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$. For the $s$-th first-level group, define $W_1^{a,s}$ to be the event that the number of arm $a$ pulls in the $s$-th first-level group is between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Chernoff bound,
 \[
 \Pr[W_1^{a,s}] \geq 1-2\exp(-2\log(T)) \geq 1-2/T^2.
 \]
@@ -63,7 +65,9 @@ Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a,
 \[
 \Pr[W_1] \geq 1- \frac{4S}{T^2}.
 \]
-\item For each first-level group and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in this group pull arm $a$. For the $s$-th first-level group and arm $a$, define $W_2^{s,a,t_1,t_2}$ to be the event that the mean of $t_1$-th to $t_2$-th pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t_2-t_1+1}}$ away from $\mu_a$. By Chernoff bound, 
+\item \textbf{Concentration of the empirical mean of arm $a$ pulls in the first level:}
+
+For each first-level group and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in this group pull arm $a$. For the $s$-th first-level group and arm $a$, define $W_2^{s,a,t_1,t_2}$ to be the event that the mean of $t_1$-th to $t_2$-th pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t_2-t_1+1}}$ away from $\mu_a$. By Chernoff bound, 
 \[
 \Pr[W_2^{s,a,t_1,t_2}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
 \]
@@ -73,7 +77,9 @@ Define $W_2$ to be the intersection of all these events (i.e. $W_2 = \bigcap_{a,
 \Pr[W_2] \geq 1- \frac{4S}{T^2}.
 \]
 
-\item For all the groups in the first two levels and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in the first two levels pull arm $a$. Define $W_3^{a,t}$ to be the event that the mean of the first $t$ pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. By Chernoff bound, 
+\item \textbf{Concentration of the empirical mean of arm $a$ pulls in the first two levels:}
+
+For all the groups in the first two levels and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in the first two levels pull arm $a$. Define $W_3^{a,t}$ to be the event that the mean of the first $t$ pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. By Chernoff bound, 
 \[
 \Pr[W_3^{a,t}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
 \]
@@ -82,7 +88,9 @@ Define $W_3$ to be the intersection of all these events (i.e. $W_3 = \bigcap_{a,
 \Pr[W_3] \geq 1- \frac{4}{T^3}.
 \]
 
-\item Consider the tapes defined in the second bullet again. For the $s$-th first-level group and arm $a$, define $W_4^{s,a,high}$  to be the event that first $q_a T_1$ pulls of arm $a$ in the corresponding tape has empirical mean at least $\mu_a + 1/\sqrt{q_a T_1}$ and define  $W_4^{s,a,low}$  to be the event that first $q_a T_1$ pulls of arm $a$ in the corresponding tape has empirical mean at most $\mu_a - 1/\sqrt{q_a T_1}$. By Berry-Essen Theorem and $\mu_a \in [1/3,2/3]$, we have
+\item \textbf{Anti-concentration of the empirical mean of arm $a$ pulls in the first level:}
+
+Consider the tapes defined in the second bullet again. For the $s$-th first-level group and arm $a$, define $W_4^{s,a,high}$  to be the event that first $q_a T_1$ pulls of arm $a$ in the corresponding tape has empirical mean at least $\mu_a + 1/\sqrt{q_a T_1}$ and define  $W_4^{s,a,low}$  to be the event that first $q_a T_1$ pulls of arm $a$ in the corresponding tape has empirical mean at most $\mu_a - 1/\sqrt{q_a T_1}$. By Berry-Essen Theorem and $\mu_a \in [1/3,2/3]$, we have
 \[
 \Pr[W_4^{s,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{q_aT_1}} > 1/4.
 \]
@@ -191,7 +199,7 @@ Now consider the $s_a$-th second-level group. We have
 \end{align*}
 For any agent $t$ in the $s_a$-th second-level group, by Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_a^t - \hat{\mu}_a^t &>\bar{\mu}_a^{1,s_a} - \bar{\mu}_a^{1,s_a} - \frac{c_m}{\sqrt{q_1T_1/2}} - \frac{c_m}{\sqrt{q_2T_1/2}}\\
+\hat{\mu}_a^t - \hat{\mu}_{3-a}^t &>\bar{\mu}_a^{1,s_a} - \bar{\mu}_{3-a}^{1,s_a} - \frac{c_m}{\sqrt{q_1T_1/2}} - \frac{c_m}{\sqrt{q_2T_1/2}}\\
 &\geq   \frac{1}{8\sqrt{q_1T_1}}+ \frac{1}{8\sqrt{q_2T_1}}- \frac{c_m}{\sqrt{q_1T_1/2}} - \frac{c_m}{\sqrt{q_2T_1/2}}\\
  &> 0.
 \end{align*}
