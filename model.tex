@@ -13,6 +13,7 @@ The messages $m_t$ are generated according to a randomized online algorithm $\pi
 \begin{itemize}
 \item \textbf{Full history:} We show each agent the history of all previous agents' pulls. We call this policy \ALGG. 
 \item \textbf{Unbiased sub-history:} We show each agent only a subset of history. The subsets are pre-determined before any arms are pulled.  
+\item \textbf{Info graph:} All the recommendation policies in this paper can be described by an undirected transitive graph with $T$ nodes. We call it the info graph. The $T$ nodes in the graph represent the $T$ agents. If there is an edge between node $u$ and $v$ for $u < v$, it means the history of agent $u$ is shown to agent $v$.
 \end{itemize}
 
 \begin{remark}
