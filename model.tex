@@ -22,7 +22,7 @@ Why not arbitrary sub-history?
 \xhdr{Agents' behavior.} We assume agent $t$ estimates the mean of each arm as $\hat{\mu}_a^t$'s and picks the arm with the highest $\hat{\mu}_a^t$. We define $\bar{\mu}_a^t$ as the empirical average of arm $a$ given the history\swcomment{sub-history he receives?}. We assume each agent's estimate $\hat{\mu}_a^t$ is close to the empirical average $\bar{\mu}_a^t$, more specifically as the following assumption:
 \begin{assumption}
 \label{ass:embehave}
-Set constant $c_m = 1/16$. There exists a constant $c_T$ such that the following is true. For each agent $t$ and arm $a$, let $t_a$ be the number of times arm $a$ has been pulled in the history observed by agent $t$. 
+Set constant $c_m = 1/16$.\swcomment{subscript $m$ meant anything?} There exists a constant $c_T$ such that the following is true. For each agent $t$ and arm $a$, let $t_a$ be the number of times arm $a$ has been pulled in the history observed by agent $t$. 
 \begin{itemize}
 \item \textbf{Close to the empirical average:} If $t_a \geq c_T$, 
 \[
