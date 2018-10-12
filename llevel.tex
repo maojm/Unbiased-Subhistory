@@ -343,15 +343,15 @@ By Claim \ref{clm:l2_exploit}, we know that the expected regret conditioned the 
 
 Now we are going to change the parameters of the $L$-level recommendation policy a little bit and prove the below corollary. We will keep $S$ the same (i.e. $S = 2^{10}\log(T)$). We are going to change $L$ and $T_1,...,T_L$. We set $L = \log(T)/\log(S^4)$, $T_l = (S^4)^l$ for $l=1,...,L-1$ and $T_L = (T - T_1 \GdT S^2 - S^3\sum_{l=2}^{L-1} T_l)/S^3$.  
 \begin{corollary}
-With the proper setting of $L$ and $T_1,...,T_L$ described above, the $L$-level recommendation policy gets expected regret $O(\min(polylog(T) /\Delta,  T\Delta))$. Here $\Delta = \mu_1 -\mu_2$ and the $L$-level recommendation policy does not need to know $\Delta$. Moreover, agent $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
+With the proper setting of $L$ and $T_1,...,T_L$ described above, the $L$-level recommendation policy gets expected regret $O(\min(1/\Delta, T^{1/2})polylog(T))$. Here $\Delta = \mu_1 -\mu_2$ and the $L$-level recommendation policy does not need to know $\Delta$. Moreover, agent $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
 \end{corollary}
 
 \begin{proof}
 Notice that in the proof of Theorem \ref{thm:llevel}, by the end of Claim \ref{clm:l2_exploit}, the only constraint we need about $T_l$'s is that $T_l / T_{l-1} \geq S^4$ for $l=2,...,L-1$ and $T_1 \geq S^4$. And our new settings of $T_l$'s still satisfy this constraint. So we can reuse the proof of Theorem \ref{thm:llevel} till the end of Claim \ref{clm:l2_exploit}.
 
-First of all, notice that even always picking the sub-optimal arm gives expected regret $T(\mu_1-\mu_2) = T\Delta$. In the rest of the proof, we just need to show the expected regret is $O(polylog(T)/\Delta)$. Now consider two cases:
+Recall in the proof of Theorem \ref{thm:llevel}, $\varepsilon_l =\Theta(1/\sqrt{T_l S})$. Consider two cases:
 \begin{itemize}
-\item $\Delta < \varepsilon_{L-1} S$. In this case, we know $T\Delta = O(polylog(T)/\Delta)$. So the expected regret is $O(T\Delta) = O(polylog(T) /\Delta)$.
+\item $\Delta < \varepsilon_{L-1} S$. In this case, notice that even always picking the sub-optimal arm gives expected regret at most $T(\mu_1-\mu_2) = T\Delta = O(T^{1/2} polylog(T))$. On the other hand, $T^{1/2} = O(polylog(T)/\Delta)$. Therefore, the expected regret is $O(\min(1/\Delta, T^{1/2})polylog(T))$.
 \item $\Delta \geq \varepsilon_{L-1} S$. In this case, we can find $l \in \{2,...,L\}$ such that $\varepsilon_{l-1} S\leq \Delta < \varepsilon_{l-2} S$. By Claim \ref{clm:l2_exploit}, we can bound the expected regret by
 \begin{align*}
 &\Delta \cdot (T_1 \GdT S^2  +T_2 S^3+ \cdots T_{l-1} S^3)\\
@@ -361,6 +361,7 @@ First of all, notice that even always picking the sub-optimal arm gives expected
 =&O(\Delta \cdot \frac{1}{\Delta^2}\cdot S^8)\\
 =&O(polylog(T)/\Delta).
 \end{align*}
+We also have $1/\Delta \leq 1/(\varepsilon_{L-1}S)= O(T^{1/2})$. Therefore, the expected regret is \\$O(\min(1/\Delta, T^{1/2})polylog(T))$.
 \end{itemize}
 \end{proof}
 
