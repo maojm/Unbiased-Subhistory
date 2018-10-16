@@ -342,17 +342,19 @@ By Claim \ref{clm:l2_exploit}, we know that the expected regret conditioned the 
 \end{proof}
 
 Now we are going to change the parameters of the $L$-level recommendation policy a little bit and prove the below corollary. We will keep $S$ the same (i.e. $S = 2^{10}\log(T)$). We are going to change $L$ and $T_1,...,T_L$. We set $L = \log(T)/\log(S^4)$, $T_l = (S^4)^l$ for $l=1,...,L-1$ and $T_L = (T - T_1 \GdT S^2 - S^3\sum_{l=2}^{L-1} T_l)/S^3$.  
+
 \begin{corollary}
-With the proper setting of $L$ and $T_1,...,T_L$ described above, the $L$-level recommendation policy gets expected regret $O(\min(1/\Delta, T^{1/2})polylog(T))$. Here $\Delta = \mu_1 -\mu_2$ and the $L$-level recommendation policy does not need to know $\Delta$. Moreover, agent $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
+\label{cor:llevel}
+With the proper setting of $L$ and $T_1,...,T_L$ described above, the $L$-level recommendation policy gets expected regret $O(\min(1/\Delta, T^{1/2})polylog(T))$. Here $\Delta = |\mu_1 -\mu_2|$ and the $L$-level recommendation policy does not need to know $\Delta$. Moreover, agent $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
 \end{corollary}
 
 \begin{proof}
 Notice that in the proof of Theorem \ref{thm:llevel}, by the end of Claim \ref{clm:l2_exploit}, the only constraint we need about $T_l$'s is that $T_l / T_{l-1} \geq S^4$ for $l=2,...,L-1$ and $T_1 \geq S^4$. And our new settings of $T_l$'s still satisfy this constraint. So we can reuse the proof of Theorem \ref{thm:llevel} till the end of Claim \ref{clm:l2_exploit}.
 
-Recall in the proof of Theorem \ref{thm:llevel}, $\varepsilon_l =\Theta(1/\sqrt{T_l S})$. Consider two cases:
+Recall in the proof of Theorem \ref{thm:llevel}, $\varepsilon_l =\Theta(1/\sqrt{T_l S})$ for $l \in [L-1]$ and $\varepsilon_0 = 1$. Consider two cases:
 \begin{itemize}
 \item $\Delta < \varepsilon_{L-1} S$. In this case, notice that even always picking the sub-optimal arm gives expected regret at most $T(\mu_1-\mu_2) = T\Delta = O(T^{1/2} polylog(T))$. On the other hand, $T^{1/2} = O(polylog(T)/\Delta)$. Therefore, the expected regret is $O(\min(1/\Delta, T^{1/2})polylog(T))$.
-\item $\Delta \geq \varepsilon_{L-1} S$. In this case, we can find $l \in \{2,...,L\}$ such that $\varepsilon_{l-1} S\leq \Delta < \varepsilon_{l-2} S$. By Claim \ref{clm:l2_exploit}, we can bound the expected regret by
+\item $\Delta \geq \varepsilon_{L-1} S$. In this case, we can find $l \in \{2,...,L\}$ such that $\varepsilon_{l-1} S\leq \Delta < \varepsilon_{l-2} S$. By Claim \ref{clm:l2_exploit}, we can upper bound the expected regret by
 \begin{align*}
 &\Delta \cdot (T_1 \GdT S^2  +T_2 S^3+ \cdots T_{l-1} S^3)\\
 =& O(\Delta T_{l-1}S^3) \\
@@ -365,7 +367,15 @@ We also have $1/\Delta \leq 1/(\varepsilon_{L-1}S)= O(T^{1/2})$. Therefore, the 
 \end{itemize}
 \end{proof}
 
+Here we discuss about how to extend Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel} to the case when $K$ is a constant larger than 2. As the proof is very similar to the proofs of Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel}, we only provide a proof sketch of what changes to make.
 
-\begin{claim}
-Extended to constant number of arms.
-\end{claim}
+\begin{theorem}
+Let the number of arms $K$ to be a constant larger than 2. Let $\Delta$ to be the difference between means of best and second best arms. We have an $L$-level recommendation policy with expected regret $O(\min(1/\Delta, T^{1/2})polylog(T))$. This $L$-level recommendation policy does not need to know $\Delta$. Moreover, agent $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
+\end{theorem}
+
+\xhdr{Proof Sketch.}
+We first extend the clean events (i.e. $W_1,W_2,W_3,W_4$) in Theorem \ref{thm:llevel} to the case when $K$ is larger than 2. $W_1$ and $W_2$ extend naturally: we still set $W_1 = \bigcap_{a,s}W_1^{a,s}$ and $W_2 = \bigcap_{t,a,t_1,t_2} W_2^{t,a,t_1,t_2}$. The difference is that now $a$ is taken over $K$ arms instead of 2 arms. For $W_3$, we change the definition $W_3^{l,a} = \bigcup_u \left(W_3^{l,u,a,high}  \cap \left(\bigcap_{a' \neq a} W_3^{l,u,a',low}\right) \right)$ and $W_3 = \bigcap_{l,a} W_3^{l,a}$. We extend $W_4$ in a similar way: define $W^{a}_4$ as $\bigcup_u \left(W_4^{u,a,high} \cap \left(\bigcap_{a' \neq a} W_4^{u,a',low}\right) \right)$ and $W_4 = \bigcap_a W^a_4$. Since $K$ is a constant, it's easy to check that the same proof technique shows that the intersection of these clean events happen with probability  $1-O(1/T)$. 
+
+\qed
+
+ 
