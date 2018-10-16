@@ -1,14 +1,28 @@
 %!TEX root = main.tex
-\section{\ALGG}
-We first consider \ALGG which simply shows agents the full history. We discuss in this section the exploration of \ALGG under Assumption \ref{ass:embehave}.
+\section{\ALGG: Revealing Full History}
+
+\swedit{Before we describe our algorithms, we will first analyze a
+  simple policy \ALGG that fully discloses the history over all
+  previous rounds, and lets the agents make the ``greedy'' choices
+  across all rounds. Even though the algorithm does not guarantee low
+  regret, it will be used as a subroutine in our main algorithms.  In
+  particular, we show that because of the randomness in the rewards,
+  with constant probability, $\ALGG$ will incentivize the agents to
+  play each arm at least once.}
 
 \begin{lemma}
 \label{lem:greedy}
-There exist two constants $\GdT = O_K(1)$ and $\GdP = \Omega_K(1)$ such that for any arm $a$, with probability at least $\GdP$, \ALGG of $\GdT$ rounds pulls this arm at least once. \swcomment{maybe explain what $O_k$ means}
+Under \Cref{ass:embehave}, there exist two constants $\GdT = O_K(1)$
+and $\GdP = \Omega_K(1)$ such that for any arm $a$, with probability
+at least $\GdP$, \ALGG of $\GdT$ rounds pulls this arm at least
+once.\footnote{The notations $O_k$ and $\Omega_K$ hide the dependence
+  on the number of arms $K$.}
 \end{lemma}
 
 \begin{proof}
-Set $\GdT = (K-1) \cdot c_T + 1$ and $\GdP = (1/3)^{\GdT}$. We fix the behavior of agents in $\GdT$ rounds and consider the case that all realized rewards in $\GdT$ rounds are 0. 
+  Set $\GdT = (K-1) \cdot c_T + 1$ and $\GdP = (1/3)^{\GdT}$. We fix
+  the behavior of agents in $\GdT$ rounds and consider the case that
+  all realized rewards in $\GdT$ rounds are 0.
 
 In this case, we want to show that arm $a$ is pulled at least once. We prove by contradiction. Suppose arm $a$ is not pulled. By averaging argument, we know that there is some other arm $a'$ which is pulled at least $c_T + 1$ rounds. Suppose in round $t$, arm $a'$ is pulled exactly $c_T + 1$ times. By Assumption \ref{ass:embehave}, we know 
 \[
@@ -16,7 +30,10 @@ In this case, we want to show that arm $a$ is pulled at least once. We prove by 
 \]
 On the other hand, we have $\hat{\mu}_a^t \geq 1/3 > \hat{\mu}_{a'}^t$. This contradicts with the fact that in round $t$, arm $a'$ is pulled. 
 
-In addition, we know that this case happens with probability at least $(1/3)^{\GdT} = \GdP$ as each arm's mean is at most $2/3$.\swcomment{where did we assume that?} To sum up, we know that with probability at least $\GdP$, \ALGG of $\GdT$ rounds pulls arm $a$ at least once. 
+In addition, we know that this case happens with probability at least
+$(1/3)^{\GdT} = \GdP$ as each arm's mean is at most $2/3$. To sum up,
+we know that with probability at least $\GdP$, \ALGG of $\GdT$ rounds
+pulls arm $a$ at least once.
 \end{proof}
 %%% Local Variables:
 %%% mode: latex
