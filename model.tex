@@ -2,40 +2,118 @@
 \section{Our Model}
 \label{sec:model}
 
-\emph{Incentivizing Exploration} is a game between a principal and $T$ agents who arrive one by one. Each round $t$ proceeds as follows: a new agent $t$ arrives, receives a message $m_t$ from the principal, chooses an arm $a_t$ from a fixed arm space $\A = \{1,...,K\}$, and collects a reward $r_t\in \{0,1\}$ that is immediately observed by the principal. 
-We mostly focus on the case when $K=2$. We also discuss how to generalize our results to the case when $K$ is a constant greater than 2.
+We study the mult-armed bandit problem in a social learning context,
+in which a principal faces a sequence of $T$ myopic agents. There is a
+set $\A$ of $K$ arms, and the reward from pulling an arm $a\in \A$ is
+distributed according to the Bernoulli distribution with an unknown
+mean $\mu_a$.\swcomment{do we plan to generalize to real-valued?}  At
+each round $t\in [T]$, a new agent $t$ arrives, receives a message
+$m_t$ from the principal, chooses an arm $a_t\in \A$, and collects a
+reward $r_t\in \{0,1\}$ that is immediately observed by the
+principal. 
 
-Each arm $a \in \A$ has a state $\mu_a$ drawn from $\D_a$ before the game starts. For the agent in round $t$ who picks arm $a_t$, the reward $r_t$ is distributed as $\Ber(\mu_{a_t})$.\swcomment{do we plan to generalize to real-valued?}
 
-The messages $m_t$ are generated according to a randomized online algorithm $\pi$ termed ``recommendation policy".
+% We mostly focus on the case when $K=2$. We also discuss how to
+% generalize our results to the case when $K$ is a constant greater
+% than 2. The messages $m_t$ are generated according to a randomized
+% online algorithm $\pi$ termed ``recommendation policy".
 
-\xhdr{Restrictions on the messages.} We classify recommendation policies according to what messages are allowed. 
+\xhdr{Unbiased sub-history policy.} The principal computes the
+sequence of messages $m_t$ according to a disclosure policy. We will
+focus on \emph{unbiased sub-history policies} that at each round $t$
+reveal the \emph{sub-history} in a subset of previous rounds
+$S_t\subseteq [t-1]$: $\{(s, a_s, r_s)\mid s \in S_t\}$, where the
+subset $S_t$ is fixed ahead of time. A simple example is the policy
+that reveals the \emph{full history}, that is $S_t = [t-1]$.  All of
+the policies we develop are \emph{transitive}: for any two agents $t$
+and $t'$ such that $t'\in S_t$, then the sub-history of $S_t$ contains
+that of $S_{t'}$.
+
+
+\xhdr{Information flow graph.} We will describe our transitive
+policies using a \emph{information flow graph} (and henceforth
+\emph{info graph})---a directed graph over the $T$ agents such that if
+there is an edge from $u$ to $v$, it means $u\in S_v$. By the property
+of transitivity, $S_t$ is the set of nodes that can reach node $t$ in
+the info graph.
+
+\iffalse
 \begin{itemize}
 \item \textbf{Full history:} We show each agent the history of all previous agents' pulls. We call this policy \ALGG. 
 \item \textbf{Unbiased sub-history:} We show each agent only a subset of history. The subsets are pre-determined before any arms are pulled.  
 \item \textbf{Info graph:} All the recommendation policies in this paper can be described by an undirected transitive graph with $T$ nodes. We call it the info graph. The $T$ nodes in the graph represent the $T$ agents. If there is an edge between node $u$ and $v$ for $u < v$, it means the history of agent $u$ is shown to agent $v$.
 \end{itemize}
+\fi
 
 \begin{remark}
-Why not arbitrary sub-history?
+  Why not arbitrary sub-history? \swcomment{important point to make;
+    but should be in the introduction}
 \end{remark}
 
-\xhdr{Agents' behavior.} We assume agent $t$ estimates the mean of each arm as $\hat{\mu}_a^t$'s and picks the arm with the highest $\hat{\mu}_a^t$. We define $\bar{\mu}_a^t$ as the empirical average of arm $a$ given the history\swcomment{sub-history he receives?}. We assume each agent's estimate $\hat{\mu}_a^t$ is close to the empirical average $\bar{\mu}_a^t$, more specifically as the following assumption:
+\xhdr{Agents' behavior.} Based on the history over rounds $S_t$, each
+agent $t$ first computes an estimate $\hat{\mu}_a^t$ for the mean
+reward of each arm $a$, and then selects the arm with the highest
+$\hat{\mu}_a^t$. Let $t_a$ be the number of times arm $a$ is pulled in
+the observed history $S_t$. For any $a$ with $t_a > 0$, we write
+$\bar{\mu}_a^t$ as the empirical average of arm $a$ given the history.
+
+% We assume that for sufficiently high $t_a$, the estimate
+% $\hat{\mu}_a^t$ is close to the empirical average $\bar{\mu}_a^t$.
+
+We will make the following assumptions on the set of mean rewards
+$\{\mu_a\}$, and the relationship between the estimates $\hat \mu_a^t$
+.and empirical mean rewards $\bar\mu_a^t$.
+
+
+
 \begin{assumption}
 \label{ass:embehave}
-Set constant $c_m = 1/16$.\swcomment{subscript $m$ meant anything?} There exists a constant $c_T$ such that the following is true. For each agent $t$ and arm $a$, let $t_a$ be the number of times arm $a$ has been pulled in the history observed by agent $t$. 
+Let $c_m = 1/16$.\swcomment{subscript $m$ meant anything?}. 
 \begin{itemize}
-\item \textbf{Close to the empirical average:} If $t_a \geq c_T$, 
+\item The mean reward $\mu_a$ for each arm $a\in \A$ lies in the range
+  of $[1/3, 2/3]$.
+
+
+\item There exists a constant $c_T$ such that for any agent $t$ and
+  arm $a$, as long as $t_a \geq c_T$,
 \[
-|\hat{\mu}^t_a - \bar{\mu}^t_a | < \frac{c_m}{\sqrt{t_a}}.
+  \left|\hat{\mu}^t_a - \bar{\mu}^t_a \right| <
+  \frac{c_m}{\sqrt{t_a}}.
 \]
-\item \textbf{Initial value:} If $t_a = 0$, $\hat{\mu}^t_a$ is at least $1/3$. \swcomment{should probably mention this is just for the convenience of the analysis; mention that our analysis works as long as this is bounded away from 0?}
+\item In the case of $t_a = 0$, the initial estimate $\hat{\mu}^t_a$
+  is at least $1/3$.
 \end{itemize}
 \end{assumption}
 
-We allow different agents to have different behavior models as long as they satisfy Assumption \ref{ass:embehave}. More specifically, we assume each agent's behavior model is sampled from an unknown distribution independently. 
+
+The first assumption ensures that the reward distributions have
+sufficient entropy to induce natural exploration. We choose the
+bounded range $[1/3, 2/3]$ for the simplicity of our analysis, and it
+can further relaxed to $[1/C, (C-1)/C]$ for any constant $C$.
+
+
+We allow different agents to have different behavior models as long as
+they satisfy Assumption \ref{ass:embehave}. More specifically, we
+assume each agent's behavior model is sampled from an unknown
+distribution independently.\swcomment{why independently? can be be
+  adversarial?}
 \begin{remark}
 how this relates to Bayesian exploration with conjugate priors
 \end{remark}
 
 \swcomment{todo: define regret. define gap $\Delta$}
+
+Given any sequence of arms $\{a_1, \ldots, a_T\}$ chosen by the agents, the \emph{regret} is defined as
+\[
+  \reg(a_1, \ldots , a_T) = T \max_{a\in \A} \mu_a - \sum_{t=1}^T
+  \mu_{a_t}.
+\]
+
+The principal's goal is then to design a policy to minimize the regret
+from the induced sequence arms chosen by agents.
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
