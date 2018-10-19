@@ -6,8 +6,8 @@ We study the mult-armed bandit problem in a social learning context,
 in which a principal faces a sequence of $T$ myopic agents. There is a
 set $\A$ of $K$ arms, and the reward from pulling an arm $a\in \A$ is
 distributed according to the Bernoulli distribution with an unknown
-mean $\mu_a$.\swcomment{do we plan to generalize to real-valued?}  
-\jmcomment{Probably not. We probably need some weird assumptions to make it work and we may need to change many parts of our proofs. The assumptions will be like: enough variance for anti-concentration and even more stuff for the greedy to has a small chance to work. Probably binary sound more natural and practical. And we should state something like binary should be interpreted as the feedback from the user, i.e. ``like'' or ``dislike''.}
+mean $\mu_a$.% \swcomment{do we plan to generalize to real-valued?}  
+% \jmcomment{Probably not. We probably need some weird assumptions to make it work and we may need to change many parts of our proofs. The assumptions will be like: enough variance for anti-concentration and even more stuff for the greedy to has a small chance to work. Probably binary sound more natural and practical. And we should state something like binary should be interpreted as the feedback from the user, i.e. ``like'' or ``dislike''.}
 At each round $t\in [T]$, a new agent $t$ arrives, receives a message
 $m_t$ from the principal, chooses an arm $a_t\in \A$, and collects a
 reward $r_t\in \{0,1\}$ that is immediately observed by the
@@ -30,12 +30,12 @@ the agents, the \emph{regret} is defined as
 a sequence of messages accroding to a disclosure policy so that the
 regret of the induced sequence of actions is minimized. We will focus
 on \emph{unbiased sub-history policies} that at each round $t$ reveal
-the \emph{sub-history} in a subset of previous rounds
-$S_t\subseteq [t-1]$: $\{(s, a_s, r_s)\mid s \in S_t\}$, where the
-subset $S_t$ is fixed ahead of time. A simple example is the policy
-that reveals the \emph{full history}, that is $S_t = [t-1]$.  All of
-the policies we develop are \emph{transitive}: for any two agents $t$
-and $t'$ such that $t'\in S_t$, then the sub-history of $S_t$ contains
+the \emph{sub-history} $H_t = \{(s, a_s, r_s)\mid s \in S_t\}$, such
+that each $S_t\subseteq [t-1]$ is a subset of previous rounds
+\emph{fixed ahead of time}. A simple example is the policy that
+reveals the \emph{full history} with $S_t = [t-1]$.  All of the
+policies we develop are \emph{transitive}: for any two agents $t$ and
+$t'$ such that $t'\in S_t$, then the sub-history of $S_t$ contains
 that of $S_{t'}$.
 
 
@@ -59,25 +59,30 @@ the info graph.
     but should be in the introduction}
 \end{remark}
 
-\xhdr{Agents' behavior.} Based on the history over rounds $S_t$, each
-agent $t$ first computes an estimate $\hat{\mu}_a^t$ for the mean
-reward of each arm $a$, and then selects the arm with the highest
-$\hat{\mu}_a^t$. Let $t_a$ be the number of times arm $a$ is pulled in
-the observed history $S_t$. For any $a$ with $t_a > 0$, we write
-$\bar{\mu}_a^t$ as the empirical average of arm $a$ given the history.
+\xhdr{Agents' behavior.} We model agents with heterogeneity in their
+arm selections. In particular, each agent $t$ has a private estimator
+that maps the revealed sub-history $H_t$ to a mean reward estimate
+$\hat{\mu}_a^t$ for every arm $a$, and the agent chooses the arm $a_t$
+with the highest estimate. The agents' private estimators are drawn
+i.i.d.~from some distribution. For any $t\in[T]$ and $a\in \A$, we
+write $N_{t, a}$ and $\bar{\mu}_a^t$ to denote the number of pulls of
+$a$ and the empirical mean reward of arm $a$ in $H_t$ respectively. If
+an arm is not pulled in $H_t$, we will let $\bar{\mu}_a^t = 0$.
 
+% \swcomment{need to assume i.i.d. types}
 % We assume that for sufficiently high $t_a$, the estimate
 % $\hat{\mu}_a^t$ is close to the empirical average $\bar{\mu}_a^t$.
 
 We will make the following assumptions on the set of mean rewards
 $\{\mu_a\}$, and the relationship between the estimates $\hat \mu_a^t$
-.and empirical mean rewards $\bar\mu_a^t$.
+and empirical mean rewards $\bar\mu_a^t$.
 
 
 
 \begin{assumption}
 \label{ass:embehave}
-Let $c_m = 1/16$.\swcomment{subscript $m$ meant anything?} \jmcomment{It means a constant for some assumptions about means but nothing else. Just want to make it different from other constants. Maybe there are better notations.}. 
+Let $c_m = 1/16$.\swcomment{maybe use a better notation} 
+% \jmcomment{It means a constant for some assumptions about means but nothing else. Just want to make it different from other constants. Maybe there are better notations.}. 
 \begin{itemize}
 \item The mean reward $\mu_a$ for each arm $a\in \A$ lies in the range
   of $[1/3, 2/3]$.
@@ -87,10 +92,10 @@ Let $c_m = 1/16$.\swcomment{subscript $m$ meant anything?} \jmcomment{It means a
   arm $a$, as long as $t_a \geq c_T$,
 \[
   \left|\hat{\mu}^t_a - \bar{\mu}^t_a \right| <
-  \frac{c_m}{\sqrt{t_a}}.
+  \frac{c_m}{\sqrt{N_{t,a}}}.
 \]
-\item In the case of $t_a = 0$, the initial estimate $\hat{\mu}^t_a$
-  is at least $1/3$.
+\item In the case of $N_{t,a} = 0$, the initial estimate
+  $\hat{\mu}^t_a$ is at least $1/3$.
 \end{itemize}
 \end{assumption}
 
@@ -108,8 +113,9 @@ large.
 We allow different agents to have different behavior models as long as
 they satisfy Assumption \ref{ass:embehave}. More specifically, we
 assume each agent's behavior model is sampled from an unknown
-distribution independently.\swcomment{why independently? can be be
-  adversarial?} \jmcomment{Actually current proofs don't work when it's adversarial. It's fairly annoying for the anti-concentration argument. In the proof, we need to use independent to show that the amount of agents pulling arm $a$ in the first level is concentrated to $T_1 q_a$.}
+distribution independently.
+% \swcomment{why independently? can be be
+%   adversarial?} \jmcomment{Actually current proofs don't work when it's adversarial. It's fairly annoying for the anti-concentration argument. In the proof, we need to use independent to show that the amount of agents pulling arm $a$ in the first level is concentrated to $T_1 q_a$.}
 \begin{remark}
   how this relates to Bayesian exploration with conjugate
   priors\swcomment{seems to be something nasty}
