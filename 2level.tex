@@ -1,13 +1,43 @@
 %!TEX root = main.tex
-\section{Warm-up: 2-level Recommendation Policy}
-In this section, we are going to show a 2-level recommendation policy that gets sublinear regret.
+\section{Warm-up:  Explore-then-Exploit Policy}
+\swedit{Now we provide a simple policy that can incentivize the agents
+  to perform non-adaptive exploration and achieve a sublinear regret
+  rate. The policy essentially follows the ``explore-then-exploit''
+  paradigm and consists two phases, which can be described as a
+  two-level information graph (as shown in Figure~\ref{fig:2level}).
+  In the first level, we perform exploration by simulating $T_1$
+  independent runs \ALGG of $\GdT$ rounds. This is done by randomly
+  dividing the first $T_1 \cdot \GdT$ agents into $T_1$ groups of
+  equal size and each agent only observe the history of all previous
+  agents in the same group.  In the second level, we ``exploit'' by
+  showing all the remaining agents the entire history of first phase.
 
+  The key idea behind the policy is that the first level effectively
+  boosts the exploration probability of \ALGG. Since each run of \ALGG
+  explores all arms with constant probability (Lemma
+  \ref{lem:greedy}), by simulating multiple runs of \ALGG, we can
+  ensure that with high probability, every arm is pulled with a
+  sufficient number of times. As a result, every agent in the second
+  level will pull an arm with mean rewards close to optimal.
+
+}
+
+
+
+
+
+\iffalse
 The 2-level recommendation policy is constructed as following.
 In the first level, we run $T_1$ \ALGG of $\GdT$ rounds ``in parallel''. More specifically, we divide the first $T_1 \cdot \GdT$ agents into $T_1$ groups of equal size and agents only observe the history of all previous agents in the same group.
 In the second level, we show the rest $T-T_1\cdot \GdT$ agents the history of first $T_1 \cdot \GdT$ rounds. We will pick $T_1$ in Theorem \ref{thm:2level}. 
 See also Figure \ref{fig:2level} for a graphical view of the information flow.
 
 The idea of this 2-level recommendation policy is simple. We first try to explore all arms enough amount of times in the first level using multiple runs of \ALGG under the guarantee of Lemma \ref{lem:greedy}. After that, by concentration argument, we can show that while observing the history of the first level, agents in the second level pick an arm with mean close to the best arm's mean. 
+\fi
+
+
+
+
 
 \begin{figure}[H]
 \centering
@@ -44,13 +74,20 @@ The idea of this 2-level recommendation policy is simple. We first try to explor
   \draw[->] (11,0)--(11,3);
   \node at(11.5,1.5)[ rotate=90]{Time};
 \end{tikzpicture}
-\caption{2-level Recommendation Policy.}
+
+\caption{Structure of information graph for the 2-level policy. Each
+  red ``box'' is level 1 corresponds to a path connecting a set of
+  $T_G$ agents. The entire history in level 1 is then aggregated and
+  shown to each agent in level 2.}
 \label{fig:2level}
 \end{figure}
 
 \begin{theorem}
 \label{thm:2level}
-With proper setting of $T_1$, the 2-level recommendation policy gets expected regret $O(T^{2/3} \log(T)^{1/3})$. If we know the gap between the means of the best arm and second best arm is larger than $\Delta$, we can make the expected regret $O(\log(T) \cdot \Delta^{-2})$. 
+With proper setting of $T_1$, the 2-level policy gets expected regret
+$O(T^{2/3} \log(T)^{1/3})$. If we know the gap between the means of
+the best arm and second best arm is larger than $\Delta$, we can make
+the expected regret $O(\log(T) \cdot \Delta^{-2})$.
 \end{theorem}
 
 \begin{proof}
