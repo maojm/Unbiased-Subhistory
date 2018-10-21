@@ -64,10 +64,11 @@ arm selections. In particular, each agent $t$ has a private estimator
 that maps the revealed sub-history $H_t$ to a mean reward estimate
 $\hat{\mu}_a^t$ for every arm $a$, and the agent chooses the arm $a_t$
 with the highest estimate. The agents' private estimators are drawn
-i.i.d.~from some distribution. For any $t\in[T]$ and $a\in \A$, we
-write $N_{t, a}$ and $\bar{\mu}_a^t$ to denote the number of pulls of
-$a$ and the empirical mean reward of arm $a$ in $H_t$ respectively. If
-an arm is not pulled in $H_t$, we will let $\bar{\mu}_a^t = 0$.
+i.i.d.~from an unknown distribution. For any $t\in[T]$ and $a\in \A$,
+we write $N_{t, a}$ and $\bar{\mu}_a^t$ to denote the number of pulls
+of $a$ and the empirical mean reward of arm $a$ in $H_t$
+respectively. If an arm is not pulled in $H_t$, we will let
+$\bar{\mu}_a^t = 0$.
 
 % \swcomment{need to assume i.i.d. types}
 % We assume that for sufficiently high $t_a$, the estimate
