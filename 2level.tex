@@ -1,24 +1,25 @@
 %!TEX root = main.tex
 \section{Warm-up:  Explore-then-Exploit Policy}
 \swedit{Now we provide a simple policy that can incentivize the agents
-  to perform non-adaptive exploration and achieve a sublinear regret
-  rate. The policy essentially follows the ``explore-then-exploit''
-  paradigm and consists two phases, which can be described as a
-  two-level information graph (as shown in Figure~\ref{fig:2level}).
-  In the first level, we perform exploration by simulating $T_1$
-  independent runs \ALGG of $\GdT$ rounds. This is done by randomly
-  dividing the first $T_1 \cdot \GdT$ agents into $T_1$ groups of
-  equal size and each agent only observe the history of all previous
-  agents in the same group.  In the second level, we ``exploit'' by
-  showing all the remaining agents the entire history of first phase.
+  to perform non-adaptive exploration and achieve a regret rate of
+  $\tilde O(T^{2/3})$. The policy essentially follows the
+  ``explore-then-exploit'' paradigm and consists two phases, which can
+  be described as a two-level information graph (as shown in
+  Figure~\ref{fig:2level}).  In the first level, we perform
+  exploration by simulating $T_1$ independent runs \ALGG of $\GdT$
+  rounds. This is done by randomly dividing the first $T_1 \cdot \GdT$
+  agents into $T_1$ groups of equal size and each agent only observe
+  the history of all previous agents in the same group.  In the second
+  level, we ``exploit'' by showing all the remaining agents the entire
+  history of first phase.
 
   The key idea behind the policy is that the first level effectively
-  boosts the exploration probability of \ALGG. Since each run of \ALGG
-  explores all arms with constant probability (Lemma
-  \ref{lem:greedy}), by simulating multiple runs of \ALGG, we can
+  boosts the exploration probability of Greedy. Since each run of
+  \ALGG explores all arms with constant probability (Lemma
+  \ref{lem:greedy}), by simulating multiple runs of Greedy, we can
   ensure that with high probability, every arm is pulled with a
   sufficient number of times. As a result, every agent in the second
-  level will pull an arm with mean rewards close to optimal.
+  level will pull an arm with mean rewards close to the optimal.
 
 }
 
@@ -90,40 +91,56 @@ the best arm and second best arm is larger than $\Delta$, we can make
 the expected regret $O(\log(T) \cdot \Delta^{-2})$.
 \end{theorem}
 
+\swcomment{I think this proof should go to appendix, so I didn't do
+  too much refactoring}
+
 \begin{proof}
-We will set $T_1$ later in the proof. For now, we just need to know we will make $T_1 \geq \frac{4\GdT^2}{\GdP^2}\log(T)$. Since this recommendation policy is symmetric over arms, we wlog assume that arm 1 has the highest mean in the proof.
+  We will set $T_1$ later in the proof, depending on whether the gap
+  parameter $\Delta$ is known. For now, we just need to know we will
+  make $T_1 \geq \frac{4\GdT^2}{\GdP^2}\log(T)$. Since this policy is
+  agnostic to the indices of the arms, we assume w.l.o.g. that arm 1
+  has the highest mean.
 
-The first $T_1 \cdot \GdT$ rounds will get total regret at most $T_1 \cdot \GdT$.  We focus on bounding the regret of the rest $T - T_1 \cdot \GdT$ rounds. We consider the following two clean events. We will first bound the probability that both of them happen and then we will show that they together imply upper bounds on $|\hat{\mu}^t_a - \mu_a|$'s for any agent $t$ in the second level. Recall $\hat{\mu}^t_a$ is the estimated mean of arm $a$ by agent $t$ and agent $t$ picks the arm with the highest $\hat{\mu}^t_a$.
+  The first $T_1 \cdot \GdT$ rounds will get total regret at most
+  $T_1 \cdot \GdT$.  We focus on bounding the regret from the second
+  level of $T - T_1 \cdot \GdT$ rounds. We consider the following two
+  clean events. We will first bound the probability that both of them
+  happen and then we will show that they together imply upper bounds
+  on $|\hat{\mu}^t_a - \mu_a|$'s for any agent $t$ in the second
+  level. Recall $\hat{\mu}^t_a$ is the estimated mean of arm $a$ by
+  agent $t$ and agent $t$ picks the arm with the highest
+  $\hat{\mu}^t_a$.
 
-\begin{itemize}
-\item \textbf{Concentration of the number of arm $a$ pulls in the first level:} 
-
+% \begin{itemize}
+  \paragraph{Concentration of the number of arm $a$ pulls in the first
+    level.}
   For each arm $a$, define $q_a$ to be the expected number of arm $a$
-  pulls in one run of \ALGG used in the first level.\swcomment{$q_a$
-    probability or number?? the issue propagates downwards} 
-    \jmcomment{$q_a$ is the expected number.}
-    By Lemma
-  \ref{lem:greedy}, we know $\GdP \leq q_a \leq
-  \GdT$.\swcomment{$p_G T$?}
-  \jmcomment{$q_a$ is only for one run of greedy. Not $T_1$ runs of greedy.}
-   Define $W_1^a$ to be the event that the
-  number of arm $a$ pulls in the first level is at least
-  $q_a T_1- \GdT \sqrt{T_1\log(T)} \geq q_a T_1 / 2$.\swcomment{what
-    is the condition on $T_1$ and $T_G$ for this to hold?} 
-    \jmcomment{$\GdT$ is a constant. This holds if $T_1 = \omega(\log(T))$ and $T$ is a larger than some constant.}
-    By Chernoff
-  bound,
-\[
-\Pr[W_1^a] \geq 1-\exp(-2\log(T)) \geq 1-1/T^2.
-\]
+  pulls in a single run of \ALGG used in the first level.  By Lemma
+  \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$. Define $W_1^a$
+  to be the event that the number of arm $a$ pulls in the first level
+  is at least $q_a T_1- \GdT \sqrt{T_1\log(T)}$.  \swedit{As long as
+    we set $T_1 \geq \frac{4\GdT^2}{\GdP^2}\log(T)$, this implies that
+    the number of arm $a$ pulls is then at least $q_a T_1/2$.}  By
+  Chernoff bound,
+  \[
+    \Pr[W_1^a] \geq 1-\exp(-2\log(T)) \geq 1-1/T^2.
+  \]
 Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a}W_1^a$). By union bound, we have
 \[
 \Pr[W_1] \geq 1- \frac{K}{T^2} \geq 1 - \frac{1}{T}.
 \]
-\item  \textbf{Concentration of the empirical mean of arm $a$ pulls in the first level:}
-
-For each arm $a$, imagine there is a tape of $T$ arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agent pull arm $a$. Define $W^{a,t}_2$ to be the event that the empirical mean of the first $t$ pulls of arm $a$ is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. Define $W_2$ to be the intersection of these events (i.e. $\bigcap_{a,t} W^{a,t}_2$).
-By Chernoff bound,
+\paragraph{Concentration of the empirical mean of arm $a$ pulls in the first level.}
+To facilitate our reasoning, let us imagine there is a tape of length
+$T$ for each arm $a$, with each cell containing an independent draw of
+the realized reward from the distribution Ber$(\mu_a)$. Then for each
+arm $a$ and any $N\in [T]$, we can think of the sequence of the first
+$N$ realized rewards of $a$ coming from the prefix of $N$ cells in its
+reward tape. Define $W^{a,t}_2$ to be the event that the empirical
+mean of the first $t$ \swedit{realized rewards in the tape} of arm $a$
+is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. Define $W_2$
+to be the intersection of these events (i.e.
+$\bigcap_{a,t} W^{a,t}_2$).  By Chernoff bound,\swcomment{$t$ may be
+  confusing here}
 \[
 \Pr[W^{a,t}_2] \geq 1 - 2\exp(-4\log(T)) \geq 1-2/T^4.
 \]
@@ -131,9 +148,12 @@ By union bound,
 \[
 \Pr[W_2] \geq 1 - KT \cdot \frac{2}{T^4} \geq 1 - \frac{2}{T}.
 \]
-\end{itemize}
 
-By union bound, we know $\Pr[W_1 \cap W_2] \geq 1 - 3/T$. Now we consider the case when $W_1 \cap W_2$ happens. 
+
+
+By union bound, we know $\Pr[W_1 \cap W_2] \geq 1 - 3/T$. For the
+remainder of the analysis, we will condition on the event
+$W_1 \cap W_2$.
 
 For any arm $a$ and agent $t$ in the second level, by $W_1$ and $W_2$, we have
 \[
@@ -153,7 +173,8 @@ T_1 \cdot \GdT + T \cdot (1-\Pr[W_1 \cap W_2]) + T \cdot  6 \sqrt{\frac{\log(T)}
 \]
 By setting $T_1 = T^{2/3}\log(T)^{1/3}$, we get expected regret $O(T^{2/3}\log(T)^{1/3})$.
 
-Notice that if we know the gap between the means of the best arm and second best arm is larger than $\Delta$, we can set 
+Notice that if we know the gap parameter is known to be larger than
+$\Delta$, we can set
 \[
 T_1 = \max\left( \frac{4\GdT^2}{\GdP^2}\log(T), \frac{36 }{\Delta^2 \cdot p_G} \log(T) \right).
 \]
@@ -161,6 +182,7 @@ In this case, since $\Delta \geq 6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$, we know ag
 \[
 T_1 \cdot \GdT + T \cdot (1- \Pr[W_1 \cap W_2]) = O(\Delta^{-2} \log(T)).
 \]
+This completes the proof.
 \end{proof}
 %%% Local Variables:
 %%% mode: latex

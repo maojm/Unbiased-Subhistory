@@ -6,13 +6,12 @@ We study the mult-armed bandit problem in a social learning context,
 in which a principal faces a sequence of $T$ myopic agents. There is a
 set $\A$ of $K$ arms, and the reward from pulling an arm $a\in \A$ is
 distributed according to the Bernoulli distribution with an unknown
-mean $\mu_a$.% \swcomment{do we plan to generalize to real-valued?}  
-% \jmcomment{Probably not. We probably need some weird assumptions to make it work and we may need to change many parts of our proofs. The assumptions will be like: enough variance for anti-concentration and even more stuff for the greedy to has a small chance to work. Probably binary sound more natural and practical. And we should state something like binary should be interpreted as the feedback from the user, i.e. ``like'' or ``dislike''.}
-At each round $t\in [T]$, a new agent $t$ arrives, receives a message
-$m_t$ from the principal, chooses an arm $a_t\in \A$, and collects a
-reward $r_t\in \{0,1\}$ that is immediately observed by the
-principal. Given any sequence of arms $\{a_1, \ldots, a_T\}$ chosen by
-the agents, the \emph{regret} is defined as
+mean $\mu_a$. At each round $t\in [T]$, a new agent $t$ arrives,
+receives a message $m_t$ from the principal, chooses an arm
+$a_t\in \A$, and collects a reward $r_t\in \{0,1\}$ that is
+immediately observed by the principal. Given any sequence of arms
+$\{a_1, \ldots, a_T\}$ chosen by the agents, the \emph{regret} is
+defined as
 \[
   \reg(T)= \reg(a_1, \ldots , a_T) = T \max_{a\in \A} \mu_a -
   \sum_{t=1}^T \mu_{a_t}.
