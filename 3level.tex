@@ -27,16 +27,26 @@ history from the first two levels.
 
 They main idea for the 3-level policy is that it inserts the second
 level as an additional ``checkpoint'' to induce more adaptivity in the
-exploration. By running \ALGG in parellel, the first level ensures
-that the agents explore both arms. In the second level, agents will
-pull the best arm when $\mu_1 - \mu_2$ is large
-($\tilde{\Omega}(1/\sqrt{T_1})$). Otherwise agents will explore both
-arms more. In the third level, agents will pull the best arm unless
-$\mu_1-\mu_2$ is much smaller ($\tilde{O}(1/\sqrt{T_2})$). In the
-proof, we need not only the concentration argument as the 2-level
-recommendation policy, but also the anti-concentration argument to
-show that agents explore more in the second round if $\mu_1-\mu_2$ is
-not too big.
+exploration. While the first level ensures that the agents explore
+both arms, the second level will continue to explore both arms only if
+the rewards of the two arms are still indistinguishable (that is, when
+$|\mu_1 - \mu_2| < \tilde{O}(1/\sqrt{T_1})$). In the third level,
+agents will pull the best arm unless $|\mu_1-\mu_2|$ is much smaller
+than $\tilde{O}(1/\sqrt{T_2})$, in which case pulling either arm will
+incur small regret. The formal guarantee of the policy is the
+following.
+
+\begin{theorem}
+\label{thm:3level}
+The 3-level recommendation policy gets expected regret $O(T^{4/7} \log^{6/7}(T))$. 
+\end{theorem}
+
+
+
+In the proof, we need not only the concentration argument as the
+2-level recommendation policy, but also the anti-concentration
+argument to show that agents explore more in the second round if
+$\mu_1-\mu_2$ is not too big.
 
 
 \iffalse
@@ -61,7 +71,8 @@ unless $\mu_1-\mu_2$ is much smaller ($\tilde{O}(1/\sqrt{T_2})$). In
 the proof, we need not only the concentration argument as the 2-level
 recommendation policy, but also the anti-concentration argument to
 show that agents explore more in the second round if $\mu_1-\mu_2$ is
-not too big.  \fi
+not too big.
+\fi
 
 
 \begin{figure}[H]
@@ -104,10 +115,6 @@ not too big.  \fi
 
 
 
-\begin{theorem}
-\label{thm:3level}
-The 3-level recommendation policy gets expected regret $O(T^{4/7} \log^{6/7}(T))$. 
-\end{theorem}
 
 \begin{proof}
 Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. We do a case analysis based on $\mu_1-\mu_2$. 
