@@ -1,6 +1,7 @@
 %!TEX root = main.tex
 
 \section{$L$-level Recommendation Policy}
+\label{sec:llevel}
 In this section, we design an $L$-level recommendation policy for $L > 3$ and 2 arms. By having more than 3 levels, we get even smaller regret. 
 
 Our recommendation policy has $L$ levels and two types of groups: $G$-groups and $\Gamma$-groups. Each level has $S^2$ $G$-groups for $S = 2^{10}\log(T)$. Label the $G$-groups in the $l$-th level as $G_{l,u,v}$ for $u,v \in [S]$. Level $2$ to level $L$ also have $S^2$ $\Gamma$-groups. Label the $\Gamma$-groups in the $l$-th level as $\Gamma_{l,u,v}$ for $u,v \in [S]$. Each first-level group ($G_{1,u,v}$ for $u,v\in [S]$) has $T_1$ \ALGG of $\GdT$ rounds in parallel. For $l \geq 2$, there are $T_l$ agents in group $G_{l,u,v}$ and there are $T_l (S-1)$ agents in group $\Gamma_{l,u,v}$. We will pick $T_1,...,T_L$ in the proof of Theorem \ref{thm:llevel}.

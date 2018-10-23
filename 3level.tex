@@ -1,9 +1,12 @@
 %!TEX root = main.tex
 
-\section{3-level Recommendation Policy}
-Now we demonstrate how to design a policy to incentivize adaptive
-exploration and improve on the $O(T^{2/3})$ regret rate. For
-simplicity, we assume there are only 2 arms.
+\section{3-level Adaptive Policy}
+\label{sec:3level}
+Now we demonstrate how to design a e-level policy to incentivize
+adaptive exploration and improve on the $O(T^{2/3})$ regret rate. In
+\Cref{sec:llevel}, we will show how to extend this idea to achieve a
+regret rate of $\tilde O(T^{1/2})$. For simplicity, we will focus on
+the setting with 2 arms.
 
 The 3-level recommendation policy is constructed as following. Set $T_1 = T^{4/7}\log^{-1/7}(T)$ and $T_2 = T^{6/7}\log^{-5/7}(T)$. The first level has $S = 2^{10}\log(T)$ groups of agents. Each group runs $T_1$ \ALGG of $T_G$ rounds in parallel. The second level also has $S$ groups of agents. Each group has $T_2$ agents and they observe the history of corresponding group in the first level. All the rest agents are in the third level and they observe the entire history of the first two levels. 
 See also Figure \ref{fig:3level} for a graphical view of the information flow.
