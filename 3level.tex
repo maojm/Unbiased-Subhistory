@@ -121,6 +121,12 @@ not too big.
   there are $S$ groups in the figure?}
 
 
+\begin{lemma}[``Clean'' events]
+
+\end{lemma}
+
+
+
 
 
 \begin{proof}
@@ -129,8 +135,7 @@ Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to b
 Before we start with the case analysis, we first define several clean events and show that the intersection of them happens with high probability. 
 \begin{itemize}
 \item \textbf{Concentration of the number of arm $a$ pulls in the first level:} 
-\swcomment{can we reuse the previous result?}
-For $a \in \{1,2\}$, define $q_a$ to be the expected number of arm $a$ pulls in one run of \ALGG used in the first level. By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$. For the $s$-th first-level group, define $W_1^{a,s}$ to be the event that the number of arm $a$ pulls in the $s$-th first-level group is between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Chernoff bound,
+By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$. For the $s$-th first-level group, define $W_1^{a,s}$ to be the event that the number of arm $a$ pulls in the $s$-th first-level group is between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Chernoff bound,
 \[
 \Pr[W_1^{a,s}] \geq 1-2\exp(-2\log(T)) \geq 1-2/T^2.
 \]
