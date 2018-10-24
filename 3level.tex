@@ -98,16 +98,27 @@ not too big.
  \draw[dashed] (\x+1.2,0)--(\x+1.2,1); 
  \draw[dashed] (\x+1.6,0)--(\x+1.6,1);  
  \node at(\x+1,2.5){$T_2$};
- \node at(\x+1,0.5){$T_1 \cdot \GdT$};
+ \node at(\x+0.2, 0.5){$\GdT$};
+ \node at(\x+0.6, 0.5){$\cdot$};
+ \node at(\x+1.0, 0.5){$\cdot$};
+ \node at(\x+1.4, 0.5){$\cdot$};
+ \node at(\x+1.8, 0.5){$\GdT$};
+ %\node at(\x+1,0.5){$T_1 \cdot \GdT$}; 
+ \draw [decorate,decoration={brace,amplitude=10pt},xshift=0pt,yshift=0pt] (\x+2,-0.2) -- (\x+0,-0.2) node [black,midway,yshift=-0.6cm] {$T_1$ runs};
  }
   \node at(5,4.5){$T -S(T_1 \cdot \GdT + T_2)$};
-  \node at (6,1.5){$\cdots$};
-  \node at (7,1.5){$\cdots$};
+  \node at (6,0.5){$\cdots$};
+  \node at (7,0.5){$\cdots$};
+  \node at (6,2.5){$\cdots$};
+  \node at (7,2.5){$\cdots$};
   \node at(-1,0.5){\textbf{Level 1}};
   \node at(-1,2.5){\textbf{Level 2}};
   \node at(-1,4.5){\textbf{Levle 3}};
   \draw[->] (11,0)--(11,5);
   \node at(11.5,2.5)[ rotate=90]{Time};
+  
+  \draw [decorate,decoration={brace,amplitude=10pt,aspect=0.33},xshift=0pt,yshift=0pt] (10,1.8) -- (0,1.8) node [black,pos=0.33,xshift = 0cm,yshift=-0.6cm] {$S$ groups};
+  
 \end{tikzpicture}
 \caption{Structure of the information graph for the 3-level
   Policy. Each red box in level 1 corresponds to $T_1$ \ALGG paths of
