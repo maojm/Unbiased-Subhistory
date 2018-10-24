@@ -18,8 +18,8 @@
   \ALGG explores all arms with constant probability (Lemma
   \ref{lem:greedy}), by simulating multiple runs of Greedy, we can
   ensure that with high probability, every arm is pulled with a
-  sufficient number of times. As a result, every agent in the second
-  level will pull an arm with mean rewards close to the optimal.
+  sufficient number of times. The following Lemma follows from
+  applying Chernoff bound and union bound.
 
 }
 
@@ -93,7 +93,9 @@ The idea of this 2-level recommendation policy is simple. We first try to explor
 \end{figure}
 
 
-
+\swedit{As a result, every agent in the second level will pull an arm
+  with mean rewards close to the optimal, which gives us the following
+  regret guarantee.}
 
 
 
@@ -134,16 +136,18 @@ the expected regret $O(\log(T) \cdot \Delta^{-2})$.
 % \begin{itemize}
   \paragraph{Concentration of the number of arm $a$ pulls in the first
     level.}
-  By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$. Define
-  $W_1^a$ to be the event that the number of arm $a$ pulls in the
-  first level is at least $q_a T_1- \GdT \sqrt{T_1\log(T)}$.
+  \OMIT{By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$.}
+  Define $W_1^a$ to be the event that the number of arm $a$ pulls in
+  the first level is at least $q_a T_1- \GdT \sqrt{T_1\log(T)}$.
   \swedit{As long as we set $T_1 \geq \frac{4\GdT^2}{\GdP^2}\log(T)$,
     this implies that the number of arm $a$ pulls is then at least
-    $q_a T_1/2$.}  By Chernoff bound,
+    $q_a T_1/2$.} 
+\OMIT{  By Chernoff bound,
   \[
     \Pr[W_1^a] \geq 1-\exp(-2\log(T)) \geq 1-1/T^2.
   \]
-Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a}W_1^a$). By union bound, we have
+}
+Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a}W_1^a$). By \Cref{lem:t1runs}, we have
 \[
 \Pr[W_1] \geq 1- \frac{K}{T^2} \geq 1 - \frac{1}{T}.
 \]
