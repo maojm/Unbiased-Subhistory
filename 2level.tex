@@ -24,6 +24,15 @@
 }
 
 
+\begin{lemma}[Concentration of arm pulls]\label{lem:t1runs}
+  Consider $T_1$ indepdent runs of \ALGG of length $T_G$. Let $N_a$ be
+  the number of arm $a$ pulls among all runs. Then with probability at
+  least $1-\delta$, for all $a\in \A$,
+  \[
+    \left| N_a - q_a T_1\right| \leq T_G \sqrt{T_1 \log(2K/\delta) / 2}
+  \]
+\end{lemma}
+
 
 
 
@@ -83,6 +92,12 @@ The idea of this 2-level recommendation policy is simple. We first try to explor
 \label{fig:2level}
 \end{figure}
 
+
+
+
+
+
+
 \begin{theorem}
 \label{thm:2level}
 With proper setting of $T_1$, the 2-level policy gets expected regret
@@ -93,6 +108,11 @@ the expected regret $O(\log(T) \cdot \Delta^{-2})$.
 
 \swcomment{I think this proof should go to appendix, so I didn't do
   too much refactoring}
+
+
+
+
+
 
 \begin{proof}
   We will set $T_1$ later in the proof, depending on whether the gap
