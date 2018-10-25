@@ -44,13 +44,13 @@ The 3-level recommendation policy gets expected regret $O(T^{4/7} \log^{6/7}(T))
 
 
 
+
+\iffalse
 In the proof, we need not only the concentration argument as the
 2-level recommendation policy, but also the anti-concentration
 argument to show that agents explore more in the second round if
 $\mu_1-\mu_2$ is not too big.
 
-
-\iffalse
 Set $T_1 = T^{4/7}\log^{-1/7}(T)$ and $T_2 =
 T^{6/7}\log^{-5/7}(T)$. The first level has $S = 2^{10}\log(T)$ groups
 of agents. Each group runs $T_1$ \ALGG of $T_G$ rounds in
@@ -128,16 +128,118 @@ not too big.
   agents in level 3.}
 \label{fig:3level}
 \end{figure}
-\swcomment{check the figure caption above. can we index the indicate
-  there are $S$ groups in the figure?}
+% \swcomment{check the figure caption above. can we index the indicate
+%   there are $S$ groups in the figure?}
 
 
-\begin{lemma}[``Clean'' events]
+\subsection{Clean events}
+We will first establish four \emph{clean events} that together occur
+with probability at least $1 - O(1/T)$. The first one says that every
+group of \ALGG runs in the first level ensures that each arm $a$ is
+pulled at least $\Omega(T_1)$ times, which follows from
+Lemma~\ref{lem:t1runs} and union bound.
 
+\begin{lemma}[Concentration of first-level number of pulls.]
+  Let $W_1$ be the event that for all groups $s\in [S]$ and arms
+  $a\in \{1, 2\}$, the number of arm $a$ pulls in the $s$-th
+  first-level group is in the range of
+  $$
+  \left[q_a T_1- \GdT \sqrt{T_1\log(T)}, q_a T_1 + \GdT \sqrt{T_1\log(T)}\right],
+  $$
+  where $q_a$ is the expected number of arm $a$ pulls in a $\ALGG$ run
+  of length $T_G$. Then $\Pr[W_1] \geq 1- \frac{4S}{T^2}$.
+\end{lemma}
+
+\begin{proof}
+  For the $s$-th first-level group, define $W_1^{a,s}$ to be the event
+  that the number of arm $a$ pulls in the $s$-th first-level group is
+  between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and
+  $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Lemma~\ref{lem:t1runs}
+\[
+\Pr[W_1^{a,s}] \geq 1-2\exp(-2\log(T)) \geq 1-2/T^2.
+\]
+Let $W_1$  be the intersection of all these events (i.e.
+$W_1 = \bigcap_{a,s}W_1^{a,s}$). By union bound, we have
+\[
+\Pr[W_1] \geq 1- \frac{4S}{T^2}.
+\]
+\swcomment{let's put this in appendix.}
+\end{proof}
+
+The next two events are about the distribution of the mean rewards in
+the first level. To state the events, it will be useful to think of a
+hypothetical reward tape tape $\cT_{s, a}$ of length $T$ for each
+group $s$ and arm $a$, with each cell independently sampled from
+$\cD_a$.  The tape encodes rewards as follows: the $j$-th time arm $a$
+is chosen by the group $s$ in the first level, its reward is taken
+from the $j$-th cell in this arm’s tape. We now show the concentration
+behavior of the mean rewards across all consecutive pulls among all
+such tapes.
+
+\begin{lemma}[Concetration of empirical means]
+  For any $t_1, t_2\in [T]$ such that $t_1 < t_2$, $s\in [S]$, and
+  $a\in \{1,2\}$, let $W_2^{s,a,t_1,t_2}$ be the event that the mean
+  among the cells indexed by $t_1, (t_1+1), \ldots, t_2$ in the tape
+  $\cT_{a, s}$ is at most $\sqrt{\frac{2\log(T)}{t_2-t_1+1}}$ away
+  from $\mu_a$.  Let $W_2$ be the intersection of all these events
+  (i.e.  $W_2 = \bigcap_{a,s,t_1,t_2} W_2^{s,a,t_1,t_2}$). Then
+  \[
+    \Pr[W_2] \geq 1- \frac{4S}{T^2}.
+  \]
 \end{lemma}
 
 
+\begin{proof}
+  By Chernoff bound,
+\[
+\Pr[W_2^{s,a,t_1,t_2}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
+\]
+By union bound, we have
+\[
+\Pr[W_2] \geq 1- \frac{4S}{T^2}.
+\]
+\end{proof}
 
+
+
+\begin{lemma}[Anti-concentration of empirical means]
+  For any $s\in [S]$, any arm $a$, let $\tilde\mu_{a,s}$ be the
+  empirical mean of the first $q_a T_1$ cells in tape $\cT_{a, s}$.
+  Let $W_4^{s,a,high}$ be the event
+  $\tilde\mu_{a, s} \geq \mu_a + 1/\sqrt{q_a T_1}$ and let
+  $W_4^{s,a,low}$ be the event that
+  $\tilde\mu_{a, s} \leq \mu_a - 1/\sqrt{q_a T_1}$.  Let $W_4$ be
+  $\bigcap_a \bigcup_s (W_4^{s,a,high} \cap W_4^{s,3-a,low})$.
+  \[
+    \Pr[W_4] \geq 1- 2(1-1/16)^S \geq 1 -2 /T.
+  \]
+\end{lemma}
+
+
+\begin{proof}
+By Berry-Essen Theorem and
+  $\mu_a \in [1/3,2/3]$, we have
+\[
+\Pr[W_4^{s,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{q_aT_1}} > 1/4.
+\]
+The last inequality follows when $T$ is larger than some constant.
+Similarly we also have 
+\[
+\Pr[W_4^{s,a,low}] > 1/4.
+\]
+Since $W_4^{s,a,high}$ is independent with $W_4^{s,3-a,low}$, we have
+\[
+\Pr[W_4^{s,a,high} \cap W_4^{s,3-a,low}] =\Pr[W_4^{s,a,high}] \cdot  \Pr[W_4^{s,3-a,low}]>(1/4)^2 = 1/16.
+\]
+Notice that $(W_4^{s,a,high} \cap W_4^{s,3-a,low})$ are independent
+across different $s$'s. By union bound, we have
+\[
+\Pr[W_4] \geq 1- 2(1-1/16)^S \geq 1 -2 /T.
+\]
+\end{proof}
+
+
+\subsection{Case Analysis}
 
 
 \begin{proof}
@@ -145,16 +247,23 @@ Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to b
 
 Before we start with the case analysis, we first define several clean events and show that the intersection of them happens with high probability. 
 \begin{itemize}
+\OMIT{
 \item \textbf{Concentration of the number of arm $a$ pulls in the first level:} 
-By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$. For the $s$-th first-level group, define $W_1^{a,s}$ to be the event that the number of arm $a$ pulls in the $s$-th first-level group is between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Chernoff bound,
+\OMIT{By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$. For the $s$-th first-level group, define $W_1^{a,s}$ to be the event that the number of arm $a$ pulls in the $s$-th first-level group is between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Chernoff bound,}
+For the $s$-th first-level group, define $W_1^{a,s}$ to be the event
+that the number of arm $a$ pulls in the $s$-th first-level group is
+between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and
+$q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Lemma~\ref{lem:t1runs}
 \[
 \Pr[W_1^{a,s}] \geq 1-2\exp(-2\log(T)) \geq 1-2/T^2.
 \]
-Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a,s}W_1^{a,s}$). By union bound, we have
+Let $W_1$  be the intersection of all these events (i.e.
+$W_1 = \bigcap_{a,s}W_1^{a,s}$). By union bound, we have
 \[
 \Pr[W_1] \geq 1- \frac{4S}{T^2}.
-\]
-\item \textbf{Concentration of the empirical mean of arm $a$ pulls in the first level:}
+\]}
+
+\OMIT{\item \textbf{Concentration of the empirical mean of arm $a$ pulls in the first level:}
 For each first-level group and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in this group pull arm $a$. For the $s$-th first-level group and arm $a$, define $W_2^{s,a,t_1,t_2}$ to be the event that the mean of $t_1$-th to $t_2$-th pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t_2-t_1+1}}$ away from $\mu_a$. By Chernoff bound,\swcomment{a bit confused about what $t_1$ and $t_2$ mean?}
 \[
 \Pr[W_2^{s,a,t_1,t_2}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
@@ -164,7 +273,7 @@ Define $W_2$ to be the intersection of all these events (i.e. $W_2 = \bigcap_{a,
 \[
 \Pr[W_2] \geq 1- \frac{4S}{T^2}.
 \]
-
+}
 \item \textbf{Concentration of the empirical mean of arm $a$ pulls in the first two levels:}
 
 For all the groups in the first two levels and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in the first two levels pull arm $a$. Define $W_3^{a,t}$ to be the event that the mean of the first $t$ pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. By Chernoff bound, 
@@ -176,7 +285,7 @@ Define $W_3$ to be the intersection of all these events (i.e. $W_3 = \bigcap_{a,
 \Pr[W_3] \geq 1- \frac{4}{T^3}.
 \]
 
-\item \textbf{Anti-concentration of the empirical mean of arm $a$ pulls in the first level:}
+\OMIT{\item \textbf{Anti-concentration of the empirical mean of arm $a$ pulls in the first level:}
 
 Consider the tapes defined in the second bullet again. For the $s$-th first-level group and arm $a$, define $W_4^{s,a,high}$  to be the event that first $q_a T_1$ pulls of arm $a$ in the corresponding tape has empirical mean at least $\mu_a + 1/\sqrt{q_a T_1}$ and define  $W_4^{s,a,low}$  to be the event that first $q_a T_1$ pulls of arm $a$ in the corresponding tape has empirical mean at most $\mu_a - 1/\sqrt{q_a T_1}$. By Berry-Essen Theorem and $\mu_a \in [1/3,2/3]$, we have
 \[
@@ -194,7 +303,7 @@ Since $W_4^{s,a,high}$ is independent with $W_4^{s,3-a,low}$, we have
 Now define $W_4$ as $\bigcap_a \bigcup_s (W_4^{s,a,high} \cap W_4^{s,3-a,low})$. Notice that $(W_4^{s,a,high} \cap W_4^{s,3-a,low})$ are independent across different $s$'s. By union bound, we have
 \[
 \Pr[W_4] \geq 1- 2(1-1/16)^S \geq 1 -2 /T.
-\]
+\]}
 \end{itemize}
 
 By union bound, the intersection of these clean events (i.e. $\bigcap_{i=1}^4 W_i$) happens with probability $1-O(1/T)$. When this intersection does not happen, since the probability is $O(1/T)$, it contributes $O(1/T) \cdot T = O(1)$ to the expected regret. 

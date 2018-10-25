@@ -5,9 +5,9 @@
 We study the mult-armed bandit problem in a social learning context,
 in which a principal faces a sequence of $T$ myopic agents. There is a
 set $\A$ of $K$ arms, and the reward from pulling an arm $a\in \A$ is
-distributed according to the Bernoulli distribution with an unknown
-mean $\mu_a$. At each round $t\in [T]$, a new agent $t$ arrives,
-receives a message $m_t$ from the principal, chooses an arm
+distributed according to the Bernoulli distribution $\cD_a$ with an
+unknown mean $\mu_a$. At each round $t\in [T]$, a new agent $t$
+arrives, receives a message $m_t$ from the principal, chooses an arm
 $a_t\in \A$, and collects a reward $r_t\in \{0,1\}$ that is
 immediately observed by the principal. Given any sequence of arms
 $\{a_1, \ldots, a_T\}$ chosen by the agents, the \emph{regret} is

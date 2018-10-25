@@ -104,10 +104,8 @@ The idea of this 2-level recommendation policy is simple. We first try to explor
 
 \begin{theorem}
 \label{thm:2level}
-With proper setting of $T_1$, the 2-level policy gets expected regret
-$O(T^{2/3} \log(T)^{1/3})$. If we know the gap between the means of
-the best arm and second best arm is larger than $\Delta$, we can make
-the expected regret $O(\log(T) \cdot \Delta^{-2})$.
+By setting $T_1 = T^{2/3}\log(T)^{1/3}$, the 2-level policy gets
+expected regret $O(T^{2/3} \log(T)^{1/3})$.
 \end{theorem}
 
 \swcomment{I think this proof should go to appendix, so I didn't do
@@ -158,14 +156,14 @@ Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a}
 each arm $a$ is close to the true mean. To facilitate our reasoning,
 let us imagine there is a tape of length $T$ for each arm $a$, with
 each cell containing an independent draw of the realized reward from
-the distribution Ber$(\mu_a)$. Then for each arm $a$ and any
-$N\in [T]$, we can think of the sequence of the first $N$ realized
-rewards of $a$ coming from the prefix of $N$ cells in its reward
-tape. Define $W^{a,t}_2$ to be the event that the empirical mean of
-the first $t$ \swedit{realized rewards in the tape} of arm $a$ is at
-most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. Define $W_2$ to be
-the intersection of these events (i.e.  $\bigcap_{a,t} W^{a,t}_2$).
-By Chernoff bound,\swcomment{$t$ may be confusing here}
+the distribution $\cD_a$. Then for each arm $a$ and any $N\in [T]$, we
+can think of the sequence of the first $N$ realized rewards of $a$
+coming from the prefix of $N$ cells in its reward tape. Define
+$W^{a,t}_2$ to be the event that the empirical mean of the first $t$
+\swedit{realized rewards in the tape} of arm $a$ is at most
+$\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. Define $W_2$ to be the
+intersection of these events (i.e.  $\bigcap_{a,t} W^{a,t}_2$).  By
+Chernoff bound,\swcomment{$t$ may be confusing here}
 \[
 \Pr[W^{a,t}_2] \geq 1 - 2\exp(-4\log(T)) \geq 1-2/T^4.
 \]
@@ -197,8 +195,7 @@ So the second-level agents will pick an arm $a$ which has $\mu_a$ at most $6 \sq
 T_1 \cdot \GdT + T \cdot (1-\Pr[W_1 \cap W_2]) + T \cdot  6 \sqrt{\frac{\log(T)}{\GdP T_1 }}.
 \]
 By setting $T_1 = T^{2/3}\log(T)^{1/3}$, we get expected regret $O(T^{2/3}\log(T)^{1/3})$.
-
-Notice that if we know the gap parameter is known to be larger than
+\OMIT{Notice that if we know the gap parameter is known to be larger than
 $\Delta$, we can set
 \[
 T_1 = \max\left( \frac{4\GdT^2}{\GdP^2}\log(T), \frac{36 }{\Delta^2 \cdot p_G} \log(T) \right).
@@ -207,8 +204,17 @@ In this case, since $\Delta \geq 6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$, we know ag
 \[
 T_1 \cdot \GdT + T \cdot (1- \Pr[W_1 \cap W_2]) = O(\Delta^{-2} \log(T)).
 \]
-This completes the proof.
+This completes the proof.}
 \end{proof}
+
+
+\begin{remark}
+  If the gap parameter $\Delta$ is known to the principal, we can set
+  $T_1 = \max\left( \frac{4\GdT^2}{\GdP^2}\log(T), \frac{36 }{\Delta^2
+      \cdot p_G} \log(T) \right)$, and achieves an expected regret of
+  $O(\log(T) \cdot \Delta^{-2})$.
+\end{remark}
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "main"
