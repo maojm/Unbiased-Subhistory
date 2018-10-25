@@ -155,8 +155,7 @@ Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a,
 \Pr[W_1] \geq 1- \frac{4S}{T^2}.
 \]
 \item \textbf{Concentration of the empirical mean of arm $a$ pulls in the first level:}
-\swcomment{reusable?}
-For each first-level group and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in this group pull arm $a$. For the $s$-th first-level group and arm $a$, define $W_2^{s,a,t_1,t_2}$ to be the event that the mean of $t_1$-th to $t_2$-th pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t_2-t_1+1}}$ away from $\mu_a$. By Chernoff bound, 
+For each first-level group and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in this group pull arm $a$. For the $s$-th first-level group and arm $a$, define $W_2^{s,a,t_1,t_2}$ to be the event that the mean of $t_1$-th to $t_2$-th pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t_2-t_1+1}}$ away from $\mu_a$. By Chernoff bound,\swcomment{a bit confused about what $t_1$ and $t_2$ mean?}
 \[
 \Pr[W_2^{s,a,t_1,t_2}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
 \]

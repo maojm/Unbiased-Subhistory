@@ -136,9 +136,9 @@ the expected regret $O(\log(T) \cdot \Delta^{-2})$.
   $\hat{\mu}^t_a$.
 
 % \begin{itemize}
-  \paragraph{Concentration of the number of arm $a$ pulls in the first
+  \OMIT{\paragraph{Concentration of the number of arm $a$ pulls in the first
     level.}
-  \OMIT{By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$.}
+By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$.}
   Define $W_1^a$ to be the event that the number of arm $a$ pulls in
   the first level is at least $q_a T_1- \GdT \sqrt{T_1\log(T)}$.
   \swedit{As long as we set $T_1 \geq \frac{4\GdT^2}{\GdP^2}\log(T)$,
@@ -149,22 +149,23 @@ the expected regret $O(\log(T) \cdot \Delta^{-2})$.
     \Pr[W_1^a] \geq 1-\exp(-2\log(T)) \geq 1-1/T^2.
   \]
 }
-Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a}W_1^a$). By \Cref{lem:t1runs}, we have
+Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a}W_1^a$). By Lemma~\ref{lem:t1runs}, we have
 \[
 \Pr[W_1] \geq 1- \frac{K}{T^2} \geq 1 - \frac{1}{T}.
 \]
-\paragraph{Concentration of the empirical mean of arm $a$ pulls in the first level.}
-To facilitate our reasoning, let us imagine there is a tape of length
-$T$ for each arm $a$, with each cell containing an independent draw of
-the realized reward from the distribution Ber$(\mu_a)$. Then for each
-arm $a$ and any $N\in [T]$, we can think of the sequence of the first
-$N$ realized rewards of $a$ coming from the prefix of $N$ cells in its
-reward tape. Define $W^{a,t}_2$ to be the event that the empirical
-mean of the first $t$ \swedit{realized rewards in the tape} of arm $a$
-is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. Define $W_2$
-to be the intersection of these events (i.e.
-$\bigcap_{a,t} W^{a,t}_2$).  By Chernoff bound,\swcomment{$t$ may be
-  confusing here}
+\OMIT{\paragraph{Concentration of the empirical mean of arm $a$ pulls
+    in the first level.}}  Next, we show that the empirical mean of
+each arm $a$ is close to the true mean. To facilitate our reasoning,
+let us imagine there is a tape of length $T$ for each arm $a$, with
+each cell containing an independent draw of the realized reward from
+the distribution Ber$(\mu_a)$. Then for each arm $a$ and any
+$N\in [T]$, we can think of the sequence of the first $N$ realized
+rewards of $a$ coming from the prefix of $N$ cells in its reward
+tape. Define $W^{a,t}_2$ to be the event that the empirical mean of
+the first $t$ \swedit{realized rewards in the tape} of arm $a$ is at
+most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. Define $W_2$ to be
+the intersection of these events (i.e.  $\bigcap_{a,t} W^{a,t}_2$).
+By Chernoff bound,\swcomment{$t$ may be confusing here}
 \[
 \Pr[W^{a,t}_2] \geq 1 - 2\exp(-4\log(T)) \geq 1-2/T^4.
 \]
