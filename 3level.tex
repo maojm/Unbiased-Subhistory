@@ -260,9 +260,10 @@ their pulls.
 
 \begin{lemma}
   With probability at least $1 - \frac{4}{T^3}$, the following event
-  $W_3$ holds: for all $a\in \{1, 2\}$ and $t\in [T]$, the empirical
-  means of the first $t$ arm $a$ pulls is at most
-  $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$.
+  $W_3$ holds: for all $a\in \{1, 2\}$ and $m \in [N_{T, a}]$, the
+  empirical means of the first $t$ arm $a$ pulls is at most
+  $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$, where $N_{T, a}$ is
+  the total number of arm $a$ pulls by the end of $T$ rounds.
 \end{lemma}
 
 \swcomment{might want to swap out $W_3$ and $W_4$}
