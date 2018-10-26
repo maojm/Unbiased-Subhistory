@@ -168,19 +168,20 @@ $W_1 = \bigcap_{a,s}W_1^{a,s}$). By union bound, we have
 
 The next two events are about the distribution of the mean rewards in
 the first level. To state the events, it will be useful to think of a
-hypothetical reward tape tape $\cT_{s, a}$ of length $T$ for each
+hypothetical reward tape tape $\cT^1_{s, a}$ of length $T$ for each
 group $s$ and arm $a$, with each cell independently sampled from
 $\cD_a$.  The tape encodes rewards as follows: the $j$-th time arm $a$
 is chosen by the group $s$ in the first level, its reward is taken
-from the $j$-th cell in this arm’s tape. We now show the concentration
-behavior of the mean rewards across all consecutive pulls among all
-such tapes.
+from the $j$-th cell in this arm’s tape. The following result
+characterizes the concentration of the mean rewards among all
+consecutive pulls among all such tapes, which follows from Chernoff
+bound and union bound.
 
-\begin{lemma}[Concetration of empirical means]
+\begin{lemma}[Concetration of empirical means in the first level]
   For any $t_1, t_2\in [T]$ such that $t_1 < t_2$, $s\in [S]$, and
   $a\in \{1,2\}$, let $W_2^{s,a,t_1,t_2}$ be the event that the mean
   among the cells indexed by $t_1, (t_1+1), \ldots, t_2$ in the tape
-  $\cT_{a, s}$ is at most $\sqrt{\frac{2\log(T)}{t_2-t_1+1}}$ away
+  $\cT^1_{a, s}$ is at most $\sqrt{\frac{2\log(T)}{t_2-t_1+1}}$ away
   from $\mu_a$.  Let $W_2$ be the intersection of all these events
   (i.e.  $W_2 = \bigcap_{a,s,t_1,t_2} W_2^{s,a,t_1,t_2}$). Then
   \[
@@ -188,7 +189,7 @@ such tapes.
   \]
 \end{lemma}
 
-
+\OMIT{
 \begin{proof}
   By Chernoff bound,
 \[
@@ -199,26 +200,36 @@ By union bound, we have
 \Pr[W_2] \geq 1- \frac{4S}{T^2}.
 \]
 \end{proof}
+}
+
+Our policy also relies on the anti-concentration of the empirical
+means in the first round. We show that for each arm $a\in \{1, 2\}$,
+there exists a group $s_a$ such that the empirical mean of $a$ is
+slightly above $\mu_a$, while the other arm $(3 - a)$ has empirical
+mean slightly below $\mu_{(3-a)}$. This event is crucial for making
+the agents in the second level to explore both arms when the their
+mean rewards are indistinguishable after the first level.
 
 
-
-\begin{lemma}[Anti-concentration of empirical means]
-  For any $s\in [S]$, any arm $a$, let $\tilde\mu_{a,s}$ be the
-  empirical mean of the first $q_a T_1$ cells in tape $\cT_{a, s}$.
+\begin{lemma}[High and low deviations for the arms]
+  For any group $s\in [S]$, any arm $a$, let $\tilde\mu_{a,s}$ be the
+  empirical mean of the first $q_a T_1$ cells in tape $\cT^1_{a, s}$.
   Let $W_4^{s,a,high}$ be the event
   $\tilde\mu_{a, s} \geq \mu_a + 1/\sqrt{q_a T_1}$ and let
   $W_4^{s,a,low}$ be the event that
-  $\tilde\mu_{a, s} \leq \mu_a - 1/\sqrt{q_a T_1}$.  Let $W_4$ be
-  $\bigcap_a \bigcup_s (W_4^{s,a,high} \cap W_4^{s,3-a,low})$.
+  $\tilde\mu_{a, s} \leq \mu_a - 1/\sqrt{q_a T_1}$.  Let $W_4$ be the
+  event that for every $a\in \{1, 2\}$, there exists a group
+  $s_a\in [S]$ in the first level such that both $W_4^{s_a,a,high}$
+  and $W_4^{s_a,3-a,low}$ occur. Then
   \[
-    \Pr[W_4] \geq 1- 2(1-1/16)^S \geq 1 -2 /T.
+    \Pr[W_4]\geq 1 -2 /T.
   \]
 \end{lemma}
 
 
 \begin{proof}
 By Berry-Essen Theorem and
-  $\mu_a \in [1/3,2/3]$, we have
+  $\mu_a \in [1/3,2/3]$, we have for any $a$,
 \[
 \Pr[W_4^{s,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{q_aT_1}} > 1/4.
 \]
@@ -239,6 +250,36 @@ across different $s$'s. By union bound, we have
 \end{proof}
 
 
+
+Lastly, we will condition on the event that the empirical means of
+both arms to be concentrated around their true means in any prefix of
+their pulls.
+% We will again state the event using a hypothetical reward tape
+% $\cT^2_a$ for each arm $a$: the $j$-th time arm $a$ is chosen in the
+% two levels, its reward is taken from the $j$-th cell in $\cT^2_a$.
+
+\begin{lemma}
+  With probability at least $1 - \frac{4}{T^3}$, the following event
+  $W_3$ holds: for all $a\in \{1, 2\}$ and $t\in [T]$, the empirical
+  means of the first $t$ arm $a$ pulls is at most
+  $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$.
+\end{lemma}
+
+\swcomment{might want to swap out $W_3$ and $W_4$}
+
+
+\OMIT{\begin{proof}
+By Chernoff bound,
+\[
+\Pr[W_3^{a,t}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
+\]
+By union bound, we have
+\[
+\Pr[W_3] \geq 1- \frac{4}{T^3}.
+\]
+\end{proof}}
+
+
 \subsection{Case Analysis}
 
 
@@ -246,8 +287,9 @@ across different $s$'s. By union bound, we have
 Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. We do a case analysis based on $\mu_1-\mu_2$. 
 
 Before we start with the case analysis, we first define several clean events and show that the intersection of them happens with high probability. 
-\begin{itemize}
 \OMIT{
+\begin{itemize}
+
 \item \textbf{Concentration of the number of arm $a$ pulls in the first level:} 
 \OMIT{By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$. For the $s$-th first-level group, define $W_1^{a,s}$ to be the event that the number of arm $a$ pulls in the $s$-th first-level group is between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Chernoff bound,}
 For the $s$-th first-level group, define $W_1^{a,s}$ to be the event
@@ -274,7 +316,7 @@ Define $W_2$ to be the intersection of all these events (i.e. $W_2 = \bigcap_{a,
 \Pr[W_2] \geq 1- \frac{4S}{T^2}.
 \]
 }
-\item \textbf{Concentration of the empirical mean of arm $a$ pulls in the first two levels:}
+\OMIT{\item \textbf{Concentration of the empirical mean of arm $a$ pulls in the first two levels:}
 
 For all the groups in the first two levels and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in the first two levels pull arm $a$. Define $W_3^{a,t}$ to be the event that the mean of the first $t$ pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. By Chernoff bound, 
 \[
@@ -284,7 +326,7 @@ Define $W_3$ to be the intersection of all these events (i.e. $W_3 = \bigcap_{a,
 \[
 \Pr[W_3] \geq 1- \frac{4}{T^3}.
 \]
-
+}
 \OMIT{\item \textbf{Anti-concentration of the empirical mean of arm $a$ pulls in the first level:}
 
 Consider the tapes defined in the second bullet again. For the $s$-th first-level group and arm $a$, define $W_4^{s,a,high}$  to be the event that first $q_a T_1$ pulls of arm $a$ in the corresponding tape has empirical mean at least $\mu_a + 1/\sqrt{q_a T_1}$ and define  $W_4^{s,a,low}$  to be the event that first $q_a T_1$ pulls of arm $a$ in the corresponding tape has empirical mean at most $\mu_a - 1/\sqrt{q_a T_1}$. By Berry-Essen Theorem and $\mu_a \in [1/3,2/3]$, we have
@@ -303,8 +345,8 @@ Since $W_4^{s,a,high}$ is independent with $W_4^{s,3-a,low}$, we have
 Now define $W_4$ as $\bigcap_a \bigcup_s (W_4^{s,a,high} \cap W_4^{s,3-a,low})$. Notice that $(W_4^{s,a,high} \cap W_4^{s,3-a,low})$ are independent across different $s$'s. By union bound, we have
 \[
 \Pr[W_4] \geq 1- 2(1-1/16)^S \geq 1 -2 /T.
-\]}
-\end{itemize}
+\]
+\end{itemize}}
 
 By union bound, the intersection of these clean events (i.e. $\bigcap_{i=1}^4 W_i$) happens with probability $1-O(1/T)$. When this intersection does not happen, since the probability is $O(1/T)$, it contributes $O(1/T) \cdot T = O(1)$ to the expected regret. 
 
