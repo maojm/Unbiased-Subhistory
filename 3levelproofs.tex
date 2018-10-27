@@ -1,0 +1,116 @@
+\section{Missing proofs from Section~\ref{sec:3level}}
+
+\subsection{Clean Events}
+
+
+\begin{proof}[Proof of Lemma~\ref{3levelw1}]
+  For the $s$-th first-level group, define $W_1^{a,s}$ to be the event
+  that the number of arm $a$ pulls in the $s$-th first-level group is
+  between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and
+  $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Lemma~\ref{lem:t1runs}
+\[
+\Pr[W_1^{a,s}] \geq 1-2\exp(-2\log(T)) \geq 1-2/T^2.
+\]
+Let $W_1$  be the intersection of all these events (i.e.
+$W_1 = \bigcap_{a,s}W_1^{a,s}$). By union bound, we have
+\[
+\Pr[W_1] \geq 1- \frac{4S}{T^2}.
+\]
+\swcomment{let's put this in appendix.}
+\end{proof}
+
+
+
+\begin{proof}[Proof of Lemma~\ref{3levelw2}]
+  By Chernoff bound,
+\[
+\Pr[W_2^{s,a,t_1,t_2}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
+\]
+By union bound, we have
+\[
+\Pr[W_2] \geq 1- \frac{4S}{T^2}.
+\]
+\end{proof}
+
+
+\begin{proof}[Proof of Lemma~\ref{3levelw4}]
+By Berry-Essen Theorem and
+  $\mu_a \in [1/3,2/3]$, we have for any $a$,
+\[
+\Pr[W_4^{s,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{q_aT_1}} > 1/4.
+\]
+The last inequality follows when $T$ is larger than some constant.
+Similarly we also have 
+\[
+\Pr[W_4^{s,a,low}] > 1/4.
+\]
+Since $W_4^{s,a,high}$ is independent with $W_4^{s,3-a,low}$, we have
+\[
+\Pr[W_4^{s,a,high} \cap W_4^{s,3-a,low}] =\Pr[W_4^{s,a,high}] \cdot  \Pr[W_4^{s,3-a,low}]>(1/4)^2 = 1/16.
+\]
+Notice that $(W_4^{s,a,high} \cap W_4^{s,3-a,low})$ are independent
+across different $s$'s. By union bound, we have
+\[
+\Pr[W_4] \geq 1- 2(1-1/16)^S \geq 1 -2 /T.
+\]
+\end{proof}
+
+
+
+\begin{proof}[Proof of Lemma~\ref{3levelw3}]
+By Chernoff bound,
+\[
+\Pr[W_3^{a,t}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
+\]
+By union bound, we have
+\[
+\Pr[W_3] \geq 1- \frac{4}{T^3}.
+\]
+\end{proof}
+
+\subsection{Case Analysis under Clean Events}
+
+\begin{proof}[Proof of Lemma~\ref{3levelbigcase}]
+  For each $s$-th first-level group and arm $a$, define
+  $\bar{\mu}_a^{1,s}$ to be the empirical mean of arm $a$ pulls in
+  this group. $W_1^{a,s}$, $W_2^{a,s,1,t}$ for
+  $ = q_a T_1- \GdT \sqrt{T_1\log(T)},...,q_a T_1- \GdT
+  \sqrt{T_1\log(T)}$ together imply that
+\[
+|\bar{\mu}_a^{1,s} - \mu_a| \leq \sqrt{\frac{2\log(T)}{q_a T_1- \GdT \sqrt{T_1\log(T)}}} \leq \sqrt{\frac{4\log(T)}{q_a T_1}}.
+\]
+The last inequality holds as long as $T$ is larger than some
+constant. This implies that
+\[
+\bar{\mu}_1^{1,s} - \bar{\mu}_2^{1,s} \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{q_1T_1}} - \sqrt{\frac{4\log(T)}{q_2T_1}} \geq  \sqrt{\frac{4\log(T)}{q_1T_1}} + \sqrt{\frac{4\log(T)}{q_2T_1}}.
+\]
+
+
+For each arm $a$, define $\bar{\mu}_a$ to be the empirical mean of arm
+$a$ pulls in the first two levels. $W_1^{a,s}$ for $s=1,...,S$ and
+$W_3^{a,t}$ for $t \geq (q_a T_1- \GdT \sqrt{T_1\log(T)})S$ together
+imply that
+\[
+|\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{S\left(q_a T_1- \GdT \sqrt{T_1\log(T)}\right)}} \leq \sqrt{\frac{4\log(T)}{S q_a T_1}} .
+\]
+The last inequality holds when $T$ is larger than some constant.
+
+For any agent $t$ in the $s$-th second-level group, by Assumption \ref{ass:embehave}, we have
+\begin{align*}
+\hat{\mu}_1^t - \hat{\mu}_2^t &>\bar{\mu}_1^{1,s} - \bar{\mu}_2^{1,s} - \frac{c_m}{\sqrt{q_1T_1/2}} - \frac{c_m}{\sqrt{q_2T_1/2}}\\
+&\geq  \sqrt{\frac{4\log(T)}{q_1T_1}} + \sqrt{\frac{4\log(T)}{q_2T_1}}- \frac{c_m}{\sqrt{q_1T_1/2}} - \frac{c_m}{\sqrt{q_2T_1/2}} > 0
+\end{align*}
+Therefore, we know agents in the $s$-th second-level group will all pull arm 1.
+
+Now consider the agents in the third level group. Recall $\bar{\mu}_a$
+is the empirical mean of arm $a$ in the history they see. We have
+\[
+\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{Sq_1T_1}} - \sqrt{\frac{4\log(T)}{Sq_2T_1}} \geq  \sqrt{\frac{4\log(T)}{q_1T_1}} 
++ \sqrt{\frac{4\log(T)}{q_2T_1}}.
+\]
+Similarly as above, by Assumption \ref{ass:embehave}, we know
+$\hat{\mu}_1^t - \hat{\mu}_2^t > 0$ for any agent $t$ in the third
+level. Therefore, the agents in the third-level group will all pull
+arm 1.  \OMIT{Therefore the expected regret is at most
+  $S T_G T_1 = O(T^{4/7} \log^{6/7}(T))$.}
+\end{proof}
