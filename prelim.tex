@@ -2,7 +2,8 @@
 \section{Preliminaries}
 \label{sec:prelim}
 
-We use the following  concentration and anti-concentration inequalities.
+We use the following  concentration and anti-concentration inequalities. \niedit{The concentration bound is the standard Chernoff bound which shows that sums of independent random variables converge to their expectation quickly.  The anti-concentration bound is the Berry-Esseen theorem which shows that the CDF of an appropriately scaled average of i.i.d.\ random variables converges to the CDF of the standard normal distribution pointwise.}
+
 \begin{theorem}[Chernoff Bound]
 Let $X_1,...,X_n$  be independent random variables such that $X_i \in [0,1]$ for all $i$. Let $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$ denote their empirical mean. Then
 \[
@@ -10,7 +11,7 @@ Let $X_1,...,X_n$  be independent random variables such that $X_i \in [0,1]$ for
 \]
 \end{theorem}
 
-\begin{theorem}[Berry-Essen Theorem]
+\begin{theorem}[Berry-Esseen Theorem]
 Let $X_1,...,X_n$ be i.i.d. variables with $\E[ (X_1 - \E[X_1])^2] = \sigma^2 >0$ and $\E[ |X_1 - \E[X_1]|^3] =\rho <\infty$. Let $\bar{X} = \frac{1}{n} \sum_{i=1}^n X_i$. Let $F_n$ be the cumulative distribution function of $\frac{(\bar{X} - \E[\bar{X}]) \sqrt{n}}{\sigma}$ and $\Phi$ be the cumulative distribution function of the standard normal distribution. For all $x$ and $n$,
 \[
 |F_n(x) - \Phi(x) | \leq \frac{\rho}{2\sigma^3\sqrt{n}}.
