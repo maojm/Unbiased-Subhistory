@@ -234,8 +234,8 @@ $O(1/T) \cdot T = O(1)$, so it suffices to bound the regret under $W$.
 We now proceed to bound the regret conditioned on all four clean
 events defined above occur. Without loss of generality, we assume
 $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both
-arms. We break down the regret analysis into 4 cases on the scale of
-the gap parameter $\Delta = (\mu_1-\mu_2)$.
+arms. We break down the regret analysis into three cases on the scale
+of the gap parameter $\Delta = (\mu_1-\mu_2)$.
 
 
 We will start with the simplest case where the gap is smaller than
@@ -262,9 +262,19 @@ true means.
 \end{lemma}
 
 
-The analysis becomes more challenging when the gap is neither too
+The intermediate case more challenging since the gap is neither too
 small to have negligible effect on regret nor too big to make the arms
 distinguishable after the first level.
+
+
+\begin{lemma}[Intermediate gap case]\label{3levelmidcase}
+  All agents pull arm 1 in the third level, when $\Delta$ satisfies
+  \[
+    \Delta\in \left( 3\sqrt{\frac{2\log(T)}{T_2}},
+      2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} +
+        \sqrt{\frac{4\log(T)}{q_2T_1}}\right) \right)
+  \]
+\end{lemma}
 
 
 
@@ -336,7 +346,7 @@ Now define $W_4$ as $\bigcap_a \bigcup_s (W_4^{s,a,high} \cap W_4^{s,3-a,low})$.
 
 By union bound, the intersection of these clean events (i.e. $\bigcap_{i=1}^4 W_i$) happens with probability $1-O(1/T)$. When this intersection does not happen, since the probability is $O(1/T)$, it contributes $O(1/T) \cdot T = O(1)$ to the expected regret. 
 
-Now we assume the intersection of clean events happens and we summarize what these clean events imply.}
+Now we assume the intersection of clean events happens and we summarize what these clean events imply.
 
 \begin{itemize}
 \item For the $s$-th first-level group and arm $a$, define $\bar{\mu}_a^{1,s}$ to be the empirical mean of arm $a$ pulls in this group. $W_1^{a,s}$, $W_2^{a,s,1,t}$ for $ = q_a T_1- \GdT \sqrt{T_1\log(T)},...,q_a T_1- \GdT \sqrt{T_1\log(T)}$ together imply that
@@ -366,11 +376,12 @@ Similarly, we also have
 \bar{\mu}_{3-a} ^{1,s_a} < \mu_{3-a}   - \frac{1}{4\sqrt{q_{3-a} T_1}}.
 \]
 \end{itemize}
-
+}
 Finally we proceed to the case analysis. We give upper bounds on the expected regret conditioned on the intersection of clean events.
 
-\begin{itemize}
 \OMIT{
+\begin{itemize}
+
 \item $\mu_1 - \mu_2 \geq 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
 + \sqrt{\frac{4\log(T)}{q_2T_1}}\right)$. In this case, we want to show that agents in the second and the third levels all pull arm 1. 
 
@@ -392,7 +403,7 @@ Now consider the agents in the third level group. Recall $\bar{\mu}_a$ is the em
 + \sqrt{\frac{4\log(T)}{q_2T_1}}.
 \]
 Similarly as above, by Assumption \ref{ass:embehave}, we know $\hat{\mu}_1^t - \hat{\mu}_2^t > 0$ for any agent $t$ in the third level. So we know agents in the third-level group will all pull arm 1. Therefore the expected regret is at most $S T_G T_1 = O(T^{4/7} \log^{6/7}(T))$. 
-}
+
 
 \item $2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} 
 + \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \leq \mu_1-\mu_2 < 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
@@ -441,11 +452,11 @@ Therefore the expected regret is at most
 + \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \leq O(T^{4/7} \log^{6/7}(T))
 \]
 
-\OMIT{
-\item $\mu_1 - \mu_2 \leq 3\sqrt{\frac{2\log(T)}{T_2}}$. This is the easy case. Even always pulling the sub-optimal arm (i.e. arm 2) gives regret at most $T \cdot (\mu_1-\mu_2) = O(T^{4/7} \log^{6/7}(T))$. 
-}
-\end{itemize}
 
+\item $\mu_1 - \mu_2 \leq 3\sqrt{\frac{2\log(T)}{T_2}}$. This is the easy case. Even always pulling the sub-optimal arm (i.e. arm 2) gives regret at most $T \cdot (\mu_1-\mu_2) = O(T^{4/7} \log^{6/7}(T))$. 
+
+\end{itemize}
+}
 \end{proof}
 
 %%% Local Variables:
