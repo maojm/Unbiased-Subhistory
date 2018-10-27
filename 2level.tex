@@ -3,29 +3,29 @@
 \swedit{Now we provide a simple policy that can incentivize the agents
   to perform non-adaptive exploration and achieve a regret rate of
   $\tilde O(T^{2/3})$. The policy essentially follows the
-  ``explore-then-exploit'' paradigm and consists two phases, which can
+  ``explore-then-exploit'' paradigm and consists of two phases, which can
   be described as a two-level information graph (as shown in
   Figure~\ref{fig:2level}).  In the first level, we perform
-  exploration by simulating $T_1$ independent runs \ALGG of $\GdT$
+  exploration by simulating $T_1$ independent runs of \ALGG of $\GdT$
   rounds. This is done by randomly dividing the first $T_1 \cdot \GdT$
-  agents into $T_1$ groups of equal size and each agent only observe
+  agents into $T_1$ groups of equal size and allowing each agent to only observe
   the history of all previous agents in the same group.  In the second
   level, we ``exploit'' by showing all the remaining agents the entire
   history of first phase.
 
   The key idea behind the policy is that the first level effectively
-  boosts the exploration probability of Greedy. Since each run of
+  boosts the exploration probability of \ALGG. Since each run of
   \ALGG explores all arms with constant probability (Lemma
-  \ref{lem:greedy}), by simulating multiple runs of Greedy, we can
-  ensure that with high probability, every arm is pulled with a
-  sufficient number of times. The following Lemma follows from
-  applying Chernoff bound and union bound.
+  \ref{lem:greedy}), by simulating multiple runs of \ALGG, we can
+  ensure that with high probability, every arm is pulled a
+  sufficient number of times. The below lemma follows from
+  concentration bounds.
 
-}
+} \nicomment{there was a proof of this once; i remember checking it. if it still exists, let's throw it in an appendix.}
 
 
 \begin{lemma}[Concentration of arm pulls]\label{lem:t1runs}
-  Consider $T_1$ indepdent runs of \ALGG of length $T_G$. Let $N_a$ be
+  Consider $T_1$ indepdent runs of \ALGG of $T_G$ rounds. Let $N_a$ be
   the number of arm $a$ pulls among all runs. Then with probability at
   least $1-\delta$, for all $a\in \A$,
   \[
@@ -96,7 +96,7 @@ The idea of this 2-level recommendation policy is simple. We first try to explor
 
 
 \swedit{As a result, every agent in the second level will pull an arm
-  with mean rewards close to the optimal, which gives us the following
+  with mean reward close to the optimal, which gives us the following
   regret guarantee.}
 
 
@@ -109,7 +109,7 @@ expected regret $O(T^{2/3} \log(T)^{1/3})$.
 \end{theorem}
 
 \swcomment{I think this proof should go to appendix, so I didn't do
-  too much refactoring}
+  too much refactoring} \nicomment{I read this last week and talked to jieming about it; seemed right but a bit messy, but since it's going in an appendix i won't re-read/edit it now.}
 
 
 
@@ -126,7 +126,7 @@ expected regret $O(T^{2/3} \log(T)^{1/3})$.
   The first $T_1 \cdot \GdT$ rounds will get total regret at most
   $T_1 \cdot \GdT$.  We focus on bounding the regret from the second
   level of $T - T_1 \cdot \GdT$ rounds. We consider the following two
-  clean events. We will first bound the probability that both of them
+   events. We will first bound the probability that both of them
   happen and then we will show that they together imply upper bounds
   on $|\hat{\mu}^t_a - \mu_a|$'s for any agent $t$ in the second
   level. Recall $\hat{\mu}^t_a$ is the estimated mean of arm $a$ by
@@ -211,7 +211,7 @@ This completes the proof.}
 \begin{remark}
   If the gap parameter $\Delta$ is known to the principal, we can set
   $$T_1 = \max\left( \frac{4\GdT^2}{\GdP^2}\log(T), \frac{36 }{\Delta^2
-      \cdot p_G} \log(T) \right)$$, and achieves an expected regret of
+      \cdot p_G} \log(T) \right),$$ and achieve an expected regret of
   $O(\log(T) \cdot \Delta^{-2})$.
 \end{remark}
 
