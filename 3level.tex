@@ -1,6 +1,6 @@
 %!TEX root = main.tex
 
-\section{3-level Adaptive Policy}
+\section{Adaptive Policy with Three Levels}
 \label{sec:3level}
 \swcomment{rewrote below}
 Now we demonstrate how to design a 3-level policy to incentivize
@@ -139,7 +139,7 @@ group of \ALGG runs in the first level ensures that each arm $a$ is
 pulled at least $\Omega(T_1)$ times, which follows from
 Lemma~\ref{lem:t1runs} and union bound.
 
-\begin{lemma}[Concentration of first-level number of pulls.]
+\begin{lemma}[Concentration of first-level number of pulls.]\label{3levelw1}
   Let $W_1$ be the event that for all groups $s\in [S]$ and arms
   $a\in \{1, 2\}$, the number of arm $a$ pulls in the $s$-th
   first-level group is in the range of
@@ -150,21 +150,6 @@ Lemma~\ref{lem:t1runs} and union bound.
   of length $T_G$. Then $\Pr[W_1] \geq 1- \frac{4S}{T^2}$.
 \end{lemma}
 
-\begin{proof}
-  For the $s$-th first-level group, define $W_1^{a,s}$ to be the event
-  that the number of arm $a$ pulls in the $s$-th first-level group is
-  between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and
-  $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Lemma~\ref{lem:t1runs}
-\[
-\Pr[W_1^{a,s}] \geq 1-2\exp(-2\log(T)) \geq 1-2/T^2.
-\]
-Let $W_1$  be the intersection of all these events (i.e.
-$W_1 = \bigcap_{a,s}W_1^{a,s}$). By union bound, we have
-\[
-\Pr[W_1] \geq 1- \frac{4S}{T^2}.
-\]
-\swcomment{let's put this in appendix.}
-\end{proof}
 
 The next two events are about the distribution of the mean rewards in
 the first level. To state the events, it will be useful to think of a
@@ -177,7 +162,7 @@ characterizes the concentration of the mean rewards among all
 consecutive pulls among all such tapes, which follows from Chernoff
 bound and union bound.
 
-\begin{lemma}[Concetration of empirical means in the first level]
+\begin{lemma}[Concentration of empirical means in the first level]\label{3levelw2}
   For any $t_1, t_2\in [T]$ such that $t_1 < t_2$, $s\in [S]$, and
   $a\in \{1,2\}$, let $W_2^{s,a,t_1,t_2}$ be the event that the mean
   among the cells indexed by $t_1, (t_1+1), \ldots, t_2$ in the tape
@@ -189,19 +174,6 @@ bound and union bound.
   \]
 \end{lemma}
 
-\OMIT{
-\begin{proof}
-  By Chernoff bound,
-\[
-\Pr[W_2^{s,a,t_1,t_2}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
-\]
-By union bound, we have
-\[
-\Pr[W_2] \geq 1- \frac{4S}{T^2}.
-\]
-\end{proof}
-}
-
 Our policy also relies on the anti-concentration of the empirical
 means in the first round. We show that for each arm $a\in \{1, 2\}$,
 there exists a group $s_a$ such that the empirical mean of $a$ is
@@ -211,7 +183,7 @@ the agents in the second level to explore both arms when the their
 mean rewards are indistinguishable after the first level.
 
 
-\begin{lemma}[High and low deviations for the arms]
+\begin{lemma}[High and low deviations for the arms]\label{3levelw4}
   For any group $s\in [S]$, any arm $a$, let $\tilde\mu_{a,s}$ be the
   empirical mean of the first $q_a T_1$ cells in tape $\cT^1_{a, s}$.
   Let $W_4^{s,a,high}$ be the event
@@ -227,68 +199,81 @@ mean rewards are indistinguishable after the first level.
 \end{lemma}
 
 
-\begin{proof}
-By Berry-Essen Theorem and
-  $\mu_a \in [1/3,2/3]$, we have for any $a$,
-\[
-\Pr[W_4^{s,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{q_aT_1}} > 1/4.
-\]
-The last inequality follows when $T$ is larger than some constant.
-Similarly we also have 
-\[
-\Pr[W_4^{s,a,low}] > 1/4.
-\]
-Since $W_4^{s,a,high}$ is independent with $W_4^{s,3-a,low}$, we have
-\[
-\Pr[W_4^{s,a,high} \cap W_4^{s,3-a,low}] =\Pr[W_4^{s,a,high}] \cdot  \Pr[W_4^{s,3-a,low}]>(1/4)^2 = 1/16.
-\]
-Notice that $(W_4^{s,a,high} \cap W_4^{s,3-a,low})$ are independent
-across different $s$'s. By union bound, we have
-\[
-\Pr[W_4] \geq 1- 2(1-1/16)^S \geq 1 -2 /T.
-\]
-\end{proof}
-
 
 
 Lastly, we will condition on the event that the empirical means of
 both arms to be concentrated around their true means in any prefix of
-their pulls.
+their pulls. This guarantees that the policy obtains an accurate
+estimate of rewards for both arms after aggregating all the data in
+the first two levels.
 % We will again state the event using a hypothetical reward tape
 % $\cT^2_a$ for each arm $a$: the $j$-th time arm $a$ is chosen in the
 % two levels, its reward is taken from the $j$-th cell in $\cT^2_a$.
 
-\begin{lemma}
+
+\swcomment{might want to swap out $W_3$ and $W_4$}
+\begin{lemma}[Concentration of empirical means in the first two
+  levels]\label{3levelw3}
   With probability at least $1 - \frac{4}{T^3}$, the following event
   $W_3$ holds: for all $a\in \{1, 2\}$ and $m \in [N_{T, a}]$, the
   empirical means of the first $t$ arm $a$ pulls is at most
-  $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$, where $N_{T, a}$ is
+  $\sqrt{\frac{2\log(T)}{m}}$ away from $\mu_a$, where $N_{T, a}$ is
   the total number of arm $a$ pulls by the end of $T$ rounds.
 \end{lemma}
 
-\swcomment{might want to swap out $W_3$ and $W_4$}
 
 
-\OMIT{\begin{proof}
-By Chernoff bound,
-\[
-\Pr[W_3^{a,t}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
-\]
-By union bound, we have
-\[
-\Pr[W_3] \geq 1- \frac{4}{T^3}.
-\]
-\end{proof}}
+
+Let $W = \bigcap_{i=1}^4 W_i$ be the intersection of all 4 clean
+events.  By union bound, $W$ occuers with probability $1-O(1/T)$. Note
+that expected regret conditioned on $W$ not occuring is at most
+$O(1/T) \cdot T = O(1)$, so it suffices to bound the regret under $W$.
+
+\subsection{Case Analysis under Clean Events}
+
+We now proceed to bound the regret conditioned on all four clean
+events defined above occur. Without loss of generality, we assume
+$\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both
+arms. We break down the regret analysis into 4 cases on the scale of
+the gap parameter $\Delta = (\mu_1-\mu_2)$.
 
 
-\subsection{Case Analysis}
+We will start with the simplest case where the gap is smaller than
+$\tilde O(\sqrt{1/T_2}) = \tilde O(1/T^{3/7})$, then the regret is
+trivially bounded by $\tilde O(T^{4/7})$.
+
+\begin{claim}[Small gap case]
+  Suppose $\Delta \leq 3\sqrt{\frac{2\log(T)}{T_2}}$,
+  $\reg(T)\leq O(T^{4/7} \log^{6/7}(T))$.
+\end{claim}
+
+Another simple case is when $\Delta$ is sufficiently large, so that
+the data collected in the first level can distinguish the two
+arms. The proof essentially follows from the clean event $W_1$ that
+both arms are explored sufficient many times in level 1, and the
+empirical rewards in the first two levels concentrate around their
+true means.
+
+\begin{lemma}[Large gap case]\label{3levelbigcase}
+  Suppose
+  $\Delta \geq 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} +
+    \sqrt{\frac{4\log(T)}{q_2T_1}}\right)$, then all agents in the
+  second and third levels pull arm 1.
+\end{lemma}
+
+
+The analysis becomes more challenging when the gap is neither too
+small to have negligible effect on regret nor too big to make the arms
+distinguishable after the first level.
+
+
 
 
 \begin{proof}
-Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. We do a case analysis based on $\mu_1-\mu_2$. 
+\OMIT{Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. We do a case analysis based on $\mu_1-\mu_2$. 
 
 Before we start with the case analysis, we first define several clean events and show that the intersection of them happens with high probability. 
-\OMIT{
+
 \begin{itemize}
 
 \item \textbf{Concentration of the number of arm $a$ pulls in the first level:} 
@@ -347,11 +332,11 @@ Now define $W_4$ as $\bigcap_a \bigcup_s (W_4^{s,a,high} \cap W_4^{s,3-a,low})$.
 \[
 \Pr[W_4] \geq 1- 2(1-1/16)^S \geq 1 -2 /T.
 \]
-\end{itemize}}
+\end{itemize}
 
 By union bound, the intersection of these clean events (i.e. $\bigcap_{i=1}^4 W_i$) happens with probability $1-O(1/T)$. When this intersection does not happen, since the probability is $O(1/T)$, it contributes $O(1/T) \cdot T = O(1)$ to the expected regret. 
 
-Now we assume the intersection of clean events happens and we summarize what these clean events imply.
+Now we assume the intersection of clean events happens and we summarize what these clean events imply.}
 
 \begin{itemize}
 \item For the $s$-th first-level group and arm $a$, define $\bar{\mu}_a^{1,s}$ to be the empirical mean of arm $a$ pulls in this group. $W_1^{a,s}$, $W_2^{a,s,1,t}$ for $ = q_a T_1- \GdT \sqrt{T_1\log(T)},...,q_a T_1- \GdT \sqrt{T_1\log(T)}$ together imply that
@@ -385,6 +370,7 @@ Similarly, we also have
 Finally we proceed to the case analysis. We give upper bounds on the expected regret conditioned on the intersection of clean events.
 
 \begin{itemize}
+\OMIT{
 \item $\mu_1 - \mu_2 \geq 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
 + \sqrt{\frac{4\log(T)}{q_2T_1}}\right)$. In this case, we want to show that agents in the second and the third levels all pull arm 1. 
 
@@ -406,7 +392,7 @@ Now consider the agents in the third level group. Recall $\bar{\mu}_a$ is the em
 + \sqrt{\frac{4\log(T)}{q_2T_1}}.
 \]
 Similarly as above, by Assumption \ref{ass:embehave}, we know $\hat{\mu}_1^t - \hat{\mu}_2^t > 0$ for any agent $t$ in the third level. So we know agents in the third-level group will all pull arm 1. Therefore the expected regret is at most $S T_G T_1 = O(T^{4/7} \log^{6/7}(T))$. 
-
+}
 
 \item $2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} 
 + \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \leq \mu_1-\mu_2 < 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
@@ -455,8 +441,9 @@ Therefore the expected regret is at most
 + \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \leq O(T^{4/7} \log^{6/7}(T))
 \]
 
-
+\OMIT{
 \item $\mu_1 - \mu_2 \leq 3\sqrt{\frac{2\log(T)}{T_2}}$. This is the easy case. Even always pulling the sub-optimal arm (i.e. arm 2) gives regret at most $T \cdot (\mu_1-\mu_2) = O(T^{4/7} \log^{6/7}(T))$. 
+}
 \end{itemize}
 
 \end{proof}
