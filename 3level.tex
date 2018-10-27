@@ -134,10 +134,12 @@ not too big.
 
 \subsection{Clean events}
 We will first establish four \emph{clean events} that together occur
-with probability at least $1 - O(1/T)$. The first one says that every
-group of \ALGG runs in the first level ensures that each arm $a$ is
-pulled at least $\Omega(T_1)$ times, which follows from
-Lemma~\ref{lem:t1runs} and union bound.
+with probability at least $1 - O(1/T)$. The first event says that
+every group of \ALGG runs in the first level ensures that each arm $a$
+is pulled at least $\Omega(T_1)$ times. The following lemma can
+derived from combining Lemma~\ref{lem:t1runs} and union bound. This
+will be useful for applying concentration inequalities to the
+empirical mean rewards.
 
 \begin{lemma}[Concentration of first-level number of pulls.]\label{3levelw1}
   Let $W_1$ be the event that for all groups $s\in [S]$ and arms
@@ -183,7 +185,7 @@ the agents in the second level to explore both arms when the their
 mean rewards are indistinguishable after the first level.
 
 
-\begin{lemma}[High and low deviations for the arms]\label{3levelw4}
+\begin{lemma}[Co-occurence of high and low deviations]\label{3levelw4}
   For any group $s\in [S]$, any arm $a$, let $\tilde\mu_{a,s}$ be the
   empirical mean of the first $q_a T_1$ cells in tape $\cT^1_{a, s}$.
   Let $W_4^{s,a,high}$ be the event

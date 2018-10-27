@@ -68,15 +68,31 @@ By union bound, we have
 \end{proof}
 
 \subsection{Case Analysis under Clean Events}
-Now we assume the intersection of clean events happens and we
-summarize what these clean events imply.
+Now we assume the intersection of clean events happens. We will first
+provide some helper lemmas for our case analysis.
 
-\begin{itemize}
-\item For the $s$-th first-level group and arm $a$, define $\bar{\mu}_a^{1,s}$ to be the empirical mean of arm $a$ pulls in this group. $W_1^{a,s}$, $W_2^{a,s,1,t}$ for $ = q_a T_1- \GdT \sqrt{T_1\log(T)},...,q_a T_1- \GdT \sqrt{T_1\log(T)}$ together imply that
+\begin{lemma}
+  For the $s$-th first-level group and arm $a$, define
+  $\bar{\mu}_a^{1,s}$ to be the empirical mean of arm $a$ pulls in
+  this group. If $W$ holds, then
+  \[
+    |\bar{\mu}_a^{1,s} - \mu_a| \leq \sqrt{\frac{4\log(T)}{q_a T_1}}.
+  \]
+\end{lemma}
+
+\begin{proof}
+  The events $W_1^{a,s}$, $W_2^{a,s,1,t}$ for
+  $t = q_a T_1- \GdT \sqrt{T_1\log(T)},...,q_a T_1 + \GdT
+  \sqrt{T_1\log(T)}$ together imply that
 \[
 |\bar{\mu}_a^{1,s} - \mu_a| \leq \sqrt{\frac{2\log(T)}{q_a T_1- \GdT \sqrt{T_1\log(T)}}} \leq \sqrt{\frac{4\log(T)}{q_a T_1}}.
 \]
 The last inequality holds when $T$ is larger than some constant.
+\end{proof}
+
+
+\begin{itemize}
+
 \item For each arm $a$, define $\bar{\mu}_a$ to be the empirical mean of arm $a$ pulls in the first two levels. $W_1^{a,s}$ for $s=1,...,S$ and $W_3^{a,t}$ for $t \geq  (q_a T_1- \GdT \sqrt{T_1\log(T)})S$ together imply that
 \[
 |\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{S\left(q_a T_1- \GdT \sqrt{T_1\log(T)}\right)}} \leq \sqrt{\frac{4\log(T)}{S q_a T_1}} .
@@ -88,12 +104,17 @@ If there are at least $T_2$ pulls of arm $a$ in the first two levels,
 |\bar{\mu}_a-\mu_a| \leq \sqrt{\frac{2\log(T)}{T_2}}. 
 \]
 
-\item For each $a \in \{1,2\}$, $W_4$ implies that there exists $s_a$ such that $W_4^{s_a,a,high}$ and $W_4^{s_a,3-a,low}$ happen. $W_4^{s_a,a,high}$,  $W_1^{s_a,a}$, $W_2^{s_a,a,t, q_aT_1}$ for $t = q_a T_1- \GdT \sqrt{T_1\log(T)}+1, ...,q_aT_1-1$ and $W_2^{s_a,a,q_aT_1,t}$ for $t= q_aT_1,...,q_a T_1+ \GdT \sqrt{T_1\log(T)}$ together imply that 
+\item % For each $a \in \{1,2\}$, $W_4$ implies that there exists $s_a$ such that $W_4^{s_a,a,high}$ and $W_4^{s_a,3-a,low}$ happen.
+  The events $W_4^{s_a,a,high}$, $W_1^{s_a,a}$,
+  $W_2^{s_a,a,t, q_aT_1}$ for
+  $t = q_a T_1- \GdT \sqrt{T_1\log(T)}+1, ...,q_aT_1-1$ and
+  $W_2^{s_a,a,q_aT_1,t}$ for
+  $t= q_aT_1,...,q_a T_1+ \GdT \sqrt{T_1\log(T)}$ together imply that
 \begin{align*}
 \bar{\mu}_a ^{1,s_a} &\geq \mu_a + \left(q_aT_1 \cdot \frac{1}{\sqrt{q_aT_1}} - \GdT \sqrt{T_1\log(T)} \cdot \sqrt{\frac{2\log(T)}{ \GdT \sqrt{T_1\log(T)}}} \right) \cdot \frac{1}{q_a T_1+ \GdT \sqrt{T_1\log(T)}} \\
 &> \mu_a + \frac{1}{4\sqrt{q_aT_1}}.
 \end{align*}
-The second last inequality holds when $T$ is larger than some constant.
+The second to the last inequality holds when $T$ is larger than some constant.
 Similarly, we also have
 \[
 \bar{\mu}_{3-a} ^{1,s_a} < \mu_{3-a}   - \frac{1}{4\sqrt{q_{3-a} T_1}}.
@@ -104,29 +125,30 @@ Similarly, we also have
 
 
 \begin{proof}[Proof of Lemma~\ref{3levelbigcase}]
-  For each $s$-th first-level group and arm $a$, define
-  $\bar{\mu}_a^{1,s}$ to be the empirical mean of arm $a$ pulls in
-  this group. $W_1^{a,s}$, $W_2^{a,s,1,t}$ for
-  $ = q_a T_1- \GdT \sqrt{T_1\log(T)},...,q_a T_1- \GdT
-  \sqrt{T_1\log(T)}$ together imply that
-\[
-|\bar{\mu}_a^{1,s} - \mu_a| \leq \sqrt{\frac{2\log(T)}{q_a T_1- \GdT \sqrt{T_1\log(T)}}} \leq \sqrt{\frac{4\log(T)}{q_a T_1}}.
-\]
-The last inequality holds as long as $T$ is larger than some
-constant. This implies that
+%   For each $s$-th first-level group and arm $a$, define
+%   $\bar{\mu}_a^{1,s}$ to be the empirical mean of arm $a$ pulls in
+%   this group. $W_1^{a,s}$, $W_2^{a,s,1,t}$ for
+%   $ = q_a T_1- \GdT \sqrt{T_1\log(T)},...,q_a T_1- \GdT
+%   \sqrt{T_1\log(T)}$ together imply that
+% \[
+% |\bar{\mu}_a^{1,s} - \mu_a| \leq \sqrt{\frac{2\log(T)}{q_a T_1- \GdT \sqrt{T_1\log(T)}}} \leq \sqrt{\frac{4\log(T)}{q_a T_1}}.
+% \]
+% The last inequality holds as long as $T$ is larger than some
+% constant.
+  Observe that for any group $s$ in the first level, the empirical
+  means satisfy
 \[
 \bar{\mu}_1^{1,s} - \bar{\mu}_2^{1,s} \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{q_1T_1}} - \sqrt{\frac{4\log(T)}{q_2T_1}} \geq  \sqrt{\frac{4\log(T)}{q_1T_1}} + \sqrt{\frac{4\log(T)}{q_2T_1}}.
 \]
 
-
-For each arm $a$, define $\bar{\mu}_a$ to be the empirical mean of arm
-$a$ pulls in the first two levels. $W_1^{a,s}$ for $s=1,...,S$ and
-$W_3^{a,t}$ for $t \geq (q_a T_1- \GdT \sqrt{T_1\log(T)})S$ together
-imply that
-\[
-|\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{S\left(q_a T_1- \GdT \sqrt{T_1\log(T)}\right)}} \leq \sqrt{\frac{4\log(T)}{S q_a T_1}} .
-\]
-The last inequality holds when $T$ is larger than some constant.
+% For each arm $a$, define $\bar{\mu}_a$ to be the empirical mean of arm
+% $a$ pulls in the first two levels. $W_1^{a,s}$ for $s=1,...,S$ and
+% $W_3^{a,t}$ for $t \geq (q_a T_1- \GdT \sqrt{T_1\log(T)})S$ together
+% imply that
+% \[
+% |\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{S\left(q_a T_1- \GdT \sqrt{T_1\log(T)}\right)}} \leq \sqrt{\frac{4\log(T)}{S q_a T_1}} .
+% \]
+% The last inequality holds when $T$ is larger than some constant.
 
 For any agent $t$ in the $s$-th second-level group, by Assumption \ref{ass:embehave}, we have
 \begin{align*}
@@ -154,9 +176,12 @@ arm 1.  \OMIT{Therefore the expected regret is at most
   We will further break down the intermediate case into two sub-cases.
 \begin{itemize}
 
-\item $2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} 
-+ \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \leq \mu_1-\mu_2 < 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
-+ \sqrt{\frac{4\log(T)}{q_2T_1}}\right)$. In this case, we want to show agents in the third level all pull arm 1. Recall $\bar{\mu}_a$ is the empirical mean of arm $a$ in the first two levels. We have
+\item Sub-case (1):
+  $2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} +
+    \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \leq \mu_1-\mu_2 <
+  2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} +
+    \sqrt{\frac{4\log(T)}{q_2T_1}}\right)$. Recall $\bar{\mu}_a$ is
+  the empirical mean of arm $a$ in the first two levels. We have
 \[
 \bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{Sq_1T_1}} - \sqrt{\frac{4\log(T)}{Sq_2T_1}} \geq  \sqrt{\frac{4\log(T)}{Sq_1T_1}} 
 + \sqrt{\frac{4\log(T)}{Sq_2T_1}}.
@@ -173,8 +198,11 @@ So we know agents in the third-level group will all pull arm 1. Therefore the ex
 + \sqrt{\frac{4\log(T)}{q_2T_1}}\right) = O(T^{4/7} \log^{6/7}(T))
 \]
 
-\item $ 3\sqrt{\frac{2\log(T)}{T_2}} < \mu_1-\mu_2 < 2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} 
-+ \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right)$. In this case, we just need to make sure that agents in the third level all pull arm 1. To do so, we need both arms to be pulled at least $T_2$ rounds in the second level.  
+\item Sub-case (2):
+  $ 3\sqrt{\frac{2\log(T)}{T_2}} < \mu_1-\mu_2 <
+  2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} +
+    \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right)$.  To do so, we need both
+  arms to be pulled at least $T_2$ rounds in the second level.
 
 Now consider the $s_a$-th second-level group. We have
 \begin{align*}
