@@ -1,5 +1,5 @@
 %!TEX root = main.tex
-\section{Our Model}
+\section{Model}
 \label{sec:model}
 
 We study the mult-armed bandit problem in a social learning context,
@@ -25,7 +25,7 @@ defined as
 % than 2. The messages $m_t$ are generated according to a randomized
 % online algorithm $\pi$ termed ``recommendation policy".
 
-\xhdr{Unbiased sub-history policy.} The principal's goal is to reveals
+\xhdr{Unbiased sub-history policy.} The principal's goal is to reveal
 a sequence of messages accroding to a disclosure policy so that the
 regret of the induced sequence of actions is minimized. We will focus
 on \emph{unbiased sub-history policies} that at each round $t$ reveal
@@ -58,43 +58,30 @@ the info graph.
     but should be in the introduction}
 \end{remark}
 
-\xhdr{Agents' behavior.} We model agents with heterogeneity in their
-arm selections. In particular, each agent $t$ has a private estimator
-that maps the revealed sub-history $H_t$ to a mean reward estimate
-$\hat{\mu}_a^t$ for every arm $a$, and the agent chooses the arm $a_t$
-with the highest estimate. The agents' private estimators are drawn
-i.i.d.~from an unknown distribution. For any $t\in[T]$ and $a\in \A$,
-we write $N_{t, a}$ and $\bar{\mu}_a^t$ to denote the number of pulls
-of $a$ and the empirical mean reward of arm $a$ in $H_t$
-respectively. If an arm is not pulled in $H_t$, we will let
-$\bar{\mu}_a^t = 0$.
+\xhdr{Agents' behavior.} We model agents with heterogeneity in their arm selections. In particular, each agent $t$ has a private estimator that maps the revealed sub-history $H_t$ to a mean reward estimate $\hat{\mu}_a^t$ for every arm $a$, and the agent chooses the arm $a_t$ with the highest estimate. The agents' private estimators are drawn i.i.d.~from an unknown distribution. For any $t\in[T]$ and $a\in \A$, we write $N_{t, a}$ and $\bar{\mu}_a^t$ to denote the number of pulls of $a$ and the empirical mean reward of arm $a$ in sub-history $H_t$ respectively. If an arm is not pulled in $H_t$, we will let $\bar{\mu}_a^t = 0$.  We require the following assumptions.
 
 % \swcomment{need to assume i.i.d. types}
 % We assume that for sufficiently high $t_a$, the estimate
 % $\hat{\mu}_a^t$ is close to the empirical average $\bar{\mu}_a^t$.
 
-We will make the following assumptions on the set of mean rewards
-$\{\mu_a\}$, and the relationship between the estimates $\hat \mu_a^t$
-and empirical mean rewards $\bar\mu_a^t$.
-
-
-
 \begin{assumption}
 \label{ass:embehave}
-Let $c_m = 1/16$.\swcomment{maybe use a better notation} 
-% \jmcomment{It means a constant for some assumptions about means but nothing else. Just want to make it different from other constants. Maybe there are better notations.}. 
+The set of mean rewards $\{\mu_a\}$, the estimates $\hat \mu_a^t$, and the empirical mean rewards $\bar\mu_a^t$  satisfy:
+
 \begin{itemize}
 \item The mean reward $\mu_a$ for each arm $a\in \A$ lies in the range
   of $[1/3, 2/3]$.
 
 
-\item There exists a constant $c_T$ such that for any agent $t$ and
-  arm $a$, as long as $t_a \geq c_T$,
+\item Let $c_m = 1/16$.\swcomment{maybe use a better notation} \nicomment{yeah, why the subscript $m$? and $T$ below? how about just $\alpha,\beta$ for the constants in this assumption? or $\alpha$ and $N_0$? or use $n_{t,a}$ for number of pulls and $N$ for a constant that you want the $n_{t,a}$ to exceed?}
+% \jmcomment{It means a constant for some assumptions about means but nothing else. Just want to make it different from other constants. Maybe there are better notations.}. 
+There exists a constant $c_T$ such that for any agent $t$ and
+  arm $a$, as long as \niedit{$N_{t,a} \geq c_T$}, 
 \[
   \left|\hat{\mu}^t_a - \bar{\mu}^t_a \right| <
   \frac{c_m}{\sqrt{N_{t,a}}}.
 \]
-\item In the case of $N_{t,a} = 0$, the initial estimate
+\item If $N_{t,a} = 0$, the initial estimate
   $\hat{\mu}^t_a$ is at least $1/3$.
 \end{itemize}
 \end{assumption}
@@ -118,14 +105,10 @@ distribution independently.
 %   adversarial?} \jmcomment{Actually current proofs don't work when it's adversarial. It's fairly annoying for the anti-concentration argument. In the proof, we need to use independent to show that the amount of agents pulling arm $a$ in the first level is concentrated to $T_1 q_a$.}
 \begin{remark}
   how this relates to Bayesian exploration with conjugate
-  priors\swcomment{seems to be something nasty}
+  priors\swcomment{seems to be something nasty} \nicomment{need to at least say if we rule out rational agents with these assumptions (which I don't think is a disaster).}
 \end{remark}
 
-Given any bandit instance, we can also define the \emph{gap parameter}
-$\Delta$ as the difference between the largest and second largest mean
-rewards. In general, the gap parameter is unknown to the principal (or
-the algorithm), but we also show how we can obtain different forms of
-regret bounds if $\Delta$ is known.
+Given any bandit instance, we define the \emph{gap parameter} $\Delta$ as the difference between the largest and second largest mean rewards. In general, the gap parameter is unknown to the principal (or the algorithm), but we show how to obtain different forms of regret bounds if $\Delta$ is known.
 
 
 
