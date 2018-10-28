@@ -148,7 +148,7 @@ For $2\leq l \leq L-1$, $u\in [S]$ and each arm $a$, define $n^{l,u,a}$ to be th
 
 Define $H_l$ to be random variable the history of all agents in the first $l-1$ levels and which agents are chosen in the $l$-th level. Let $h_l$ be some realization of $H_l$. Notice that once we fix $H_l$, $n^{l,u,a}$ is also fixed. 
 
-Now consider $h_l$ to be any possible realized value of $H_l$. If fixing $H_l= h_l$ makes $n^{l,u,a}<T_l$, then $\Pr[W_3^{l,u,a,high} |H_l = h_l]=1$  If fixing $H_l = h_l$ makes $n^{l,u,a} \geq T_l$, by Berry-Essen Theorem and $\mu_a \in [1/3,2/3]$, we have
+Now consider $h_l$ to be any possible realized value of $H_l$. If fixing $H_l= h_l$ makes $n^{l,u,a}<T_l$, then $\Pr[W_3^{l,u,a,high} |H_l = h_l]=1$  If fixing $H_l = h_l$ makes $n^{l,u,a} \geq T_l$, by Berry-Esseen Theorem and $\mu_a \in [1/3,2/3]$, we have
 \[
 \Pr[W_3^{l,u,a,high}|H_l = h_l] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{T_l}} > 1/4.
 \]
@@ -171,7 +171,7 @@ W_3 \geq 1 - 2L/T^2.
 
 \item \textbf{Anti-concentration of the empirical mean of arm $a$ pulls in the first level:}
 
-For first-level groups $G_{1,u,1},...,G_{1,u,S}$ and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in these groups pull arm $a$. Define $W_4^{u,a,high}$  to be the event that first $q_a T_1 S$ pulls of arm $a$ in the tape has empirical mean at least $\mu_a + 1/\sqrt{q_a T_1 S}$ and define $W_4^{u,a,low}$  to be the event that first $q_a T_1S$ pulls of arm $a$ in the tape has empirical mean at most $\mu_a - 1/\sqrt{q_a T_1S }$. By Berry-Essen Theorem and $\mu_a \in [1/3,2/3]$, we have
+For first-level groups $G_{1,u,1},...,G_{1,u,S}$ and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in these groups pull arm $a$. Define $W_4^{u,a,high}$  to be the event that first $q_a T_1 S$ pulls of arm $a$ in the tape has empirical mean at least $\mu_a + 1/\sqrt{q_a T_1 S}$ and define $W_4^{u,a,low}$  to be the event that first $q_a T_1S$ pulls of arm $a$ in the tape has empirical mean at most $\mu_a - 1/\sqrt{q_a T_1S }$. By Berry-Esseen Theorem and $\mu_a \in [1/3,2/3]$, we have
 \[
 \Pr[W_4^{u,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{q_aT_1S}} > 1/4.
 \]
