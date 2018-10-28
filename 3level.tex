@@ -234,7 +234,7 @@ $O(1/T) \cdot T = O(1)$, so it suffices to bound the regret under $W$.
 We now proceed to bound the regret conditioned on all four clean
 events defined above occur. Without loss of generality, we assume
 $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both
-arms. We break down the regret analysis into three cases on the scale
+arms. We break down the regret analysis into four cases on the scale
 of the gap parameter $\Delta = (\mu_1-\mu_2)$.
 
 
@@ -242,15 +242,15 @@ We will start with the simplest case where the gap is smaller than
 $\tilde O(\sqrt{1/T_2}) = \tilde O(1/T^{3/7})$, then the regret is
 trivially bounded by $\tilde O(T^{4/7})$.
 
-\begin{claim}[Small gap case]
+\begin{claim}[Negligible gap case]
   Suppose $\Delta \leq 3\sqrt{\frac{2\log(T)}{T_2}}$,
   $\reg(T)\leq O(T^{4/7} \log^{6/7}(T))$.
 \end{claim}
 
 Another simple case is when $\Delta$ is sufficiently large, so that
-the data collected in the first level can distinguish the two
-arms. The proof essentially follows from the clean event $W_1$ that
-both arms are explored sufficient many times in level 1, and the
+the data collected in any sing first-level group can distinguish the
+two arms. The proof essentially follows from the clean event $W_1$
+that both arms are explored sufficient many times in level 1, and the
 empirical rewards in the first two levels concentrate around their
 true means.
 
@@ -262,37 +262,70 @@ true means.
 \end{lemma}
 
 
-The intermediate case is more challenging since the gap is neither
-small enough to have negligible effect on regret nor large enough to
-make the arms distinguishable after the first level. In this case, we
-need to ensure that both arms will continued to be pulled in the
-second level. To achieve this, we will take advantage of the clean
-events of $W_1$ and $W_4$.
+There are two more intermediate cases. In the \emph{medium gap} case,
+the gap is smaller than $\tilde O(\sqrt{1/T_1})$, but bigger than
+$\tilde \Omega(\sqrt{1/(S\, T_1)})$. Then the data collected in any
+single group from the first level no longer suffices to distinguish
+the two arms. However, we show that as the policy aggregates the
+history from all $S$ groups at the end of the second level, the data
+will enable all third-level agents to correctly identify the arm 1 as
+the better arm (even though one of the arms may not be pulled at all
+in the second level).
 
-\begin{lemma}\label{lem:luck}
-  For the $s$-th first-level group and arm $a$, define
-  $\bar{\mu}_a^{1,s}$ to be the empirical mean of arm $a$ pulls in
-  this group. For each $a \in \{1,2\}$, there exists a group $s_a$
-  such that
-\[
-\bar{\mu}_a ^{1,s_a} > \mu_a + \frac{1}{4\sqrt{q_aT_1}} \quad \mbox{and, } \quad
-\bar{\mu}_{3-a} ^{1,s_a} < \mu_{3-a}   - \frac{1}{4\sqrt{q_{3-a} T_1}}.
-\]
+\begin{lemma}[Medium gap case]\label{3levelmedium}
+  All agents pull arm 1 in the third level, when $\Delta$ satisfies
+  \[
+  \Delta\in \left[
+   2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} +
+    \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right),
+ 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} +
+        \sqrt{\frac{4\log(T)}{q_2T_1}}\right), 
+    \right)
+  \]
 \end{lemma}
 
 
+Finally, consider the \emph{small gap} case where $\Delta$ is between
+$\tilde\Omega(\sqrt{1/T_2})$ and $\tilde O(\sqrt{1/(S T_1))})$. This
+is more challenging since even aggregating the data from all $S$
+groups in the first level is not sufficient for correctly
+distinguishing the two arms. Thus, we need to ensure that both arms
+will continue to be pulled in the second level. To achieve this, we
+will nicely leverage the event of $W_4$, which has the implication
+that every arm $a$ has its ``lucky'' group $s_a$ in the first level,
+for which the empirical mean is slightly higher than $\mu_a$, while
+the other arm is slightly lower than $\mu_{(3-a)}$. Since the
+deviations are in the order of $\Omega(\sqrt{1/T_1})$, the sub-history
+from this ``lucky'' group will induce a pair of estimates such that
+$\hat \mu_a^t > \hat \mu_{(3-a)}^t$, and so any second-level agent in
+group $s_a$ will pull arm $a$.  As a result, we guarantee both arms
+will be pulled at least $T_2$ times in the second level, which in turn
+gives the following guarantee.
 
 
-
-
-\begin{lemma}[Intermediate gap case]\label{3levelmidcase}
+\begin{lemma}[Small gap case]\label{3levelsmallcase}
   All agents pull arm 1 in the third level, when $\Delta$ satisfies
   \[
     \Delta\in \left( 3\sqrt{\frac{2\log(T)}{T_2}},
-      2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} +
-        \sqrt{\frac{4\log(T)}{q_2T_1}}\right) \right)
+      2\left(\sqrt{\frac{4\log(T)}{S q_1T_1}} +
+        \sqrt{\frac{4\log(T)}{S q_2T_1}}\right) \right)
   \]
 \end{lemma}
+
+
+\paragraph{Wrapping up: proof of \Cref{thm:3level}. } In negligible
+gap case, the stated regret bound holds regardless of the sequence of
+chosen arms. In the large gap case, the regret only comes from the
+first level, which is bounded
+by$S T_G T_1 = O(T^{4/7} \log^{6/7}(T))$. In the intermediate cases of
+both medium and small gap, it suffices to bound the regret from the
+first and second levels, so
+\[
+\reg(T) \leq (S T_G T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
++ \sqrt{\frac{4\log(T)}{q_2T_1}}\right) = O(T^{4/7} \log^{6/7}(T)).
+\]
+Therefore, we obtain the stated regret bound in all cases.
+
 
 
 

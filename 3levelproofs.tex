@@ -120,9 +120,21 @@ The last inequality holds when $T$ is larger than some constant.
 \end{proof}
 
 
+\begin{lemma}\label{lem:luck}
+  For the $s$-th first-level group and arm $a$, define
+  $\bar{\mu}_a^{1,s}$ to be the empirical mean of arm $a$ pulls in
+  this group. For each $a \in \{1,2\}$, there exists a group $s_a$
+  such that
+\[
+\bar{\mu}_a ^{1,s_a} > \mu_a + \frac{1}{4\sqrt{q_aT_1}} \quad \mbox{and, } \quad
+\bar{\mu}_{3-a} ^{1,s_a} < \mu_{3-a}   - \frac{1}{4\sqrt{q_{3-a} T_1}}.
+\]
+\end{lemma}
 
 
-\begin{proof}[Proof of Lemma~\ref{lem:luck}]
+
+
+\begin{proof}% [Proof of Lemma~\ref{lem:luck}]
   For each $a \in \{1,2\}$, $W_4$ implies that there exists $s_a$ such
   that both $W_4^{s_a,a,high}$ and $W_4^{s_a,3-a,low}$ happen.  The
   events $W_4^{s_a,a,high}$, $W_1$, $W_2^{s_a,a,t, q_aT_1}$
@@ -142,8 +154,10 @@ This completes the proof.
 \end{proof}
 
 
+Now we proceed to the case analysis.
 
-\begin{proof}[Proof of Lemma~\ref{3levelbigcase}]
+
+\begin{proof}[Proof of Lemma~\ref{3levelbigcase} (Large gap case)]
   Observe that for any group $s$ in the first level, the empirical
   means satisfy
 \[
@@ -172,16 +186,12 @@ arm 1.  \OMIT{Therefore the expected regret is at most
 \end{proof}
 
 
-
-\begin{proof}[Proof of Lemma~\ref{3levelmidcase}]
-  We will further break down the intermediate case into two sub-cases.
-\begin{itemize}
-
-\item Sub-case (1):
-  $2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} +
-    \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \leq \mu_1-\mu_2 <
-  2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} +
-    \sqrt{\frac{4\log(T)}{q_2T_1}}\right)$. Recall $\bar{\mu}_a$ is
+\begin{proof}[Proof of Lemma~\ref{3levelmedium} (Medium gap case)]
+  % $2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} +
+  %   \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \leq \mu_1-\mu_2 <
+  % 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} +
+  %   \sqrt{\frac{4\log(T)}{q_2T_1}}\right)$. 
+  Recall $\bar{\mu}_a$ is
   the empirical mean of arm $a$ in the first two levels. We have
 \[
 \bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{Sq_1T_1}} - \sqrt{\frac{4\log(T)}{Sq_2T_1}} \geq  \sqrt{\frac{4\log(T)}{Sq_1T_1}} 
@@ -199,13 +209,17 @@ So we know agents in the third-level group will all pull arm 1. \OMIT{Therefore 
 + \sqrt{\frac{4\log(T)}{q_2T_1}}\right) = O(T^{4/7} \log^{6/7}(T))
 \]
 }
-\item Sub-case (2):
-  $ 3\sqrt{\frac{2\log(T)}{T_2}} < \mu_1-\mu_2 <
-  2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} +
-    \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right)$.  In this sub-case, we
-  need both arms to be pulled at least $T_2$ rounds in the second
-  level. For every arm $a$, consider the $s_a$-th second-level group,
-  with $s_a$ given by Lemma~\ref{lem:luck}. We have
+\end{proof}
+
+
+\begin{proof}[Proof of Lemma~\ref{3levelsmallcase} (Small gap case)]
+  % $ 3\sqrt{\frac{2\log(T)}{T_2}} < \mu_1-\mu_2 <
+  % 2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} +
+  %   \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right)$.  
+  In this case, we need both arms to be pulled at least $T_2$ rounds
+  in the second level. For every arm $a$, consider the $s_a$-th
+  second-level group, with $s_a$ given by Lemma~\ref{lem:luck}. We
+  have
 \begin{align*}
 \bar{\mu}_a^{1,s_a} - \bar{\mu}_{3-a}^{1,s_a} &> \mu_a + \frac{1}{4\sqrt{q_aT_1}} -\mu_{3-a} +\frac{1}{4\sqrt{q_{3-a}T_1}} \\
 &> \frac{1}{4\sqrt{q_1T_1}}+ \frac{1}{4\sqrt{q_2T_1}} - 2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} 
@@ -229,6 +243,4 @@ Therefore the expected regret is at most
 + \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \leq O(T^{4/7} \log^{6/7}(T))
 \]
 }
-\end{itemize}
-Together the two sub-cases complete the proof.
 \end{proof}
