@@ -8,7 +8,7 @@ In this section, we give an overview of how we extend our 3-level policy to an $
 For any $L > 3$, we have an $L$-level recommendation policy with expected regret \\$O\left(T^{2^{L-1}/(2^L-1)} polylog(T) \right)$. In particular, we have an $O(\log\log(T))$-level recommendation policy with expected regret $O(T^{1/2} polylog(T))$. 
 \end{theorem}
 
-In Theorem \ref{thm:llevel-2}, we show a recommendation policy with instance-dependent regret guarantee. This policy has the same structure as the one in Theorem \ref{thm:llevel-1} but different parameters. Its expected regret depends on $\Delta$ which is the difference between the largest mean and second largest mean of arms. Its regret bound outperforms the one in Theorem \ref{thm:llevel-1} when $\Delta$ is much bigger than $T^{-1/2}$. The only downside is that this policy requires more levels, i.e. $O(\log(T)/\log\log(T))$ levels. It also has the property that each agent observes a good fraction of history before its round. 
+In Theorem \ref{thm:llevel-2}, we show a recommendation policy with instance-dependent regret guarantee. This policy has the same structure as the one in Theorem \ref{thm:llevel-1} but different parameters. Its expected regret depends on $\Delta$ which is the difference between the largest mean and second largest mean of arms and its construction does not depend on $\Delta$. Its regret bound outperforms the one in Theorem \ref{thm:llevel-1} when $\Delta$ is much bigger than $T^{-1/2}$. The only downside is that this policy requires more levels, i.e. $O(\log(T)/\log\log(T))$ levels. It also has the property that each agent observes a good fraction of history till its round. 
 
 \begin{theorem}
 \label{thm:llevel-2}
