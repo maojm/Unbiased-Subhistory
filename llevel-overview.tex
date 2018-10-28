@@ -1,0 +1,15 @@
+%!TEX root = main.tex
+
+\section{$L$-level Recommendation Policy}
+\label{sec:llevel}
+In this section, we give an overview of how we extend our 3-level policy to an $L$-level policy for $L > 3$ to achieve better regret. Detailed proofs and discussions can be found in Section \ref{sec:llevel-details}.
+
+\begin{theorem}
+\label{thm:llevel}
+The $L$-level recommendation policy gets expected regret $O\left(T^{2^{L-1}/(2^L-1)} \log^2(T) \right)$ for $L \leq \log(\ln(T)/\log(S^4))$. In particular, if we pick $L = \log(\ln(T)/\log(S^4))$, the expected regret is $O(T^{1/2} polylog(T))$. 
+\end{theorem}
+
+\begin{corollary}
+\label{cor:llevel}
+With the proper setting of $L$ and $T_1,...,T_L$ described above, the $L$-level recommendation policy gets expected regret $O(\min(1/\Delta, T^{1/2})polylog(T))$. Here $\Delta = |\mu_1 -\mu_2|$ and the $L$-level recommendation policy does not need to know $\Delta$. Moreover, agent $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
+\end{corollary}
