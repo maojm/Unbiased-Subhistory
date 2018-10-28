@@ -7,7 +7,7 @@ Now we demonstrate how to design a 3-level policy to incentivize
 adaptive exploration and improve the $O(T^{2/3})$ regret rate to
 $\tilde O(T^{4/7})$. In \Cref{sec:llevel}, we will show how to extend
 this idea to achieve a regret rate of $\tilde O(T^{1/2})$. For
-simplicity, we will focus on the setting with 2 arms.
+simplicity, we will focus on the setting with 2 arms\niedit{, although our results can be extended to a constant number of arms $K$}. \nicomment{I think that's true, but if not, then we're not focusing on 2 arms for ``simplicity''.}
 
 
 The policy consists of three phases, each of which corresponds to a
@@ -23,7 +23,7 @@ $T_2 = T^{6/7}\log^{-5/7}(T)$. The agents are again partitioned into
 $S$ groups such that the agents in the $s$-th group are shown the same
 sub-history from the $s$-th group in the first level. In the third
 level, the policy exploits by showing all remaining agents the entire
-history from the first two levels.
+history from the first two levels. \nicomment{This comment applies to the 2level too; why not allow the guys within the last level see each other?  Seems like this would still work but be more of a headache to prove -- would have to argue the empirical means can't move around too much in the sub-terminal levels, but it makes a big qualitative difference because now everyone sees a vanishingly small fraction of the history whereas with this modification a fraction approaching 1 of the people see a fraction approaching 1 of the history.}
 
 
 They main idea for the 3-level policy is that it inserts the second
@@ -34,7 +34,7 @@ the rewards of the two arms are still indistinguishable (that is, when
 $|\mu_1 - \mu_2| < \tilde{O}(1/\sqrt{T_1})$). In the third level,
 agents will pull the best arm unless $|\mu_1-\mu_2|$ is much smaller
 than $\tilde{O}(1/\sqrt{T_2})$, in which case pulling either arm will
-incur small regret. The formal guarantee of the policy is the
+incur small regret. \nicomment{Need to add intuition about why it's necessary to have a middle level to get this to happen, as opposed to making the bottom level bigger.  Is it because the bottom level will start to herd on some arm and we want to refresh that process? Also should talk about need for anti-concentration bound.} The formal guarantee of the policy is the
 following.
 
 \begin{theorem}
@@ -132,8 +132,8 @@ not too big.
 %   there are $S$ groups in the figure?}
 
 
-\subsection{Clean events}
-We will first establish four \emph{clean events} that together occur
+\subsection{Events}
+We will first establish four \nidelete{\emph{clean events}} \niedit{events} \nicomment{this is a dumb name, what's clean or dirty about an event?  i advocate deleting this adjective from our paper, as i did for the 2level section} that together occur
 with probability at least $1 - O(1/T)$. The first event says that
 every group of \ALGG runs in the first level ensures that each arm $a$
 is pulled at least $\Omega(T_1)$ times. The following lemma can
@@ -153,11 +153,11 @@ derived from combining Lemma~\ref{lem:t1runs} and union bound.
 
 The next two events are about the distribution of the mean rewards in
 the first level. To state the events, it will be useful to think of a
-hypothetical reward tape tape $\cT^1_{s, a}$ of length $T$ for each
+hypothetical reward tape $\cT^1_{s, a}$ of length $T$ for each
 group $s$ and arm $a$, with each cell independently sampled from
 $\cD_a$.  The tape encodes rewards as follows: the $j$-th time arm $a$
 is chosen by the group $s$ in the first level, its reward is taken
-from the $j$-th cell in this arm’s tape. The following result
+from the $j$-th cell in this arm's tape. The following result
 characterizes the concentration of the mean rewards among all
 consecutive pulls among all such tapes, which follows from Chernoff
 bound and union bound.
@@ -178,21 +178,21 @@ Our policy also relies on the anti-concentration of the empirical
 means in the first round. We show that for each arm $a\in \{1, 2\}$,
 there exists a group $s_a$ such that the empirical mean of $a$ is
 slightly above $\mu_a$, while the other arm $(3 - a)$ has empirical
-mean slightly below $\mu_{(3-a)}$. This event is crucial for making
-the agents in the second level to explore both arms when the their
+mean slightly below $\mu_{(3-a)}$. This event is crucial for inducing
+agents in the second level to explore both arms when the their
 mean rewards are indistinguishable after the first level.
 
 
 \begin{lemma}[Co-occurence of high and low deviations]\label{3levelw4}
   For any group $s\in [S]$, any arm $a$, let $\tilde\mu_{a,s}$ be the
   empirical mean of the first $q_a T_1$ cells in tape $\cT^1_{a, s}$.
-  Let $W_4^{s,a,high}$ be the event
+  Let $W_4^{s,a,\text{high}}$ be the event
   $\tilde\mu_{a, s} \geq \mu_a + 1/\sqrt{q_a T_1}$ and let
-  $W_4^{s,a,low}$ be the event that
+  $W_4^{s,a,\text{low}}$ be the event that
   $\tilde\mu_{a, s} \leq \mu_a - 1/\sqrt{q_a T_1}$.  Let $W_4$ be the
   event that for every $a\in \{1, 2\}$, there exists a group
-  $s_a\in [S]$ in the first level such that both $W_4^{s_a,a,high}$
-  and $W_4^{s_a,3-a,low}$ occur. Then
+  $s_a\in [S]$ in the first level such that both $W_4^{s_a,a,\text{high}}$
+  and $W_4^{s_a,3-a,\text{low}}$ occur. Then
   \[
     \Pr[W_4]\geq 1 -2 /T.
   \]
@@ -202,7 +202,7 @@ mean rewards are indistinguishable after the first level.
 
 
 Lastly, we will condition on the event that the empirical means of
-both arms to be concentrated around their true means in any prefix of
+both arms are concentrated around their true means in any prefix of
 their pulls. This guarantees that the policy obtains an accurate
 estimate of rewards for both arms after aggregating all the data in
 the first two levels.
@@ -211,12 +211,13 @@ the first two levels.
 % two levels, its reward is taken from the $j$-th cell in $\cT^2_a$.
 
 
-\swcomment{might want to swap out $W_3$ and $W_4$}
+\swcomment{might want to swap out $W_3$ and $W_4$} \nicomment{yes please!}
+
 \begin{lemma}[Concentration of empirical means in the first two
   levels]\label{3levelw3}
   With probability at least $1 - \frac{4}{T^3}$, the following event
   $W_3$ holds: for all $a\in \{1, 2\}$ and $m \in [N_{T, a}]$, the
-  empirical means of the first $t$ arm $a$ pulls is at most
+  empirical means of the first $t$ \nicomment{what is $t$ here; you mean $m$? in which case please replace $m$ with $t$ in the conditioning and bound} arm $a$ pulls is at most
   $\sqrt{\frac{2\log(T)}{m}}$ away from $\mu_a$, where $N_{T, a}$ is
   the total number of arm $a$ pulls by the end of $T$ rounds.
 \end{lemma}
@@ -224,15 +225,15 @@ the first two levels.
 
 
 
-Let $W = \bigcap_{i=1}^4 W_i$ be the intersection of all 4 clean
-events.  By union bound, $W$ occuers with probability $1-O(1/T)$. Note
+Let $W = \bigcap_{i=1}^4 W_i$ be the intersection of all 4 
+events.  By union bound, $W$ occurs with probability $1-O(1/T)$. Note
 that expected regret conditioned on $W$ not occuring is at most
-$O(1/T) \cdot T = O(1)$, so it suffices to bound the regret under $W$.
+$O(1/T) \cdot T = O(1)$, so it suffices to bound the regret conditioned on $W$.
 
-\subsection{Case Analysis under Clean Events}
+\subsection{Case Analysis}
 
-We now proceed to bound the regret conditioned on all four clean
-events defined above occur. Without loss of generality, we assume
+We now proceed to bound the regret conditioned on the four 
+events defined above. Without loss of generality, we assume
 $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both
 arms. We break down the regret analysis into four cases on the scale
 of the gap parameter $\Delta = (\mu_1-\mu_2)$.
@@ -248,8 +249,8 @@ trivially bounded by $\tilde O(T^{4/7})$.
 \end{claim}
 
 Another simple case is when $\Delta$ is sufficiently large, so that
-the data collected in any sing first-level group can distinguish the
-two arms. The proof essentially follows from the clean event $W_1$
+the data collected in any single first-level group can distinguish the
+two arms. The proof essentially follows from the event $W_1$
 that both arms are explored sufficient many times in level 1, and the
 empirical rewards in the first two levels concentrate around their
 true means.
@@ -292,8 +293,8 @@ groups in the first level is not sufficient for correctly
 distinguishing the two arms. Thus, we need to ensure that both arms
 will continue to be pulled in the second level. To achieve this, we
 will nicely leverage the event of $W_4$, which has the implication
-that every arm $a$ has its ``lucky'' group $s_a$ in the first level,
-for which the empirical mean is slightly higher than $\mu_a$, while
+that each arm $a$ has a ``lucky'' group $s_a$ in the first level,
+for which its empirical mean is slightly higher than $\mu_a$, while
 the other arm is slightly lower than $\mu_{(3-a)}$. Since the
 deviations are in the order of $\Omega(\sqrt{1/T_1})$, the sub-history
 from this ``lucky'' group will induce a pair of estimates such that
@@ -317,8 +318,8 @@ gives the following guarantee.
 gap case, the stated regret bound holds regardless of the sequence of
 chosen arms. In the large gap case, the regret only comes from the
 first level, which is bounded
-by$S T_G T_1 = O(T^{4/7} \log^{6/7}(T))$. In the intermediate cases of
-both medium and small gap, it suffices to bound the regret from the
+by $S T_G T_1 = O(T^{4/7} \log^{6/7}(T))$. In the intermediate cases of
+both medium and small gaps, it suffices to bound the regret from the
 first and second levels, so
 \[
 \reg(T) \leq (S T_G T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
