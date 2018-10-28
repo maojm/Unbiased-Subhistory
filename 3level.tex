@@ -137,9 +137,7 @@ We will first establish four \emph{clean events} that together occur
 with probability at least $1 - O(1/T)$. The first event says that
 every group of \ALGG runs in the first level ensures that each arm $a$
 is pulled at least $\Omega(T_1)$ times. The following lemma can
-derived from combining Lemma~\ref{lem:t1runs} and union bound. This
-will be useful for applying concentration inequalities to the
-empirical mean rewards.
+derived from combining Lemma~\ref{lem:t1runs} and union bound.
 
 \begin{lemma}[Concentration of first-level number of pulls.]\label{3levelw1}
   Let $W_1$ be the event that for all groups $s\in [S]$ and arms
@@ -264,9 +262,27 @@ true means.
 \end{lemma}
 
 
-The intermediate case more challenging since the gap is neither too
-small to have negligible effect on regret nor too big to make the arms
-distinguishable after the first level.
+The intermediate case is more challenging since the gap is neither
+small enough to have negligible effect on regret nor large enough to
+make the arms distinguishable after the first level. In this case, we
+need to ensure that both arms will continued to be pulled in the
+second level. To achieve this, we will take advantage of the clean
+events of $W_1$ and $W_4$.
+
+\begin{lemma}\label{lem:luck}
+  For the $s$-th first-level group and arm $a$, define
+  $\bar{\mu}_a^{1,s}$ to be the empirical mean of arm $a$ pulls in
+  this group. For each $a \in \{1,2\}$, there exists a group $s_a$
+  such that
+\[
+\bar{\mu}_a ^{1,s_a} > \mu_a + \frac{1}{4\sqrt{q_aT_1}} \quad \mbox{and, } \quad
+\bar{\mu}_{3-a} ^{1,s_a} < \mu_{3-a}   - \frac{1}{4\sqrt{q_{3-a} T_1}}.
+\]
+\end{lemma}
+
+
+
+
 
 
 \begin{lemma}[Intermediate gap case]\label{3levelmidcase}
@@ -280,9 +296,9 @@ distinguishable after the first level.
 
 
 
-
+\OMIT{
 \begin{proof}
-\OMIT{Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. We do a case analysis based on $\mu_1-\mu_2$. 
+Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. We do a case analysis based on $\mu_1-\mu_2$. 
 
 Before we start with the case analysis, we first define several clean events and show that the intersection of them happens with high probability. 
 
@@ -378,10 +394,9 @@ Similarly, we also have
 \bar{\mu}_{3-a} ^{1,s_a} < \mu_{3-a}   - \frac{1}{4\sqrt{q_{3-a} T_1}}.
 \]
 \end{itemize}
-}
+
 Finally we proceed to the case analysis. We give upper bounds on the expected regret conditioned on the intersection of clean events.
 
-\OMIT{
 \begin{itemize}
 
 \item $\mu_1 - \mu_2 \geq 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
@@ -456,10 +471,8 @@ Therefore the expected regret is at most
 
 
 \item $\mu_1 - \mu_2 \leq 3\sqrt{\frac{2\log(T)}{T_2}}$. This is the easy case. Even always pulling the sub-optimal arm (i.e. arm 2) gives regret at most $T \cdot (\mu_1-\mu_2) = O(T^{4/7} \log^{6/7}(T))$. 
-
 \end{itemize}
-}
-\end{proof}
+\end{proof}}
 
 %%% Local Variables:
 %%% mode: latex
