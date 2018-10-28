@@ -26,14 +26,7 @@ level, the policy exploits by showing all remaining agents the entire
 history from the first two levels. \nicomment{This comment applies to the 2level too; why not allow the guys within the last level see each other?  Seems like this would still work but be more of a headache to prove -- would have to argue the empirical means can't move around too much in the sub-terminal levels, but it makes a big qualitative difference because now everyone sees a vanishingly small fraction of the history whereas with this modification a fraction approaching 1 of the people see a fraction approaching 1 of the history.}
 
 
-They main idea for the 3-level policy is that it inserts the second
-level as an additional ``checkpoint'' to induce more adaptivity in the
-exploration. While the first level ensures that the agents explore
-both arms, the second level will continue to explore both arms only if
-the rewards of the two arms are still indistinguishable (that is, when
-$|\mu_1 - \mu_2| < \tilde{O}(1/\sqrt{T_1})$). In the third level,
-agents will pull the best arm unless $|\mu_1-\mu_2|$ is much smaller
-than $\tilde{O}(1/\sqrt{T_2})$, in which case pulling either arm will
+They main idea for the 3-level policy is that it inserts the second level as an additional ``checkpoint'' to induce more adaptivity in the exploration. While the first level ensures that the agents explore both arms, the second level will continue to explore both arms only if the rewards of the two arms are still indistinguishable (that is, when $|\mu_1 - \mu_2| < \tilde{O}(1/\sqrt{T_1})$). In the third level, agents will pull the best arm unless $|\mu_1-\mu_2|$ is much smaller than $\tilde{O}(1/\sqrt{T_2})$, in which case pulling either arm will
 incur small regret. \nicomment{Need to add intuition about why it's necessary to have a middle level to get this to happen, as opposed to making the bottom level bigger.  Is it because the bottom level will start to herd on some arm and we want to refresh that process? Also should talk about need for anti-concentration bound.} The formal guarantee of the policy is the
 following.
 
@@ -133,7 +126,7 @@ not too big.
 
 
 \subsection{Events}
-We will first establish four \nidelete{\emph{clean events}} \niedit{events} \nicomment{this is a dumb name, what's clean or dirty about an event?  i advocate deleting this adjective from our paper, as i did for the 2level section} that together occur
+We will first establish four events that together occur
 with probability at least $1 - O(1/T)$. The first event says that
 every group of \ALGG runs in the first level ensures that each arm $a$
 is pulled at least $\Omega(T_1)$ times. The following lemma can
@@ -296,8 +289,8 @@ will nicely leverage the event of $W_4$, which has the implication
 that each arm $a$ has a ``lucky'' group $s_a$ in the first level,
 for which its empirical mean is slightly higher than $\mu_a$, while
 the other arm is slightly lower than $\mu_{(3-a)}$. Since the
-deviations are in the order of $\Omega(\sqrt{1/T_1})$, the sub-history
-from this ``lucky'' group will induce a pair of estimates such that
+deviations are in the order of $\Omega(\sqrt{1/T_1})$, and Assumption~\ref{ass:embehave} guarantees the estimates are also within $\Omega(\sqrt{1/T_1})$ of the empirical means, the sub-history
+from this ``lucky'' group will yield estimates such that
 $\hat \mu_a^t > \hat \mu_{(3-a)}^t$, and so any second-level agent in
 group $s_a$ will pull arm $a$.  As a result, we guarantee both arms
 will be pulled at least $T_2$ times in the second level, which in turn
