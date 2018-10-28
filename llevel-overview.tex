@@ -25,5 +25,64 @@ Simply generalizing this idea to an $L$-level policy would give us a $S$-ary tre
 
 In order to avoid this undesirable factor, we design a slightly different connecting structure in our $L$-level policy. The key observation is that, for any level $l \in \{3,...,L-1\}$, we do want agents in different $l$-th level groups to see disjoint histories of the $(l-1)$-th level to ensure that there is some ``lucky'' group for each arm $a$ when arm $a$'s mean is close enough to the best arm. However, it does not matter much if these agents see the same history of levels below $l-1$ because group sizes in lower levels are much smaller than group sizes in higher levels and the independent randomness in level $l-1$ is sufficient.
 
+To explain the figure..
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}  
+ \foreach \x in {0,3,6,9}
+ {
+ \filldraw[fill=purple!20!white]
+ (\x+0,7.5)--(\x+2,7.5)--(\x+2,8.5)--(\x+0,8.5)--cycle;
+ \filldraw[fill=green!20!white]
+ (\x+0,5)--(\x+2,5)--(\x+2,6)--(\x+0,6)--cycle;
+ \filldraw[fill=blue!20!white]
+ (\x+0,2.5)--(\x+2,2.5)--(\x+2,3.5)--(\x+0,3.5)--cycle;
+ }
+\foreach \y in {2.5,5,7.5}
+{
+  \node at (12.5,\y+0.5){$\cdots$};
+} 
 
+
+\foreach \y in {3.5,6}
+{
+  \draw (1,\y) -- (1,\y+1.5);
+  \draw (1,\y) -- (7,\y+1.5);
+  
+  \draw (4,\y) -- (1,\y+1.5);
+  \draw (4,\y) -- (7,\y+1.5);
+  
+  
+  \draw (7,\y) -- (4,\y+1.5);
+  \draw (7,\y) -- (10,\y+1.5);
+  
+  
+  \draw (10,\y) -- (4,\y+1.5);
+  \draw (10,\y) -- (10,\y+1.5);
+} 
+
+\foreach \u in {1,2}
+{
+	\foreach \v in {1,2}
+	{
+	\pgfmathsetmacro{\x}{((\u-1)*2+(\v-1))*3};
+	\pgfmathsetmacro{\xa}{((\u-1))*3};
+	\pgfmathsetmacro{\xb}{(2+(\u-1))*3};
+   \node at(\x+1,8){$G_{l,\u,\v}$};
+   \node at(\x+1,5.5){$G_{l-1,\u,\v}$};
+   \node at(\x+1,3){$G_{l-2,\u,\v}$};
+	}
+}
+
+
+  \node at(-1.2,3){\textbf{Level $l-2$}};
+  \node at(-1.2,5.5){\textbf{Level $l-1$}};
+  \node at(-1.2,8){\textbf{Level $l$}};
+  \draw[->] (13.3,2)--(13.3,8.5);
+  \node at(13.7,5)[ rotate=90]{Time};
+
+\end{tikzpicture}
+\caption{Connectiing structures between levels for the $L$-level policy.}
+\label{fig:llevel-connecting}
+\end{figure}
 \xhdr{Additional groups for boundary cases.}
