@@ -110,7 +110,7 @@ Finally we define the info-graph. Agents in the first level only observe the his
 
 \begin{theorem}
 \label{thm:llevel}
-The $L$-level recommendation policy gets expected regret $O\left(T^{2^{L-1}/(2^L-1)} \log^2(T) \right)$ for $L \leq \log(\ln(T)/\log(S^4))$. In particular, if we pick $L = \log(\ln(T)/\log(S^4))$, the expected regret is $O(T^{1/2} polylog(T))$. 
+The $L$-level recommendation policy gets regret $O\left(T^{2^{L-1}/(2^L-1)} \log^2(T) \right)$ for $L \leq \log(\ln(T)/\log(S^4))$. In particular, if we pick $L = \log(\ln(T)/\log(S^4))$, the regret is $O(T^{1/2} polylog(T))$. 
 \end{theorem}
 
 \begin{proof}
@@ -196,9 +196,9 @@ Finally we define $W_4$ as $\bigcap_{a} W^{a}_4$. By union bound,
 \]
 \end{itemize}
 
-By union bound, the intersection of these clean events (i.e. $\bigcap_{i=1}^4 W_i$) happens with probability $1-O(1/T)$. When this intersection does not happen, since the probability is $O(1/T)$, it cost expected regret $O(1/T) \cdot T = O(1)$. 
+By union bound, the intersection of these clean events (i.e. $\bigcap_{i=1}^4 W_i$) happens with probability $1-O(1/T)$. When this intersection does not happen, since the probability is $O(1/T)$, it contributes $O(1/T) \cdot T = O(1)$ to the regret. 
 
-Now we assume the intersection of clean events happens and prove upper bound on the expected regret.
+Now we assume the intersection of clean events happens and prove upper bound on the regret.
 
 By event $W_1$, we know that in each first-level group, there are at least $\fdpN T_1- \GdT \sqrt{T_1\log(T)}$ pulls of arm $a$. We prove in the next claim that there are enough pulls of both arms in higher levels if $\mu_1-\mu_2$ is small enough. For notation convenience, we set $\varepsilon_0 = 1$, $\varepsilon_1 = \frac{1}{4\sqrt{\fdpN T_1S}} + \frac{1}{4\sqrt{\fdpN[3-a] T_1S}}$ and $\varepsilon_l = 1/(4\sqrt{T_lS})$ for $l \geq 2$. 
 
@@ -336,7 +336,7 @@ T_L = (T - T_1 \cdot \GdT\cdot S^2 - (T_2 + \cdots + T_{l-1}) S^3) /S^3
 \]
 We restrict $L$ to be at most $\log(\ln(T)/\log(S^4))$ so that $T_l / T_{l-1} \geq T^{1/2^L} \geq S^4$ for $l = 2,...,L-1$. $T_L$ is a little bit different because we want total number of agents to be $T$. 
 
-By Claim \ref{clm:l2_exploit}, we know that the expected regret conditioned the intersection of clean events is at most 
+By Claim \ref{clm:l2_exploit}, we know that the regret conditioned the intersection of clean events is at most 
 \begin{align*}
 &\max\left( T_1\GdT S^2 , \max_{l \geq 2} \varepsilon_{l-1}S(T_1\GdT S^2 + T_2 S^3 + \cdots + T_lS^3)\right) \\
 \leq & \max\left( T_1\GdT S^2 , \max_{l \geq 2} 2 \varepsilon_{l-1} T_l S^4 \right)\\
@@ -348,7 +348,7 @@ Now we are going to change the parameters of the $L$-level recommendation policy
 
 \begin{corollary}
 \label{cor:llevel}
-With the proper setting of $L$ and $T_1,...,T_L$ described above, the $L$-level recommendation policy gets expected regret $O(\min(1/\Delta, T^{1/2})polylog(T))$. Here $\Delta = |\mu_1 -\mu_2|$ and the $L$-level recommendation policy does not need to know $\Delta$. Moreover, agent $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
+With the proper setting of $L$ and $T_1,...,T_L$ described above, the $L$-level recommendation policy gets regret $O(\min(1/\Delta, T^{1/2})polylog(T))$. Here $\Delta = |\mu_1 -\mu_2|$ and the $L$-level recommendation policy does not need to know $\Delta$. Moreover, agent $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
 \end{corollary}
 
 \begin{proof}
@@ -356,8 +356,8 @@ Notice that in the proof of Theorem \ref{thm:llevel}, by the end of Claim \ref{c
 
 Recall in the proof of Theorem \ref{thm:llevel}, $\varepsilon_l =\Theta(1/\sqrt{T_l S})$ for $l \in [L-1]$ and $\varepsilon_0 = 1$. Consider two cases:
 \begin{itemize}
-\item $\Delta < \varepsilon_{L-1} S$. In this case, notice that even always picking the sub-optimal arm gives expected regret at most $T(\mu_1-\mu_2) = T\Delta = O(T^{1/2} polylog(T))$. On the other hand, $T^{1/2} = O(polylog(T)/\Delta)$. Therefore, the expected regret is $O(\min(1/\Delta, T^{1/2})polylog(T))$.
-\item $\Delta \geq \varepsilon_{L-1} S$. In this case, we can find $l \in \{2,...,L\}$ such that $\varepsilon_{l-1} S\leq \Delta < \varepsilon_{l-2} S$. By Claim \ref{clm:l2_exploit}, we can upper bound the expected regret by
+\item $\Delta < \varepsilon_{L-1} S$. In this case, notice that even always picking the sub-optimal arm gives expected regret at most $T(\mu_1-\mu_2) = T\Delta = O(T^{1/2} polylog(T))$. On the other hand, $T^{1/2} = O(polylog(T)/\Delta)$. Therefore, the regret is $O(\min(1/\Delta, T^{1/2})polylog(T))$.
+\item $\Delta \geq \varepsilon_{L-1} S$. In this case, we can find $l \in \{2,...,L\}$ such that $\varepsilon_{l-1} S\leq \Delta < \varepsilon_{l-2} S$. By Claim \ref{clm:l2_exploit}, we can upper bound the regret by
 \begin{align*}
 &\Delta \cdot (T_1 \GdT S^2  +T_2 S^3+ \cdots T_{l-1} S^3)\\
 =& O(\Delta T_{l-1}S^3) \\
@@ -366,7 +366,7 @@ Recall in the proof of Theorem \ref{thm:llevel}, $\varepsilon_l =\Theta(1/\sqrt{
 =&O(\Delta \cdot \frac{1}{\Delta^2}\cdot S^8)\\
 =&O(polylog(T)/\Delta).
 \end{align*}
-We also have $1/\Delta \leq 1/(\varepsilon_{L-1}S)= O(T^{1/2})$. Therefore, the expected regret is \\$O(\min(1/\Delta, T^{1/2})polylog(T))$.
+We also have $1/\Delta \leq 1/(\varepsilon_{L-1}S)= O(T^{1/2})$. Therefore, the regret is $O(\min(1/\Delta, T^{1/2})polylog(T))$.
 \end{itemize}
 
 Finally we discuss about the subhistory sizes. We know that agents in level $l$ observes the history of all agents below level $l-2$ (including level $l-2$). It is easy to check that the ratio between the number of agents below level $l$ and the number of agents below level $l-2$ is bounded by $O(polylog(T))$. Therefore our statement about the subhistory sizes holds.
@@ -380,13 +380,13 @@ Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel} can be extended to the c
 \end{theorem}
 
 \xhdr{Proof Sketch.}
-We still wlog assume arm 1 has the highest mean (i.e. $\mu_1 \geq \mu_a, \forall a \in \A$. We first extend the clean events (i.e. $W_1,W_2,W_3,W_4$) in Theorem \ref{thm:llevel} to the case when $K$ is larger than 2. $W_1$ and $W_2$ extend naturally: we still set $W_1 = \bigcap_{a,s}W_1^{a,s}$ and $W_2 = \bigcap_{t,a,t_1,t_2} W_2^{t,a,t_1,t_2}$. The difference is that now $a$ is taken over $K$ arms instead of 2 arms. For $W_3$, we change the definition $W_3^{l,a} = \bigcup_u \left(W_3^{l,u,a,high}  \cap \left(\bigcap_{a' \neq a} W_3^{l,u,a',low}\right) \right)$ and $W_3 = \bigcap_{l,a} W_3^{l,a}$. We extend $W_4$ in a similar way: define $W^{a}_4$ as $\bigcup_u \left(W_4^{u,a,high} \cap \left(\bigcap_{a' \neq a} W_4^{u,a',low}\right) \right)$ and $W_4 = \bigcap_a W^a_4$. Since $K$ is a constant, it's easy to check that the same proof technique shows that the intersection of these clean events happen with probability  $1-O(1/T)$. So the case when some clean event does not happen contributes $O(1)$ to the expected regret. 
+We still wlog assume arm 1 has the highest mean (i.e. $\mu_1 \geq \mu_a, \forall a \in \A$. We first extend the clean events (i.e. $W_1,W_2,W_3,W_4$) in Theorem \ref{thm:llevel} to the case when $K$ is larger than 2. $W_1$ and $W_2$ extend naturally: we still set $W_1 = \bigcap_{a,s}W_1^{a,s}$ and $W_2 = \bigcap_{t,a,t_1,t_2} W_2^{t,a,t_1,t_2}$. The difference is that now $a$ is taken over $K$ arms instead of 2 arms. For $W_3$, we change the definition $W_3^{l,a} = \bigcup_u \left(W_3^{l,u,a,high}  \cap \left(\bigcap_{a' \neq a} W_3^{l,u,a',low}\right) \right)$ and $W_3 = \bigcap_{l,a} W_3^{l,a}$. We extend $W_4$ in a similar way: define $W^{a}_4$ as $\bigcup_u \left(W_4^{u,a,high} \cap \left(\bigcap_{a' \neq a} W_4^{u,a',low}\right) \right)$ and $W_4 = \bigcap_a W^a_4$. Since $K$ is a constant, it's easy to check that the same proof technique shows that the intersection of these clean events happen with probability  $1-O(1/T)$. So the case when some clean event does not happen contributes $O(1)$ to the regret. 
 
 Now we proceed to extend Claim \ref{clm:l2_explore} and Claim \ref{clm:l2_exploit}. The statement of Claim \ref{clm:l2_explore} should be changed to ``For any arm $a$ and $2\leq l \leq L$, if $\mu_1 - \mu_a \leq \varepsilon_{l-1}$, then for any $u \in [S]$, there are at least $T_l$ pulls of arm $a$ in groups $G_{l,u,1},G_{l,u,2}, ... ,G_{l,u,S}$ and there are at least $T_lS(S-1)$ pulls of arm $a$ in the $l$-th level $\Gamma$-groups''. The statement of Claim \ref{clm:l2_exploit} should be changed to ``For any $2 \leq l \leq L$, if $\varepsilon_{l-1} S\leq \mu_1 - \mu_a < \varepsilon_{l-2} S$, there are no pulls of arm $a$ in groups with level $l,...,L$.'' 
 
 The proof of Claim \ref{clm:l2_exploit} can be easily changed to prove the new version by changing ``arm 2'' to ``arm $a$''. The proof of Claim \ref{clm:l2_explore} needs some additional argument. In the proof of Claim \ref{clm:l2_explore}, we show that $\hat{\mu}_a^t - \hat{\mu}_{3-a} > 0 $ for agent $t$ in the chosen groups. When extending to more than 2 arms, we need to show $\hat{\mu}_a^t - \hat{\mu}_{a'}^t > 0$ for all arm $a' \neq a$. The proof of Claim \ref{clm:l2_explore} goes through if $\mu_1- \mu_{a'} \leq \varepsilon_{l-2}$ since then there will be enough arm $a'$ pulls in level $l-1$. We need some additional argument for the case when $\mu_1 - \mu_{a'} > \varepsilon_{l-2}$. Since $\mu_1- \mu_{a'} > \varepsilon_{l-2} > \varepsilon_{l-1}S$, we can use the same proof of Claim \ref{clm:l2_exploit} (which rely on Claim \ref{clm:l2_explore} but for smaller $l$'s) to show that there are no arm $a'$ pulls in level $l$ and therefore $\hat{\mu}_a^t - \hat{\mu}_{a'}^t > 0$. 
 
-Finally we proceed to bound the expected regret conditioned on the intersection of clean events happens. The proofs of Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel} bound it by consider the regret from pulling the suboptimal arm (i.e. arm 2). When extending to more than 2 arms, we can do the exactly same argument for all arms except arm 1. This will blow up the expected regret by a factor of $(K-1)$ which is a constant.
+Finally we proceed to bound the regret conditioned on the intersection of clean events happens. The proofs of Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel} bound it by consider the regret from pulling the suboptimal arm (i.e. arm 2). When extending to more than 2 arms, we can do the exactly same argument for all arms except arm 1. This will blow up the regret by a factor of $(K-1)$ which is a constant.
 \qed
 
  

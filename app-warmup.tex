@@ -101,17 +101,17 @@ Therefore,
 \[
 |\hat{\mu}^t_a - \mu_a|\leq \sqrt{\frac{2\log(T)}{\fdpN T_1 /2}}+\frac{C_0}{\sqrt{\fdpN T_1/2}} \leq 3 \sqrt{\frac{\log(T)}{\GdP T_1 }}.
 \]
-So the second-level agents will pick an arm $a$ which has $\mu_a$ at most $6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$ away from $\mu_1$. To sum up, the total expected regret is at most
+So the second-level agents will pick an arm $a$ which has $\mu_a$ at most $6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$ away from $\mu_1$. To sum up, the total regret is at most
 \[
 T_1 \cdot \GdT + T \cdot (1-\Pr[W_1 \cap W_2]) + T \cdot  6 \sqrt{\frac{\log(T)}{\GdP T_1 }}.
 \]
-By setting $T_1 = T^{2/3}\log(T)^{1/3}$, we get expected regret $O(T^{2/3}\log(T)^{1/3})$.
+By setting $T_1 = T^{2/3}\log(T)^{1/3}$, we get regret $O(T^{2/3}\log(T)^{1/3})$.
 \OMIT{Notice that if we know the gap parameter is known to be larger than
 $\Delta$, we can set
 \[
 T_1 = \max\left( \frac{4\GdT^2}{\GdP^2}\log(T), \frac{36 }{\Delta^2 \cdot p_G} \log(T) \right).
 \]
-In this case, since $\Delta \geq 6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$, we know agents in the second level will all pull arm 1. Therefore, the total expected regret is at most
+In this case, since $\Delta \geq 6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$, we know agents in the second level will all pull arm 1. Therefore, the total regret is at most
 \[
 T_1 \cdot \GdT + T \cdot (1- \Pr[W_1 \cap W_2]) = O(\Delta^{-2} \log(T)).
 \]
