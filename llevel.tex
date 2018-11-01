@@ -338,8 +338,8 @@ We restrict $L$ to be at most $\log(\ln(T)/\log(S^4))$ so that $T_l / T_{l-1} \g
 
 By Claim \ref{clm:l2_exploit}, we know that the expected regret conditioned the intersection of clean events is at most 
 \begin{align*}
-&\max\left( T_1T_GS^2 , \max_{l \geq 2} \varepsilon_{l-1}S(T_1T_GS^2 + T_2 S^3 + \cdots + T_lS^3)\right) \\
-\leq & \max\left( T_1T_GS^2 , \max_{l \geq 2} 2 \varepsilon_{l-1} T_l S^4 \right)\\
+&\max\left( T_1\GdT S^2 , \max_{l \geq 2} \varepsilon_{l-1}S(T_1\GdT S^2 + T_2 S^3 + \cdots + T_lS^3)\right) \\
+\leq & \max\left( T_1\GdT S^2 , \max_{l \geq 2} 2 \varepsilon_{l-1} T_l S^4 \right)\\
 = &O\left(T^{2^{L-1}/(2^L-1)} \log^2(T) \right).
 \end{align*}
 \end{proof}

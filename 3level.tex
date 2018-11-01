@@ -13,10 +13,10 @@ simplicity, we will focus on the setting with 2 arms\niedit{, although our resul
 The policy consists of three phases, each of which corresponds to a
 level (see Figure~\ref{fig:3level}).  In the first level, the policy
 performs the first round of exploration over the first
-$(S\cdot T_1\cdot T_G)$ agents, where $T_1 = T^{4/7}\log^{-1/7}(T)$
+$(S\cdot T_1\cdot \GdT)$ agents, where $T_1 = T^{4/7}\log^{-1/7}(T)$
 and $S = 2^{10}\log(T)$. In particular, the policy partitions
 the agents into $S$ groups such that each group consists of $T_1$ runs
-of \ALGG with $T_G$ rounds. In the second level, the policy performs
+of \ALGG with $\GdT$ rounds. In the second level, the policy performs
 further exploration on the next $(S\cdot T_2)$ agents by incorporating
 data collected in the first level, where
 $T_2 = T^{6/7}\log^{-5/7}(T)$. The agents are again partitioned into
@@ -115,7 +115,7 @@ not too big.
 \end{tikzpicture}
 \caption{Structure of the information graph for the 3-level
   Policy. Each red box in level 1 corresponds to $T_1$ \ALGG paths of
-  length $T_G$. The sub-history of each red box is then aggregated and
+  length $\GdT$. The sub-history of each red box is then aggregated and
   sent to a corresponding purple box of agents in level 2. Then the
   entire history of levels 1 and 2 is aggregated and shown to all
   agents in level 3.}
@@ -140,7 +140,7 @@ derived from combining Lemma~\ref{lem:t1runs} and union bound.
   \left[q_a T_1- \GdT \sqrt{T_1\log(T)}, q_a T_1 + \GdT \sqrt{T_1\log(T)}\right],
   $$
   where $q_a$ is the expected number of arm $a$ pulls in a $\ALGG$ run
-  of length $T_G$. Then $\Pr[W_1] \geq 1- \frac{4S}{T^2}$.
+  of length $\GdT$. Then $\Pr[W_1] \geq 1- \frac{4S}{T^2}$.
 \end{lemma}
 
 
@@ -311,11 +311,11 @@ gives the following guarantee.
 gap case, the stated regret bound holds regardless of the sequence of
 chosen arms. In the large gap case, the regret only comes from the
 first level, which is bounded
-by $S T_G T_1 = O(T^{4/7} \log^{6/7}(T))$. In the intermediate cases of
+by $S \GdT T_1 = O(T^{4/7} \log^{6/7}(T))$. In the intermediate cases of
 both medium and small gaps, it suffices to bound the regret from the
 first and second levels, so
 \[
-\reg(T) \leq (S T_G T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
+\reg(T) \leq (S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
 + \sqrt{\frac{4\log(T)}{q_2T_1}}\right) = O(T^{4/7} \log^{6/7}(T)).
 \]
 Therefore, we obtain the stated regret bound in all cases.

@@ -29,7 +29,7 @@
 \begin{proof}[Proof of Theorem~\ref{thm:2level}]
   We will set $T_1$ later in the proof, depending on whether the gap
   parameter $\Delta$ is known. For now, we just need to know we will
-  make $T_1 \geq \frac{4\GdT^2}{\GdP^2}\log(T)$. Since this policy is
+  make $T_1 \geq \frac{4(\GdT)^2}{(\GdP)^2}\log(T)$. Since this policy is
   agnostic to the indices of the arms, we assume w.l.o.g. that arm 1
   has the highest mean.
 
@@ -49,7 +49,7 @@
 By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$.}
   Define $W_1^a$ to be the event that the number of arm $a$ pulls in
   the first level is at least $q_a T_1- \GdT \sqrt{T_1\log(T)}$.
-  \swedit{As long as we set $T_1 \geq \frac{4\GdT^2}{\GdP^2}\log(T)$,
+  \swedit{As long as we set $T_1 \geq \frac{4(\GdT)^2}{(\GdP)^2}\log(T)$,
     this implies that the number of arm $a$ pulls is then at least
     $q_a T_1/2$.}
 \OMIT{  By Chernoff bound,
