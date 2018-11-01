@@ -5,6 +5,20 @@
 
 The two-level policy from the previous section implements the explore-then-exploit paradigm using a basic design with parallel full-disclosure paths. The next challenge is to implement \emph{adaptive exploration}, and go below the $T^{2/3}$ barrier. We accomplish this using a construction that adds a middle level to the info-graph. This construction also provides intuition for the main result, the multi-level construction presented in the next section. For simplicity, we assume $K=2$ arms.
 
+The new policy, called the \emph{three-level policy}, is as follows
+ (see Figure~\ref{fig:3level}).
+
+\begin{construction}
+The info-graph consists of three levels: the first two correspond to \emph{exploration}, and the third implements \emph{exploitation}. Like in the two-level policy, the first level consists of multiple full-disclosure paths of length $\fdpL$ each, and each agent $t$ in the exploitation level sees full history from exploration. The middle layer is what ensures adaptive exploration. It consists of $N_2$ disjoint subsets of $T_2$ agents each, called \emph{second-level groups}. Each second-level group $S$ has the following property:
+\begin{align}\label{eq:group-defn}
+\text{all nodes in $S$ are connected to the same nodes outside of $S$, but not to one another.}
+\end{align}
+
+The full-disclosure paths in the first level are also split into $N_2$ disjoint subsets, called \emph{first-level groups}. Each first-level group consists of $T_1$ full-disclosure paths, for the total of $T_1\cdot N_2\cdot \fdpL$ rounds in the first layer. There is a 1-1 correspondence between first-level groups $S_1$ and second-level groups $S_2$, whereby each agent $t\in S_2$ observes the full history from the corresponding group $S_1$. More formally, agent $t$ is connected to the last node of each full-disclosure path in $S_1$. In other words, this agent receives message
+    $m_t = \SubH{V(S_1)}$,
+where $V(S_1)$ is the set of all rounds in $S_1$. 
+\end{construction}
+
 \begin{figure}[t]
 \centering
 \begin{tikzpicture}
@@ -53,20 +67,6 @@ The two-level policy from the previous section implements the explore-then-explo
 \label{fig:3level}
 \end{figure}
 
-
-The new policy, called the \emph{three-level policy}, is as follows
- (see Figure~\ref{fig:3level}).
-
-\begin{construction}
-The info-graph consists of three levels: the first two correspond to \emph{exploration}, and the third implements \emph{exploitation}. Like in the two-level policy, the first level consists of multiple full-disclosure paths of length $\fdpL$ each, and each agent $t$ in the exploitation level sees full history from exploration. The middle layer is what ensures adaptive exploration. It consists of $N_2$ disjoint subsets of $T_2$ agents each, called \emph{second-level groups}. Each second-level group $S$ has the following property:
-\begin{align}\label{eq:group-defn}
-\text{all nodes in $S$ are connected to the same nodes outside of $S$, but not to one another.}
-\end{align}
-
-The full-disclosure paths in the first level are also split into $N_2$ disjoint subsets, called \emph{first-level groups}. Each first-level group consists of $T_1$ full-disclosure paths, for the total of $T_1\cdot N_2\cdot \fdpL$ rounds in the first layer. There is a 1-1 correspondence between first-level groups $S_1$ and second-level groups $S_2$, whereby each agent $t\in S_2$ observes the full history from the corresponding group $S_1$. More formally, agent $t$ is connected to the last node of each full-disclosure path in $S_1$. In other words, this agent receives message
-    $m_t = \SubH{V(S_1)}$,
-where $V(S_1)$ is the set of all rounds in $S_1$. 
-\end{construction}
 
 \begin{theorem}
 \label{thm:3level}
