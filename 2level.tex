@@ -1,105 +1,24 @@
 %!TEX root = main.tex
-\section{Warm-up: Explore-then-Exploit Policy}
+\section{Warm-up: full-disclosure paths}
 
-We first consider the simplest disclosure policy which reveals the full history in each round $t$, \ie $m_t=\SubH{t-1}$; we call it the \emph{full-disclosure policy}. The info-path for this policy is a simple path. We use this policy as a ``gadget" in our constructions. Hence, we formulate it slightly more generally:
+We first consider a disclosure policy that reveals the full history in each round $t$, \ie $m_t=\SubH{t-1}$; we call it the \emph{full-disclosure policy}. The info-path for this policy is a simple path. We use this policy as a ``gadget" in our constructions. Hence, we formulate it slightly more generally:
   
 \begin{definition}
-A subset of rounds $S\subset [T]$ is called a \emph{full-disclosure path} in info-graph $G$ if the induced subgraph $G_S$ is a simple path, and it connects to the rest of the graph only through the terminal node $\max(S)$, if at all.
+A subset of rounds $S\subset [T]$ is called a \emph{full-disclosure path} in the  info-graph $G$ if the induced subgraph $G_S$ is a simple path, and it connects to the rest of the graph only through the terminal node $\max(S)$, if at all.
 \end{definition}
   
-We prove that with constant probability, a full-disclosure path of constant length samples each arm at least once (and we will build on this fact throughout).
+We prove that for a constant number of arms, with constant probability, a full-disclosure path of constant length suffices to sample each arm at least once. We will build on this fact throughout.
 
-\ascomment{stopped here.}
-
-\begin{lemma}
-\label{lem:greedy}
-Under Assumption \ref{ass:embehave}, there exist two constants $\GdT = O_K(1)$
-and $\GdP = \Omega_K(1)$ such that for any arm $a$, with probability
-at least $\GdP$, \ALGG of $\GdT$ rounds pulls this arm at least
-once.\footnote{The notations $O_k$ and $\Omega_K$ hide the dependence
-  on the number of arms $K$.} \nicomment{If we change the name of the policy, we might also want to change the subscripts of these constants.}
+\begin{lemma}\label{lem:greedy}
+There exist numbers $\GdT>0$ and $\GdP>0$ that depend only on $K$, the number of arms, with the following property. Consider an arbitrary disclosure policy, and let $S\subset [T]$ be a full-disclosure path in its info-graph, of length $|S|\geq \GdT$. Under Assumption \ref{ass:embehave}, with probability at least $\GdP$, subhistory $\SubH{S}$ contains at least once sample of each arm $a$.
 \end{lemma}
 
-\begin{proof}
-  Fix any arm $a$. Let $\GdT = (K-1) \cdot c_T + 1$ and
-  $\GdP = (1/3)^{\GdT}$. \swedit{We will condition on the event that
-    all the realized rewards in $\GdT$ rounds are 0, which occurs with
-    probability at least $\GdP$ under Assumption~\ref{ass:embehave}.}
-  In this case, we want to show that arm $a$ is pulled at least
-  once. We prove this by contradiction. Suppose arm $a$ is not pulled. By
-  the pigeonhole principle, we know that there is some other arm $a'$
-  that is pulled at least $c_T + 1$ rounds. Let $t$ be the round in
-  which arm $a'$ is pulled exactly $c_T + 1$ times. By Assumption
-  \ref{ass:embehave}, we know
-  \[
-    \hat{\mu}_{a'}^t \leq 0 + c_m / \sqrt{c_T} < 1/3.
-  \]
-  \nicomment{Wait, where did we set $c_T$?} On the other hand, we have
-  $\hat{\mu}_a^t \geq 1/3 > \hat{\mu}_{a'}^t$. This contradicts with
-  the fact that in round $t$, arm $a'$ is pulled, instead of arm $a$.
-  \swdelete{ In addition, we know that this case happens with
-    probability at least $(1/3)^{\GdT} = \GdP$ as each arm's mean is
-    at most $2/3$. To sum up, we know that with probability at least
-    $\GdP$, \ALGG of $\GdT$ rounds pulls arm $a$ at least once.}
-   \jmcomment{Agree with these changes.}
+\begin{proof}[Proof Sketch]
 \end{proof}
 
+\ascomment{Where do we need to introduce the expected \#pulls in full-disclosure path?}
 
-\swedit{In our policies presented in the next sections, we will use
-  \ALGG of $T_G$ rounds as a subroutine for initial exploration. For
-  any $a$, let $q_a$ \nicomment{$q$ sounds like a fraction; maybe $n^G_a$ or $N^G_a$} be the expected number of arm $a$ pulls in one
-  run of \ALGG of $T_G$ rounds.} \nicomment{\ALGG of $T_G$ rounds is a mouthful; what about using notation like \ALGG($T_G$)? or if we will always use $T_G$ rounds, then just define the policy to be that from now on?}
-
-
-
-\swedit{Now we provide a simple policy that can incentivize the agents
-  to perform non-adaptive exploration and achieve a regret rate of
-  $\tilde O(T^{2/3})$. The policy essentially follows the
-  ``explore-then-exploit'' paradigm and consists of two phases, which can
-  be described as a two-level information graph (as shown in
-  Figure~\ref{fig:2level}).  In the first level, we perform
-  exploration by simulating $T_1$ independent runs of \ALGG of $\GdT$
-  rounds. This is done by dividing the first $T_1 \cdot \GdT$
-  agents into $T_1$ groups of equal size and allowing each agent to only observe
-  the history of all previous agents in the same group.  In the second
-  level, we ``exploit'' by showing all the remaining agents the entire
-  history of first phase.
-
-  The key idea behind the policy is that the first level effectively
-  boosts the exploration probability of \ALGG. Since each run of
-  \ALGG explores all arms with constant probability (Lemma
-  \ref{lem:greedy}), by simulating multiple runs of \ALGG, we can
-  ensure that with high probability, every arm is pulled a
-  sufficient number of times. The below lemma follows from
-  concentration bounds.
-
-} \nicomment{there was a proof of this once; i remember checking it. if it still exists, let's throw it in an appendix.}
-
-
-\begin{lemma}[Concentration of arm pulls]\label{lem:t1runs}
-  Consider $T_1$ indepdent runs of \ALGG of $T_G$ rounds. Let $N_a$ be
-  the number of arm $a$ pulls among all runs. Then with probability at
-  least $1-\delta$, for all $a\in \A$,
-  \[
-    \left| N_a - q_a T_1\right| \leq T_G \sqrt{T_1 \log(2K/\delta) / 2}
-  \]
-\end{lemma}
-
-
-
-
-\iffalse
-The 2-level recommendation policy is constructed as following.
-In the first level, we run $T_1$ \ALGG of $\GdT$ rounds ``in parallel''. More specifically, we divide the first $T_1 \cdot \GdT$ agents into $T_1$ groups of equal size and agents only observe the history of all previous agents in the same group.
-In the second level, we show the rest $T-T_1\cdot \GdT$ agents the history of first $T_1 \cdot \GdT$ rounds. We will pick $T_1$ in Theorem \ref{thm:2level}.
-See also Figure \ref{fig:2level} for a graphical view of the information flow.
-
-The idea of this 2-level recommendation policy is simple. We first try to explore all arms enough amount of times in the first level using multiple runs of \ALGG under the guarantee of Lemma \ref{lem:greedy}. After that, by concentration argument, we can show that while observing the history of the first level, agents in the second level pick an arm with mean close to the best arm's mean.
-\fi
-
-
-
-
+We provide a simple disclosure policy based on full-disclosure paths. The policy follows the ``explore-then-exploit'' paradigm. The ``exploration phase" comprises the first $N = T_1\cdot \GdT$ rounds, and consists of $T_1$ full-disclosure paths of length $\GdT$ each. Here $\GdT$ is the constant from Lemma~\ref{lem:greedy}, and $T_1$ is a parameter. In the ``exploitation phase", each agent $t>N$ receives the full subhistory from exploration, \ie $m_t = \SubH{[N]}$. The info-graph for this disclosure policy is shown in Figure~\ref{fig:2level}.
 
 \begin{figure}[H]
 \centering
@@ -125,7 +44,7 @@ The idea of this 2-level recommendation policy is simple. We first try to explor
   \node at(6,0.5){$\cdots$};
   \node at(7,0.5){$\cdots$};
   \node at(8,0.5){$\cdots$};
-  \node at(5,2.5){$T -T_1 \cdot \GdT$};
+  \node at(5,2.5){$T -T_1 \cdot \GdT$ rounds};
   \node at(0.5,0.5){$\GdT$};
   \node at(1.5,0.5){$\GdT$};
   \node at(2.5,0.5){$\GdT$};
@@ -136,136 +55,44 @@ The idea of this 2-level recommendation policy is simple. We first try to explor
   \draw[->] (11,0)--(11,3);
   \node at(11.5,1.5)[ rotate=90]{Time};
 
-  \draw [decorate,decoration={brace,amplitude=10pt},xshift=0pt,yshift=0pt] (10,-0.2) -- (0,-0.2) node [black,midway,yshift=-0.6cm] {$T_1$ runs of \ALGG in parallel};
+  \draw [decorate,decoration={brace,amplitude=10pt},xshift=0pt,yshift=0pt] (10,-0.2) -- (0,-0.2) node [black,midway,yshift=-0.6cm] 
+  {$T_1$ full-disclosure paths of length $\GdT$ each};
 \end{tikzpicture}
 
-\caption{Structure of information graph for the 2-level policy. Each
-  red ``box'' in level 1 corresponds to a path connecting a set of
-  $T_G$ agents. The entire history in level 1 is then aggregated and
-  shown to each agent in level 2.}
+\caption{Info-graph for the 2-level policy. }
+%Each red box in level 1 corresponds to a path connecting a set of
+%  $T_G$ agents. The entire history in level 1 is then aggregated and
+%  shown to each agent in level 2.}
 \label{fig:2level}
 \end{figure}
 
 
-\swedit{As a result, every agent in the second level will pull an arm
-  with mean reward close to the optimal, which gives us the following
-  regret guarantee.}
+It is useful to think of the info-graph as having two levels (corresponding to exploration and exploitation). Accordingly, we call this policy the \emph{2-level policy}. We show that it incentivizes the agents to perform non-adaptive exploration, and achieves a regret rate of  $\tilde O_K(T^{2/3})$. The key idea is that using many full-disclosure paths ``in parallel" ensures that sufficiently many samples of each arm are collected during exploration.
 
-
-
-
-\begin{theorem}
-\label{thm:2level}
-By setting $T_1 = T^{2/3}\log(T)^{1/3}$, the 2-level policy gets
-expected regret $O(T^{2/3} \log(T)^{1/3})$.
+\begin{theorem}\label{thm:2level}
+The 2-level policy with parameter $T_1 = T^{2/3}\,\log(T)^{1/3}$ achieves regret
+\[ \reg(T) \leq O_K\left( T^{2/3}\, \log(T)^{1/3} \right).\]
 \end{theorem}
 
-\swcomment{I think this proof should go to appendix, so I didn't do
-  too much refactoring} \nicomment{I read this last week and talked to jieming about it; seemed right but a bit messy, but since it's going in an appendix i won't re-read/edit it now.}
-
-
-
-
-
-
-\begin{proof}
-  We will set $T_1$ later in the proof, depending on whether the gap
-  parameter $\Delta$ is known. For now, we just need to know we will
-  make $T_1 \geq \frac{4\GdT^2}{\GdP^2}\log(T)$. Since this policy is
-  agnostic to the indices of the arms, we assume w.l.o.g. that arm 1
-  has the highest mean.
-
-  The first $T_1 \cdot \GdT$ rounds will get total regret at most
-  $T_1 \cdot \GdT$.  We focus on bounding the regret from the second
-  level of $T - T_1 \cdot \GdT$ rounds. We consider the following two
-   events. We will first bound the probability that both of them
-  happen and then we will show that they together imply upper bounds
-  on $|\hat{\mu}^t_a - \mu_a|$'s for any agent $t$ in the second
-  level. Recall $\hat{\mu}^t_a$ is the estimated mean of arm $a$ by
-  agent $t$ and agent $t$ picks the arm with the highest
-  $\hat{\mu}^t_a$.
-
-% \begin{itemize}
-  \OMIT{\paragraph{Concentration of the number of arm $a$ pulls in the first
-    level.}
-By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$.}
-  Define $W_1^a$ to be the event that the number of arm $a$ pulls in
-  the first level is at least $q_a T_1- \GdT \sqrt{T_1\log(T)}$.
-  \swedit{As long as we set $T_1 \geq \frac{4\GdT^2}{\GdP^2}\log(T)$,
-    this implies that the number of arm $a$ pulls is then at least
-    $q_a T_1/2$.}
-\OMIT{  By Chernoff bound,
-  \[
-    \Pr[W_1^a] \geq 1-\exp(-2\log(T)) \geq 1-1/T^2.
-  \]
-}
-Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a}W_1^a$). By Lemma~\ref{lem:t1runs}, we have
-\[
-\Pr[W_1] \geq 1- \frac{K}{T^2} \geq 1 - \frac{1}{T}.
-\]
-\OMIT{\paragraph{Concentration of the empirical mean of arm $a$ pulls
-    in the first level.}}  Next, we show that the empirical mean of
-each arm $a$ is close to the true mean. To facilitate our reasoning,
-let us imagine there is a tape of length $T$ for each arm $a$, with
-each cell containing an independent draw of the realized reward from
-the distribution $\cD_a$. Then for each arm $a$ and any $N\in [T]$, we
-can think of the sequence of the first $N$ realized rewards of $a$
-coming from the prefix of $N$ cells in its reward tape. Define
-$W^{a,t}_2$ to be the event that the empirical mean of the first $t$
-\swedit{realized rewards in the tape} of arm $a$ is at most
-$\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. Define $W_2$ to be the
-intersection of these events (i.e.  $\bigcap_{a,t} W^{a,t}_2$).  By
-Chernoff bound,\swcomment{$t$ may be confusing here}
-\[
-\Pr[W^{a,t}_2] \geq 1 - 2\exp(-4\log(T)) \geq 1-2/T^4.
-\]
-By union bound,
-\[
-\Pr[W_2] \geq 1 - KT \cdot \frac{2}{T^4} \geq 1 - \frac{2}{T}.
-\]
-
-
-
-By union bound, we know $\Pr[W_1 \cap W_2] \geq 1 - 3/T$. For the
-remainder of the analysis, we will condition on the event
-$W_1 \cap W_2$.
-
-For any arm $a$ and agent $t$ in the second level, by $W_1$ and $W_2$, we have
-\[
-|\bar{\mu}^t_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{q_aT_1 /2}}.
-\]
-By $W_1$ and Assumption \ref{ass:embehave}, we have
-\[
-|\bar{\mu}^t_a - \hat{\mu}^t_a| \leq \frac{c_m}{\sqrt{q_aT_1/2}}.
-\]
-Therefore,
-\[
-|\hat{\mu}^t_a - \mu_a|\leq \sqrt{\frac{2\log(T)}{q_aT_1 /2}}+\frac{c_m}{\sqrt{q_aT_1/2}} \leq 3 \sqrt{\frac{\log(T)}{\GdP T_1 }}.
-\]
-So the second-level agents will pick an arm $a$ which has $\mu_a$ at most $6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$ away from $\mu_1$. To sum up, the total expected regret is at most
-\[
-T_1 \cdot \GdT + T \cdot (1-\Pr[W_1 \cap W_2]) + T \cdot  6 \sqrt{\frac{\log(T)}{\GdP T_1 }}.
-\]
-By setting $T_1 = T^{2/3}\log(T)^{1/3}$, we get expected regret $O(T^{2/3}\log(T)^{1/3})$.
-\OMIT{Notice that if we know the gap parameter is known to be larger than
-$\Delta$, we can set
-\[
-T_1 = \max\left( \frac{4\GdT^2}{\GdP^2}\log(T), \frac{36 }{\Delta^2 \cdot p_G} \log(T) \right).
-\]
-In this case, since $\Delta \geq 6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$, we know agents in the second level will all pull arm 1. Therefore, the total expected regret is at most
-\[
-T_1 \cdot \GdT + T \cdot (1- \Pr[W_1 \cap W_2]) = O(\Delta^{-2} \log(T)).
-\]
-This completes the proof.}
-\end{proof}
-
-
 \begin{remark}
-  If the gap parameter $\Delta$ is known to the principal, we can set
-  $$T_1 = \max\left( \frac{4\GdT^2}{\GdP^2}\log(T), \frac{36 }{\Delta^2
-      \cdot p_G} \log(T) \right),$$ and achieve an expected regret of
-  $O(\log(T) \cdot \Delta^{-2})$.
+For a constant $K$, the number of arms, we match the optimal regret rate for non-adaptive multi-armed bandit algorithms. If the gap parameter $\Delta$ is known to the principal, then (for an appropriate tuning of parameter $T_1$) we can achieve regret 
+  $\reg(T) \leq O_K(\log(T) \cdot \Delta^{-2})$.
 \end{remark}
+
+
+\begin{lemma}[Concentration of arm pulls]\label{lem:t1runs}
+  Consider $T_1$ indepdent runs of \ALGG of $T_G$ rounds. Let $N_a$ be
+  the number of arm $a$ pulls among all runs. Then with probability at
+  least $1-\delta$, for all $a\in \A$,
+  \[
+    \left| N_a - q_a T_1\right| \leq T_G \sqrt{T_1 \log(2K/\delta) / 2}
+  \]
+\end{lemma}
+
+
+
+
+
 
 %%% Local Variables:
 %%% mode: latex
