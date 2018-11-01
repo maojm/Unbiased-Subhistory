@@ -2,11 +2,11 @@
 \section{Warm-up: full-disclosure paths}
 \label{sec:warmup}
 We first consider a disclosure policy that reveals the full history in each round $t$, \ie $m_t=\SubH{t-1}$; we call it the \emph{full-disclosure policy}. The info-path for this policy is a simple path. We use this policy as a ``gadget" in our constructions. Hence, we formulate it slightly more generally:
-  
+
 \begin{definition}
 A subset of rounds $S\subset [T]$ is called a \emph{full-disclosure path} in the  info-graph $G$ if the induced subgraph $G_S$ is a simple path, and it connects to the rest of the graph only through the terminal node $\max(S)$, if at all.
 \end{definition}
-  
+
 We prove that for a constant number of arms, with constant probability, a full-disclosure path of constant length suffices to sample each arm at least once. We will build on this fact throughout.
 
 \begin{lemma}\label{lem:greedy}
@@ -57,7 +57,7 @@ We provide a simple disclosure policy based on full-disclosure paths. The policy
   \draw[->] (11,0)--(11,3);
   \node at(11.5,1.5)[ rotate=90]{Time};
 
-  \draw [decorate,decoration={brace,amplitude=10pt},xshift=0pt,yshift=0pt] (10,-0.2) -- (0,-0.2) node [black,midway,yshift=-0.6cm] 
+  \draw [decorate,decoration={brace,amplitude=10pt},xshift=0pt,yshift=0pt] (10,-0.2) -- (0,-0.2) node [black,midway,yshift=-0.6cm]
   {$T_1$ full-disclosure paths of length $\fdpL$ each};
 \end{tikzpicture}
 
@@ -77,20 +77,19 @@ The \2LEVEL with parameter $T_1 = T^{2/3}\,\log(T)^{1/3}$ achieves regret
 \end{theorem}
 
 \begin{remark}
-For a constant $K$, the number of arms, we match the optimal regret rate for non-adaptive multi-armed bandit algorithms. If the gap parameter $\Delta$ is known to the principal, then (for an appropriate tuning of parameter $T_1$) we can achieve regret 
+For a constant $K$, the number of arms, we match the optimal regret rate for non-adaptive multi-armed bandit algorithms. If the gap parameter $\Delta$ is known to the principal, then (for an appropriate tuning of parameter $T_1$) we can achieve regret
   $\reg(T) \leq O_K(\log(T) \cdot \Delta^{-2})$.
 \end{remark}
 
-To simplify presentation of the proofs, we will make the following assumption.%
-\footnote{This assumption can be removed, without any conceptual difficulty, but at the cost of a somewhat lengthier proofs.}
- 
+The proofs can be found in Appendix~\ref{app:warmup}. To simplify presentation, here and elsewhere we make the following assumption (which can be removed at the cost of a somewhat lengthier proofs).
+
 
 \begin{assumption}\label{ass:simplifying}
-In each round $t$, the estimates $\hat{\mu}_{t,a}$ depend only on the multiset 
+In each round $t$, the estimates $\hat{\mu}_{t,a}$ depend only on the multiset
     $\left\{\; (a_s,r_s):\;s\in S_t \;\right\}$,
 called \emph{anonymized subhistory}. Each agent forms its estimates according to the same \emph{estimate function}: a function $f$ from subhistories to $[0,1]^K$, so that the estimate vector
         $(\hat{\mu}_{t,a}:\, a\in\A)$
-equals $f(m_t)$. 
+equals $f(m_t)$.
 \end{assumption}
 
 Among other things, this assumption allows us to the define the expected number of samples of a given arm $a$ collected by a full-disclosure path $S$ of length $\fdpL$ (\ie present in the subhistory $\SubH{S}$. Indeed, this number, denoted $\fdpN$, is the same for all such paths. Then,
