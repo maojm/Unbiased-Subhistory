@@ -1,29 +1,32 @@
 %!TEX root = main.tex
 \section{Posterior Mean}
-\jmcomment{Do we want this section?}
+\jmcomment{Do we want this section?} In this section, we give an example to show that for certain natural prior, when agents use this prior to compute the posterior means and use them as the estimators, Assumption \ref{ass:embehave} holds. 
 
+In the following example, it shows that the empirical mean and the posterior mean is really close (i.e. the difference is $O(1/n) = o(1/\sqrt{n})$). It's a special case of conjugate prior Beta distributions (i.e. this prior is just $Beta(1,1)$). Similar guarantees hold for Beta distribution with other parameters. For more details, see \cite{https://en.wikipedia.org/wiki/Conjugate_prior}.
 \begin{example}
-Let the prior distribution be the uniform distribution over Bernoulli distributions. Suppose there are $a$ 1's in $n$ samples. Then the posterior mean is $\frac{a+1}{n+2}$ and the empirical mean is $\frac{a}{n}$. Their difference is at most $\frac{1}{n+2}$. 
+Let the prior distribution be the distribution over Bernoulli distributions $Ber(p)$ where $p$ is uniformly randomly sampled from $[0,1]$. Suppose there are $a$ 1's in $n$ samples. Then the posterior mean is $\frac{a+1}{n+2}$ and the empirical mean is $\frac{a}{n}$. Their difference is at most $\frac{1}{n+2}$. 
 \end{example}
 
-\jmcomment{This example is against us. Should delete later.}
-\begin{example}
-Let the prior distribution be the uniform distribution over Bernoulli distributions with mean between $1/3$ and $2/3$. Suppose we have $n$ samples. With probability at least $\Omega(1/\sqrt{n})$, the difference between empirical mean and posterior mean is larger than $1/\sqrt{n}$.
-\end{example}
+%\jmcomment{This example is against us. Should delete later.}
+%\begin{example}
+%Let the prior distribution be the uniform distribution over Bernoulli distributions with mean between $1/3$ and $2/3$. Suppose we have $n$ samples. With probability at least $\Omega(1/\sqrt{n})$, the difference between empirical mean and posterior mean is larger than $1/\sqrt{n}$.
+%\end{example}
 
-\begin{example}
-Let the prior distribution be the sum of two independent 0-mean Gaussians. The first Gaussian is sampled once and has variance $\alpha^2$. The second Gaussian is sampled for each sample and has variance $\beta^2$. Suppose there are $n$ samples with empirical mean $m$. The posterior mean is $\frac{n \cdot m \cdot \alpha^2}{n \cdot \alpha^2 + \beta^2}$. The difference between the posterior mean and the empirical mean is $\frac{m\beta^2}{n\cdot \alpha^2 + \beta^2}$.
-\end{example}
+%jmcomment{this is not binary}
+%\begin{example}
+%Let the prior distribution be the sum of two independent 0-mean Gaussians. The first Gaussian is sampled once and has variance $\alpha^2$. The second Gaussian is sampled for each sample and has variance $\beta^2$. Suppose there are $n$ samples with empirical mean $m$. The posterior mean is $\frac{n \cdot m \cdot \alpha^2}{n \cdot \alpha^2 + \beta^2}$. The difference between the posterior mean and the empirical mean is $\frac{m\beta^2}{n\cdot \alpha^2 + \beta^2}$.
+%\end{example}
 
-\jmcomment{Should modify this assumption a bit.}
-\begin{assumption}
-\label{ass:post}
-For any arm $i$ and any $m >0$, let $H_m$ be the random variables of $m$ pulls of arm $i$. Let $\emn(H_m)$ be the empirical mean and $\pmn(H_m)$ be the posterior mean. With probability at least $1 - \exp(m)$, we have $|\emn(H_m) - \pmn(H_m)| \leq \frac{1}{m}$. 
-\end{assumption}
+%\jmcomment{Too many assumptions.}
+%\begin{assumption}
+%\label{ass:post}
+%For any arm $i$ and any $m >0$, let $H_m$ be the random variables of $m$ pulls of arm $i$. Let $\emn(H_m)$ be the empirical mean and $\pmn(H_m)$ be the posterior mean. With probability at least $1 - \exp(m)$, we have $|\emn(H_m) - \pmn(H_m)| \leq \frac{1}{m}$. 
+%\end{assumption}
 
+In the above example, the samples of arm $a$ are chosen non-adaptively. Now think about the case when arms are chosen adaptively (i.e. in each round, which arm to choose is based on the history). Clearly, empirical means do not depend on whether samples are chosen adaptively. We show in the following lemma that it is also true for posterior means. It's a folklore and we include the proof for the completeness of our paper.
 \begin{lemma}
 \label{lem:post}
-For any arbitrary strategy of pulling arms for $T$ rounds, let its history to be $G_T$. We allow this strategy to be adaptive based on history. Fix an arm $i$. Let $m_i(G_T)$ be the number of pulls of arm $i$, $\pmn_i(G_T)$ be the posterior mean of arm $i$. Let $H_{m(G_T)}$ be the sub history of arm $i$ in $G_T$. Then $\pmn_i(G_T)$ is the same as the posterior mean of seeing $H_{m_i(G_T)}$ after $m_i(G_T)$ pulls of arm $i$.
+For any arbitrary strategy of pulling arms for $T$ rounds, let its history to be $G_T$. We allow this strategy to be adaptive based on history. Fix an arm $i$. Let $m_i(G_T)$ be the number of pulls of arm $i$, $\pmn_i(G_T)$ be the posterior mean of arm $i$. Let $H_{m(G_T)}$ be the sub history of arm $i$ in $G_T$. Then $\pmn_i(G_T)$ is the same as the posterior mean of seeing $H_{m_i(G_T)}$ after $m_i(G_T)$ non-adaptive pulls of arm $i$.
 \end{lemma}
 
 \begin{proof}
@@ -48,11 +51,11 @@ Finally, by the definition of posterior mean, the posterior mean of seeing $H_{m
 \]
 \end{proof}
 
-\begin{corollary}
-\label{cor:post}
-For any arbitrary strategy of pulling arms for $T$ rounds, let its history to be $G_T$. We allow this strategy to be adaptive based on history. Fix an arm $i$. Let $m(G_T)$ be the number of pulls of arm $i$, $\emn(G_T)$ be the empirical mean of arm $i$ and $\pmn(G_T)$ be the posterior mean of arm $i$. Let $p_0$ be the probability that $m(G_T) \geq m_0$. With probability $p_0 - 2\exp(m_0)$, $|\emn(G_T) - \pmn(G_T)| \leq \frac{1}{m(G_T)}$.
-\end{corollary}
+%\begin{corollary}
+%\label{cor:post}
+%For any arbitrary strategy of pulling arms for $T$ rounds, let its history to be $G_T$. We allow this strategy to be adaptive based on history. Fix an arm $i$. Let $m(G_T)$ be the number of pulls of arm $i$, $\emn(G_T)$ be the empirical mean of arm $i$ and $\pmn(G_T)$ be the posterior mean of arm $i$. Let $p_0$ be the probability that $m(G_T) \geq m_0$. With probability $p_0 - 2\exp(m_0)$, $|\emn(G_T) - \pmn(G_T)| \leq \frac{1}{m(G_T)}$.
+%\end{corollary}
 
-\begin{proof}
-Simply by applying Assumption \ref{ass:post}, Lemma \ref{lem:post} and union bound, we can prove the corollary.
-\end{proof}
+%\begin{proof}
+%Simply by applying Assumption \ref{ass:post}, Lemma \ref{lem:post} and union bound, we can prove the corollary.
+%\end{proof}
