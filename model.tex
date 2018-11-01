@@ -73,7 +73,7 @@ where $\mu^* = \max_{a\in\A} \mu(a)$.
 The gap parameter is not known to the principal (in our problem), or to the algorithm (in the bandit problem). Optimal regret rates for bandits with IID rewards are as follows \cite{bandits-ucb1,bandits-exp3,Lai-Robbins-85}: 
 \begin{align}\label{eq:model-OptRegret}
 \reg(T) \leq O\left(\min\left( 
-    \sqrt{KT\log T)},\; \tfrac{1}{\Delta} \log T
+    \sqrt{KT\log T},\; \tfrac{1}{\Delta} \log T
     \right)\right).
 \end{align}
 This regret bound can only be achieved using \emph{adaptive exploration}: \ie when exploration schedule is adapted to the observations. A simple example of \emph{non}-adaptive exploration is the \emph{explore-then-exploit} algorithm which samples arms uniformly at random for the first $N$ rounds, for some pre-set number $N$, then chooses one arm and sticks with it till the end. More generally, 
