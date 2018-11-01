@@ -6,8 +6,8 @@
 \begin{proof}[Proof of Lemma~\ref{3levelw1}]
   For the $s$-th first-level group, define $W_1^{a,s}$ to be the event
   that the number of arm $a$ pulls in the $s$-th first-level group is
-  between $q_a T_1- \GdT \sqrt{T_1\log(T)}$ and
-  $q_a T_1 + \GdT \sqrt{T_1\log(T)}$. By Lemma~\ref{lem:t1runs}
+  between $\fdpN T_1- \GdT \sqrt{T_1\log(T)}$ and
+  $\fdpN T_1 + \GdT \sqrt{T_1\log(T)}$. By Lemma~\ref{lem:t1runs}
 \[
 \Pr[W_1^{a,s}] \geq 1-2\exp(-2\log(T)) \geq 1-2/T^2.
 \]
@@ -36,7 +36,7 @@ By union bound, we have
 By Berry-Esseen Theorem and
   $\mu_a \in [1/3,2/3]$, we have for any $a$,
 \[
-\Pr[W_4^{s,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{q_aT_1}} > 1/4.
+\Pr[W_4^{s,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{\fdpN T_1}} > 1/4.
 \]
 The last inequality follows when $T$ is larger than some constant.
 Similarly we also have 
@@ -83,16 +83,16 @@ first provide some helper lemmas for our case analysis.
   $\bar{\mu}_a^{1,s}$ to be the empirical mean of arm $a$ pulls in
   this group. If $W$ holds, then
   \[
-    |\bar{\mu}_a^{1,s} - \mu_a| \leq \sqrt{\frac{4\log(T)}{q_a T_1}}.
+    |\bar{\mu}_a^{1,s} - \mu_a| \leq \sqrt{\frac{4\log(T)}{\fdpN T_1}}.
   \]
 \end{lemma}
 
 \begin{proof}
   The events $W_1$ and $W_2^{a,s,1,t}$ for
-  $t = q_a T_1- \GdT \sqrt{T_1\log(T)},...,q_a T_1 + \GdT
+  $t = \fdpN T_1- \GdT \sqrt{T_1\log(T)},...,\fdpN T_1 + \GdT
   \sqrt{T_1\log(T)}$ together imply that
 \[
-|\bar{\mu}_a^{1,s} - \mu_a| \leq \sqrt{\frac{2\log(T)}{q_a T_1- \GdT \sqrt{T_1\log(T)}}} \leq \sqrt{\frac{4\log(T)}{q_a T_1}}.
+|\bar{\mu}_a^{1,s} - \mu_a| \leq \sqrt{\frac{2\log(T)}{\fdpN T_1- \GdT \sqrt{T_1\log(T)}}} \leq \sqrt{\frac{4\log(T)}{\fdpN T_1}}.
 \]
 The last inequality holds when $T$ is larger than some constant.
 \end{proof}
@@ -102,7 +102,7 @@ The last inequality holds when $T$ is larger than some constant.
   For each arm $a$, define $\bar{\mu}_a$ to be the empirical mean of
   arm $a$ pulls in the first two levels. If $W$ holds, then
   \[
-    |\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{4\log(T)}{S q_a T_1}} .
+    |\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{4\log(T)}{S \fdpN T_1}} .
   \]
 Furthermore, if there are at least $T_2$ pulls of arm $a$ in the first two levels, 
 \[
@@ -111,9 +111,9 @@ Furthermore, if there are at least $T_2$ pulls of arm $a$ in the first two level
 \end{lemma}
 
 \begin{proof}
-The events $W_1$ and $W_3^{a,t}$ for $t \geq  (q_a T_1- \GdT \sqrt{T_1\log(T)})S$ together imply that
+The events $W_1$ and $W_3^{a,t}$ for $t \geq  (\fdpN T_1- \GdT \sqrt{T_1\log(T)})S$ together imply that
   \[
-    |\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{S\left(q_a T_1- \GdT \sqrt{T_1\log(T)}\right)}} \leq \sqrt{\frac{4\log(T)}{S q_a T_1}} .
+    |\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{S\left(\fdpN T_1- \GdT \sqrt{T_1\log(T)}\right)}} \leq \sqrt{\frac{4\log(T)}{S \fdpN T_1}} .
 \]
 The last inequality holds when $T$ is larger than some constant.
 \end{proof}
@@ -125,8 +125,8 @@ The last inequality holds when $T$ is larger than some constant.
   this group. For each $a \in \{1,2\}$, there exists a group $s_a$
   such that
 \[
-\bar{\mu}_a ^{1,s_a} > \mu_a + \frac{1}{4\sqrt{q_aT_1}} \quad \mbox{and, } \quad
-\bar{\mu}_{3-a} ^{1,s_a} < \mu_{3-a}   - \frac{1}{4\sqrt{q_{3-a} T_1}}.
+\bar{\mu}_a ^{1,s_a} > \mu_a + \frac{1}{4\sqrt{\fdpN T_1}} \quad \mbox{and, } \quad
+\bar{\mu}_{3-a} ^{1,s_a} < \mu_{3-a}   - \frac{1}{4\sqrt{\fdpN[3-a] T_1}}.
 \]
 \end{lemma}
 
@@ -136,18 +136,18 @@ The last inequality holds when $T$ is larger than some constant.
 \begin{proof}% [Proof of Lemma~\ref{lem:luck}]
   For each $a \in \{1,2\}$, $W_4$ implies that there exists $s_a$ such
   that both $W_4^{s_a,a,high}$ and $W_4^{s_a,3-a,low}$ happen.  The
-  events $W_4^{s_a,a,high}$, $W_1$, $W_2^{s_a,a,t, q_aT_1}$
-  for $t = q_a T_1- \GdT \sqrt{T_1\log(T)}+1, ...,q_aT_1-1$ and
-  $W_2^{s_a,a,q_aT_1,t}$ for
-  $t= q_aT_1,...,q_a T_1+ \GdT \sqrt{T_1\log(T)}$ together imply that
+  events $W_4^{s_a,a,high}$, $W_1$, $W_2^{s_a,a,t, \fdpN T_1}$
+  for $t = \fdpN T_1- \GdT \sqrt{T_1\log(T)}+1, ...,\fdpN T_1-1$ and
+  $W_2^{s_a,a,\fdpN T_1,t}$ for
+  $t= \fdpN T_1,...,\fdpN T_1+ \GdT \sqrt{T_1\log(T)}$ together imply that
 \begin{align*}
-\bar{\mu}_a ^{1,s_a} &\geq \mu_a + \left(q_aT_1 \cdot \frac{1}{\sqrt{q_aT_1}} - \GdT \sqrt{T_1\log(T)} \cdot \sqrt{\frac{2\log(T)}{ \GdT \sqrt{T_1\log(T)}}} \right) \cdot \frac{1}{q_a T_1+ \GdT \sqrt{T_1\log(T)}} \\
-&> \mu_a + \frac{1}{4\sqrt{q_aT_1}}.
+\bar{\mu}_a ^{1,s_a} &\geq \mu_a + \left(\fdpN T_1 \cdot \frac{1}{\sqrt{\fdpN T_1}} - \GdT \sqrt{T_1\log(T)} \cdot \sqrt{\frac{2\log(T)}{ \GdT \sqrt{T_1\log(T)}}} \right) \cdot \frac{1}{\fdpN T_1+ \GdT \sqrt{T_1\log(T)}} \\
+&> \mu_a + \frac{1}{4\sqrt{\fdpN T_1}}.
 \end{align*}
 The second to the last inequality holds when $T$ is larger than some constant.
 Similarly, we also have
 \[
-\bar{\mu}_{3-a} ^{1,s_a} < \mu_{3-a}   - \frac{1}{4\sqrt{q_{3-a} T_1}}.
+\bar{\mu}_{3-a} ^{1,s_a} < \mu_{3-a}   - \frac{1}{4\sqrt{\fdpN[3-a] T_1}}.
 \]
 This completes the proof.
 \end{proof}
@@ -160,22 +160,22 @@ Now we proceed to the case analysis.
   Observe that for any group $s$ in the first level, the empirical
   means satisfy
 \[
-\bar{\mu}_1^{1,s} - \bar{\mu}_2^{1,s} \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{q_1T_1}} - \sqrt{\frac{4\log(T)}{q_2T_1}} \geq  \sqrt{\frac{4\log(T)}{q_1T_1}} + \sqrt{\frac{4\log(T)}{q_2T_1}}.
+\bar{\mu}_1^{1,s} - \bar{\mu}_2^{1,s} \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} + \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}.
 \]
 
 
 For any agent $t$ in the $s$-th second-level group, by Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_1^t - \hat{\mu}_2^t &>\bar{\mu}_1^{1,s} - \bar{\mu}_2^{1,s} - \frac{c_m}{\sqrt{q_1T_1/2}} - \frac{c_m}{\sqrt{q_2T_1/2}}\\
-&\geq  \sqrt{\frac{4\log(T)}{q_1T_1}} + \sqrt{\frac{4\log(T)}{q_2T_1}}- \frac{c_m}{\sqrt{q_1T_1/2}} - \frac{c_m}{\sqrt{q_2T_1/2}} > 0
+\hat{\mu}_1^t - \hat{\mu}_2^t &>\bar{\mu}_1^{1,s} - \bar{\mu}_2^{1,s} - \frac{c_m}{\sqrt{\fdpN[1]T_1/2}} - \frac{c_m}{\sqrt{\fdpN[2]T_1/2}}\\
+&\geq  \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} + \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}- \frac{c_m}{\sqrt{\fdpN[1]T_1/2}} - \frac{c_m}{\sqrt{\fdpN[2]T_1/2}} > 0
 \end{align*}
 Therefore, we know agents in the $s$-th second-level group will all pull arm 1.
 
 Now consider the agents in the third level group. Recall $\bar{\mu}_a$
 is the empirical mean of arm $a$ in the history they see. We have
 \[
-\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{Sq_1T_1}} - \sqrt{\frac{4\log(T)}{Sq_2T_1}} \geq  \sqrt{\frac{4\log(T)}{q_1T_1}} 
-+ \sqrt{\frac{4\log(T)}{q_2T_1}}.
+\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} 
++ \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}.
 \]
 Similarly as above, by Assumption \ref{ass:embehave}, we know
 $\hat{\mu}_1^t - \hat{\mu}_2^t > 0$ for any agent $t$ in the third
@@ -186,26 +186,26 @@ arm 1.  \OMIT{Therefore the expected regret is at most
 
 
 \begin{proof}[Proof of Lemma~\ref{3levelmedium} (Medium gap case)]
-  % $2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} +
-  %   \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \leq \mu_1-\mu_2 <
-  % 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} +
-  %   \sqrt{\frac{4\log(T)}{q_2T_1}}\right)$. 
+  % $2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} +
+  %   \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right) \leq \mu_1-\mu_2 <
+  % 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} +
+  %   \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right)$. 
   Recall $\bar{\mu}_a$ is
   the empirical mean of arm $a$ in the first two levels. We have
 \[
-\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{Sq_1T_1}} - \sqrt{\frac{4\log(T)}{Sq_2T_1}} \geq  \sqrt{\frac{4\log(T)}{Sq_1T_1}} 
-+ \sqrt{\frac{4\log(T)}{Sq_2T_1}}.
+\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} 
++ \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}.
 \]
 For any agent $t$ in the third level, by Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_1^t - \hat{\mu}_2^t &>\bar{\mu}_1 - \bar{\mu}_2 - \frac{c_m}{\sqrt{Sq_1T_1/2}} - \frac{c_m}{\sqrt{Sq_2T_1/2}}\\
-&\geq  \sqrt{\frac{4\log(T)}{Sq_1T_1}} + \sqrt{\frac{4\log(T)}{Sq_2T_1}}- \frac{c_m}{\sqrt{Sq_1T_1/2}} - \frac{c_m}{\sqrt{Sq_2T_1/2}}\\
+\hat{\mu}_1^t - \hat{\mu}_2^t &>\bar{\mu}_1 - \bar{\mu}_2 - \frac{c_m}{\sqrt{S\fdpN[1]T_1/2}} - \frac{c_m}{\sqrt{S\fdpN[2]T_1/2}}\\
+&\geq  \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} + \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}- \frac{c_m}{\sqrt{S\fdpN[1]T_1/2}} - \frac{c_m}{\sqrt{S\fdpN[2]T_1/2}}\\
  &> 0.
 \end{align*}
 So we know agents in the third-level group will all pull arm 1. \OMIT{Therefore the expected regret is at most 
 \[
-(S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{q_1T_1}} 
-+ \sqrt{\frac{4\log(T)}{q_2T_1}}\right) = O(T^{4/7} \log^{6/7}(T))
+(S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} 
++ \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right) = O(T^{4/7} \log^{6/7}(T))
 \]
 }
 \end{proof}
@@ -213,22 +213,22 @@ So we know agents in the third-level group will all pull arm 1. \OMIT{Therefore 
 
 \begin{proof}[Proof of Lemma~\ref{3levelsmallcase} (Small gap case)]
   % $ 3\sqrt{\frac{2\log(T)}{T_2}} < \mu_1-\mu_2 <
-  % 2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} +
-  %   \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right)$.  
+  % 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} +
+  %   \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right)$.  
   In this case, we need both arms to be pulled at least $T_2$ rounds
   in the second level. For every arm $a$, consider the $s_a$-th
   second-level group, with $s_a$ given by Lemma~\ref{lem:luck}. We
   have
 \begin{align*}
-\bar{\mu}_a^{1,s_a} - \bar{\mu}_{3-a}^{1,s_a} &> \mu_a + \frac{1}{4\sqrt{q_aT_1}} -\mu_{3-a} +\frac{1}{4\sqrt{q_{3-a}T_1}} \\
-&> \frac{1}{4\sqrt{q_1T_1}}+ \frac{1}{4\sqrt{q_2T_1}} - 2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} 
-+ \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \\
-&\geq \frac{1}{8\sqrt{q_1T_1}}+ \frac{1}{8\sqrt{q_2T_1}}.
+\bar{\mu}_a^{1,s_a} - \bar{\mu}_{3-a}^{1,s_a} &> \mu_a + \frac{1}{4\sqrt{\fdpN T_1}} -\mu_{3-a} +\frac{1}{4\sqrt{\fdpN[3-a]T_1}} \\
+&> \frac{1}{4\sqrt{\fdpN[1]T_1}}+ \frac{1}{4\sqrt{\fdpN[2]T_1}} - 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} 
++ \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right) \\
+&\geq \frac{1}{8\sqrt{\fdpN[1]T_1}}+ \frac{1}{8\sqrt{\fdpN[2]T_1}}.
 \end{align*}
 For any agent $t$ in the $s_a$-th second-level group, by Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_a^t - \hat{\mu}_{3-a}^t &>\bar{\mu}_a^{1,s_a} - \bar{\mu}_{3-a}^{1,s_a} - \frac{c_m}{\sqrt{q_1T_1/2}} - \frac{c_m}{\sqrt{q_2T_1/2}}\\
-&\geq   \frac{1}{8\sqrt{q_1T_1}}+ \frac{1}{8\sqrt{q_2T_1}}- \frac{c_m}{\sqrt{q_1T_1/2}} - \frac{c_m}{\sqrt{q_2T_1/2}}\\
+\hat{\mu}_a^t - \hat{\mu}_{3-a}^t &>\bar{\mu}_a^{1,s_a} - \bar{\mu}_{3-a}^{1,s_a} - \frac{c_m}{\sqrt{\fdpN[1]T_1/2}} - \frac{c_m}{\sqrt{\fdpN[2]T_1/2}}\\
+&\geq   \frac{1}{8\sqrt{\fdpN[1]T_1}}+ \frac{1}{8\sqrt{\fdpN[2]T_1}}- \frac{c_m}{\sqrt{\fdpN[1]T_1/2}} - \frac{c_m}{\sqrt{\fdpN[2]T_1/2}}\\
  &> 0.
 \end{align*}
 So we know agents in the $s_a$-th second-level group will all pull arm $a$. Therefore in the first two levels, both arms are pulled at least $T_2$ times. Now consider the third-level. We have
@@ -238,8 +238,8 @@ So we know agents in the $s_a$-th second-level group will all pull arm $a$. Ther
 Similarly as above, by Assumption \ref{ass:embehave}, we know $\hat{\mu}_1^t - \hat{\mu}_2^t > 0$ for any agent $t$ in the third level. So we know agents in the third-level group will all pull arm 1.\OMIT{
 Therefore the expected regret is at most 
 \[
-(S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{Sq_1T_1}} 
-+ \sqrt{\frac{4\log(T)}{Sq_2T_1}}\right) \leq O(T^{4/7} \log^{6/7}(T))
+(S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} 
++ \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right) \leq O(T^{4/7} \log^{6/7}(T))
 \]
 }
 \end{proof}

@@ -46,12 +46,12 @@
 % \begin{itemize}
   \OMIT{\paragraph{Concentration of the number of arm $a$ pulls in the first
     level.}
-By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$.}
+By Lemma \ref{lem:greedy}, we know $\GdP \leq \fdpN \leq \GdT$.}
   Define $W_1^a$ to be the event that the number of arm $a$ pulls in
-  the first level is at least $q_a T_1- \GdT \sqrt{T_1\log(T)}$.
+  the first level is at least $\fdpN T_1- \GdT \sqrt{T_1\log(T)}$.
   \swedit{As long as we set $T_1 \geq \frac{4(\GdT)^2}{(\GdP)^2}\log(T)$,
     this implies that the number of arm $a$ pulls is then at least
-    $q_a T_1/2$.}
+    $\fdpN T_1/2$.}
 \OMIT{  By Chernoff bound,
   \[
     \Pr[W_1^a] \geq 1-\exp(-2\log(T)) \geq 1-1/T^2.
@@ -90,15 +90,15 @@ $W_1 \cap W_2$.
 
 For any arm $a$ and agent $t$ in the second level, by $W_1$ and $W_2$, we have
 \[
-|\bar{\mu}^t_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{q_aT_1 /2}}.
+|\bar{\mu}^t_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{\fdpN T_1 /2}}.
 \]
 By $W_1$ and Assumption \ref{ass:embehave}, we have
 \[
-|\bar{\mu}^t_a - \hat{\mu}^t_a| \leq \frac{c_m}{\sqrt{q_aT_1/2}}.
+|\bar{\mu}^t_a - \hat{\mu}^t_a| \leq \frac{c_m}{\sqrt{\fdpN T_1/2}}.
 \]
 Therefore,
 \[
-|\hat{\mu}^t_a - \mu_a|\leq \sqrt{\frac{2\log(T)}{q_aT_1 /2}}+\frac{c_m}{\sqrt{q_aT_1/2}} \leq 3 \sqrt{\frac{\log(T)}{\GdP T_1 }}.
+|\hat{\mu}^t_a - \mu_a|\leq \sqrt{\frac{2\log(T)}{\fdpN T_1 /2}}+\frac{c_m}{\sqrt{\fdpN T_1/2}} \leq 3 \sqrt{\frac{\log(T)}{\GdP T_1 }}.
 \]
 So the second-level agents will pick an arm $a$ which has $\mu_a$ at most $6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$ away from $\mu_1$. To sum up, the total expected regret is at most
 \[
