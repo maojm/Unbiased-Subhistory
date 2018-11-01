@@ -58,6 +58,11 @@
 \newcommand{\ALGG}{\term{FullDisclosure}}
 \newcommand{\ALGPG}{\term{Parallel Greedy}}
 
+% Alex's notation!
+\newcommand{\SubH}[1]{\mathcal{H}_{#1}} % subhistory
+\newcommand{\AnonSubH}[1]{H^{\texttt{anon}}_{#1}} % subhistory
+
+
 \def\2LEVEL{Two-level Policy}
 
 
@@ -87,8 +92,8 @@
 \def\pmn{\hat{\mu}}
 \def\emn{\bar{\mu}}
 
-\def\GdT{T_G}
-\def\GdP{p_G}
+\def\GdT{L_K}
+\def\GdP{p_K}
 \def\ell{l}
 
 \title{Incentivizing Exploration with Unbiased History}
@@ -124,6 +129,7 @@ aaa
 
 \appendix
 \input{prelim}
+\input{app-warmup}
 \input{3levelproofs}
 \input{llevel}
 \input{posterior}

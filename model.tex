@@ -2,10 +2,6 @@
 \section{Model and Preliminaries}
 \label{sec:model}
 
-\newcommand{\SubH}[1]{H_{#1}} % subhistory
-\newcommand{\AnonSubH}[1]{H^{\texttt{anon}}_{#1}} % subhistory
-
-
 We study the multi-armed bandit problem in a social learning context, in which a principal faces a sequence of $T$ myopic agents. There is a set $\A$ of $K$ possible actions, a.k.a. \emph{arms}. At each round $t\in [T]$, a new agent $t$ arrives, receives a message $m_t$ from the principal, chooses an arm $a_t\in \A$, and collects a reward $r_t\in \{0,1\}$ that is immediately observed by the principal. The reward from pulling an arm $a\in \A$ is drawn independently from Bernoulli distribution $\cD_a$ with an unknown mean $\mu_a$. An agent does not observe anything from the previous rounds, other than the message $m_t$. The problem instance is defined by (known) parameters $K,T$ and the (unknown) tuple of mean rewards, $(\mu_a:\,a\in\A)$. We are interested in \emph{regret}, defined as
 \begin{align}
 \textstyle
@@ -39,7 +35,8 @@ This graph is henceforth called the \emph{information flow graph} of policy $\pi
 
 \xhdr{Agents' behavior.} Let us define agents' behavior in response to an unbiased-history policy. We posit that each agent $t$ uses its observed subhistory $m_t$ to form a reward estimate $\hat{\mu}_{t,a} \in [0,1]$ for each arm $a\in \A$, and chooses an arm with a maximal estimator. (Ties are broken according to an arbitrary rule that is the same for all agents.) The basic model is that $\hat{\mu}_{t,a}$ is the sample average for arm $a$ over the subhistory $m_t$, as long as it includes at least one sample for $a$; else, $\hat{\mu}_{t,a}\geq \tfrac13$.
 
-We allow a much more permissive model, characterized by the following assumption:
+We allow a much more permissive model, characterized by the following assumption:%
+\footnote{In what follows, we make this assumption without further notice.}
 
 %If an arm is not pulled in $H_t$, we will let $\bar{\mu}_a^t = 0$.
 
@@ -95,7 +92,7 @@ This regret bound can only be achieved using \emph{adaptive exploration}: \ie wh
 \xhdr{Preliminaries.}
 Throughout the paper, we will use the standard concentration and anti-concentration inequalities: respectively, Chernoff Bounds and Berry-Esseen Theorem. The former states that that a sum of independent random variables converges to its expectation quickly. The latter states that the CDF of an appropriately scaled average of IID random variables converges to the CDF of the standard normal distribution pointwise. In particular, the average strays far enough from its expectation with some guaranteed probability. The theorem statements are moved to Appendix~\ref{sec:prelim}.
 
-We use $O_K()$ to hide the dependence on parameter $K$, and $[T]= \{1,2 \LDOTS T\}$.
+We use $O_K(\cdot)$ notation to hide the dependence on parameter $K$, and $\tilde O(\cdot)$ notation to hide polylogarithmic factors. We denote $[T]= \{1,2 \LDOTS T\}$.
 
 
 
