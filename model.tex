@@ -8,7 +8,7 @@ We study the multi-armed bandit problem in a social learning context, in which a
   %= \reg(a_1, \ldots , a_T)
   = T \max_{a\in \A} \mu_a -
   \sum_{t\in [T]} \E[\mu_{a_t}].
-\end{align}
+\end{align}\swcomment{why expectation over the second term?}
 The principal chooses messages $m_t$ according to an online algorithm called \emph{disclosure policy}, with a goal to minimize regret. We assume that mean rewards are bounded away from $0$ and $1$, to ensure sufficient entropy in rewards. For concreteness, we posit that
     $\mu_a\in [\tfrac13,\tfrac23]$.
 
