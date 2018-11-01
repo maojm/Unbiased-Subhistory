@@ -62,8 +62,19 @@
 \newcommand{\SubH}[1]{\mathcal{H}_{#1}} % subhistory
 \newcommand{\AnonSubH}[1]{H^{\texttt{anon}}_{#1}} % subhistory
 
+% new notation for FDPs (full-disclosure paths)
+\newcommand{\fdp}{\term{FDP}}
+\newcommand{\fdpL}{L^\fdp_K} % sufficient length of greedy path
+\newcommand{\fdpP}{p^\fdp_K} % success prob for greedy path
+\newcommand{\fdpN}[1][a]{N^\fdp_{K,#1}} % Exp #pulls for arm $a$ in greedy path of length L_K.
 
-\def\2LEVEL{Two-level Policy}
+% Greedy notation
+\def\GdT{L_K} % sufficient length of greedy path
+\def\GdP{p_K} % success prob for greedy path
+
+
+
+\def\2LEVEL{two-level policy}
 
 
 \newcommand{\DT}{\mD} % Alex' notation for distribution over types.
@@ -92,9 +103,7 @@
 \def\pmn{\hat{\mu}}
 \def\emn{\bar{\mu}}
 
-\def\GdT{L_K}
-\def\GdP{p_K}
-\def\ell{l}
+%\def\ell{l}
 
 \title{Incentivizing Exploration with Unbiased History}
 
