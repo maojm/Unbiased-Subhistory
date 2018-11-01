@@ -41,16 +41,16 @@ We allow a much more permissive model, characterized by the following assumption
 %If an arm is not pulled in $H_t$, we will let $\bar{\mu}_a^t = 0$.
 
 \begin{assumption}\label{ass:embehave}
-Reward estimates are close to empirical averages. Let $N_{t,a}$ and $\bar{\mu}_{t,a}$ denote the number of pulls and the empirical mean reward of arm $a$ in subhistory $m_t$. Then for some absolute constant $N_0\in \N$ and $C_0=\tfrac{1}{16}$, and for all agents $t\in [T]$ and arms $a\in\A$ it holds that
+Reward estimates are close to empirical averages. Let $N_{t,a}$ and $\bar{\mu}_{t,a}$ denote the number of pulls and the empirical mean reward of arm $a$ in subhistory $m_t$. Then for some absolute constant $\estN\in \N$ and $\estC=\tfrac{1}{16}$, and for all agents $t\in [T]$ and arms $a\in\A$ it holds that
 \[
-\text{if}\; N_{t,a} \geq N_0
+\text{if}\; N_{t,a} \geq \estN
 \quad\text{then}\quad
     \left|\hat{\mu}^t_a - \bar{\mu}^t_a \right| <
-		\frac{C_0}{\sqrt{N_{t,a}}}.
+		\frac{\estC}{\sqrt{N_{t,a}}}.
 \]
 Also,
     $\hat{\mu}^t_a\geq\tfrac13$ if $N_{t,a}=0$.
-(NB: we make no assumption if $1\leq N_{t,a}<N_0$.)
+(NB: we make no assumption if $1\leq N_{t,a}<\estN$.)
 \end{assumption}
 
 \OMIT{ %%%%%%%%%%
