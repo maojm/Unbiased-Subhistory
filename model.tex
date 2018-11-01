@@ -13,24 +13,24 @@ The principal chooses messages $m_t$ according to an online algorithm called \em
     $\mu_a\in [\tfrac13,\tfrac23]$.
 
 \xhdr{Unbiased subhistories.}
-The \emph{subhistory} for a subset of rounds $S\subset [T]$ is defined as 
+The \emph{subhistory} for a subset of rounds $S\subset [T]$ is defined as
 \begin{align} \label{eq:model-subhistory}
     \SubH{S} = \left\{\; (s,a_s,r_s):\;s\in S \;\right\}.
 \end{align}
-Accordingly, $\SubH{[t-1]}$ is called the \emph{full history} at time $t$. 
+Accordingly, $\SubH{[t-1]}$ is called the \emph{full history} at time $t$.
 The \emph{outcome} for agent $t$ is the tuple $(t,a_t,r_t)$.
 
 
 We focus on disclosure policies of a particular form, where the message in each round $t$ is $m_t = \SubH{S_t}$ for some subset $S_t\subset [t-1]$. We assume that the subset $S_t$ is chosen ahead of time, before round $1$ (and therefore does not depend on the observations $\SubH{t-1}$). Such message is called \emph{unbiased subhistory}, and the resulting disclosure policy is called an \emph{unbiased-history policy}.
 
 Further, we focus on disclosure policies that are \emph{transitive}, in the following sense:
-\[ t'\in S_t \Rightarrow S_{t'}\subset S_t
+\[ t\in S_{t'} \Rightarrow S_t\subset S_{t'}
     \qquad \text{for all rounds $t,t'\in [T]$}. \]
-In words, if an agent observes the outcome for some previous agent, then she observes the entire message revealed to that agent.
+In words, if agent $t'$ observes the outcome for some previous agent $t$, then she observes the entire message revealed to that agent. In particular, agent $t'$ does not need to second-guess which message has caused agent $t$ to choose action $a_t$.
 
-A transitive unbiased-history policy can be represented as an undirected graph, where nodes correspond to rounds, and any two rounds $t'<t$ are connected if and only if $t'\in S_t$ and there is no intermediate round $t''$ with
-    $t'\in S_{t''}$ and $t''\in S_t$.
-This graph is henceforth called the \emph{information flow graph} of policy $\pi$, or \emph{info-graph} for short. We assume that it is common knowledge.
+A transitive unbiased-history policy can be represented as an undirected graph, where nodes correspond to rounds, and any two rounds $t<t'$ are connected if and only if $t\in S_{t'}$ and there is no intermediate round $t''$ with
+    $t\in S_{t''}$ and $t''\in S_{t'}$.
+This graph is henceforth called the \emph{information flow graph} of the policy, or \emph{info-graph} for short. We assume that this graph is common knowledge.
 
 \xhdr{Agents' behavior.} Let us define agents' behavior in response to an unbiased-history policy. We posit that each agent $t$ uses its observed subhistory $m_t$ to form a reward estimate $\hat{\mu}_{t,a} \in [0,1]$ for each arm $a\in \A$, and chooses an arm with a maximal estimator. (Ties are broken according to an arbitrary rule that is the same for all agents.) The basic model is that $\hat{\mu}_{t,a}$ is the sample average for arm $a$ over the subhistory $m_t$, as long as it includes at least one sample for $a$; else, $\hat{\mu}_{t,a}\geq \tfrac13$.
 
@@ -42,12 +42,12 @@ We allow a much more permissive model, characterized by the following assumption
 \begin{assumption}\label{ass:embehave}
 Reward estimates are close to empirical averages. Let $N_{t,a}$ and $\bar{\mu}_{t,a}$ denote the number of pulls and the empirical mean reward of arm $a$ in subhistory $m_t$. Then for some absolute constant $N_0\in \N$ and $C_0=\tfrac{1}{16}$, and for all agents $t\in [T]$ and arms $a\in\A$ it holds that
 \[
-\text{if}\; N_{t,a} \geq N_0 
+\text{if}\; N_{t,a} \geq N_0
 \quad\text{then}\quad
     \left|\hat{\mu}^t_a - \bar{\mu}^t_a \right| <
 		\frac{C_0}{\sqrt{N_{t,a}}}.
 \]
-Also, 
+Also,
     $\hat{\mu}^t_a\geq\tfrac13$ if $N_{t,a}=0$.
 (NB: we make no assumption if $1\leq N_{t,a}<N_0$.)
 \end{assumption}
@@ -70,13 +70,13 @@ The special case when each message $m_t$ is an arm, and the $t$-th agent always 
     $\max_{a\in\A:\mu(a)<\mu^*} \mu(a)$,
 where $\mu^* = \max_{a\in\A} \mu(a)$.
 }
-The gap parameter is not known to the principal (in our problem), or to the algorithm (in the bandit problem). Optimal regret rates for bandits with IID rewards are as follows \cite{bandits-ucb1,bandits-exp3,Lai-Robbins-85}: 
+The gap parameter is not known to the principal (in our problem), or to the algorithm (in the bandit problem). Optimal regret rates for bandits with IID rewards are as follows \cite{bandits-ucb1,bandits-exp3,Lai-Robbins-85}:
 \begin{align}\label{eq:model-OptRegret}
-\reg(T) \leq O\left(\min\left( 
+\reg(T) \leq O\left(\min\left(
     \sqrt{KT\log T},\; \tfrac{1}{\Delta} \log T
     \right)\right).
 \end{align}
-This regret bound can only be achieved using \emph{adaptive exploration}: \ie when exploration schedule is adapted to the observations. A simple example of \emph{non}-adaptive exploration is the \emph{explore-then-exploit} algorithm which samples arms uniformly at random for the first $N$ rounds, for some pre-set number $N$, then chooses one arm and sticks with it till the end. More generally, 
+This regret bound can only be achieved using \emph{adaptive exploration}: \ie when exploration schedule is adapted to the observations. A simple example of \emph{non}-adaptive exploration is the \emph{explore-then-exploit} algorithm which samples arms uniformly at random for the first $N$ rounds, for some pre-set number $N$, then chooses one arm and sticks with it till the end. More generally,
 \emph{exploration-separating} algorithms have a property that in each round $t$, either the choice of an arm does not depend on the observations so far, or the reward collected in this round is not used in the subsequent rounds. Any such algorithm suffers from $\Omega(T^{2/3})$ regret in the worst case.%
 \footnote{The first explicit reference we are aware of is \cite{MechMAB-ec09,DevanurK09}, but this fact has been known in the community for much longer.}
 
