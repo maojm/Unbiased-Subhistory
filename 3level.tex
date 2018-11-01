@@ -26,7 +26,7 @@ The two-level policy from the previous section implements the explore-then-explo
  \draw(\x+1.33,0)--(\x+1.33,1);
 % \draw (\x+1.2,0)--(\x+1.2,1);
  %\draw(\x+1.6,0)--(\x+1.6,1);
- \node at(\x+1,2.5){$N_2$ rounds};
+ \node at(\x+1,2.5){$T_2$ rounds};
  \node at(\x+0.33, 0.5){$\GdT$};
  %\node at(\x+0.6, 0.5){$\cdot$};
  \node at(\x+1.0, 0.5){$\cdots$};
@@ -46,7 +46,7 @@ The two-level policy from the previous section implements the explore-then-explo
   \draw[->] (11,0)--(11,5);
   \node at(11.5,2.5)[ rotate=90]{Time};
 
-  \draw [decorate,decoration={brace,amplitude=10pt,aspect=0.33},xshift=0pt,yshift=0pt] (10,1.8) -- (0,1.8) node [black,pos=0.33,xshift = 0cm,yshift=-0.6cm] {$T_2$ groups};
+  \draw [decorate,decoration={brace,amplitude=10pt,aspect=0.33},xshift=0pt,yshift=0pt] (10,1.8) -- (0,1.8) node [black,pos=0.33,xshift = 0cm,yshift=-0.6cm] {$N_2$ groups};
 
 \end{tikzpicture}
 \caption{Info-graph for the three-level policy. Each red box in level 1 corresponds to $T_1$ full-disclosure paths of length $\GdT$ each.}
@@ -58,12 +58,12 @@ The new policy, called the \emph{three-level policy}, is as follows
  (see Figure~\ref{fig:3level}).
 
 \begin{construction}
-The info-graph consists of three levels: the first two correspond to \emph{exploration}, and the third implements \emph{exploitation}. Like in the two-level policy, the first level consists of multiple full-disclosure paths of length $\fdpL$ each, and each agent $t$ in the exploitation level sees full history from exploration. The middle layer is what ensures adaptive exploration. It consists of $T_2$ disjoint subsets of $N_2$ agents each, called \emph{second-level groups}. Each second-level group $S$ has the following property:
+The info-graph consists of three levels: the first two correspond to \emph{exploration}, and the third implements \emph{exploitation}. Like in the two-level policy, the first level consists of multiple full-disclosure paths of length $\fdpL$ each, and each agent $t$ in the exploitation level sees full history from exploration. The middle layer is what ensures adaptive exploration. It consists of $N_2$ disjoint subsets of $T_2$ agents each, called \emph{second-level groups}. Each second-level group $S$ has the following property:
 \begin{align}\label{eq:group-defn}
 \text{all nodes in $S$ are connected to the same nodes outside of $S$, but not to one another.}
 \end{align}
 
-The full-disclosure paths in the first level are also split into $T_2$ disjoint subsets, called \emph{first-level groups}. Each first-level group consists of $T_1$ full-disclosure paths, for the total of $T_1\cdot T_2\cdot \fdpL$ rounds in the first layer. There is a 1-1 correspondence between first-level groups $S_1$ and second-level groups $S_2$, whereby each agent $t\in S_2$ observes the full history from the corresponding group $S_1$. More formally, agent $t$ is connected to the last node of each full-disclosure path in $S_1$. In other words, this agent receives message
+The full-disclosure paths in the first level are also split into $N_2$ disjoint subsets, called \emph{first-level groups}. Each first-level group consists of $T_1$ full-disclosure paths, for the total of $T_1\cdot N_2\cdot \fdpL$ rounds in the first layer. There is a 1-1 correspondence between first-level groups $S_1$ and second-level groups $S_2$, whereby each agent $t\in S_2$ observes the full history from the corresponding group $S_1$. More formally, agent $t$ is connected to the last node of each full-disclosure path in $S_1$. In other words, this agent receives message
     $m_t = \SubH{V(S_1)}$,
 where $V(S_1)$ is the set of all rounds in $S_1$. 
 \end{construction}
@@ -75,11 +75,9 @@ achieves regret
 \[ \reg(T) \leq O\left( T^{4/7}\, \log T \right).\]
 This is achieved with parameters
     $T_1 = T^{4/7}\log^{-1/7}(T)$,
-    $T_2 = 2^{10}\log(T)$, and
-    $N_2 = T^{6/7}\log^{-5/7}(T)$.
+    $N_2 = 2^{10}\log(T)$, and
+    $T_2 = T^{6/7}\log^{-5/7}(T)$.
 \end{theorem}
-
-\ascomment{Parameter change: what I call $T_2$ used to be $S$, and what I call $N_2$ used to be $T_2$.}
 
 \ascomment{stopped here.}
 
