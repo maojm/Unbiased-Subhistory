@@ -2,17 +2,17 @@
 
 \section{$L$-level Recommendation Policy}
 \label{sec:llevel}
-In this section, we give an overview of how we extend our 3-level policy to an $L$-level policy for $L > 3$ in order to achieve better regret. In Theorem \ref{thm:llevel-1}, we show our $L$-level policy. We can achieve nearly optimal regret $O(T^{1/2} polylog(T))$ with $O(\log\log(T))$ levels.
+In this section, we give an overview of how we extend our 3-level policy to an $L$-level policy for $L > 3$ in order to achieve better regret. In Theorem \ref{thm:llevel-1}, we show our $L$-level policy. We can achieve nearly optimal regret $O_K(T^{1/2} polylog(T))$ with $O(\log\log(T))$ levels.
 \begin{theorem}
 \label{thm:llevel-1}
-For any $L > 3$, we have an $L$-level recommendation policy with regret \\$O\left(T^{2^{L-1}/(2^L-1)} polylog(T) \right)$. In particular, we have an $O(\log\log(T))$-level recommendation policy with regret $O(T^{1/2} polylog(T))$. 
+For any $L > 3$, we have an $L$-level recommendation policy with regret \\$O_K\left(T^{2^{L-1}/(2^L-1)} polylog(T) \right)$. In particular, we have an $O(\log\log(T))$-level recommendation policy with regret $O_K(T^{1/2} polylog(T))$. 
 \end{theorem}
 
 In Theorem \ref{thm:llevel-2}, we show a recommendation policy with instance-dependent regret guarantee. This policy has the same structure as the one in Theorem \ref{thm:llevel-1} but different parameters. Its regret depends on $\Delta$ which is the difference between the largest mean and second largest mean of arms and its construction does not depend on $\Delta$. Its regret bound outperforms the one in Theorem \ref{thm:llevel-1} when $\Delta$ is much bigger than $T^{-1/2}$. The only downside is that this policy requires more levels, i.e. $O(\log(T)/\log\log(T))$ levels. It also has the property that each agent observes a good fraction of history till its round. 
 
 \begin{theorem}
 \label{thm:llevel-2}
- We have an $O(\log(T)/\log\log(T))$-level recommendation policy with regret \\$O(\min(1/\Delta, T^{1/2})polylog(T))$. Here $\Delta$ is the difference between the largest mean and second largest mean of arms. The recommendation policy does not depend on $\Delta$. Moreover, agent in round $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
+ We have an $O(\log(T)/\log\log(T))$-level recommendation policy with regret \\$O_K(\min(1/\Delta, T^{1/2})polylog(T))$. Here $\Delta$ is the difference between the largest mean and second largest mean of arms. The recommendation policy does not depend on $\Delta$. Moreover, agent in round $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
 \end{theorem}
 
 Detailed proofs and discussions of Theorem \ref{thm:llevel-1} and Theorem \ref{thm:llevel-2} can be found in Appendix \ref{sec:llevel-details}. Similarly as Section \ref{sec:3level}, we first prove them in the case of 2 arms (Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel}). We then extend them to the case of constant number of arms (Theorem \ref{thm:constarm}).
