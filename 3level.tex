@@ -79,6 +79,8 @@ This is achieved with parameters
     $N_2 = T^{6/7}\log^{-5/7}(T)$.
 \end{theorem}
 
+\ascomment{Parameter change: what I call $T_2$ used to be $S$, and what I call $N_2$ used to be $T_2$.}
+
 \ascomment{stopped here.}
 
 They main idea for the 3-level policy is that it inserts the second level as an additional ``checkpoint'' to induce more adaptivity in the exploration. \niedit{While the first level ensures that the agents explore both arms, the better arm can only be discovered if the gap in their rewards $|\mu_1-\mu_2|$ is sufficiently high.  When this gap is small (that is, when $|\mu_1 - \mu_2| < \tilde{O}(1/\sqrt{T_1})$), we argue that the second level will continue to explore both arms.  Here we use the anti-concentration bound to show each arm is ``lucky'' in at least one first level group (that is, for some first level group, its empirical mean is significantly larger than its mean whereas the other arm's empirical mean is significantly smaller than its mean).  Therefore, the corresponding second level group will explore the lucky arm, giving the third level refined estimates of each arm's mean.}  In the third level, agents will pull the best arm unless $|\mu_1-\mu_2|$ is much smaller than $\tilde{O}(1/\sqrt{T_2})$, in which case pulling either arm will
