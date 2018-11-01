@@ -1,39 +1,93 @@
 %!TEX root = main.tex
 
-\section{Adaptive Policy with Three Levels}
+\section{Adaptive exploration with a three-level disclosure policy}
 \label{sec:3level}
-\swcomment{rewrote below}
-Now we demonstrate how to design a 3-level policy to incentivize
-adaptive exploration and improve the $O(T^{2/3})$ regret rate to
-$\tilde O(T^{4/7})$. In \Cref{sec:llevel}, we will show how to extend
-this idea to achieve a regret rate of $\tilde O(T^{1/2})$. For
-simplicity, we will focus on the setting with 2 arms\niedit{, although our results can be extended to a constant number of arms $K$}. \nicomment{I think that's true, but if not, then we're not focusing on 2 arms for ``simplicity''.} \jmcomment{It is true. We only show this extension for $l$-level tho.}
+
+The two-level policy from the previous section implements the explore-then-exploit paradigm using a basic design with parallel full-disclosure paths. The next challenge is to implement \emph{adaptive exploration}, and go below the $T^{2/3}$ barrier. We accomplish this using a construction that adds a middle level to the info-graph. This construction also provides intuition for the main result, the multi-level construction presented in the next section. For simplicity, we assume $K=2$ arms.
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+ \filldraw[fill=green!20!white]
+ (0,4)--(10,4)--(10,5)--(0,5)--cycle;
+ \foreach \x in {0,3,8}
+ {
+ \filldraw[fill=blue!20!white]
+ (\x+0,2)--(\x+2,2)--(\x+2,3)--(\x+0,3)--cycle;
+ \draw (\x+1,3)--(5,4);
+ \filldraw[fill=red!20!white]
+ (\x+0,0)--(\x+2,0)--(\x+2,1)--(\x+0,1)--cycle;
+ \draw (\x+1,1)--(\x+1,2);
+ \draw(\x+0.33,1)--(\x+1,2);
+ \draw(\x+1.66,1)--(\x+1,2);
+ %\draw(\x+1.4,1)--(\x+1,2);
+ %\draw(\x+1.8,1)--(\x+1,2);
+ \draw(\x+0.66,0)--(\x+0.66,1);
+ \draw(\x+1.33,0)--(\x+1.33,1);
+% \draw (\x+1.2,0)--(\x+1.2,1);
+ %\draw(\x+1.6,0)--(\x+1.6,1);
+ \node at(\x+1,2.5){$N_2$ rounds};
+ \node at(\x+0.33, 0.5){$\GdT$};
+ %\node at(\x+0.6, 0.5){$\cdot$};
+ \node at(\x+1.0, 0.5){$\cdots$};
+ %\node at(\x+1.4, 0.5){$\cdot$};
+ \node at(\x+1.66, 0.5){$\GdT$};
+ %\node at(\x+1,0.5){$T_1 \cdot \GdT$};
+ \draw [decorate,decoration={brace,amplitude=10pt},xshift=0pt,yshift=0pt] (\x+2,-0.2) -- (\x+0,-0.2) node [black,midway,yshift=-0.6cm] {$T_1$ paths};
+ }
+  \node at(5,4.5){all remaining rounds};
+  \node at (6,0.5){$\cdots$};
+  \node at (7,0.5){$\cdots$};
+  \node at (6,2.5){$\cdots$};
+  \node at (7,2.5){$\cdots$};
+  \node at(-1,0.5){\textbf{Level 1}};
+  \node at(-1,2.5){\textbf{Level 2}};
+  \node at(-1,4.5){\textbf{Level 3}};
+  \draw[->] (11,0)--(11,5);
+  \node at(11.5,2.5)[ rotate=90]{Time};
+
+  \draw [decorate,decoration={brace,amplitude=10pt,aspect=0.33},xshift=0pt,yshift=0pt] (10,1.8) -- (0,1.8) node [black,pos=0.33,xshift = 0cm,yshift=-0.6cm] {$T_2$ groups};
+
+\end{tikzpicture}
+\caption{Info-graph for the three-level policy. Each red box in level 1 corresponds to $T_1$ full-disclosure paths of length $\GdT$ each.}
+\label{fig:3level}
+\end{figure}
 
 
-The policy consists of three phases, each of which corresponds to a
-level (see Figure~\ref{fig:3level}).  In the first level, the policy
-performs the first round of exploration over the first
-$(S\cdot T_1\cdot \GdT)$ agents, where $T_1 = T^{4/7}\log^{-1/7}(T)$
-and $S = 2^{10}\log(T)$. In particular, the policy partitions
-the agents into $S$ groups such that each group consists of $T_1$ runs
-of \ALGG with $\GdT$ rounds. In the second level, the policy performs
-further exploration on the next $(S\cdot T_2)$ agents by incorporating
-data collected in the first level, where
-$T_2 = T^{6/7}\log^{-5/7}(T)$. The agents are again partitioned into
-$S$ groups such that the agents in the $s$-th group are shown the same
-sub-history from the $s$-th group in the first level. In the third
-level, the policy exploits by showing all remaining agents the entire
-history from the first two levels. \nicomment{This comment applies to the 2level too; why not allow the guys within the last level see each other?  Seems like this would still work but be more of a headache to prove -- would have to argue the empirical means can't move around too much in the sub-terminal levels, but it makes a big qualitative difference because now everyone sees a vanishingly small fraction of the history whereas with this modification a fraction approaching 1 of the people see a fraction approaching 1 of the history.} \jmcomment{To do it for the last level is actually easy. It would be headache to do it for the second level as we want to prove anti-concentration in the second level. On the other hand, we have the property that agents see $1/polylog$ fraction of history in our final result for $l$-level. A different point of view is that, seeing each other requires more interaction, our policy has the nice property that the interaction is very minimal except the initial greedy runs.}
+The new policy, called the \emph{three-level policy}, is as follows
+ (see Figure~\ref{fig:3level}).
 
+\begin{construction}
+The info-graph consists of three levels: the first two correspond to \emph{exploration}, and the third implements \emph{exploitation}. Like in the two-level policy, the first level consists of multiple full-disclosure paths of length $\fdpL$ each, and each agent $t$ in the exploitation level sees full history from exploration. The middle layer is what ensures adaptive exploration. It consists of $T_2$ disjoint subsets of $N_2$ agents each, called \emph{second-level groups}. Each second-level group $S$ has the following property:
+\begin{align}\label{eq:group-defn}
+\text{all nodes in $S$ are connected to the same nodes outside of $S$, but not to one another.}
+\end{align}
+
+The full-disclosure paths in the first level are also split into $T_2$ disjoint subsets, called \emph{first-level groups}. Each first-level group consists of $T_1$ full-disclosure paths, for the total of $T_1\cdot T_2\cdot \fdpL$ rounds in the first layer. There is a 1-1 correspondence between first-level groups $S_1$ and second-level groups $S_2$, whereby each agent $t\in S_2$ observes the full history from the corresponding group $S_1$. More formally, agent $t$ is connected to the last node of each full-disclosure path in $S_1$. In other words, this agent receives message
+    $m_t = \SubH{V(S_1)}$,
+where $V(S_1)$ is the set of all rounds in $S_1$. 
+\end{construction}
+
+\begin{theorem}
+\label{thm:3level}
+For two arms, the three-level policy
+achieves regret
+\[ \reg(T) \leq O\left( T^{4/7}\, \log T \right).\]
+This is achieved with parameters
+    $T_1 = T^{4/7}\log^{-1/7}(T)$,
+    $T_2 = 2^{10}\log(T)$, and
+    $N_2 = T^{6/7}\log^{-5/7}(T)$.
+\end{theorem}
+
+\ascomment{stopped here.}
 
 They main idea for the 3-level policy is that it inserts the second level as an additional ``checkpoint'' to induce more adaptivity in the exploration. \niedit{While the first level ensures that the agents explore both arms, the better arm can only be discovered if the gap in their rewards $|\mu_1-\mu_2|$ is sufficiently high.  When this gap is small (that is, when $|\mu_1 - \mu_2| < \tilde{O}(1/\sqrt{T_1})$), we argue that the second level will continue to explore both arms.  Here we use the anti-concentration bound to show each arm is ``lucky'' in at least one first level group (that is, for some first level group, its empirical mean is significantly larger than its mean whereas the other arm's empirical mean is significantly smaller than its mean).  Therefore, the corresponding second level group will explore the lucky arm, giving the third level refined estimates of each arm's mean.}  In the third level, agents will pull the best arm unless $|\mu_1-\mu_2|$ is much smaller than $\tilde{O}(1/\sqrt{T_2})$, in which case pulling either arm will
 incur small regret. The formal guarantee of the policy is the
 following. \nicomment{I'm a little confused why this works while simply growing the first level doesn't work; wouldn't the first level where the arm is ``lucky'' explore it more if it had more time?}
 
-\begin{theorem}
-\label{thm:3level}
-The 3-level recommendation policy gets expected regret $O(T^{4/7} \log^{6/7}(T))$. 
-\end{theorem}
+
+
+
 
 
 
@@ -69,60 +123,6 @@ not too big.
 \fi
 
 
-\begin{figure}[H]
-\centering
-\begin{tikzpicture}  
- \filldraw[fill=green!20!white]
- (0,4)--(10,4)--(10,5)--(0,5)--cycle;
- \foreach \x in {0,3,8}
- {
- \filldraw[fill=blue!20!white]
- (\x+0,2)--(\x+2,2)--(\x+2,3)--(\x+0,3)--cycle;
- \draw (\x+1,3)--(5,4);
- \filldraw[fill=red!20!white]
- (\x+0,0)--(\x+2,0)--(\x+2,1)--(\x+0,1)--cycle;
- \draw (\x+1,1)--(\x+1,2);
- \draw(\x+0.33,1)--(\x+1,2);
- \draw(\x+1.66,1)--(\x+1,2);
- %\draw(\x+1.4,1)--(\x+1,2);
- %\draw(\x+1.8,1)--(\x+1,2);
- \draw(\x+0.66,0)--(\x+0.66,1); 
- \draw(\x+1.33,0)--(\x+1.33,1); 
-% \draw (\x+1.2,0)--(\x+1.2,1); 
- %\draw(\x+1.6,0)--(\x+1.6,1);  
- \node at(\x+1,2.5){$T_2$};
- \node at(\x+0.33, 0.5){$\GdT$};
- %\node at(\x+0.6, 0.5){$\cdot$};
- \node at(\x+1.0, 0.5){$\cdots$};
- %\node at(\x+1.4, 0.5){$\cdot$};
- \node at(\x+1.66, 0.5){$\GdT$};
- %\node at(\x+1,0.5){$T_1 \cdot \GdT$}; 
- \draw [decorate,decoration={brace,amplitude=10pt},xshift=0pt,yshift=0pt] (\x+2,-0.2) -- (\x+0,-0.2) node [black,midway,yshift=-0.6cm] {$T_1$ runs};
- }
-  \node at(5,4.5){$T -S(T_1 \cdot \GdT + T_2)$};
-  \node at (6,0.5){$\cdots$};
-  \node at (7,0.5){$\cdots$};
-  \node at (6,2.5){$\cdots$};
-  \node at (7,2.5){$\cdots$};
-  \node at(-1,0.5){\textbf{Level 1}};
-  \node at(-1,2.5){\textbf{Level 2}};
-  \node at(-1,4.5){\textbf{Levle 3}};
-  \draw[->] (11,0)--(11,5);
-  \node at(11.5,2.5)[ rotate=90]{Time};
-  
-  \draw [decorate,decoration={brace,amplitude=10pt,aspect=0.33},xshift=0pt,yshift=0pt] (10,1.8) -- (0,1.8) node [black,pos=0.33,xshift = 0cm,yshift=-0.6cm] {$S$ groups};
-  
-\end{tikzpicture}
-\caption{Structure of the info-graph for the 3-level
-  Policy. Each red box in level 1 corresponds to $T_1$ \ALGG paths of
-  length $\GdT$. The sub-history of each red box is then aggregated and
-  sent to a corresponding purple box of agents in level 2. Then the
-  entire history of levels 1 and 2 is aggregated and shown to all
-  agents in level 3.}
-\label{fig:3level}
-\end{figure}
-% \swcomment{check the figure caption above. can we index the indicate
-%   there are $S$ groups in the figure?}
 
 
 \subsection{Events}
@@ -218,14 +218,14 @@ the first two levels.
 
 
 
-Let $W = \bigcap_{i=1}^4 W_i$ be the intersection of all 4 
+Let $W = \bigcap_{i=1}^4 W_i$ be the intersection of all 4
 events.  By union bound, $W$ occurs with probability $1-O(1/T)$. Note
 that expected regret conditioned on $W$ not occuring is at most
 $O(1/T) \cdot T = O(1)$, so it suffices to bound the regret conditioned on $W$.
 
 \subsection{Case Analysis}
 
-We now proceed to bound the regret conditioned on the four 
+We now proceed to bound the regret conditioned on the four
 events defined above. Without loss of generality, we assume
 $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both
 arms. We break down the regret analysis into four cases on the scale
@@ -273,7 +273,7 @@ in the second level).
    2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} +
     \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right),
  2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} +
-        \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right), 
+        \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right),
     \right)
   \]
 \end{lemma}
@@ -315,7 +315,7 @@ by $S \GdT T_1 = O(T^{4/7} \log^{6/7}(T))$. In the intermediate cases of
 both medium and small gaps, it suffices to bound the regret from the
 first and second levels, so
 \[
-\reg(T) \leq (S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} 
+\reg(T) \leq (S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right) = O(T^{4/7} \log^{6/7}(T)).
 \]
 Therefore, we obtain the stated regret bound in all cases.
@@ -325,13 +325,13 @@ Therefore, we obtain the stated regret bound in all cases.
 
 \OMIT{
 \begin{proof}
-Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. We do a case analysis based on $\mu_1-\mu_2$. 
+Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. We do a case analysis based on $\mu_1-\mu_2$.
 
-Before we start with the case analysis, we first define several clean events and show that the intersection of them happens with high probability. 
+Before we start with the case analysis, we first define several clean events and show that the intersection of them happens with high probability.
 
 \begin{itemize}
 
-\item \textbf{Concentration of the number of arm $a$ pulls in the first level:} 
+\item \textbf{Concentration of the number of arm $a$ pulls in the first level:}
 \OMIT{By Lemma \ref{lem:greedy}, we know $\GdP \leq \fdpN  \leq \GdT$. For the $s$-th first-level group, define $W_1^{a,s}$ to be the event that the number of arm $a$ pulls in the $s$-th first-level group is between $\fdpN  T_1- \GdT \sqrt{T_1\log(T)}$ and $\fdpN  T_1 + \GdT \sqrt{T_1\log(T)}$. By Chernoff bound,}
 For the $s$-th first-level group, define $W_1^{a,s}$ to be the event
 that the number of arm $a$ pulls in the $s$-th first-level group is
@@ -359,7 +359,7 @@ Define $W_2$ to be the intersection of all these events (i.e. $W_2 = \bigcap_{a,
 }
 \OMIT{\item \textbf{Concentration of the empirical mean of arm $a$ pulls in the first two levels:}
 
-For all the groups in the first two levels and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in the first two levels pull arm $a$. Define $W_3^{a,t}$ to be the event that the mean of the first $t$ pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. By Chernoff bound, 
+For all the groups in the first two levels and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in the first two levels pull arm $a$. Define $W_3^{a,t}$ to be the event that the mean of the first $t$ pulls in the tape is at most $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. By Chernoff bound,
 \[
 \Pr[W_3^{a,t}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
 \]
@@ -375,7 +375,7 @@ Consider the tapes defined in the second bullet again. For the $s$-th first-leve
 \Pr[W_4^{s,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{\fdpN T_1}} > 1/4.
 \]
 The last inequality follows when $T$ is larger than some constant.
-Similarly we also have 
+Similarly we also have
 \[
 \Pr[W_4^{s,a,low}] > 1/4.
 \]
@@ -389,7 +389,7 @@ Now define $W_4$ as $\bigcap_a \bigcup_s (W_4^{s,a,high} \cap W_4^{s,3-a,low})$.
 \]
 \end{itemize}
 
-By union bound, the intersection of these clean events (i.e. $\bigcap_{i=1}^4 W_i$) happens with probability $1-O(1/T)$. When this intersection does not happen, since the probability is $O(1/T)$, it contributes $O(1/T) \cdot T = O(1)$ to the expected regret. 
+By union bound, the intersection of these clean events (i.e. $\bigcap_{i=1}^4 W_i$) happens with probability $1-O(1/T)$. When this intersection does not happen, since the probability is $O(1/T)$, it contributes $O(1/T) \cdot T = O(1)$ to the expected regret.
 
 Now we assume the intersection of clean events happens and we summarize what these clean events imply.
 
@@ -405,12 +405,12 @@ The last inequality holds when $T$ is larger than some constant.
 \]
 The last inequality holds when $T$ is larger than some constant.
 
-If there are at least $T_2$ pulls of arm $a$ in the first two levels, 
+If there are at least $T_2$ pulls of arm $a$ in the first two levels,
 \[
-|\bar{\mu}_a-\mu_a| \leq \sqrt{\frac{2\log(T)}{T_2}}. 
+|\bar{\mu}_a-\mu_a| \leq \sqrt{\frac{2\log(T)}{T_2}}.
 \]
 
-\item For each $a \in \{1,2\}$, $W_4$ implies that there exists $s_a$ such that $W_4^{s_a,a,high}$ and $W_4^{s_a,3-a,low}$ happen. $W_4^{s_a,a,high}$,  $W_1^{s_a,a}$, $W_2^{s_a,a,t, \fdpN T_1}$ for $t = \fdpN  T_1- \GdT \sqrt{T_1\log(T)}+1, ...,\fdpN T_1-1$ and $W_2^{s_a,a,\fdpN T_1,t}$ for $t= \fdpN T_1,...,\fdpN  T_1+ \GdT \sqrt{T_1\log(T)}$ together imply that 
+\item For each $a \in \{1,2\}$, $W_4$ implies that there exists $s_a$ such that $W_4^{s_a,a,high}$ and $W_4^{s_a,3-a,low}$ happen. $W_4^{s_a,a,high}$,  $W_1^{s_a,a}$, $W_2^{s_a,a,t, \fdpN T_1}$ for $t = \fdpN  T_1- \GdT \sqrt{T_1\log(T)}+1, ...,\fdpN T_1-1$ and $W_2^{s_a,a,\fdpN T_1,t}$ for $t= \fdpN T_1,...,\fdpN  T_1+ \GdT \sqrt{T_1\log(T)}$ together imply that
 \begin{align*}
 \bar{\mu}_a ^{1,s_a} &\geq \mu_a + \left(\fdpN T_1 \cdot \frac{1}{\sqrt{\fdpN T_1}} - \GdT \sqrt{T_1\log(T)} \cdot \sqrt{\frac{2\log(T)}{ \GdT \sqrt{T_1\log(T)}}} \right) \cdot \frac{1}{\fdpN  T_1+ \GdT \sqrt{T_1\log(T)}} \\
 &> \mu_a + \frac{1}{4\sqrt{\fdpN T_1}}.
@@ -426,10 +426,10 @@ Finally we proceed to the case analysis. We give upper bounds on the expected re
 
 \begin{itemize}
 
-\item $\mu_1 - \mu_2 \geq 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} 
-+ \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right)$. In this case, we want to show that agents in the second and the third levels all pull arm 1. 
+\item $\mu_1 - \mu_2 \geq 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}}
++ \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right)$. In this case, we want to show that agents in the second and the third levels all pull arm 1.
 
-First consider the $s$-th second-level group. We know that 
+First consider the $s$-th second-level group. We know that
 \[
 \bar{\mu}_1^{1,s} - \bar{\mu}_2^{1,s} \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} + \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}.
 \]
@@ -443,17 +443,17 @@ Therefore, we know agents in the $s$-th second-level group will all pull arm 1.
 
 Now consider the agents in the third level group. Recall $\bar{\mu}_a$ is the empirical mean of arm $a$ in the history they see. We have
 \[
-\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} 
+\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}.
 \]
-Similarly as above, by Assumption \ref{ass:embehave}, we know $\hat{\mu}_1^t - \hat{\mu}_2^t > 0$ for any agent $t$ in the third level. So we know agents in the third-level group will all pull arm 1. Therefore the expected regret is at most $S T_G T_1 = O(T^{4/7} \log^{6/7}(T))$. 
+Similarly as above, by Assumption \ref{ass:embehave}, we know $\hat{\mu}_1^t - \hat{\mu}_2^t > 0$ for any agent $t$ in the third level. So we know agents in the third-level group will all pull arm 1. Therefore the expected regret is at most $S T_G T_1 = O(T^{4/7} \log^{6/7}(T))$.
 
 
-\item $2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} 
-+ \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right) \leq \mu_1-\mu_2 < 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} 
+\item $2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}}
++ \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right) \leq \mu_1-\mu_2 < 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right)$. In this case, we want to show agents in the third level all pull arm 1. Recall $\bar{\mu}_a$ is the empirical mean of arm $a$ in the first two levels. We have
 \[
-\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} 
+\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}.
 \]
 For any agent $t$ in the third level, by Assumption \ref{ass:embehave}, we have
@@ -462,19 +462,19 @@ For any agent $t$ in the third level, by Assumption \ref{ass:embehave}, we have
 &\geq  \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} + \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}- \frac{c_m}{\sqrt{S\fdpN[1]T_1/2}} - \frac{c_m}{\sqrt{S\fdpN[2]T_1/2}}\\
  &> 0.
 \end{align*}
-So we know agents in the third-level group will all pull arm 1. Therefore the expected regret is at most 
+So we know agents in the third-level group will all pull arm 1. Therefore the expected regret is at most
 \[
-(S T_G T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} 
+(S T_G T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right) = O(T^{4/7} \log^{6/7}(T))
 \]
 
-\item $ 3\sqrt{\frac{2\log(T)}{T_2}} < \mu_1-\mu_2 < 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} 
-+ \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right)$. In this case, we just need to make sure that agents in the third level all pull arm 1. To do so, we need both arms to be pulled at least $T_2$ rounds in the second level.  
+\item $ 3\sqrt{\frac{2\log(T)}{T_2}} < \mu_1-\mu_2 < 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}}
++ \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right)$. In this case, we just need to make sure that agents in the third level all pull arm 1. To do so, we need both arms to be pulled at least $T_2$ rounds in the second level.
 
 Now consider the $s_a$-th second-level group. We have
 \begin{align*}
 \bar{\mu}_a^{1,s_a} - \bar{\mu}_{3-a}^{1,s_a} &> \mu_a + \frac{1}{4\sqrt{\fdpN T_1}} -\mu_{3-a} +\frac{1}{4\sqrt{q_{3-a}T_1}} \\
-&> \frac{1}{4\sqrt{\fdpN[1]T_1}}+ \frac{1}{4\sqrt{\fdpN[2]T_1}} - 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} 
+&> \frac{1}{4\sqrt{\fdpN[1]T_1}}+ \frac{1}{4\sqrt{\fdpN[2]T_1}} - 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right) \\
 &\geq \frac{1}{8\sqrt{\fdpN[1]T_1}}+ \frac{1}{8\sqrt{\fdpN[2]T_1}}.
 \end{align*}
@@ -490,14 +490,14 @@ So we know agents in the $s_a$-th second-level group will all pull arm $a$. Ther
 \]
 Similarly as above, by Assumption \ref{ass:embehave}, we know $\hat{\mu}_1^t - \hat{\mu}_2^t > 0$ for any agent $t$ in the third level. So we know agents in the third-level group will all pull arm 1.
 
-Therefore the expected regret is at most 
+Therefore the expected regret is at most
 \[
-(S T_G T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} 
+(S T_G T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right) \leq O(T^{4/7} \log^{6/7}(T))
 \]
 
 
-\item $\mu_1 - \mu_2 \leq 3\sqrt{\frac{2\log(T)}{T_2}}$. This is the easy case. Even always pulling the sub-optimal arm (i.e. arm 2) gives regret at most $T \cdot (\mu_1-\mu_2) = O(T^{4/7} \log^{6/7}(T))$. 
+\item $\mu_1 - \mu_2 \leq 3\sqrt{\frac{2\log(T)}{T_2}}$. This is the easy case. Even always pulling the sub-optimal arm (i.e. arm 2) gives regret at most $T \cdot (\mu_1-\mu_2) = O(T^{4/7} \log^{6/7}(T))$.
 \end{itemize}
 \end{proof}}
 
