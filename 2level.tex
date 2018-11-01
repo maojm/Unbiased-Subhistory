@@ -13,12 +13,13 @@ We prove that for a constant number of arms, with constant probability, a full-d
 There exist numbers $\fdpL>0$ and $\fdpP>0$ that depend only on $K$, the number of arms, with the following property. Consider an arbitrary disclosure policy, and let $S\subset [T]$ be a full-disclosure path in its info-graph, of length $|S|\geq \fdpL$. Under Assumption \ref{ass:embehave}, with probability at least $\fdpP$, subhistory $\SubH{S}$ contains at least once sample of each arm $a$.
 \end{lemma}
 
+\OMIT{ %%%%%%
 \begin{proof}[Proof Sketch]
 \ascomment{Jieming, pls add a brief proof sketch if you can.}
 \jmcomment{The main idea of the proof is to consider the case when all pulled arms have bad realized rewards (i.e. 0). }
 \jmcomment{Actually, not clear about how to write a sketch for a proof of 8 lines.}
 \end{proof}
-
+} %%%%%%
 
 We provide a simple disclosure policy based on full-disclosure paths. The policy follows the ``explore-then-exploit'' paradigm. The ``exploration phase" comprises the first $N = T_1\cdot \fdpL$ rounds, and consists of $T_1$ full-disclosure paths of length $\fdpL$ each, where $T_1$ is a parameter. In the ``exploitation phase", each agent $t>N$ receives the full subhistory from exploration, \ie $m_t = \SubH{[N]}$. The info-graph for this disclosure policy is shown in Figure~\ref{fig:2level}.
 
