@@ -10,7 +10,7 @@ We study the multi-armed bandit problem in a social learning context, in which a
   \sum_{t\in [T]} \E[\mu_{a_t}].
 \end{align}
 (The expectation is over the chosen arms $a_t$, which depend on randomness in rewards, and possibly in the algorithm.)
-The principal chooses messages $m_t$ according to an online algorithm called \emph{disclosure policy}, with a goal to minimize regret. We assume that mean rewards are bounded away from $0$ and $1$, to ensure sufficient entropy in rewards. For concreteness, we posit 
+The principal chooses messages $m_t$ according to an online algorithm called \emph{disclosure policy}, with a goal to minimize regret. We assume that mean rewards are bounded away from $0$ and $1$, to ensure sufficient entropy in rewards. For concreteness, we posit
     $\mu_a\in [\tfrac13,\tfrac23]$.
 
 \xhdr{Unbiased subhistories.}
@@ -82,7 +82,9 @@ This regret bound can only be achieved using \emph{adaptive exploration}: \ie wh
 \footnote{The first explicit reference we are aware of is \cite{MechMAB-ec09,DevanurK09}, but this fact has been known in the community for much longer.}
 
 \xhdr{Preliminaries.}
-Throughout the paper, we will use the standard concentration and anti-concentration inequalities: respectively, Chernoff Bounds and Berry-Esseen Theorem. The former states that that a sum of independent random variables converges to its expectation quickly. The latter states that the CDF of an appropriately scaled average of IID random variables converges to the CDF of the standard normal distribution pointwise. In particular, the average strays far enough from its expectation with some guaranteed probability. The theorem statements are moved to Appendix~\ref{sec:prelim}.
+\asedit{We assume that $K$ is constant, and focus on the dependence on $T$. However, we explicitly state the dependence on $K$, \eg using the $O_K()$ notation.}
+
+Throughout the paper, we use the standard concentration and anti-concentration inequalities: respectively, Chernoff Bounds and Berry-Esseen Theorem. The former states that that a sum of independent random variables converges to its expectation quickly. The latter states that the CDF of an appropriately scaled average of IID random variables converges to the CDF of the standard normal distribution pointwise. In particular, the average strays far enough from its expectation with some guaranteed probability. The theorem statements are moved to Appendix~\ref{sec:prelim}.
 
 We use $O_K(\cdot)$ notation to hide the dependence on parameter $K$, and $\tilde O(\cdot)$ notation to hide polylogarithmic factors. We denote $[T]= \{1,2 \LDOTS T\}$.
 
