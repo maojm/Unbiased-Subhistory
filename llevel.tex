@@ -6,7 +6,7 @@ In this section, we design our $L$-level recommendation policy for $L > 3$. Simi
 
 Now we start with the case of 2 arms. Our recommendation policy has $L$ levels and two types of groups: $G$-groups and $\Gamma$-groups. Each level has $S^2$ $G$-groups for $S = 2^{10}\log(T)$. Label the $G$-groups in the $l$-th level as $G_{l,u,v}$ for $u,v \in [S]$. Level $2$ to level $L$ also have $S^2$ $\Gamma$-groups. Label the $\Gamma$-groups in the $l$-th level as $\Gamma_{l,u,v}$ for $u,v \in [S]$. Each first-level group ($G_{1,u,v}$ for $u,v\in [S]$) has $T_1$ \ALGG of $\GdT$ rounds in parallel. For $l \geq 2$, there are $T_l$ agents in group $G_{l,u,v}$ and there are $T_l (S-1)$ agents in group $\Gamma_{l,u,v}$. We will pick $T_1,...,T_L$ in the proof of Theorem \ref{thm:llevel}.
 
-Finally we define the information flow. Agents in the first level only observe the history defined in the \ALGG run. For agents in group $G_{l,u,v}$ with $l\geq 2$, they observe all the history in the first $l-2$ levels (both $G$-groups and $\Gamma$-groups) and history in group $G_{l-1,v,w}$ for all $w \in [S]$. Agents in group $\Gamma_{l,u,v}$ observe the same history as agents in group $G_{l,u,v}$.
+Finally we define the info-graph. Agents in the first level only observe the history defined in the \ALGG run. For agents in group $G_{l,u,v}$ with $l\geq 2$, they observe all the history in the first $l-2$ levels (both $G$-groups and $\Gamma$-groups) and history in group $G_{l-1,v,w}$ for all $w \in [S]$. Agents in group $\Gamma_{l,u,v}$ observe the same history as agents in group $G_{l,u,v}$.
  
  \begin{comment}
 \begin{figure}[H]
