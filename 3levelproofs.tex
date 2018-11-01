@@ -166,8 +166,8 @@ Now we proceed to the case analysis.
 
 For any agent $t$ in the $s$-th second-level group, by Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_1^t - \hat{\mu}_2^t &>\bar{\mu}_1^{1,s} - \bar{\mu}_2^{1,s} - \frac{c_m}{\sqrt{\fdpN[1]T_1/2}} - \frac{c_m}{\sqrt{\fdpN[2]T_1/2}}\\
-&\geq  \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} + \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}- \frac{c_m}{\sqrt{\fdpN[1]T_1/2}} - \frac{c_m}{\sqrt{\fdpN[2]T_1/2}} > 0
+\hat{\mu}_1^t - \hat{\mu}_2^t &>\bar{\mu}_1^{1,s} - \bar{\mu}_2^{1,s} - \frac{C_0}{\sqrt{\fdpN[1]T_1/2}} - \frac{C_0}{\sqrt{\fdpN[2]T_1/2}}\\
+&\geq  \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} + \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}- \frac{C_0}{\sqrt{\fdpN[1]T_1/2}} - \frac{C_0}{\sqrt{\fdpN[2]T_1/2}} > 0
 \end{align*}
 Therefore, we know agents in the $s$-th second-level group will all pull arm 1.
 
@@ -198,8 +198,8 @@ arm 1.  \OMIT{Therefore the expected regret is at most
 \]
 For any agent $t$ in the third level, by Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_1^t - \hat{\mu}_2^t &>\bar{\mu}_1 - \bar{\mu}_2 - \frac{c_m}{\sqrt{S\fdpN[1]T_1/2}} - \frac{c_m}{\sqrt{S\fdpN[2]T_1/2}}\\
-&\geq  \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} + \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}- \frac{c_m}{\sqrt{S\fdpN[1]T_1/2}} - \frac{c_m}{\sqrt{S\fdpN[2]T_1/2}}\\
+\hat{\mu}_1^t - \hat{\mu}_2^t &>\bar{\mu}_1 - \bar{\mu}_2 - \frac{C_0}{\sqrt{S\fdpN[1]T_1/2}} - \frac{C_0}{\sqrt{S\fdpN[2]T_1/2}}\\
+&\geq  \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} + \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}- \frac{C_0}{\sqrt{S\fdpN[1]T_1/2}} - \frac{C_0}{\sqrt{S\fdpN[2]T_1/2}}\\
  &> 0.
 \end{align*}
 So we know agents in the third-level group will all pull arm 1. \OMIT{Therefore the expected regret is at most 
@@ -227,8 +227,8 @@ So we know agents in the third-level group will all pull arm 1. \OMIT{Therefore 
 \end{align*}
 For any agent $t$ in the $s_a$-th second-level group, by Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_a^t - \hat{\mu}_{3-a}^t &>\bar{\mu}_a^{1,s_a} - \bar{\mu}_{3-a}^{1,s_a} - \frac{c_m}{\sqrt{\fdpN[1]T_1/2}} - \frac{c_m}{\sqrt{\fdpN[2]T_1/2}}\\
-&\geq   \frac{1}{8\sqrt{\fdpN[1]T_1}}+ \frac{1}{8\sqrt{\fdpN[2]T_1}}- \frac{c_m}{\sqrt{\fdpN[1]T_1/2}} - \frac{c_m}{\sqrt{\fdpN[2]T_1/2}}\\
+\hat{\mu}_a^t - \hat{\mu}_{3-a}^t &>\bar{\mu}_a^{1,s_a} - \bar{\mu}_{3-a}^{1,s_a} - \frac{C_0}{\sqrt{\fdpN[1]T_1/2}} - \frac{C_0}{\sqrt{\fdpN[2]T_1/2}}\\
+&\geq   \frac{1}{8\sqrt{\fdpN[1]T_1}}+ \frac{1}{8\sqrt{\fdpN[2]T_1}}- \frac{C_0}{\sqrt{\fdpN[1]T_1/2}} - \frac{C_0}{\sqrt{\fdpN[2]T_1/2}}\\
  &> 0.
 \end{align*}
 So we know agents in the $s_a$-th second-level group will all pull arm $a$. Therefore in the first two levels, both arms are pulled at least $T_2$ times. Now consider the third-level. We have

@@ -230,11 +230,11 @@ Then we have
 \end{align*}
 By Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_a^t - \hat{\mu}_{3-a}^t &> \bar{\mu}^t_a - \bar{\mu}^t_{3-a} -  \frac{c_m}{\sqrt{\fdpN T_1S/2}} - \frac{c_m}{\sqrt{\fdpN[3-a] T_1S/2}}\\
-&> \frac{1}{8\sqrt{\fdpN T_1S}} + \frac{1}{8\sqrt{\fdpN[3-a] T_1S}} -   \frac{c_m}{\sqrt{\fdpN T_1S/2}} - \frac{c_m}{\sqrt{\fdpN[3-a] T_1S/2}}\\
+\hat{\mu}_a^t - \hat{\mu}_{3-a}^t &> \bar{\mu}^t_a - \bar{\mu}^t_{3-a} -  \frac{C_0}{\sqrt{\fdpN T_1S/2}} - \frac{C_0}{\sqrt{\fdpN[3-a] T_1S/2}}\\
+&> \frac{1}{8\sqrt{\fdpN T_1S}} + \frac{1}{8\sqrt{\fdpN[3-a] T_1S}} -   \frac{C_0}{\sqrt{\fdpN T_1S/2}} - \frac{C_0}{\sqrt{\fdpN[3-a] T_1S/2}}\\
 &>0.
 \end{align*}
-The last inequality holds since $c_m$ is a small enough constant defined in Assumption \ref{ass:embehave}. Therefore we know agents in groups $G_{2,1,u_a},...,G_{2,S,u_a}$ and $\Gamma_{2,1,u_a},...,\Gamma_{2,S,u_a}$ all pull arm $a$.
+The last inequality holds since $C_0$ is a small enough constant defined in Assumption \ref{ass:embehave}. Therefore we know agents in groups $G_{2,1,u_a},...,G_{2,S,u_a}$ and $\Gamma_{2,1,u_a},...,\Gamma_{2,S,u_a}$ all pull arm $a$.
 
 Now we consider the case when $l > 2$ and assume the claim is true for smaller $l$'s. For each arm $a$, $W_3$ implies that there exists $u_a$ such that $W^{l-1,u_a,a,high}_3$ and $W^{l-1,u_a,3-a,low}_3$ happen. Recall $n^{l-1,u_a,a}$ is the number of arm $a$ pulls in groups $G_{l-1,u_a,1},...,G_{l-1,u_a,S}$. The induction hypothesis implies that $n^{l-1,u_a,a} \geq T_{l-1}$. $W^{l-1,u_a,a,high}_3$ together with $n^{l-1,u_a,a} \geq T_{l-1}$ implies that the empirical mean of arm $a$ pulls in group $G_{l-1,u_a,1},...,G_{l-1,u_a,S}$ is at least $\mu_a + 1/\sqrt{n^{l-1,u_a,a}}$. For any agent $t$ in groups $G_{l,1,u_a},...,G_{l,S,u_a}$ and $\Gamma_{l,1,u_a},...,\Gamma_{l,S,u_a}$, it observes history of groups $G_{l-1,u_a,1},...,G_{l-1,u_a,S}$ and all groups in levels below level $l-1$. Notice that the groups in the first $l-2$ levels have at most $(T_1 \GdT + T_2 + \cdots +T_{l-2})S^3 \leq T_{l-1}/(12\log(T)) \leq n^{l-1,u_a,a}/(12\log(T))$ agents. By $W_2$, we have
 \begin{align*}
@@ -255,11 +255,11 @@ Then we have
 \end{align*}
 The last inequality holds because $n^{l-1,u_a,a}$ and $n^{l-1,u_a,3-a}$ are at most $T_{l-1} S$. By Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_a^t - \hat{\mu}_{3-a}^t &> \bar{\mu}^t_a - \bar{\mu}^t_{3-a} -  \frac{c_m}{\sqrt{n^{l-1,u_a,a} }} - \frac{c_m}{\sqrt{n^{l-1,u_a,3-a}}}\\
-&> \frac{1}{8\sqrt{n^{l-1,u_a,a}  }} +\frac{1}{8\sqrt{n^{l-1,u_a,3-a}  }} -  \frac{c_m}{\sqrt{n^{l-1,u_a,a} }} - \frac{c_m}{\sqrt{n^{l-1,u_a,3-a}}}\\
+\hat{\mu}_a^t - \hat{\mu}_{3-a}^t &> \bar{\mu}^t_a - \bar{\mu}^t_{3-a} -  \frac{C_0}{\sqrt{n^{l-1,u_a,a} }} - \frac{C_0}{\sqrt{n^{l-1,u_a,3-a}}}\\
+&> \frac{1}{8\sqrt{n^{l-1,u_a,a}  }} +\frac{1}{8\sqrt{n^{l-1,u_a,3-a}  }} -  \frac{C_0}{\sqrt{n^{l-1,u_a,a} }} - \frac{C_0}{\sqrt{n^{l-1,u_a,3-a}}}\\
 &>0.
 \end{align*}
-The last inequality holds since $c_m$ is a small enough constant defined in Assumption \ref{ass:embehave}.
+The last inequality holds since $C_0$ is a small enough constant defined in Assumption \ref{ass:embehave}.
 Therefore agents in groups $G_{l,1,u_a},...,G_{l,S,u_a}$ and $\Gamma_{l,1,u_a},...,\Gamma_{l,S,u_a}$ all pull arm $a$.
 \end{proof}
 
@@ -278,9 +278,9 @@ We argue in 2 cases $\varepsilon_{l-1} \sqrt{S} \leq \mu_1 - \mu_2 \leq \varepsi
 \]
 By Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_1^t - \hat{\mu}_2^t &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{c_m}{\sqrt{S\fdpN[1]T_1/2}} -  \frac{c_m}{\sqrt{S\fdpN[2]T_1/2}}\\
-&\geq \mu_1 -\mu_2-\sqrt{\frac{3\log(T)}{S\fdpN[1]T_1/2}} - \sqrt{\frac{3\log(T)}{S\fdpN[2]T_1/2}}- \frac{c_m}{\sqrt{S\fdpN[1]T_1/2}} -  \frac{c_m}{\sqrt{S\fdpN[2]T_1/2}}\\
-&\geq\frac{\sqrt{S}}{4\sqrt{\fdpN[1]T_1}} +  \frac{\sqrt{S}}{4\sqrt{\fdpN[2]T_1}}-\sqrt{\frac{3\log(T)}{S\fdpN[1]T_1/2}} - \sqrt{\frac{3\log(T)}{S\fdpN[2]T_1/2}}- \frac{c_m}{\sqrt{S\fdpN[1]T_1/2}} -  \frac{c_m}{\sqrt{S\fdpN[2]T_1/2}}\\
+\hat{\mu}_1^t - \hat{\mu}_2^t &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{C_0}{\sqrt{S\fdpN[1]T_1/2}} -  \frac{C_0}{\sqrt{S\fdpN[2]T_1/2}}\\
+&\geq \mu_1 -\mu_2-\sqrt{\frac{3\log(T)}{S\fdpN[1]T_1/2}} - \sqrt{\frac{3\log(T)}{S\fdpN[2]T_1/2}}- \frac{C_0}{\sqrt{S\fdpN[1]T_1/2}} -  \frac{C_0}{\sqrt{S\fdpN[2]T_1/2}}\\
+&\geq\frac{\sqrt{S}}{4\sqrt{\fdpN[1]T_1}} +  \frac{\sqrt{S}}{4\sqrt{\fdpN[2]T_1}}-\sqrt{\frac{3\log(T)}{S\fdpN[1]T_1/2}} - \sqrt{\frac{3\log(T)}{S\fdpN[2]T_1/2}}- \frac{C_0}{\sqrt{S\fdpN[1]T_1/2}} -  \frac{C_0}{\sqrt{S\fdpN[2]T_1/2}}\\
 &>0.
 \end{align*}
 Therefore agents in level at least 2 will all pull arm 1. 
@@ -291,9 +291,9 @@ Therefore agents in level at least 2 will all pull arm 1.
 \]
 By Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_1^t - \hat{\mu}_2^t &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{2c_m}{\sqrt{T_{l-1}}} \\
-&\geq \mu_1 -\mu_2 - 2 \sqrt{\frac{3\log(T)}{T_{l-1}}}- \frac{2c_m}{\sqrt{T_{l-1}}} \\
-&\geq\sqrt{\frac{S}{16T_{l-1}}} -  2 \sqrt{\frac{3\log(T)}{T_{l-1}}}- \frac{2c_m}{\sqrt{T_{l-1}}} \\
+\hat{\mu}_1^t - \hat{\mu}_2^t &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{2C_0}{\sqrt{T_{l-1}}} \\
+&\geq \mu_1 -\mu_2 - 2 \sqrt{\frac{3\log(T)}{T_{l-1}}}- \frac{2C_0}{\sqrt{T_{l-1}}} \\
+&\geq\sqrt{\frac{S}{16T_{l-1}}} -  2 \sqrt{\frac{3\log(T)}{T_{l-1}}}- \frac{2C_0}{\sqrt{T_{l-1}}} \\
 &>0.
 \end{align*}
 Therefore agents in level at least $l$ will all pull arm 1. 
@@ -304,9 +304,9 @@ Therefore agents in level at least $l$ will all pull arm 1.
 \]
 By Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_1^t - \hat{\mu}_2^t &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{c_m}{\sqrt{S^2\fdpN[1]T_1/2}}-\frac{c_m}{\sqrt{S^2\fdpN[2]T_1/2}}  \\
-&\geq \mu_1 -\mu_2 -  \sqrt{\frac{3\log(T)}{S^2\fdpN[1]T_1/2}}- \sqrt{\frac{3\log(T)}{S^2\fdpN[2]T_1/2}}- \frac{c_m}{\sqrt{S^2\fdpN[1]T_1/2}}-\frac{c_m}{\sqrt{S^2\fdpN[2]T_1/2}}  \\
-&\geq\frac{1}{4\sqrt{S\fdpN[1]T_1}} + \frac{1}{4\sqrt{S\fdpN[2]T_1}}  -  \sqrt{\frac{3\log(T)}{S^2\fdpN[1]T_1/2}}- \sqrt{\frac{3\log(T)}{S^2\fdpN[2]T_1/2}}- \frac{c_m}{\sqrt{S^2\fdpN[1]T_1/2}}-\frac{c_m}{\sqrt{S^2\fdpN[2]T_1/2}}  \\
+\hat{\mu}_1^t - \hat{\mu}_2^t &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{C_0}{\sqrt{S^2\fdpN[1]T_1/2}}-\frac{C_0}{\sqrt{S^2\fdpN[2]T_1/2}}  \\
+&\geq \mu_1 -\mu_2 -  \sqrt{\frac{3\log(T)}{S^2\fdpN[1]T_1/2}}- \sqrt{\frac{3\log(T)}{S^2\fdpN[2]T_1/2}}- \frac{C_0}{\sqrt{S^2\fdpN[1]T_1/2}}-\frac{C_0}{\sqrt{S^2\fdpN[2]T_1/2}}  \\
+&\geq\frac{1}{4\sqrt{S\fdpN[1]T_1}} + \frac{1}{4\sqrt{S\fdpN[2]T_1}}  -  \sqrt{\frac{3\log(T)}{S^2\fdpN[1]T_1/2}}- \sqrt{\frac{3\log(T)}{S^2\fdpN[2]T_1/2}}- \frac{C_0}{\sqrt{S^2\fdpN[1]T_1/2}}-\frac{C_0}{\sqrt{S^2\fdpN[2]T_1/2}}  \\
 &>0.
 \end{align*}
 Therefore agents in level at least 3 will all pull arm 1. 
@@ -317,9 +317,9 @@ Therefore agents in level at least 3 will all pull arm 1.
 \]
 By Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_1^t - \hat{\mu}_2^t &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{2c_m}{\sqrt{S^2T_{l-2}}} \\
-&\geq \mu_1 -\mu_2 - 2 \sqrt{\frac{3\log(T)}{S^2T_{l-2}}}- \frac{2c_m}{\sqrt{S^2T_{l-2}}} \\
-&\geq\frac{1}{4\sqrt{ST_{l-2}}} -  2 \sqrt{\frac{3\log(T)}{T_{l-1}}}- \frac{2c_m}{\sqrt{T_{l-1}}} \\
+\hat{\mu}_1^t - \hat{\mu}_2^t &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{2C_0}{\sqrt{S^2T_{l-2}}} \\
+&\geq \mu_1 -\mu_2 - 2 \sqrt{\frac{3\log(T)}{S^2T_{l-2}}}- \frac{2C_0}{\sqrt{S^2T_{l-2}}} \\
+&\geq\frac{1}{4\sqrt{ST_{l-2}}} -  2 \sqrt{\frac{3\log(T)}{T_{l-1}}}- \frac{2C_0}{\sqrt{T_{l-1}}} \\
 &>0.
 \end{align*}
 Therefore agents in level at least $l$ will all pull arm 1. 
