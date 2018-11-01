@@ -1,0 +1,118 @@
+\section{Proofs from Section~\ref{sec:warmup}}
+\label{app:warmup}
+
+\begin{proof}[Proof of Lemma~\ref{lem:greedy}]
+  Fix any arm $a$. Let $\GdT = (K-1) \cdot c_T + 1$ and
+  $\GdP = (1/3)^{\GdT}$. \swedit{We will condition on the event that
+    all the realized rewards in $\GdT$ rounds are 0, which occurs with
+    probability at least $\GdP$ under Assumption~\ref{ass:embehave}.}
+  In this case, we want to show that arm $a$ is pulled at least
+  once. We prove this by contradiction. Suppose arm $a$ is not pulled. By
+  the pigeonhole principle, we know that there is some other arm $a'$
+  that is pulled at least $c_T + 1$ rounds. Let $t$ be the round in
+  which arm $a'$ is pulled exactly $c_T + 1$ times. By Assumption
+  \ref{ass:embehave}, we know
+  \[
+    \hat{\mu}_{a'}^t \leq 0 + c_m / \sqrt{c_T} < 1/3.
+  \]
+  \nicomment{Wait, where did we set $c_T$?} On the other hand, we have
+  $\hat{\mu}_a^t \geq 1/3 > \hat{\mu}_{a'}^t$. This contradicts with
+  the fact that in round $t$, arm $a'$ is pulled, instead of arm $a$.
+  \swdelete{ In addition, we know that this case happens with
+    probability at least $(1/3)^{\GdT} = \GdP$ as each arm's mean is
+    at most $2/3$. To sum up, we know that with probability at least
+    $\GdP$, \ALGG of $\GdT$ rounds pulls arm $a$ at least once.}
+   \jmcomment{Agree with these changes.}
+\end{proof}
+
+
+\begin{proof}[Proof of Theorem~\ref{thm:2level}]
+  We will set $T_1$ later in the proof, depending on whether the gap
+  parameter $\Delta$ is known. For now, we just need to know we will
+  make $T_1 \geq \frac{4\GdT^2}{\GdP^2}\log(T)$. Since this policy is
+  agnostic to the indices of the arms, we assume w.l.o.g. that arm 1
+  has the highest mean.
+
+  The first $T_1 \cdot \GdT$ rounds will get total regret at most
+  $T_1 \cdot \GdT$.  We focus on bounding the regret from the second
+  level of $T - T_1 \cdot \GdT$ rounds. We consider the following two
+   events. We will first bound the probability that both of them
+  happen and then we will show that they together imply upper bounds
+  on $|\hat{\mu}^t_a - \mu_a|$'s for any agent $t$ in the second
+  level. Recall $\hat{\mu}^t_a$ is the estimated mean of arm $a$ by
+  agent $t$ and agent $t$ picks the arm with the highest
+  $\hat{\mu}^t_a$.
+
+% \begin{itemize}
+  \OMIT{\paragraph{Concentration of the number of arm $a$ pulls in the first
+    level.}
+By Lemma \ref{lem:greedy}, we know $\GdP \leq q_a \leq \GdT$.}
+  Define $W_1^a$ to be the event that the number of arm $a$ pulls in
+  the first level is at least $q_a T_1- \GdT \sqrt{T_1\log(T)}$.
+  \swedit{As long as we set $T_1 \geq \frac{4\GdT^2}{\GdP^2}\log(T)$,
+    this implies that the number of arm $a$ pulls is then at least
+    $q_a T_1/2$.}
+\OMIT{  By Chernoff bound,
+  \[
+    \Pr[W_1^a] \geq 1-\exp(-2\log(T)) \geq 1-1/T^2.
+  \]
+}
+Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a}W_1^a$). By Lemma~\ref{lem:t1runs}, we have
+\[
+\Pr[W_1] \geq 1- \frac{K}{T^2} \geq 1 - \frac{1}{T}.
+\]
+\OMIT{\paragraph{Concentration of the empirical mean of arm $a$ pulls
+    in the first level.}}  Next, we show that the empirical mean of
+each arm $a$ is close to the true mean. To facilitate our reasoning,
+let us imagine there is a tape of length $T$ for each arm $a$, with
+each cell containing an independent draw of the realized reward from
+the distribution $\cD_a$. Then for each arm $a$ and any $N\in [T]$, we
+can think of the sequence of the first $N$ realized rewards of $a$
+coming from the prefix of $N$ cells in its reward tape. Define
+$W^{a,t}_2$ to be the event that the empirical mean of the first $t$
+\swedit{realized rewards in the tape} of arm $a$ is at most
+$\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. Define $W_2$ to be the
+intersection of these events (i.e.  $\bigcap_{a,t} W^{a,t}_2$).  By
+Chernoff bound,\swcomment{$t$ may be confusing here}
+\[
+\Pr[W^{a,t}_2] \geq 1 - 2\exp(-4\log(T)) \geq 1-2/T^4.
+\]
+By union bound,
+\[
+\Pr[W_2] \geq 1 - KT \cdot \frac{2}{T^4} \geq 1 - \frac{2}{T}.
+\]
+
+
+
+By union bound, we know $\Pr[W_1 \cap W_2] \geq 1 - 3/T$. For the
+remainder of the analysis, we will condition on the event
+$W_1 \cap W_2$.
+
+For any arm $a$ and agent $t$ in the second level, by $W_1$ and $W_2$, we have
+\[
+|\bar{\mu}^t_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{q_aT_1 /2}}.
+\]
+By $W_1$ and Assumption \ref{ass:embehave}, we have
+\[
+|\bar{\mu}^t_a - \hat{\mu}^t_a| \leq \frac{c_m}{\sqrt{q_aT_1/2}}.
+\]
+Therefore,
+\[
+|\hat{\mu}^t_a - \mu_a|\leq \sqrt{\frac{2\log(T)}{q_aT_1 /2}}+\frac{c_m}{\sqrt{q_aT_1/2}} \leq 3 \sqrt{\frac{\log(T)}{\GdP T_1 }}.
+\]
+So the second-level agents will pick an arm $a$ which has $\mu_a$ at most $6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$ away from $\mu_1$. To sum up, the total expected regret is at most
+\[
+T_1 \cdot \GdT + T \cdot (1-\Pr[W_1 \cap W_2]) + T \cdot  6 \sqrt{\frac{\log(T)}{\GdP T_1 }}.
+\]
+By setting $T_1 = T^{2/3}\log(T)^{1/3}$, we get expected regret $O(T^{2/3}\log(T)^{1/3})$.
+\OMIT{Notice that if we know the gap parameter is known to be larger than
+$\Delta$, we can set
+\[
+T_1 = \max\left( \frac{4\GdT^2}{\GdP^2}\log(T), \frac{36 }{\Delta^2 \cdot p_G} \log(T) \right).
+\]
+In this case, since $\Delta \geq 6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$, we know agents in the second level will all pull arm 1. Therefore, the total expected regret is at most
+\[
+T_1 \cdot \GdT + T \cdot (1- \Pr[W_1 \cap W_2]) = O(\Delta^{-2} \log(T)).
+\]
+This completes the proof.}
+\end{proof}
