@@ -10,15 +10,15 @@ A subset of rounds $S\subset [T]$ is called a \emph{full-disclosure path} in the
 We prove that for a constant number of arms, with constant probability, a full-disclosure path of constant length suffices to sample each arm at least once. We will build on this fact throughout.
 
 \begin{lemma}\label{lem:greedy}
-There exist numbers $\GdT>0$ and $\GdP>0$ that depend only on $K$, the number of arms, with the following property. Consider an arbitrary disclosure policy, and let $S\subset [T]$ be a full-disclosure path in its info-graph, of length $|S|\geq \GdT$. Under Assumption \ref{ass:embehave}, with probability at least $\GdP$, subhistory $\SubH{S}$ contains at least once sample of each arm $a$.
+There exist numbers $\fdpL>0$ and $\fdpP>0$ that depend only on $K$, the number of arms, with the following property. Consider an arbitrary disclosure policy, and let $S\subset [T]$ be a full-disclosure path in its info-graph, of length $|S|\geq \fdpL$. Under Assumption \ref{ass:embehave}, with probability at least $\fdpP$, subhistory $\SubH{S}$ contains at least once sample of each arm $a$.
 \end{lemma}
 
 \begin{proof}[Proof Sketch]
+\ascomment{Jieming, pls add a brief proof sketch if you can.}
 \end{proof}
 
-\ascomment{Where do we need to introduce the expected \#pulls in full-disclosure path?}
 
-We provide a simple disclosure policy based on full-disclosure paths. The policy follows the ``explore-then-exploit'' paradigm. The ``exploration phase" comprises the first $N = T_1\cdot \GdT$ rounds, and consists of $T_1$ full-disclosure paths of length $\GdT$ each. Here $\GdT$ is the constant from Lemma~\ref{lem:greedy}, and $T_1$ is a parameter. In the ``exploitation phase", each agent $t>N$ receives the full subhistory from exploration, \ie $m_t = \SubH{[N]}$. The info-graph for this disclosure policy is shown in Figure~\ref{fig:2level}.
+We provide a simple disclosure policy based on full-disclosure paths. The policy follows the ``explore-then-exploit'' paradigm. The ``exploration phase" comprises the first $N = T_1\cdot \fdpL$ rounds, and consists of $T_1$ full-disclosure paths of length $\fdpL$ each, where $T_1$ is a parameter. In the ``exploitation phase", each agent $t>N$ receives the full subhistory from exploration, \ie $m_t = \SubH{[N]}$. The info-graph for this disclosure policy is shown in Figure~\ref{fig:2level}.
 
 \begin{figure}[H]
 \centering
@@ -44,19 +44,19 @@ We provide a simple disclosure policy based on full-disclosure paths. The policy
   \node at(6,0.5){$\cdots$};
   \node at(7,0.5){$\cdots$};
   \node at(8,0.5){$\cdots$};
-  \node at(5,2.5){$T -T_1 \cdot \GdT$ rounds};
-  \node at(0.5,0.5){$\GdT$};
-  \node at(1.5,0.5){$\GdT$};
-  \node at(2.5,0.5){$\GdT$};
-  \node at(3.5,0.5){$\GdT$};
-  \node at(9.5,0.5){$\GdT$};
+  \node at(5,2.5){$T -T_1 \cdot \fdpL$ rounds};
+  \node at(0.5,0.5){$\fdpL$};
+  \node at(1.5,0.5){$\fdpL$};
+  \node at(2.5,0.5){$\fdpL$};
+  \node at(3.5,0.5){$\fdpL$};
+  \node at(9.5,0.5){$\fdpL$};
   \node at(-1,0.5){\textbf{Level 1}};
   \node at(-1,2.5){\textbf{Level 2}};
   \draw[->] (11,0)--(11,3);
   \node at(11.5,1.5)[ rotate=90]{Time};
 
   \draw [decorate,decoration={brace,amplitude=10pt},xshift=0pt,yshift=0pt] (10,-0.2) -- (0,-0.2) node [black,midway,yshift=-0.6cm] 
-  {$T_1$ full-disclosure paths of length $\GdT$ each};
+  {$T_1$ full-disclosure paths of length $\fdpL$ each};
 \end{tikzpicture}
 
 \caption{Info-graph for the 2-level policy. }
@@ -67,10 +67,10 @@ We provide a simple disclosure policy based on full-disclosure paths. The policy
 \end{figure}
 
 
-It is useful to think of the info-graph as having two levels (corresponding to exploration and exploitation). Accordingly, we call this policy the \emph{2-level policy}. We show that it incentivizes the agents to perform non-adaptive exploration, and achieves a regret rate of  $\tilde O_K(T^{2/3})$. The key idea is that using many full-disclosure paths ``in parallel" ensures that sufficiently many samples of each arm are collected during exploration.
+It is useful to think of the info-graph as having two levels (corresponding to exploration and exploitation). Accordingly, we call this policy the \emph{\2LEVEL}. We show that it incentivizes the agents to perform non-adaptive exploration, and achieves a regret rate of  $\tilde O_K(T^{2/3})$. The key idea is that using many full-disclosure paths ``in parallel" ensures that sufficiently many samples of each arm are collected during exploration.
 
 \begin{theorem}\label{thm:2level}
-The 2-level policy with parameter $T_1 = T^{2/3}\,\log(T)^{1/3}$ achieves regret
+The \2LEVEL with parameter $T_1 = T^{2/3}\,\log(T)^{1/3}$ achieves regret
 \[ \reg(T) \leq O_K\left( T^{2/3}\, \log(T)^{1/3} \right).\]
 \end{theorem}
 
@@ -79,13 +79,25 @@ For a constant $K$, the number of arms, we match the optimal regret rate for non
   $\reg(T) \leq O_K(\log(T) \cdot \Delta^{-2})$.
 \end{remark}
 
+To simplify presentation of the proofs, we will make the following assumption.%
+\footnote{This assumption can be removed, without any conceptual difficulty, but at the cost of a somewhat lengthier proofs.}
+ 
 
-\begin{lemma}[Concentration of arm pulls]\label{lem:t1runs}
-  Consider $T_1$ indepdent runs of \ALGG of $T_G$ rounds. Let $N_a$ be
-  the number of arm $a$ pulls among all runs. Then with probability at
+\begin{assumption}\label{ass:simplifying}
+In each round $t$, the estimates $\hat{\mu}_{t,a}$ depend only the multiset 
+    $\left\{\; (a_s,r_s):\;s\in S_t \;\right\}$,
+called \emph{anonymized subhistory}. Each agent forms its estimates according to the same \emph{estimate function}: a function $f$ from subhistories to $[0,1]^K$, so that the estimate vector
+        $(\hat{\mu}_{t,a}:\, a\in\A)$
+equals $f(m_t)$. 
+\end{assumption}
+
+Among other things, this assumption allows us to the define the expected number of samples of a given arm $a$ collected by a full-disclosure path $S$ of length $\fdpL$ (\ie present in the subhistory $\SubH{S}$. Indeed, this number, denoted $\fdpN$, is the same for all such paths. Then,
+
+\begin{lemma}\label{lem:t1runs}
+Suppose the info-graph contains $T_1$ full-disclosure paths of $\fdpL$ rounds each. Let $N_a$ be the number of samples of arm $a$ collected by all paths. Then with probability at
   least $1-\delta$, for all $a\in \A$,
   \[
-    \left| N_a - q_a T_1\right| \leq T_G \sqrt{T_1 \log(2K/\delta) / 2}
+    \left| N_a - \fdpN T_1\right| \leq \fdpL\cdot \sqrt{T_1 \log(2K/\delta) / 2}.
   \]
 \end{lemma}
 
