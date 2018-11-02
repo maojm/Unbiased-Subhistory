@@ -91,7 +91,7 @@ We establish four ``good events" each of which occurs with high probability.
 \begin{description}
 \item[(\event{1})] \emph{Exploration in Level 1:} Every first-level group collects at least $\Omega(T_1)$ samples of each arm.
 \item[(\event{2})] \emph{Concentration in Level 1:} Within each first-level group, empirical mean rewards of each arm $a$ concentrate around $\mu_a$.
-\item[(\event{3})] \emph{Anti-concentration in Level 1:} For each arm, some first-level subgroup collects data which makes this arm look much better than the other.
+\item[(\event{3})] \emph{Anti-concentration in Level 1:} For each arm, some first-level subgroup collects data which makes this arm look much better than its actual mean and other arms look worse than their actual means.
 \item[(\event{4})] \emph{Concentration in prefix:}
 The empirical mean reward of each arm $a$ concentrates around $\mu_a$ in any prefix of its pulls. (This ensures accurate reward estimates in exploitation.)
 \end{description}
