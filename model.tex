@@ -89,7 +89,7 @@ The gap parameter is not known to the principal (in our problem), or to the algo
 \end{align}
 This regret bound can only be achieved using \emph{adaptive exploration}: \ie when exploration schedule is adapted to the observations. A simple example of \emph{non}-adaptive exploration is the \emph{explore-then-exploit} algorithm which samples arms uniformly at random for the first $N$ rounds, for some pre-set number $N$, then chooses one arm and sticks with it till the end. More generally,
 \emph{exploration-separating} algorithms have a property that in each round $t$, either the choice of an arm does not depend on the observations so far, or the reward collected in this round is not used in the subsequent rounds. Any such algorithm suffers from $\Omega(T^{2/3})$ regret in the worst case.%
-\footnote{The first explicit reference we are aware of is \cite{MechMAB-ec09,DevanurK09}, but this fact has been known in the community for much longer.}
+\footnote{The first explicit reference we know of is \cite{MechMAB-ec09,DevanurK09}, but this fact has been known in the community for much longer.}
 
 \xhdr{Preliminaries.}
 \asedit{We assume that $K$ is constant, and focus on the dependence on $T$. However, we explicitly state the dependence on $K$, \eg using the $O_K()$ notation.}
