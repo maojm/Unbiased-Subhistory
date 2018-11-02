@@ -88,12 +88,10 @@ The proofs can be found in Appendix~\ref{app:warmup}. To simplify presentation, 
 \begin{assumption}\label{ass:simplifying}
 In each round $t$, the estimates $\hat{\mu}_{t,a}$ depend only on the multiset
     $\left\{\; (a_s,r_s):\;s\in S_t \;\right\}$,
-called \emph{anonymized subhistory}. Each agent forms its estimates according to the same \emph{estimate function}: a function $f$ from subhistories to $[0,1]^K$, so that the estimate vector
+called \emph{anonymized subhistory}. Each agent $t$ forms its estimates according to the same \emph{estimate function}: a function $f_t$ from subhistories to $[0,1]^K$, so that the estimate vector
         $(\hat{\mu}_{t,a}:\, a\in\A)$
-equals $f(m_t)$.
+equals $f_t(m_t)$. This function is drawn from some fixed distribution over estimate functions.
 \end{assumption}
-\jmcomment{We can allow some distribution here so that there is heterogeneity.}
-
 
 Among other things, this assumption allows us to the define the expected number of samples of a given arm $a$ collected by a full-disclosure path $S$ of length $\fdpL$ (\ie present in the subhistory $\SubH{S}$. Indeed, this number, denoted $\fdpN$, is the same for all such paths. Then,
 
