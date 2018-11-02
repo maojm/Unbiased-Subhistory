@@ -1,6 +1,8 @@
 %!TEX root = main.tex
 \section{Model and Preliminaries}
 \label{sec:model}
+\cite{Perchet2015BatchedBP} gives regret guarantees for mult-armed bandit in $M$ batches. They have 2 upper bounds which are similar to our Theorem \ref{thm:llevel-1} and Theorem \ref{thm:llevel-2}.
+
 We study the multi-armed bandit problem in a social learning context, in which a principal faces a sequence of $T$ myopic agents. There is a set $\A$ of $K$ possible actions, a.k.a. \emph{arms}. At each round $t\in [T]$, a new agent $t$ arrives, receives a message $m_t$ from the principal, chooses an arm $a_t\in \A$, and collects a reward $r_t\in \{0,1\}$ that is immediately observed by the principal. The reward from pulling an arm $a\in \A$ is drawn independently from Bernoulli distribution $\cD_a$ with an unknown mean $\mu_a$. An agent does not observe anything from the previous rounds, other than the message $m_t$. The problem instance is defined by (known) parameters $K,T$ and the (unknown) tuple of mean rewards, $(\mu_a:\,a\in\A)$. We are interested in \emph{regret}, defined as
 \begin{align}\label{eq:intro-regret-defn}
 \textstyle

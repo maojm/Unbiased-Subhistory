@@ -1,0 +1,36 @@
+\begin{thebibliography}{1}
+
+\bibitem{bandits-ucb1}
+Peter Auer, Nicol{\`o} Cesa-Bianchi, and Paul Fischer.
+\newblock Finite-time analysis of the multiarmed bandit problem.
+\newblock {\em Machine Learning}, 47(2-3):235--256, 2002.
+
+\bibitem{bandits-exp3}
+Peter Auer, Nicol{\`o} Cesa-Bianchi, Yoav Freund, and Robert~E. Schapire.
+\newblock The nonstochastic multiarmed bandit problem.
+\newblock {\em SIAM J. Comput.}, 32(1):48--77, 2002.
+\newblock Preliminary version in {\em 36th IEEE FOCS}, 1995.
+
+\bibitem{MechMAB-ec09}
+Moshe Babaioff, Yogeshwer Sharma, and Aleksandrs Slivkins.
+\newblock Characterizing truthful multi-armed bandit mechanisms.
+\newblock {\em SIAM J. on Computing (SICOMP)}, 43(1):194--230, 2014.
+\newblock Preliminary version in \emph{10th ACM EC}, 2009.
+
+\bibitem{DevanurK09}
+Nikhil Devanur and Sham~M. Kakade.
+\newblock The price of truthfulness for pay-per-click auctions.
+\newblock In {\em 10th ACM Conf. on Electronic Commerce (EC)}, pages 99--106,
+  2009.
+
+\bibitem{Lai-Robbins-85}
+Tze~Leung Lai and Herbert Robbins.
+\newblock {Asymptotically efficient Adaptive Allocation Rules}.
+\newblock {\em Advances in Applied Mathematics}, 6:4--22, 1985.
+
+\bibitem{Perchet2015BatchedBP}
+Vianney Perchet, Philippe Rigollet, Sylvain Chassang, and Erik Snowberg.
+\newblock Batched bandit problems.
+\newblock In {\em COLT}, 2015.
+
+\end{thebibliography}
