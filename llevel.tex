@@ -133,12 +133,12 @@ Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a,
 
 \item \textbf{Concentration of the empirical mean of arm $a$ pulls in the history observed by agent $t$:}
 
- For each agent $t$ and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in agent $t$'s observed history pull arm $a$.  Define $W_2^{t,a,t_1,t_2}$ to be the event that the mean of $t_1$-th to $t_2$-th pulls in the tape is at most $\sqrt{\frac{3\log(T)}{t_2-t_1+1}}$ away from $\mu_a$. By Chernoff bound, 
+ For each agent $t$ and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in agent $t$'s observed history pull arm $a$.  Define $W_2^{t,a,\z_1,\z_2}$ to be the event that the mean of $\z_1$-th to $\z_2$-th pulls in the tape is at most $\sqrt{\frac{3\log(T)}{\z_2-\z_1+1}}$ away from $\mu_a$. By Chernoff bound, 
 \[
-\Pr[W_2^{t,a,t_1,t_2}] \geq 1 - 2\exp(-6\log(T)) \geq 1- 2/T^6.
+\Pr[W_2^{t,a,\z_1,\z_2}] \geq 1 - 2\exp(-6\log(T)) \geq 1- 2/T^6.
 \]
 
-Define $W_2$ to be the intersection of all these events (i.e. $W_2 = \bigcap_{t,a,t_1,t_2} W_2^{t,a,t_1,t_2}$). By union bound, we have
+Define $W_2$ to be the intersection of all these events (i.e. $W_2 = \bigcap_{t,a,\z_1,\z_2} W_2^{t,a,\z_1,\z_2}$). By union bound, we have
 \[
 \Pr[W_2] \geq 1- \frac{4}{T^3}.
 \]
@@ -380,7 +380,7 @@ Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel} can be extended to the c
 \end{theorem}
 
 \xhdr{Proof Sketch.}
-We still wlog assume arm 1 has the highest mean (i.e. $\mu_1 \geq \mu_a, \forall a \in \A$. We first extend the clean events (i.e. $W_1,W_2,W_3,W_4$) in Theorem \ref{thm:llevel} to the case when $K$ is larger than 2. $W_1$ and $W_2$ extend naturally: we still set $W_1 = \bigcap_{a,s}W_1^{a,s}$ and $W_2 = \bigcap_{t,a,t_1,t_2} W_2^{t,a,t_1,t_2}$. The difference is that now $a$ is taken over $K$ arms instead of 2 arms. For $W_3$, we change the definition $W_3^{l,a} = \bigcup_u \left(W_3^{l,u,a,high}  \cap \left(\bigcap_{a' \neq a} W_3^{l,u,a',low}\right) \right)$ and $W_3 = \bigcap_{l,a} W_3^{l,a}$. We extend $W_4$ in a similar way: define $W^{a}_4$ as $\bigcup_u \left(W_4^{u,a,high} \cap \left(\bigcap_{a' \neq a} W_4^{u,a',low}\right) \right)$ and $W_4 = \bigcap_a W^a_4$. Since $K$ is a constant, it's easy to check that the same proof technique shows that the intersection of these clean events happen with probability  $1-O(1/T)$. So the case when some clean event does not happen contributes $O(1)$ to the regret. 
+We still wlog assume arm 1 has the highest mean (i.e. $\mu_1 \geq \mu_a, \forall a \in \A$. We first extend the clean events (i.e. $W_1,W_2,W_3,W_4$) in Theorem \ref{thm:llevel} to the case when $K$ is larger than 2. $W_1$ and $W_2$ extend naturally: we still set $W_1 = \bigcap_{a,s}W_1^{a,s}$ and $W_2 = \bigcap_{t,a,\z_1,\z_2} W_2^{t,a,\z_1,\z_2}$. The difference is that now $a$ is taken over $K$ arms instead of 2 arms. For $W_3$, we change the definition $W_3^{l,a} = \bigcup_u \left(W_3^{l,u,a,high}  \cap \left(\bigcap_{a' \neq a} W_3^{l,u,a',low}\right) \right)$ and $W_3 = \bigcap_{l,a} W_3^{l,a}$. We extend $W_4$ in a similar way: define $W^{a}_4$ as $\bigcup_u \left(W_4^{u,a,high} \cap \left(\bigcap_{a' \neq a} W_4^{u,a',low}\right) \right)$ and $W_4 = \bigcap_a W^a_4$. Since $K$ is a constant, it's easy to check that the same proof technique shows that the intersection of these clean events happen with probability  $1-O(1/T)$. So the case when some clean event does not happen contributes $O(1)$ to the regret. 
 
 Now we proceed to extend Claim \ref{clm:l2_explore} and Claim \ref{clm:l2_exploit}. The statement of Claim \ref{clm:l2_explore} should be changed to ``For any arm $a$ and $2\leq l \leq L$, if $\mu_1 - \mu_a \leq \varepsilon_{l-1}$, then for any $u \in [\NG]$, there are at least $T_l$ pulls of arm $a$ in groups $G_{l,u,1},G_{l,u,2}, ... ,G_{l,u,\NG}$ and there are at least $T_l\NG(\NG-1)$ pulls of arm $a$ in the $l$-th level $\Gamma$-groups''. The statement of Claim \ref{clm:l2_exploit} should be changed to ``For any $2 \leq l \leq L$, if $\varepsilon_{l-1} \NG\leq \mu_1 - \mu_a < \varepsilon_{l-2} \NG$, there are no pulls of arm $a$ in groups with level $l,...,L$.'' 
 
