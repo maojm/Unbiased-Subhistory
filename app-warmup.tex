@@ -3,27 +3,28 @@
 \label{app:warmup}
 
 \begin{proof}[Proof of Lemma~\ref{lem:greedy}]
-  Fix any arm $a$. Let $\GdT = (K-1) \cdot N_0 + 1$ and
-  $\GdP = (1/3)^{\GdT}$. \swedit{We will condition on the event that
+  Fix any arm $a$. Let $\GdT = (K-1) \cdot \estN + 1$ and
+  $\GdP = (1/3)^{\GdT}$. We will condition on the event that
     all the realized rewards in $\GdT$ rounds are 0, which occurs with
-    probability at least $\GdP$ under Assumption~\ref{ass:embehave}.}
+    probability at least $\GdP$ under Assumption~\ref{ass:embehave}.
   In this case, we want to show that arm $a$ is pulled at least
   once. We prove this by contradiction. Suppose arm $a$ is not pulled. By
   the pigeonhole principle, we know that there is some other arm $a'$
-  that is pulled at least $N_0 + 1$ rounds. Let $t$ be the round in
-  which arm $a'$ is pulled exactly $N_0 + 1$ times. By Assumption
+  that is pulled at least $\estN + 1$ rounds. Let $t$ be the round in
+  which arm $a'$ is pulled exactly $\estN + 1$ times. By Assumption
   \ref{ass:embehave}, we know
   \[
-    \hat{\mu}_{a'}^t \leq 0 + C_0 / \sqrt{N_0} < 1/3.
+    \hat{\mu}_{a'}^t \leq 0 + \estC / \sqrt{\estN}  \leq \estC < 1/3.
   \]
-  \nicomment{Wait, where did we set $N_0$?} On the other hand, we have
+  %\nicomment{Wait, where did we set $\estN$?} 
+  On the other hand, we have
   $\hat{\mu}_a^t \geq 1/3 > \hat{\mu}_{a'}^t$. This contradicts with
   the fact that in round $t$, arm $a'$ is pulled, instead of arm $a$.
-  \swdelete{ In addition, we know that this case happens with
-    probability at least $(1/3)^{\GdT} = \GdP$ as each arm's mean is
-    at most $2/3$. To sum up, we know that with probability at least
-    $\GdP$, \ALGG of $\GdT$ rounds pulls arm $a$ at least once.}
-   \jmcomment{Agree with these changes.}
+  %\swdelete{ In addition, we know that this case happens with
+    %probability at least $(1/3)^{\GdT} = \GdP$ as each arm's mean is
+    %at most $2/3$. To sum up, we know that with probability at least
+    %$\GdP$, \ALGG of $\GdT$ rounds pulls arm $a$ at least once.}
+  % \jmcomment{Agree with these changes.}
 \end{proof}
 
 
@@ -50,9 +51,9 @@
 By Lemma \ref{lem:greedy}, we know $\GdP \leq \fdpN \leq \GdT$.}
   Define $W_1^a$ to be the event that the number of arm $a$ pulls in
   the first level is at least $\fdpN T_1- \GdT \sqrt{T_1\log(T)}$.
-  \swedit{As long as we set $T_1 \geq \frac{4(\GdT)^2}{(\GdP)^2}\log(T)$,
+  As long as we set $T_1 \geq \frac{4(\GdT)^2}{(\GdP)^2}\log(T)$,
     this implies that the number of arm $a$ pulls is then at least
-    $\fdpN T_1/2$.}
+    $\fdpN T_1/2$.
 \OMIT{  By Chernoff bound,
   \[
     \Pr[W_1^a] \geq 1-\exp(-2\log(T)) \geq 1-1/T^2.
@@ -70,13 +71,13 @@ each cell containing an independent draw of the realized reward from
 the distribution $\cD_a$. Then for each arm $a$ and any $N\in [T]$, we
 can think of the sequence of the first $N$ realized rewards of $a$
 coming from the prefix of $N$ cells in its reward tape. Define
-$W^{a,t}_2$ to be the event that the empirical mean of the first $t$
-\swedit{realized rewards in the tape} of arm $a$ is at most
-$\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. Define $W_2$ to be the
-intersection of these events (i.e.  $\bigcap_{a,t} W^{a,t}_2$).  By
-Chernoff bound,\swcomment{$t$ may be confusing here}
+$W^{a,N}_2$ to be the event that the empirical mean of the first $N$
+realized rewards in the tape of arm $a$ is at most
+$\sqrt{\frac{2\log(T)}{N}}$ away from $\mu_a$. Define $W_2$ to be the
+intersection of these events (i.e.  $\bigcap_{a,N\in[T]} W^{a,N}_2$).  By
+Chernoff bound,%\swcomment{$t$ may be confusing here}
 \[
-\Pr[W^{a,t}_2] \geq 1 - 2\exp(-4\log(T)) \geq 1-2/T^4.
+\Pr[W^{a,N}_2] \geq 1 - 2\exp(-4\log(T)) \geq 1-2/T^4.
 \]
 By union bound,
 \[
@@ -95,11 +96,11 @@ For any arm $a$ and agent $t$ in the second level, by $W_1$ and $W_2$, we have
 \]
 By $W_1$ and Assumption \ref{ass:embehave}, we have
 \[
-|\bar{\mu}^t_a - \hat{\mu}^t_a| \leq \frac{C_0}{\sqrt{\fdpN T_1/2}}.
+|\bar{\mu}^t_a - \hat{\mu}^t_a| \leq \frac{\estC}{\sqrt{\fdpN T_1/2}}.
 \]
 Therefore,
 \[
-|\hat{\mu}^t_a - \mu_a|\leq \sqrt{\frac{2\log(T)}{\fdpN T_1 /2}}+\frac{C_0}{\sqrt{\fdpN T_1/2}} \leq 3 \sqrt{\frac{\log(T)}{\GdP T_1 }}.
+|\hat{\mu}^t_a - \mu_a|\leq \sqrt{\frac{2\log(T)}{\fdpN T_1 /2}}+\frac{\estC}{\sqrt{\fdpN T_1/2}} \leq 3 \sqrt{\frac{\log(T)}{\GdP T_1 }}.
 \]
 So the second-level agents will pick an arm $a$ which has $\mu_a$ at most $6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$ away from $\mu_1$. To sum up, the total regret is at most
 \[
