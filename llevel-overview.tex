@@ -87,12 +87,12 @@ property is crucial for ensuring that both arms will be explored in
 level $l$.
 
 However, in this construction, the first level will have $\NG^{L-1}$
-groups, which incurs $\NG^{\Omega(L)}$ regret. The exponential
-dependence in $L$ will heavily limit the adaptivity of the policy, and
-prevents having the number of levels for obtaining the result in
-\Cref{thm:llevel-2}. To overcome this, we will design an info-graph
-structure such that the number of groups at each level stays as
-$\NG^2 = \Theta(\log^2(T))$.
+groups, which introduces a multiplicative factor of $\NG^{\Omega(L)}$
+in the regret rate. The exponential dependence in $L$ will heavily
+limit the adaptivity of the policy, and prevents having the number of
+levels for obtaining the result in \Cref{thm:llevel-2}. To overcome
+this, we will design an info-graph structure such that the number of
+groups at each level stays as $\NG^2 = \Theta(\log^2(T))$.
 
 We will leverage the following key observation: in order to maintain
 the ``lucky'' property, it suffices to have $\Theta(\log T)$ $l$-th
