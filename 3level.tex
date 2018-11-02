@@ -150,7 +150,7 @@ $\tilde\Omega(\sqrt{1/T_2})$ and $\tilde O(\sqrt{1/(\NG\, T_1)})$
 is more challenging since even aggregating the data from all $\NG$
 first-level groups is not sufficient for identify the best arm.
 We need to ensure that both arms continue to be explored in the second level.
-To achieve this, we leverage \event[4], which implies
+To achieve this, we leverage \event{4}, which implies
 that each arm $a$ has a first-level group $s_a$ where it gets ``lucky", in the sense that its empirical mean reward is slightly higher than $\mu_a$, while the empirical mean reward of the other arm is slightly lower than its true mean. Since the
 deviations are in the order of $\Omega(\sqrt{1/T_1})$, and Assumption~\ref{ass:embehave} guarantees the agents' reward estimates are also within $\Omega(\sqrt{1/T_1})$ of the empirical means, the sub-history
 from this group $s_a$ ensures that all agents in the respective second-level group prefer arm $a$. Therefore, both arms are pulled at least $T_2$ times in the second level, which in turn gives the following guarantee:
