@@ -16,7 +16,7 @@ The middle level consists of $\NG$ disjoint subsets of $T_2$ agents each, called
 \text{all nodes in $S$ are connected to the same nodes outside of $S$, but not to one another.}
 \end{align}
 
-\jmcomment{$\NG$ is also used in Lemma 3.6. We need to find another notation. And I think it should be something without subscript 2. It's generally a property of the whole construction. How about $\NG$.}
+\jmcomment{$N_2$ is also used in Lemma 3.6. We need to find another notation. And I think it should be something without subscript 2. It's generally a property of the whole construction. How about $\NG$.}
 
 The full-disclosure paths in the first level are also split into $\NG$ disjoint subsets, called \emph{first-level groups}. Each first-level group consists of $T_1$ full-disclosure paths, for the total of $T_1\cdot \NG\cdot \fdpL$ rounds in the first layer. There is a 1-1 correspondence between first-level groups $S_1$ and second-level groups $S_2$, whereby each agent $t\in S_2$ observes the full history from the corresponding group $S_1$. More formally, agent $t$ is connected to the last node of each full-disclosure path in $S_1$. In other words, this agent receives message
     $m_t = \SubH{V(S_1)}$,
