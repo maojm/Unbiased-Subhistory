@@ -149,7 +149,13 @@ in order:
 %   incurs a $\Theta(\log^2(T))$ multiplicative factor to the regret.\\}
 \begin{description}
 
-\item(i) For any level $l \geq 2$, fix the last group index to be $v$, and consider the set of  groups $\{G_{l-1,i,v}\mid i \in [\NG]\}$ (e.g. $G_{l-1,1,1}$ and $G_{l-1,2,1}$ circled in the Figure \ref{fig:llevel-connecting}). The agents in a set of groups see the same history. They get ``lucky'' for some arm at the same time.\\
+\item(i) For any level $l \geq 2$, fix the last group index to be $v$,
+  and consider the set of groups
+  $\cG_{l-1, v}=\{G_{l-1,i,v}\mid i \in [\NG]\}$ (e.g. $G_{l-1,1,1}$
+  and $G_{l-1,2,1}$ circled in the Figure
+  \ref{fig:llevel-connecting}). The agents in this set of groups
+  observe the same sub-history. They get ``lucky'' for some arm at the
+  same time.
 \item(ii) For each set of groups in level $l-1$, agents in level $l$ see
 the history of agents in one of these groups. Therefore, for each arm
 $a$, we just need one set of groups in level $l-1$ to get ``lucky''
