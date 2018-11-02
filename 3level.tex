@@ -5,18 +5,20 @@
 
 The two-level policy from the previous section implements the explore-then-exploit paradigm using a basic design with parallel full-disclosure paths. The next challenge is to implement \emph{adaptive exploration}, and go below the $T^{2/3}$ barrier. We accomplish this using a construction that adds a middle level to the info-graph. This construction also provides intuition for the main result, the multi-level construction presented in the next section. For simplicity, we assume $K=2$ arms.
 
-The new policy, called the \emph{three-level policy}, is as follows
- (see Figure~\ref{fig:3level}).
+For the sake of intuition, consider the framework of bandit algorithms with limited adaptivity. Suppose a bandit algorithm outputs a distribution $p_t$ over arms in each round $t$, and the arm $a_t$ is then drawn independently from $p_t$. This distribution can change only in a small number of rounds, called \emph{adaptivity rounds}, that need to be chosen by the algorithm in advance. A single round of adaptivity corresponds to explore-then-exploit paradigm. Our goal here is to implement one extra adaptivity round, and this is what the middle level accomplishes.
+
 
 \begin{construction}
-The info-graph consists of three levels: the first two correspond to \emph{exploration}, and the third implements \emph{exploitation}. Like in the two-level policy, the first level consists of multiple full-disclosure paths of length $\fdpL$ each, and each agent $t$ in the exploitation level sees full history from exploration. The middle layer is what ensures adaptive exploration. It consists of $N_2$ disjoint subsets of $T_2$ agents each, called \emph{second-level groups}. Each second-level group $S$ has the following property:
+The \emph{three-level policy} is defined as follows. The info-graph consists of three levels: the first two correspond to \emph{exploration}, and the third implements \emph{exploitation}. Like in the two-level policy, the first level consists of multiple full-disclosure paths of length $\fdpL$ each, and each agent $t$ in the exploitation level sees full history from exploration  (see Figure~\ref{fig:3level}).
+
+The middle level consists of $N_2$ disjoint subsets of $T_2$ agents each, called \emph{second-level groups}. Each second-level group $S$ has the following property:
 \begin{align}\label{eq:group-defn}
 \text{all nodes in $S$ are connected to the same nodes outside of $S$, but not to one another.}
 \end{align}
 
 The full-disclosure paths in the first level are also split into $N_2$ disjoint subsets, called \emph{first-level groups}. Each first-level group consists of $T_1$ full-disclosure paths, for the total of $T_1\cdot N_2\cdot \fdpL$ rounds in the first layer. There is a 1-1 correspondence between first-level groups $S_1$ and second-level groups $S_2$, whereby each agent $t\in S_2$ observes the full history from the corresponding group $S_1$. More formally, agent $t$ is connected to the last node of each full-disclosure path in $S_1$. In other words, this agent receives message
     $m_t = \SubH{V(S_1)}$,
-where $V(S_1)$ is the set of all rounds in $S_1$. 
+where $V(S_1)$ is the set of all rounds in $S_1$.
 \end{construction}
 
 \begin{figure}[t]
@@ -67,6 +69,7 @@ where $V(S_1)$ is the set of all rounds in $S_1$.
 \label{fig:3level}
 \end{figure}
 
+The key idea is as follows. Consider the gap parameter $\Delta = |\mu_1-\mu_2|$. If it is is large, then each first-level group produces enough data to determine the best arm with high confidence, and so each agent in the upper levels chooses the best arm. If $\Delta$ is small, then due to \emph{anti-concentration} each arm can get ``lucky" within any given first-level group and appear much better to the corresponding second-level group (and therefore get explored within that group). To summarize, the middle level exploits if the gap parameter is large, and explores if it is small.
 
 \begin{theorem}
 \label{thm:3level}
@@ -79,14 +82,7 @@ This is achieved with parameters
     $T_2 = T^{6/7}\log^{-5/7}(T)$.
 \end{theorem}
 
-\ascomment{stopped here.}
-
-They main idea for the 3-level policy is that it inserts the second level as an additional ``checkpoint'' to induce more adaptivity in the exploration. \niedit{While the first level ensures that the agents explore both arms, the better arm can only be discovered if the gap in their rewards $|\mu_1-\mu_2|$ is sufficiently high.  When this gap is small (that is, when $|\mu_1 - \mu_2| < \tilde{O}(1/\sqrt{T_1})$), we argue that the second level will continue to explore both arms.  Here we use the anti-concentration bound to show each arm is ``lucky'' in at least one first level group (that is, for some first level group, its empirical mean is significantly larger than its mean whereas the other arm's empirical mean is significantly smaller than its mean).  Therefore, the corresponding second level group will explore the lucky arm, giving the third level refined estimates of each arm's mean.}  In the third level, agents will pull the best arm unless $|\mu_1-\mu_2|$ is much smaller than $\tilde{O}(1/\sqrt{T_2})$, in which case pulling either arm will
-incur small regret. The formal guarantee of the policy is the
-following. \nicomment{I'm a little confused why this works while simply growing the first level doesn't work; wouldn't the first level where the arm is ``lucky'' explore it more if it had more time?}
-
-
-
+\ascomment{Stopped here.}
 
 
 
