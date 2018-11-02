@@ -11,14 +11,14 @@ For the sake of intuition, consider the framework of bandit algorithms with limi
 \begin{construction}
 The \emph{three-level policy} is defined as follows. The info-graph consists of three levels: the first two correspond to \emph{exploration}, and the third implements \emph{exploitation}. Like in the two-level policy, the first level consists of multiple full-disclosure paths of length $\fdpL$ each, and each agent $t$ in the exploitation level sees full history from exploration  (see Figure~\ref{fig:3level}).
 
-The middle level consists of $N_2$ disjoint subsets of $T_2$ agents each, called \emph{second-level groups}. Each second-level group $S$ has the following property:
+The middle level consists of $\NG$ disjoint subsets of $T_2$ agents each, called \emph{second-level groups}. Each second-level group $S$ has the following property:
 \begin{align}\label{eq:group-defn}
 \text{all nodes in $S$ are connected to the same nodes outside of $S$, but not to one another.}
 \end{align}
 
-\jmcomment{$N_2$ is also used in Lemma 3.6. We need to find another notation. And I think it should be something without subscript 2. It's generally a property of the whole construction. How about $\sigma$.}
+\jmcomment{$\NG$ is also used in Lemma 3.6. We need to find another notation. And I think it should be something without subscript 2. It's generally a property of the whole construction. How about $\NG$.}
 
-The full-disclosure paths in the first level are also split into $N_2$ disjoint subsets, called \emph{first-level groups}. Each first-level group consists of $T_1$ full-disclosure paths, for the total of $T_1\cdot N_2\cdot \fdpL$ rounds in the first layer. There is a 1-1 correspondence between first-level groups $S_1$ and second-level groups $S_2$, whereby each agent $t\in S_2$ observes the full history from the corresponding group $S_1$. More formally, agent $t$ is connected to the last node of each full-disclosure path in $S_1$. In other words, this agent receives message
+The full-disclosure paths in the first level are also split into $\NG$ disjoint subsets, called \emph{first-level groups}. Each first-level group consists of $T_1$ full-disclosure paths, for the total of $T_1\cdot \NG\cdot \fdpL$ rounds in the first layer. There is a 1-1 correspondence between first-level groups $S_1$ and second-level groups $S_2$, whereby each agent $t\in S_2$ observes the full history from the corresponding group $S_1$. More formally, agent $t$ is connected to the last node of each full-disclosure path in $S_1$. In other words, this agent receives message
     $m_t = \SubH{V(S_1)}$,
 where $V(S_1)$ is the set of all rounds in $S_1$.
 \end{construction}
@@ -64,7 +64,7 @@ where $V(S_1)$ is the set of all rounds in $S_1$.
   \draw[->] (11,0)--(11,5);
   \node at(11.5,2.5)[ rotate=90]{Time};
 
-  \draw [decorate,decoration={brace,amplitude=10pt,aspect=0.33},xshift=0pt,yshift=0pt] (10,1.8) -- (0,1.8) node [black,pos=0.33,xshift = 0cm,yshift=-0.6cm] {$N_2$ groups};
+  \draw [decorate,decoration={brace,amplitude=10pt,aspect=0.33},xshift=0pt,yshift=0pt] (10,1.8) -- (0,1.8) node [black,pos=0.33,xshift = 0cm,yshift=-0.6cm] {$\NG$ groups};
 
 \end{tikzpicture}
 \caption{Info-graph for the three-level policy. Each red box in level 1 corresponds to $T_1$ full-disclosure paths of length $\GdT$ each.}
@@ -80,7 +80,7 @@ achieves regret
 \[ \reg(T) \leq O\left( T^{4/7}\, \log T \right).\]
 This is achieved with parameters
     $T_1 = T^{4/7}\log^{-1/7}(T)$,
-    $N_2 = 2^{10}\log(T)$, and
+    $\NG = 2^{10}\log(T)$, and
     $T_2 = T^{6/7}\log^{-5/7}(T)$.
 \end{theorem}
 
@@ -139,15 +139,15 @@ In the \emph{medium gap} case, the data collected in a given first-level group i
 %    \right)
 %  \]
 \[ \textstyle \Delta\in \left[
-    4\,\sum_{a\in\A}\; \conf{N_2\cdot \fdpN[a]\cdot T_1},\quad
+    4\,\sum_{a\in\A}\; \conf{\NG\cdot \fdpN[a]\cdot T_1},\quad
     4\,\sum_{a\in\A}\; \conf{\fdpN[a]\cdot T_1}
  \right] \]
 \end{lemma}
 
 
 Finally, the \emph{small gap} case, when  $\Delta$ is between
-$\tilde\Omega(\sqrt{1/T_2})$ and $\tilde O(\sqrt{1/(N_2\, T_1)})$ 
-is more challenging since even aggregating the data from all $N_2$
+$\tilde\Omega(\sqrt{1/T_2})$ and $\tilde O(\sqrt{1/(\NG\, T_1)})$ 
+is more challenging since even aggregating the data from all $\NG$
 first-level groups is not sufficient for identify the best arm. 
 We need to ensure that both arms continue to be explored in the second level. 
 To achieve this, we leverage \event[4], which implies 
@@ -165,7 +165,7 @@ from this group $s_a$ ensures that all agents in the respective second-level gro
 %  \]
 \[ \textstyle 
     \Delta\in \left( 3\sqrt{2}\cdot\conf{T_2},\quad
-      4\,\sum_{a\in\A}\; \conf{N_2\cdot \fdpN[a]\cdot T_1}
+      4\,\sum_{a\in\A}\; \conf{\NG\cdot \fdpN[a]\cdot T_1}
 \right)
 \]
 \end{lemma}
@@ -174,11 +174,11 @@ from this group $s_a$ ensures that all agents in the respective second-level gro
 \paragraph{Wrapping up: proof of \Cref{thm:3level}. } In negligible
 gap case, the stated regret bound holds regardless of what the algorithm does. In the large gap case, the regret only comes from the
 first level, so it is upper-bounded by the total number of agents in this level, which is 
-    $N_2\cdot \GdT \cdot T_1 = O(T^{4/7} \log T)$. 
+    $\NG\cdot \GdT \cdot T_1 = O(T^{4/7} \log T)$. 
 In both intermediate cases, it suffices to bound the regret from the
 first and second levels, so
 \[ \textstyle 
-\reg(T) \leq (N_2\,T_1\cdot \GdT + N_2\, T_2) 
+\reg(T) \leq (\NG\,T_1\cdot \GdT + \NG\, T_2) 
 \cdot 4\,\sum_{a\in\A}\; \conf{\fdpN[a]\cdot T_1}
 = O(T^{4/7} \log^{6/7}(T)).
 \]
