@@ -1,4 +1,5 @@
 \section{Missing proofs from Section~\ref{sec:3level}}
+\label{sec:3level-pfs}
 
 \subsection{Events}
 
@@ -39,7 +40,7 @@ By Berry-Esseen Theorem and
 \Pr[W_4^{s,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{\fdpN T_1}} > 1/4.
 \]
 The last inequality follows when $T$ is larger than some constant.
-Similarly we also have 
+Similarly we also have
 \[
 \Pr[W_4^{s,a,low}] > 1/4.
 \]
@@ -104,9 +105,9 @@ The last inequality holds when $T$ is larger than some constant.
   \[
     |\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{4\log(T)}{S \fdpN T_1}} .
   \]
-Furthermore, if there are at least $T_2$ pulls of arm $a$ in the first two levels, 
+Furthermore, if there are at least $T_2$ pulls of arm $a$ in the first two levels,
 \[
-|\bar{\mu}_a-\mu_a| \leq \sqrt{\frac{2\log(T)}{T_2}}. 
+|\bar{\mu}_a-\mu_a| \leq \sqrt{\frac{2\log(T)}{T_2}}.
 \]
 \end{lemma}
 
@@ -174,7 +175,7 @@ Therefore, we know agents in the $s$-th second-level group will all pull arm 1.
 Now consider the agents in the third level group. Recall $\bar{\mu}_a$
 is the empirical mean of arm $a$ in the history they see. We have
 \[
-\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} 
+\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}.
 \]
 Similarly as above, by Assumption \ref{ass:embehave}, we know
@@ -189,11 +190,11 @@ arm 1.  \OMIT{Therefore the expected regret is at most
   % $2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} +
   %   \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right) \leq \mu_1-\mu_2 <
   % 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} +
-  %   \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right)$. 
+  %   \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right)$.
   Recall $\bar{\mu}_a$ is
   the empirical mean of arm $a$ in the first two levels. We have
 \[
-\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} 
+\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}.
 \]
 For any agent $t$ in the third level, by Assumption \ref{ass:embehave}, we have
@@ -202,9 +203,9 @@ For any agent $t$ in the third level, by Assumption \ref{ass:embehave}, we have
 &\geq  \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} + \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}- \frac{C_0}{\sqrt{S\fdpN[1]T_1/2}} - \frac{C_0}{\sqrt{S\fdpN[2]T_1/2}}\\
  &> 0.
 \end{align*}
-So we know agents in the third-level group will all pull arm 1. \OMIT{Therefore the expected regret is at most 
+So we know agents in the third-level group will all pull arm 1. \OMIT{Therefore the expected regret is at most
 \[
-(S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} 
+(S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right) = O(T^{4/7} \log^{6/7}(T))
 \]
 }
@@ -214,14 +215,14 @@ So we know agents in the third-level group will all pull arm 1. \OMIT{Therefore 
 \begin{proof}[Proof of Lemma~\ref{3levelsmallcase} (Small gap case)]
   % $ 3\sqrt{\frac{2\log(T)}{T_2}} < \mu_1-\mu_2 <
   % 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} +
-  %   \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right)$.  
+  %   \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right)$.
   In this case, we need both arms to be pulled at least $T_2$ rounds
   in the second level. For every arm $a$, consider the $s_a$-th
   second-level group, with $s_a$ given by Lemma~\ref{lem:luck}. We
   have
 \begin{align*}
 \bar{\mu}_a^{1,s_a} - \bar{\mu}_{3-a}^{1,s_a} &> \mu_a + \frac{1}{4\sqrt{\fdpN T_1}} -\mu_{3-a} +\frac{1}{4\sqrt{\fdpN[3-a]T_1}} \\
-&> \frac{1}{4\sqrt{\fdpN[1]T_1}}+ \frac{1}{4\sqrt{\fdpN[2]T_1}} - 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} 
+&> \frac{1}{4\sqrt{\fdpN[1]T_1}}+ \frac{1}{4\sqrt{\fdpN[2]T_1}} - 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right) \\
 &\geq \frac{1}{8\sqrt{\fdpN[1]T_1}}+ \frac{1}{8\sqrt{\fdpN[2]T_1}}.
 \end{align*}
@@ -236,10 +237,10 @@ So we know agents in the $s_a$-th second-level group will all pull arm $a$. Ther
 \bar{\mu}_1 - \bar{\mu}_2  \geq \mu_1 -\mu_2 - 2\sqrt{\frac{2\log(T)}{T_2}} \geq \sqrt{\frac{2\log(T)}{T_2}}.
 \]
 Similarly as above, by Assumption \ref{ass:embehave}, we know $\hat{\mu}_1^t - \hat{\mu}_2^t > 0$ for any agent $t$ in the third level. So we know agents in the third-level group will all pull arm 1.\OMIT{
-Therefore the expected regret is at most 
+Therefore the expected regret is at most
 \[
-(S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} 
+(S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right) \leq O(T^{4/7} \log^{6/7}(T))
 \]
 }
-\end{proof}
+\end{proof} 
