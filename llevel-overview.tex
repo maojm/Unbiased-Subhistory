@@ -3,10 +3,10 @@
 \section{$\tilde O(\sqrt{T})$ regret with $L$-level policy}
 \label{sec:llevel}
 In this section, we give an overview of how we extend our three-level
-policy to an $L$-level policy for $L > 3$ in order to achieve a regret
-rate of $O_K(\sqrt{T} \polylog(T))$. We provide two such policies. The
-first policy achieves the root-$T$ regret rate with $O(\log \log T)$
-levels.
+policy to a more adaptive $L$-level policy for $L > 3$ in order to
+achieve a regret rate of $O_K(\sqrt{T} \polylog(T))$. We provide two
+such policies. The first policy achieves the root-$T$ regret rate with
+$O(\log \log T)$ levels.
 
 % In Theorem \ref{thm:llevel-1}, we show our $L$-level policy. We can
 % achieve nearly optimal regret $O_K(T^{1/2} \polylog(T))$ with
@@ -14,7 +14,7 @@ levels.
 \begin{theorem}
 \label{thm:llevel-1}
 For any $L > 3$, there exists an $L$-level disclosure policy with
-regret $$O_K\left(T^{2^{L-1}/(2^L-1)} \polylog(T) \right).$$ In
+regret $$O_K\left(T^{2^{L-1}/(2^L-1)} \cdot \polylog(T) \right).$$ In
 particular, there exists a $O(\log\log(T))$-level recommendation
 policy with regret $O_K(T^{1/2} \polylog(T))$.
 \end{theorem}
@@ -24,7 +24,7 @@ Our second policy achieves an instance-dependent regret
 guarantee. This policy has the same info-graph structure as the first
 one in Theorem \ref{thm:llevel-1}, but requires a higher number of
 levels $L = O(\log(T/\log\log(T)))$ and larger group sizes. We will
-bound its regret as a function of on the gap parameter $\Delta$ even
+bound its regret as a function of the gap parameter $\Delta$ even
 though the construction of the policy does not depend on $\Delta$. In
 particular, this regret bound outperforms the one in Theorem
 \ref{thm:llevel-1} when $\Delta$ is much bigger than $T^{-1/2}$.  It
@@ -36,14 +36,15 @@ of history in previous rounds.
 \label{thm:llevel-2}
 There exists a $O(\log(T)/\log\log(T))$-level policy such that for
 every multi-armed bandit instance with gap parameter $\Delta$, the
-policy has regret $$O_K(\min(1/\Delta, T^{1/2})\polylog(T))$$
+policy has regret $$O_K(\min(1/\Delta, T^{1/2}) \cdot \polylog(T))$$
 Moreover, under this policy, each agent $t$ observes a subhistory of
 size at least $\Omega( t/\polylog(T))$.
 \end{theorem}
 \swcomment{think the theorem statement implies independence of
   $\Delta$}
 
-Detailed proofs and discussions of Theorem \ref{thm:llevel-1} and Theorem \ref{thm:llevel-2} can be found in Appendix \ref{sec:llevel-details}. Similarly as Section \ref{sec:3level}, we first prove them in the case of 2 arms (Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel}). We then extend them to the case of constant number of arms (Theorem \ref{thm:constarm}).
+In this section, we present the main techniques in our solution, and the 
+full proofs of Theorem \ref{thm:llevel-1} and Theorem \ref{thm:llevel-2} will be deferred to Appendix \ref{sec:llevel-details}. Similarly as Section \ref{sec:3level}, we first prove them in the case of 2 arms (Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel}). We then extend them to the case of constant number of arms (Theorem \ref{thm:constarm}).
 
 We will now present the main idea of extending from 3-level to
 $L$-level is that instead of using the second level as one
@@ -51,7 +52,7 @@ $L$-level is that instead of using the second level as one
 Some new challenges appear in this process. Here we give an overview
 of the additional techniques we use to get our $L$-level results.
 
-\xhdr{Connecting structures between levels} In our 3-level
+\xhdr{Connecting structures between levels.} In our 3-level
 policy, the second level has $\NG = \Theta(\log(T))$ groups. We do so to
 ensure that in the small gap case (Lemma \ref{3levelsmallcase}), with
 high probability, both arms are pulled enough times in the second
