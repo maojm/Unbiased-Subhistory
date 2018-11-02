@@ -92,7 +92,7 @@ dependence in $L$ will heavily limit the adaptivity of the policy, and
 prevents having the number of levels for obtaining the result in
 \Cref{thm:llevel-2}. To overcome this, we will design an info-graph
 structure such that the number of groups at each level stays as
-$\sigma^2 = \Theta(\log^2(T))$.
+$\NG^2 = \Theta(\log^2(T))$.
 
 We will leverage the following key observation: in order to maintain
 the ``lucky'' property, it suffices to have the agents in different
@@ -126,7 +126,7 @@ $\{1, \ldots, l-2\}$.
   In order to avoid this undesirable factor, we design a slightly
   different connecting structure between levels in our $L$-level
   policy.  The key observation is that, for any level
-  $l \in \{3,...,L-1\}$, we do want agents in different $l$-th level
+  $l \in \{3,\ldots,L-1\}$, we do want agents in different $l$-th level
   groups to see disjoint histories of the $(l-1)$-th level to ensure
   that there is some ``lucky'' group for each arm whose mean is close
   enough to the best arm. However, it does not matter much if pulls in
@@ -138,18 +138,18 @@ $\{1, \ldots, l-2\}$.
 This motivates the following interlacing connection structure between
 levels. For each level in the info-graph, there are $\NG^2$ groups for
 some $\NG = \Theta(\log(T))$. The groups in the $l$-th level are
-labeled as $G_{l,u,v}$ for $u,v\in[\NG]$. For any $l \in \{2,...,L\}$
+labeled as $G_{l,u,v}$ for $u,v\in[\NG]$. For any $l \in \{2,\ldots,L\}$
 and $u,v,w\in [\NG]$, agents in group $G_{l,u,v}$ see the history of
 agents in group $G_{l-1,v,w}$ (and by transitivity all agents in
 levels below $l-1$). See Figure \ref{fig:llevel-connecting} for a
-visualization of simple case with $\sigma = 2$). Two observations are
+visualization of simple case with $\NG = 2$). Two observations are
 in order:
 % \OMIT{(i) The number of groups does not grow with $L$ and stays as
 %   $\NG^2 = \Theta(\log^2(T))$ in each level. Having these groups only
 %   incurs a $\Theta(\log^2(T))$ multiplicative factor to the regret.\\}
 \begin{description}
 
-\item(i) For any level $l \geq 2$, fix the last group index to be $v$, and consider the groups $G_{l-1,1,v},G_{l-1,2,v},...,G_{l-1,\NG,v}$ (e.g. $G_{l-1,1,1}$ and $G_{l-1,2,1}$ circled in the Figure \ref{fig:llevel-connecting}). The agents in a set of groups see the same history. They get ``lucky'' for some arm at the same time.\\
+\item(i) For any level $l \geq 2$, fix the last group index to be $v$, and consider the set of  groups $\{G_{l-1,i,v}\mid i \in [\NG]\}$ (e.g. $G_{l-1,1,1}$ and $G_{l-1,2,1}$ circled in the Figure \ref{fig:llevel-connecting}). The agents in a set of groups see the same history. They get ``lucky'' for some arm at the same time.\\
 \item(ii) For each set of groups in level $l-1$, agents in level $l$ see
 the history of agents in one of these groups. Therefore, for each arm
 $a$, we just need one set of groups in level $l-1$ to get ``lucky''
