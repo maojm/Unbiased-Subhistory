@@ -147,20 +147,28 @@ in order:
 % \OMIT{(i) The number of groups does not grow with $L$ and stays as
 %   $\NG^2 = \Theta(\log^2(T))$ in each level. Having these groups only
 %   incurs a $\Theta(\log^2(T))$ multiplicative factor to the regret.\\}
-\begin{description}
-
-\item(i) For any level $l \geq 2$, fix the last group index to be $v$,
-  and consider the set of groups
+\begin{itemize}
+\item[(i)] Consider level $(l - 1)$ and fix the last group index to be
+  $v$, and consider the set of groups
   $\cG_{l-1, v}=\{G_{l-1,i,v}\mid i \in [\NG]\}$ (e.g. $G_{l-1,1,1}$
   and $G_{l-1,2,1}$ circled in the Figure
-  \ref{fig:llevel-connecting}). The agents in this set of groups
-  observe the same sub-history. They get ``lucky'' for some arm at the
-  same time.
-\item(ii) For each set of groups in level $l-1$, agents in level $l$ see
-the history of agents in one of these groups. Therefore, for each arm
-$a$, we just need one set of groups in level $l-1$ to get ``lucky''
-and then all agents in level $l$ will see enough pulls of arm $a$.
-\end{description}
+  \ref{fig:llevel-connecting}). The agents in any group of
+  $\cG_{l-1, v}$ observe the same sub-history. If the empirical mean
+  of arm $a$ is sufficiently high in their shared sub-history, then all groups in $\cG_{l-1, v}$ will become ``lucky'' groups for $a$.
+
+\item[(ii)] Every agent in level $l$ observes the sub-history from
+  $\NG$ $(l-1)$-th level groups, each of which belonging to a
+  different set $\cG_{l-1, v}$. Thus, for each arm $a$, we just need
+  one set of groups $\cG_{l-1, v}$ in level $l-1$ to be ``lucky'' for
+  $a$ and then all agents in level $l$ will see sufficient arm $a$
+  pulls.
+ \OMIT{For each set of groups
+    in level $l-1$, agents in level $l$ see the history of agents in
+    one of these groups. Therefore, for each arm $a$, we just need one
+    set of groups in level $l-1$ to get ``lucky'' and then all agents
+    in level $l$ will see enough pulls of arm $a$.}
+\end{itemize}
+
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}  
@@ -222,7 +230,29 @@ and then all agents in level $l$ will see enough pulls of arm $a$.
 \caption{Connectiing structures between levels for the $L$-level policy.}
 \label{fig:llevel-connecting}
 \end{figure}
-\xhdr{Additional groups for boundary cases.} Recall in our 3-level policy, the medium gap case (Lemma \ref{3levelmedium}) is the boundary case when the gap $|\mu_1-\mu_2|$ is $\Omega\left(\sqrt{\frac{1}{T_1}}\right)$ and $O\left(\sqrt{\frac{\log(T)}{T_1}}\right)$. In this case, the gap is not large enough to conclude that with high probability agents in both the second level and the third level all pull the best arm. The gap is also not small enough to conclude that with high probability both arms are explored enough times in the second level. We need to worry about the situation in which the sub-optimal arm does not get pulled enough times in the first two levels and some agents in the third level may pull the sub-optimal arm. Such situation is naturally ruled out in our 3-level policy for the following reason. Agents in the third level observe the history of the entire first level while agents in the second level only observes the history of a single first-level group. For each arm, even if it is not explored enough times in the second level, its empirical mean concentrates closer to its actual mean in the history observed by a third-level agent than the one observed by a second-level agent. Therefore, although the gap in the medium gap case is just not large enough for agents in the second level to all pull the best arm, it is large enough for agents in the third level to all pull the best arm.
+
+\paragraph{Amplifying groups for boundary cases.} Recall in our
+3-level policy, the medium gap case (Lemma \ref{3levelmedium}) is the
+boundary case when the gap $|\mu_1-\mu_2|$ is
+$\Omega\left(\sqrt{\frac{1}{T_1}}\right)$ and
+$O\left(\sqrt{\frac{\log(T)}{T_1}}\right)$. In this case, the gap is
+not large enough to conclude that with high probability agents in both
+the second level and the third level all pull the best arm. The gap is
+also not small enough to conclude that with high probability both arms
+are explored enough times in the second level. We need to worry about
+the situation in which the sub-optimal arm does not get pulled enough
+times in the first two levels and some agents in the third level may
+pull the sub-optimal arm. Such situation is naturally ruled out in our
+3-level policy for the following reason. Agents in the third level
+observe the history of the entire first level while agents in the
+second level only observes the history of a single first-level
+group. For each arm, even if it is not explored enough times in the
+second level, its empirical mean concentrates closer to its actual
+mean in the history observed by a third-level agent than the one
+observed by a second-level agent. Therefore, although the gap in the
+medium gap case is just not large enough for agents in the second
+level to all pull the best arm, it is large enough for agents in the
+third level to all pull the best arm.
 
 When we extend the 3-level policy to an $L$-level policy, we have such boundary case for each intermediate level. Moreover, the worry mentioned above does not get naturally resolved as in some of these boundary cases, the ratios between the upper and lower bounds of the gap rise from $\Theta(\sqrt{\log(T)})$ to $\Theta(\log(T))$. The reason for such rise is that, except the first level, we don't have good enough guarantee of the number of pulls of each arm. For example, in Figure \ref{fig:llevel-connecting}, when we talk about having enough arm $a$ pulls in the history observed by agents in $G_{l,1,1}$, it could be that  only agents in group $G_{l-1,1,1}$ are pulling arm $a$ and it also could be that most agents in groups $G_{l-1,1,1},G_{l-1,1,2},...,G_{l-1,1,\NG}$ are pulling arm $a$. Therefore our estimate of the number of arm $a$ pulls can be off by an $\NG=\Theta(\log(T))$ multiplicative factor. This finally makes the boundary cases harder to deal with.
 
