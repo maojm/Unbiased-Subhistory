@@ -142,18 +142,19 @@ labeled as $G_{l,u,v}$ for $u,v\in[\NG]$. For any $l \in \{2,...,L\}$
 and $u,v,w\in [\NG]$, agents in group $G_{l,u,v}$ see the history of
 agents in group $G_{l-1,v,w}$ (and by transitivity all agents in
 levels below $l-1$). See Figure \ref{fig:llevel-connecting} for a
-visualization of simple case with $\sigma = 2$).
+visualization of simple case with $\sigma = 2$). Two observations are
+in order:
+% \OMIT{(i) The number of groups does not grow with $L$ and stays as
+%   $\NG^2 = \Theta(\log^2(T))$ in each level. Having these groups only
+%   incurs a $\Theta(\log^2(T))$ multiplicative factor to the regret.\\}
+\begin{description}
 
-This connecting structure has the following nice properties: \\
-\OMIT{(i) The number of groups does not grow with $L$ and stays as
-  $\NG^2 = \Theta(\log^2(T))$ in each level. Having these groups only
-  incurs a $\Theta(\log^2(T))$ multiplicative factor to the regret.\\}
-(i) Consider groups $G_{l-1,1,v},G_{l-1,2,v},...,G_{l-1,\NG,v}$ (e.g. $G_{l-1,1,1}$ and $G_{l-1,2,1}$ circled in the Figure \ref{fig:llevel-connecting}) as a set of groups indexed by $l-1$ and $v$. The agents in a set of groups see the same history. They get ``lucky'' for some arm at the same time.\\
-(ii) For each set of groups in level $l-1$, agents in level $l$ see
+\item(i) For any level $l \geq 2$, fix the last group index to be $v$, and consider the groups $G_{l-1,1,v},G_{l-1,2,v},...,G_{l-1,\NG,v}$ (e.g. $G_{l-1,1,1}$ and $G_{l-1,2,1}$ circled in the Figure \ref{fig:llevel-connecting}). The agents in a set of groups see the same history. They get ``lucky'' for some arm at the same time.\\
+\item(ii) For each set of groups in level $l-1$, agents in level $l$ see
 the history of agents in one of these groups. Therefore, for each arm
 $a$, we just need one set of groups in level $l-1$ to get ``lucky''
 and then all agents in level $l$ will see enough pulls of arm $a$.
-
+\end{description}
 \begin{figure}[H]
 \centering
 \begin{tikzpicture}  
