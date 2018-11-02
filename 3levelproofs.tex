@@ -3,9 +3,15 @@
 \section{Missing proofs from Section~\ref{sec:3level}}
 \label{sec:3level-pfs}
 
-\ascomment{I copied this from the 3-level section. This needs to be revised and made consistent, etc.}
+%\ascomment{I copied this from the 3-level section. This needs to be revised and made consistent, etc.}
 
-The following lemma can be derived from combining Lemma~\ref{lem:t1runs} and union bound.
+
+
+%\ascomment{end of copy-and-paste}
+
+\subsection{Events}
+
+The following lemmas can be derived from combining Lemma~\ref{lem:t1runs} and union bound.
 
 \begin{lemma}[Concentration of first-level number of pulls.]\label{3levelw1}
   Let $W_1$ be the event that for all groups $s\in [\NG]$ and arms
@@ -17,6 +23,21 @@ The following lemma can be derived from combining Lemma~\ref{lem:t1runs} and uni
   where $\fdpN $ is the expected number of arm $a$ pulls in a $\ALGG$ run
   of length $\GdT$. Then $\Pr[W_1] \geq 1- \frac{4\NG}{T^2}$.
 \end{lemma}
+
+\begin{proof}[Proof of Lemma~\ref{3levelw1}]
+  For the $s$-th first-level group, define $W_1^{a,s}$ to be the event
+  that the number of arm $a$ pulls in the $s$-th first-level group is
+  between $\fdpN T_1- \GdT \sqrt{T_1\log(T)}$ and
+  $\fdpN T_1 + \GdT \sqrt{T_1\log(T)}$. By Lemma~\ref{lem:t1runs}
+\[
+\Pr[W_1^{a,s}] \geq 1-2\exp(-2\log(T)) \geq 1-2/T^2.
+\]
+Let $W_1$  be the intersection of all these events (i.e.
+$W_1 = \bigcap_{a,s}W_1^{a,s}$). By union bound, we have
+\[
+\Pr[W_1] \geq 1- \frac{4\NG}{T^2}.
+\]
+\end{proof}
 
 To state the events, it will be useful to think of a
 hypothetical reward tape $\cT^1_{s, a}$ of length $T$ for each
@@ -40,6 +61,18 @@ bound and union bound.
   \]
 \end{lemma}
 
+
+\begin{proof}[Proof of Lemma~\ref{3levelw2}]
+  By Chernoff bound,
+\[
+\Pr[W_2^{s,a,t_1,t_2}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
+\]
+By union bound, we have
+\[
+\Pr[W_2] \geq 1- \frac{4\NG}{T^2}.
+\]
+\end{proof}
+
 Our policy also relies on the anti-concentration of the empirical
 means in the first round. We show that for each arm $a\in \{1, 2\}$,
 there exists a group $s_a$ such that the empirical mean of $a$ is
@@ -49,7 +82,7 @@ agents in the second level to explore both arms when the their
 mean rewards are indistinguishable after the first level.
 
 
-\begin{lemma}[Co-occurence of high and low deviations]\label{3levelw4}
+\begin{lemma}[Co-occurence of high and low deviations in this first level]\label{3levelw4}
   For any group $s\in [\NG]$, any arm $a$, let $\tilde\mu_{a,s}$ be the
   empirical mean of the first $\fdpN  T_1$ cells in tape $\cT^1_{a, s}$.
   Let $W_4^{s,a,\text{high}}$ be the event
@@ -64,71 +97,6 @@ mean rewards are indistinguishable after the first level.
   \]
 \end{lemma}
 
-
-
-
-Lastly, we will condition on the event that the empirical means of
-both arms are concentrated around their true means in any prefix of
-their pulls. This guarantees that the policy obtains an accurate
-estimate of rewards for both arms after aggregating all the data in
-the first two levels.
-% We will again state the event using a hypothetical reward tape
-% $\cT^2_a$ for each arm $a$: the $j$-th time arm $a$ is chosen in the
-% two levels, its reward is taken from the $j$-th cell in $\cT^2_a$.
-
-
-\swcomment{might want to swap out $W_3$ and $W_4$} \nicomment{yes please!}
-
-\begin{lemma}[Concentration of empirical means in the first two
-  levels]\label{3levelw3}
-  With probability at least $1 - \frac{4}{T^3}$, the following event
-  $W_3$ holds: for all $a\in \{1, 2\}$ and $m \in [N_{T, a}]$, the
-  empirical means of the first $t$ \nicomment{what is $t$ here; you mean $m$? in which case please replace $m$ with $t$ in the conditioning and bound} arm $a$ pulls is at most
-  $\sqrt{\frac{2\log(T)}{m}}$ away from $\mu_a$, where $N_{T, a}$ is
-  the total number of arm $a$ pulls by the end of $T$ rounds.
-\end{lemma}
-
-
-
-
-Let $W = \bigcap_{i=1}^4 W_i$ be the intersection of all 4
-events.  By union bound, $W$ occurs with probability $1-O(1/T)$. Note
-that the regret conditioned on $W$ not occurring is at most
-$O(1/T) \cdot T = O(1)$, so it suffices to bound the regret conditioned on $W$.
-
-
-\ascomment{end of copy-and-paste}
-
-\subsection{Events}
-
-
-\begin{proof}[Proof of Lemma~\ref{3levelw1}]
-  For the $s$-th first-level group, define $W_1^{a,s}$ to be the event
-  that the number of arm $a$ pulls in the $s$-th first-level group is
-  between $\fdpN T_1- \GdT \sqrt{T_1\log(T)}$ and
-  $\fdpN T_1 + \GdT \sqrt{T_1\log(T)}$. By Lemma~\ref{lem:t1runs}
-\[
-\Pr[W_1^{a,s}] \geq 1-2\exp(-2\log(T)) \geq 1-2/T^2.
-\]
-Let $W_1$  be the intersection of all these events (i.e.
-$W_1 = \bigcap_{a,s}W_1^{a,s}$). By union bound, we have
-\[
-\Pr[W_1] \geq 1- \frac{4\NG}{T^2}.
-\]
-\end{proof}
-
-
-
-\begin{proof}[Proof of Lemma~\ref{3levelw2}]
-  By Chernoff bound,
-\[
-\Pr[W_2^{s,a,t_1,t_2}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
-\]
-By union bound, we have
-\[
-\Pr[W_2] \geq 1- \frac{4\NG}{T^2}.
-\]
-\end{proof}
 
 
 \begin{proof}[Proof of Lemma~\ref{3levelw4}]
@@ -155,6 +123,29 @@ across different $s$'s. By union bound, we have
 
 
 
+Lastly, we will condition on the event that the empirical means of
+both arms are concentrated around their true means in any prefix of
+their pulls. This guarantees that the policy obtains an accurate
+estimate of rewards for both arms after aggregating all the data in
+the first two levels.
+% We will again state the event using a hypothetical reward tape
+% $\cT^2_a$ for each arm $a$: the $j$-th time arm $a$ is chosen in the
+% two levels, its reward is taken from the $j$-th cell in $\cT^2_a$.
+
+
+%\swcomment{might want to swap out $W_3$ and $W_4$} \nicomment{yes please!}
+%\jmcomment{let's follow the order of levels}
+
+\begin{lemma}[Concentration of empirical means in the first two
+  levels]\label{3levelw3}
+  With probability at least $1 - \frac{4}{T^3}$, the following event
+  $W_3$ holds: for all $a\in \{1, 2\}$ and $m \in [N_{T, a}]$, the
+  empirical means of the first $t$ \nicomment{what is $t$ here; you mean $m$? in which case please replace $m$ with $t$ in the conditioning and bound} arm $a$ pulls is at most
+  $\sqrt{\frac{2\log(T)}{m}}$ away from $\mu_a$, where $N_{T, a}$ is
+  the total number of arm $a$ pulls by the end of $T$ rounds.
+\end{lemma}
+
+
 \begin{proof}[Proof of Lemma~\ref{3levelw3}]
   For any arm $a$, let's imagine a hypothetical tape of length $T$,
   with each cell independently sampled from $\cD_a$. The tape encodes
@@ -172,6 +163,19 @@ at least:
 \Pr[W_3] \geq 1- \frac{4}{T^3}.
 \]
 \end{proof}
+
+
+Let $W = \bigcap_{i=1}^4 W_i$ be the intersection of all 4
+events.  By union bound, $W$ occurs with probability $1-O(1/T)$. Note
+that the regret conditioned on $W$ not occurring is at most
+$O(1/T) \cdot T = O(1)$, so it suffices to bound the regret conditioned on $W$.
+
+
+
+
+
+
+
 
 \subsection{Case Analysis}
 Now we assume the intersection $W$ of events $W_1,\cdots,W_4$ happens. We will
