@@ -5,7 +5,7 @@
 
 The two-level policy from the previous section implements the explore-then-exploit paradigm using a basic design with parallel full-disclosure paths. The next challenge is to implement \emph{adaptive exploration}, and go below the $T^{2/3}$ barrier. We accomplish this using a construction that adds a middle level to the info-graph. This construction also provides intuition for the main result, the multi-level construction presented in the next section. For simplicity, we assume $K=2$ arms.
 
-For the sake of intuition, consider the framework of bandit algorithms with limited adaptivity. Suppose a bandit algorithm outputs a distribution $p_t$ over arms in each round $t$, and the arm $a_t$ is then drawn independently from $p_t$. This distribution can change only in a small number of rounds, called \emph{adaptivity rounds}, that need to be chosen by the algorithm in advance. A single round of adaptivity corresponds to explore-then-exploit paradigm. Our goal here is to implement one extra adaptivity round, and this is what the middle level accomplishes.
+For the sake of intuition, consider the framework of bandit algorithms with limited adaptivity \cite{Perchet2015BatchedBP}. Suppose a bandit algorithm outputs a distribution $p_t$ over arms in each round $t$, and the arm $a_t$ is then drawn independently from $p_t$. This distribution can change only in a small number of rounds, called \emph{adaptivity rounds}, that need to be chosen by the algorithm in advance. A single round of adaptivity corresponds to explore-then-exploit paradigm. Our goal here is to implement one extra adaptivity round, and this is what the middle level accomplishes.
 
 
 \begin{construction}
