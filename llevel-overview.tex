@@ -236,7 +236,7 @@ in order:
 \paragraph{Amplifying groups for boundary cases.} Recall in the
 three-level policy, the medium gap case (Lemma \ref{3levelmedium})
 corresponds to the case where the gap $\Delta$ is between
-$\Omega\left({{1}/{T_1}}\right)$ and
+$\Omega\left(\sqrt{{1}/{T_1}}\right)$ and
 $O\left(\sqrt{{\log(T)}/{T_1}}\right)$. This is a boundary case since
 $\Delta$ is neither large enough to conclude that with high
 probability agents in both the second level and the third level all
@@ -264,12 +264,14 @@ sufficiently accurate reward estimates for both arms.
   the best arm.}
 
 In the $L$-level policy, such boundary case occurs for each
-intermediate level $l\in \{\}$. Moreover, the worry mentioned above does not get
-naturally resolved as in some of these boundary cases, the ratios
-between the upper and lower bounds of the gap rise from
-$\Theta(\sqrt{\log(T)})$ to $\Theta(\log(T))$. The reason for such
-rise is that, except the first level, we don't have good enough
-guarantee of the number of pulls of each arm. For example, in Figure
+intermediate level $l\in \{2, \ldots, l-1\}$, but issue mentioned
+above does not get naturally resolved as in some of these boundary
+cases---the ratios between the upper and lower bounds of $\Delta$ rise
+from $\Theta(\sqrt{\log(T)})$ to $\Theta(\log(T))$, and it would
+require more observations from level $(l-2)$ to distinguish two arms
+at level $l$. The reason for this larger disparity is that, except the
+first level, we can no longer guarantee sufficient number of pulls of
+each arm. For example, in as shown in Figure
 \ref{fig:llevel-connecting}, when we talk about having enough arm $a$
 pulls in the history observed by agents in $G_{l,1,1}$, it could be
 that only agents in group $G_{l-1,1,1}$ are pulling arm $a$ and it
