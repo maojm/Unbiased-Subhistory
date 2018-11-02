@@ -263,7 +263,21 @@ sufficiently accurate reward estimates for both arms.
   arm, it is large enough for agents in the third level to all pull
   the best arm.}
 
-When we extend the 3-level policy to an $L$-level policy, we have such boundary case for each intermediate level. Moreover, the worry mentioned above does not get naturally resolved as in some of these boundary cases, the ratios between the upper and lower bounds of the gap rise from $\Theta(\sqrt{\log(T)})$ to $\Theta(\log(T))$. The reason for such rise is that, except the first level, we don't have good enough guarantee of the number of pulls of each arm. For example, in Figure \ref{fig:llevel-connecting}, when we talk about having enough arm $a$ pulls in the history observed by agents in $G_{l,1,1}$, it could be that  only agents in group $G_{l-1,1,1}$ are pulling arm $a$ and it also could be that most agents in groups $G_{l-1,1,1},G_{l-1,1,2},...,G_{l-1,1,\NG}$ are pulling arm $a$. Therefore our estimate of the number of arm $a$ pulls can be off by an $\NG=\Theta(\log(T))$ multiplicative factor. This finally makes the boundary cases harder to deal with.
+In the $L$-level policy, such boundary case occurs for each
+intermediate level $l\in \{\}$. Moreover, the worry mentioned above does not get
+naturally resolved as in some of these boundary cases, the ratios
+between the upper and lower bounds of the gap rise from
+$\Theta(\sqrt{\log(T)})$ to $\Theta(\log(T))$. The reason for such
+rise is that, except the first level, we don't have good enough
+guarantee of the number of pulls of each arm. For example, in Figure
+\ref{fig:llevel-connecting}, when we talk about having enough arm $a$
+pulls in the history observed by agents in $G_{l,1,1}$, it could be
+that only agents in group $G_{l-1,1,1}$ are pulling arm $a$ and it
+also could be that most agents in groups
+$G_{l-1,1,1},G_{l-1,1,2},...,G_{l-1,1,\NG}$ are pulling arm
+$a$. Therefore our estimate of the number of arm $a$ pulls can be off
+by an $\NG=\Theta(\log(T))$ multiplicative factor. This finally makes
+the boundary cases harder to deal with.
 
 In our $L$-level policy, after understanding the boundary cases well, we resolve this problem by introducing an additional type of groups: $\Gamma$-groups. For each $l \in [L], u,v \in [\NG]$, we create a $\Gamma$-group $\Gamma_{l,u,v}$. Agents in $\Gamma_{l,u,v}$ observe the same history as the one observed by agents in $G_{l,u,v}$ and the number of agents in $\Gamma_{l,u,v}$ is $\Theta(\log(T)$ times the number of agents in $G_{l,u,v}$. The main difference between the $G$-groups and $\Gamma$-groups is that the history of $\Gamma$-groups in level $l$ is not sent to agents in level $l+1$ but agents in higher levels. When we are in the boundary case in which we don't have good guarantees about the $l+1$ level agents' pulls, the new construction makes sure that agents in levels higher than $l+1$ get enough pulls of each arm and all pull the best arm. 
 %%% Local Variables:
