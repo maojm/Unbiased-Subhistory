@@ -69,7 +69,7 @@ where $V(S_1)$ is the set of all rounds in $S_1$.
 \label{fig:3level}
 \end{figure}
 
-The key idea is as follows. Consider the gap parameter $\Delta = |\mu_1-\mu_2|$. If it is is large, then each first-level group produces enough data to determine the best arm with high confidence, and so each agent in the upper levels chooses the best arm. If $\Delta$ is small, then due to \emph{anti-concentration} each arm can get ``lucky" within any given first-level group and appear much better to the corresponding second-level group (and therefore get explored within that group). To summarize, the middle level exploits if the gap parameter is large, and explores if it is small.
+The key idea is as follows. Consider the gap parameter $\Delta = |\mu_1-\mu_2|$. If it is is large, then each first-level group produces enough data to determine the best arm with high confidence, and so each agent in the upper levels chooses the best arm. If $\Delta$ is small, then due to \emph{anti-concentration} each arm gets ``lucky" within  at least once first-level group, in the sense that it appears much better than the other arm based on the data collected in this group (and therefore this arm gets explored by the corresponding second-level group). To summarize, the middle level exploits if the gap parameter is large, and provides some more exploration if it is small.
 
 \begin{theorem}
 \label{thm:3level}
@@ -82,237 +82,103 @@ This is achieved with parameters
     $T_2 = T^{6/7}\log^{-5/7}(T)$.
 \end{theorem}
 
-\ascomment{Stopped here.}
+Let us sketch the proof of this theorem; the full proof can be found in Appendix~\ref{sec:3level-pfs}.
 
+\xhdr{The ``good events".}
+We establish four ``good events" each of which occurs with high probability.
+\begin{description}
+\item[(\event{1})] \emph{Exploration in Level 1:} Every first-level group collects at least $\Omega(T_1)$ samples of each arm.
+\item[(\event{2})] \emph{Concentration in Level 1:} Within each first-level group, empirical mean rewards of each arm $a$ concentrate around $\mu_a$.
+\item[(\event{3})] \emph{Anti-concentration in Level 1:} For each arm, some first-level subgroup collects data which makes this arm look much better than the other.
+\item[(\event{4})] \emph{Concentration in prefix:}
+The empirical mean reward of each arm $a$ concentrates around $\mu_a$ in any prefix of its pulls. (This ensures accurate reward estimates in exploitation.)
+\end{description}
 
+The analysis of these events applies Chernoff Bounds to a suitable version of ``reward tape" (see the definition of ``reward tape" in Section~\ref{sec:model}). For example, \event{2} considers a reward tape restricted to a given first-level group.
 
+\xhdr{Case analysis.}
+We now proceed to bound the regret conditioned on the four ``good events". W.l.o.g., assume $\mu_1 \geq \mu_2$. We break down the regret analysis into four cases, based on the magnitude the gap parameter $\Delta = \mu_1-\mu_2$. As a shorthand, denote
+    $\conf{n} = \sqrt{\log(T)/n}$.
+In words, this is a confidence term, up to constant factors, for $n$ independent random samples.
 
+The simplest case is very small gap, which trivially yields an upper bound on regret.
 
-\iffalse
-In the proof, we need not only the concentration argument as the
-2-level recommendation policy, but also the anti-concentration
-argument to show that agents explore more in the second round if
-$\mu_1-\mu_2$ is not too big.
-
-Set $T_1 = T^{4/7}\log^{-1/7}(T)$ and $T_2 =
-T^{6/7}\log^{-5/7}(T)$. The first level has $S = 2^{10}\log(T)$ groups
-of agents. Each group runs $T_1$ \ALGG of $T_G$ rounds in
-parallel. The second level also has $S$ groups of agents. Each group
-has $T_2$ agents and they observe the history of corresponding group
-in the first level. All the rest agents are in the third level and
-they observe the entire history of the first two levels.  See also
-Figure \ref{fig:3level} for a graphical view of the information flow.
-
-
-
-Here we give some intuition about how the 3-level recommendation
-policy works. The main idea is to do the exploration more
-adaptively. In the first level, agents explore both arms. In the
-second level, agents will pull the best arm when $\mu_1 - \mu_2$ is
-large ($\tilde{\Omega}(1/\sqrt{T_1})$). Otherwise agents will explore
-both arms more. In the third level, agents will pull the best arm
-unless $\mu_1-\mu_2$ is much smaller ($\tilde{O}(1/\sqrt{T_2})$). In
-the proof, we need not only the concentration argument as the 2-level
-recommendation policy, but also the anti-concentration argument to
-show that agents explore more in the second round if $\mu_1-\mu_2$ is
-not too big.
-\fi
-
-
-
-
-\subsection{Events}
-We will first establish four events that together occur
-with probability at least $1 - O(1/T)$. The first event says that
-every group of \ALGG runs in the first level ensures that each arm $a$
-is pulled at least $\Omega(T_1)$ times. The following lemma can
-derived from combining Lemma~\ref{lem:t1runs} and union bound.
-
-\begin{lemma}[Concentration of first-level number of pulls.]\label{3levelw1}
-  Let $W_1$ be the event that for all groups $s\in [S]$ and arms
-  $a\in \{1, 2\}$, the number of arm $a$ pulls in the $s$-th
-  first-level group is in the range of
-  $$
-  \left[\fdpN  T_1- \GdT \sqrt{T_1\log(T)}, \fdpN  T_1 + \GdT \sqrt{T_1\log(T)}\right],
-  $$
-  where $\fdpN $ is the expected number of arm $a$ pulls in a $\ALGG$ run
-  of length $\GdT$. Then $\Pr[W_1] \geq 1- \frac{4S}{T^2}$.
-\end{lemma}
-
-
-The next two events are about the distribution of the mean rewards in
-the first level. To state the events, it will be useful to think of a
-hypothetical reward tape $\cT^1_{s, a}$ of length $T$ for each
-group $s$ and arm $a$, with each cell independently sampled from
-$\cD_a$.  The tape encodes rewards as follows: the $j$-th time arm $a$
-is chosen by the group $s$ in the first level, its reward is taken
-from the $j$-th cell in this arm's tape. The following result
-characterizes the concentration of the mean rewards among all
-consecutive pulls among all such tapes, which follows from Chernoff
-bound and union bound.
-
-\begin{lemma}[Concentration of empirical means in the first level]\label{3levelw2}
-  For any $t_1, t_2\in [T]$ such that $t_1 < t_2$, $s\in [S]$, and
-  $a\in \{1,2\}$, let $W_2^{s,a,t_1,t_2}$ be the event that the mean
-  among the cells indexed by $t_1, (t_1+1), \ldots, t_2$ in the tape
-  $\cT^1_{a, s}$ is at most $\sqrt{\frac{2\log(T)}{t_2-t_1+1}}$ away
-  from $\mu_a$.  Let $W_2$ be the intersection of all these events
-  (i.e.  $W_2 = \bigcap_{a,s,t_1,t_2} W_2^{s,a,t_1,t_2}$). Then
-  \[
-    \Pr[W_2] \geq 1- \frac{4S}{T^2}.
-  \]
-\end{lemma}
-
-Our policy also relies on the anti-concentration of the empirical
-means in the first round. We show that for each arm $a\in \{1, 2\}$,
-there exists a group $s_a$ such that the empirical mean of $a$ is
-slightly above $\mu_a$, while the other arm $(3 - a)$ has empirical
-mean slightly below $\mu_{(3-a)}$. This event is crucial for inducing
-agents in the second level to explore both arms when the their
-mean rewards are indistinguishable after the first level.
-
-
-\begin{lemma}[Co-occurence of high and low deviations]\label{3levelw4}
-  For any group $s\in [S]$, any arm $a$, let $\tilde\mu_{a,s}$ be the
-  empirical mean of the first $\fdpN  T_1$ cells in tape $\cT^1_{a, s}$.
-  Let $W_4^{s,a,\text{high}}$ be the event
-  $\tilde\mu_{a, s} \geq \mu_a + 1/\sqrt{\fdpN  T_1}$ and let
-  $W_4^{s,a,\text{low}}$ be the event that
-  $\tilde\mu_{a, s} \leq \mu_a - 1/\sqrt{\fdpN  T_1}$.  Let $W_4$ be the
-  event that for every $a\in \{1, 2\}$, there exists a group
-  $s_a\in [S]$ in the first level such that both $W_4^{s_a,a,\text{high}}$
-  and $W_4^{s_a,3-a,\text{low}}$ occur. Then
-  \[
-    \Pr[W_4]\geq 1 -2 /T.
-  \]
-\end{lemma}
-
-
-
-
-Lastly, we will condition on the event that the empirical means of
-both arms are concentrated around their true means in any prefix of
-their pulls. This guarantees that the policy obtains an accurate
-estimate of rewards for both arms after aggregating all the data in
-the first two levels.
-% We will again state the event using a hypothetical reward tape
-% $\cT^2_a$ for each arm $a$: the $j$-th time arm $a$ is chosen in the
-% two levels, its reward is taken from the $j$-th cell in $\cT^2_a$.
-
-
-\swcomment{might want to swap out $W_3$ and $W_4$} \nicomment{yes please!}
-
-\begin{lemma}[Concentration of empirical means in the first two
-  levels]\label{3levelw3}
-  With probability at least $1 - \frac{4}{T^3}$, the following event
-  $W_3$ holds: for all $a\in \{1, 2\}$ and $m \in [N_{T, a}]$, the
-  empirical means of the first $t$ \nicomment{what is $t$ here; you mean $m$? in which case please replace $m$ with $t$ in the conditioning and bound} arm $a$ pulls is at most
-  $\sqrt{\frac{2\log(T)}{m}}$ away from $\mu_a$, where $N_{T, a}$ is
-  the total number of arm $a$ pulls by the end of $T$ rounds.
-\end{lemma}
-
-
-
-
-Let $W = \bigcap_{i=1}^4 W_i$ be the intersection of all 4
-events.  By union bound, $W$ occurs with probability $1-O(1/T)$. Note
-that the regret conditioned on $W$ not occurring is at most
-$O(1/T) \cdot T = O(1)$, so it suffices to bound the regret conditioned on $W$.
-
-\subsection{Case Analysis}
-
-We now proceed to bound the regret conditioned on the four
-events defined above. Without loss of generality, we assume
-$\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both
-arms. We break down the regret analysis into four cases on the scale
-of the gap parameter $\Delta = (\mu_1-\mu_2)$.
-
-
-We will start with the simplest case where the gap is smaller than
-$\tilde O(\sqrt{1/T_2}) = \tilde O(1/T^{3/7})$, then the regret is
-trivially bounded by $\tilde O(T^{4/7})$.
-
-\begin{claim}[Negligible gap case]
-  Suppose $\Delta \leq 3\sqrt{\frac{2\log(T)}{T_2}}$,
+\begin{claim}[Negligible gap]
+If
+%  $\Delta \leq 3\sqrt{\frac{2\log(T)}{T_2}}$,
+    $\Delta \leq 3\sqrt{2}\cdot  \conf{T_2}$
+then 
   $\reg(T)\leq O(T^{4/7} \log^{6/7}(T))$.
 \end{claim}
 
 Another simple case is when $\Delta$ is sufficiently large, so that
-the data collected in any single first-level group can distinguish the
-two arms. The proof essentially follows from the event $W_1$
-that both arms are explored sufficient many times in level 1, and the
-empirical rewards in the first two levels concentrate around their
-true means.
+the data collected in any first-level group suffices to determine the best arm. The proof follows from \event{1} and \event{2}.
 
-\begin{lemma}[Large gap case]\label{3levelbigcase}
-  Suppose
-  $\Delta \geq 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} +
-    \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right)$, then all agents in the
-  second and third levels pull arm 1.
+\begin{lemma}[Large gap]\label{3levelbigcase}
+If
+% $\Delta \geq 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} +
+%  \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right)$, 
+  $ \Delta \geq 4 \sum_{a\in\A}\; \conf{\fdpN[a]\cdot T_1}$
+then all agents in Levels 2 and 3 pull arm 1.
+\end{lemma}
+
+In the \emph{medium gap} case, the data collected in a given first-level group is no longer guaranteed to determine the best arm. However, the data collected by the second-level groups enables all agents in the third level to correctly identify the best arm. 
+
+%(even though one of the arms may not be pulled at all in the second level).
+
+\begin{lemma}[Medium gap]\label{3levelmedium}
+  All agents pull arm 1 in the third level, when $\Delta$ satisfies
+%  \[
+%  \Delta\in \left[
+%   2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} +
+%    \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right),
+% 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} +
+%        \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right),
+%    \right)
+%  \]
+\[ \textstyle \Delta\in \left[
+    4\,\sum_{a\in\A}\; \conf{N_2\cdot \fdpN[a]\cdot T_1},\quad
+    4\,\sum_{a\in\A}\; \conf{\fdpN[a]\cdot T_1}
+ \right] \]
 \end{lemma}
 
 
-There are two more intermediate cases. In the \emph{medium gap} case,
-the gap is smaller than $\tilde O(\sqrt{1/T_1})$, but bigger than
-$\tilde \Omega(\sqrt{1/(S\, T_1)})$. Then the data collected in any
-single group from the first level no longer suffices to distinguish
-the two arms. However, we show that as the policy aggregates the
-history from all $S$ groups at the end of the second level, the data
-will enable all third-level agents to correctly identify the arm 1 as
-the better arm (even though one of the arms may not be pulled at all
-in the second level).
+Finally, the \emph{small gap} case, when  $\Delta$ is between
+$\tilde\Omega(\sqrt{1/T_2})$ and $\tilde O(\sqrt{1/(N_2\, T_1)})$ 
+is more challenging since even aggregating the data from all $N_2$
+first-level groups is not sufficient for identify the best arm. 
+We need to ensure that both arms continue to be explored in the second level. 
+To achieve this, we leverage \event[4], which implies 
+that each arm $a$ has a first-level group $s_a$ where it gets ``lucky", in the sense that its empirical mean reward is slightly higher than $\mu_a$, while the empirical mean reward of the other arm is slightly lower than its true mean. Since the
+deviations are in the order of $\Omega(\sqrt{1/T_1})$, and Assumption~\ref{ass:embehave} guarantees the agents' reward estimates are also within $\Omega(\sqrt{1/T_1})$ of the empirical means, the sub-history
+from this group $s_a$ ensures that all agents in the respective second-level group prefer arm $a$. Therefore, both arms are pulled at least $T_2$ times in the second level, which in turn gives the following guarantee:
 
-\begin{lemma}[Medium gap case]\label{3levelmedium}
+
+\begin{lemma}[Small gap]\label{3levelsmallcase}
   All agents pull arm 1 in the third level, when $\Delta$ satisfies
-  \[
-  \Delta\in \left[
-   2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} +
-    \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right),
- 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} +
-        \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right),
-    \right)
-  \]
-\end{lemma}
-
-
-Finally, consider the \emph{small gap} case where $\Delta$ is between
-$\tilde\Omega(\sqrt{1/T_2})$ and $\tilde O(\sqrt{1/(S T_1))})$. This
-is more challenging since even aggregating the data from all $S$
-groups in the first level is not sufficient for correctly
-distinguishing the two arms. Thus, we need to ensure that both arms
-will continue to be pulled in the second level. To achieve this, we
-will nicely leverage the event of $W_4$, which has the implication
-that each arm $a$ has a ``lucky'' group $s_a$ in the first level,
-for which its empirical mean is slightly higher than $\mu_a$, while
-the other arm is slightly lower than $\mu_{(3-a)}$. Since the
-deviations are in the order of $\Omega(\sqrt{1/T_1})$, and Assumption~\ref{ass:embehave} guarantees the estimates are also within $\Omega(\sqrt{1/T_1})$ of the empirical means, the sub-history
-from this ``lucky'' group will yield estimates such that
-$\hat \mu_a^t > \hat \mu_{(3-a)}^t$, and so any second-level agent in
-group $s_a$ will pull arm $a$.  As a result, we guarantee both arms
-will be pulled at least $T_2$ times in the second level, which in turn
-gives the following guarantee.
-
-
-\begin{lemma}[Small gap case]\label{3levelsmallcase}
-  All agents pull arm 1 in the third level, when $\Delta$ satisfies
-  \[
-    \Delta\in \left( 3\sqrt{\frac{2\log(T)}{T_2}},
-      2\left(\sqrt{\frac{4\log(T)}{S \fdpN[1]T_1}} +
-        \sqrt{\frac{4\log(T)}{S \fdpN[2]T_1}}\right) \right)
-  \]
+%  \[
+%    \Delta\in \left( 3\sqrt{\frac{2\log(T)}{T_2}},
+%      2\left(\sqrt{\frac{4\log(T)}{S \fdpN[1]T_1}} +
+%        \sqrt{\frac{4\log(T)}{S \fdpN[2]T_1}}\right) \right)
+%  \]
+\[ \textstyle 
+    \Delta\in \left( 3\sqrt{2}\cdot\conf{T_2},\quad
+      4\,\sum_{a\in\A}\; \conf{N_2\cdot \fdpN[a]\cdot T_1}
+\right)
+\]
 \end{lemma}
 
 
 \paragraph{Wrapping up: proof of \Cref{thm:3level}. } In negligible
-gap case, the stated regret bound holds regardless of the sequence of
-chosen arms. In the large gap case, the regret only comes from the
-first level, which is bounded
-by $S \GdT T_1 = O(T^{4/7} \log^{6/7}(T))$. In the intermediate cases of
-both medium and small gaps, it suffices to bound the regret from the
+gap case, the stated regret bound holds regardless of what the algorithm does. In the large gap case, the regret only comes from the
+first level, so it is upper-bounded by the total number of agents in this level, which is 
+    $N_2\cdot \GdT \cdot T_1 = O(T^{4/7} \log T)$. 
+In both intermediate cases, it suffices to bound the regret from the
 first and second levels, so
-\[
-\reg(T) \leq (S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}}
-+ \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right) = O(T^{4/7} \log^{6/7}(T)).
+\[ \textstyle 
+\reg(T) \leq (N_2\,T_1\cdot \GdT + N_2\, T_2) 
+\cdot 4\,\sum_{a\in\A}\; \conf{\fdpN[a]\cdot T_1}
+= O(T^{4/7} \log^{6/7}(T)).
 \]
 Therefore, we obtain the stated regret bound in all cases.
 
