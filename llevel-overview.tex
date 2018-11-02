@@ -23,7 +23,7 @@ policy with regret $O_K(T^{1/2} \polylog(T))$.
 Our second policy achieves an instance-dependent regret
 guarantee. This policy has the same info-graph structure as the first
 one in Theorem \ref{thm:llevel-1}, but requires a higher number of
-levels $L = O(\log(T/\log\log(T)))$ and larger group sizes. We will
+levels $L = O(\log(T/\log\log(T)))$ and different group sizes. We will
 bound its regret as a function of the gap parameter $\Delta$ even
 though the construction of the policy does not depend on $\Delta$. In
 particular, this regret bound outperforms the one in Theorem
@@ -34,14 +34,14 @@ of history in previous rounds.
 
 \begin{theorem}
 \label{thm:llevel-2}
-There exists a $O(\log(T)/\log\log(T))$-level policy such that for
+There exists an $O(\log(T)/\log\log(T))$-level policy such that for
 every multi-armed bandit instance with gap parameter $\Delta$, the
 policy has regret $$O_K(\min(1/\Delta, T^{1/2}) \cdot \polylog(T))$$
 Moreover, under this policy, each agent $t$ observes a subhistory of
 size at least $\Omega( t/\polylog(T))$.
 \end{theorem}
 
-Note for constant number of arms, this result mathches the optimal
+Note for constant number of arms, this result matches the optimal
 regret rate (given in \Cref{eq:model-OptRegret}) for stochastic
 bandits, up to logarithmic factors.
 
@@ -57,7 +57,7 @@ constant number of arms (Theorem \ref{thm:constarm}).
 A natural idea to extend the three-level policy is to insert more
 levels as multiple ``check points", so the policy can incentivize the
 agents to perform more adaptive exploration. However, we need to
-introduce two main modifications in the info-graph two accomendate
+introduce two main modifications in the info-graph to accommodate
 some new challenges. We will first informally describe our techniques
 for the two-arm case.
 
@@ -236,8 +236,8 @@ in order:
 \paragraph{Amplifying groups for boundary cases.} Recall in the
 three-level policy, the medium gap case (Lemma \ref{3levelmedium})
 corresponds to the case where the gap $\Delta$ is between
-$\Omega\left(\sqrt{{1}/({\log(T) T_1)}}\right)$ and
-$O\left(\sqrt{{1}/{T_1}}\right)$. This is a boundary case since
+$\Omega\left(\sqrt{{1}/({T_1})}\right)$ and
+$O\left(\sqrt{{\log(T)}/{T_1}}\right)$. This is a boundary case since
 $\Delta$ is neither large enough to conclude that with high
 probability agents in both the second level and the third level all
 pull the best arm, nor small enough to conclude that both arms are
@@ -246,7 +246,7 @@ anti-concentration). In this case, we need to ensure that agents in
 the third level can eliminate the inferior arm. This issue is easily
 resolved in the three-level policy since the agents in the third level
 observe the entire first-level history, which consists of
-$\Omega(\log(T) T_1)$ pulls of each arm and provides sufficiently
+$\Omega(T_1\log(T))$ pulls of each arm and provides sufficiently
 accurate reward estimates to distinguish the two arms.
 
 \OMIT{about the situation in which the sub-optimal arm does not get
@@ -270,8 +270,8 @@ above does not get naturally resolved since the ratios between the
 upper and lower bounds of $\Delta$ rise from $\Theta(\sqrt{\log(T)})$
 to $\Theta(\log(T))$, and it would require more observations from
 level $(l-2)$ to distinguish two arms at level $l$. The reason for
-this larger disparity is that, except the first level, we can no
-longer guarantee sufficient number of pulls of each arm. For example,
+this larger disparity is that, except the first level, our guarantee on 
+the number of pulls of each arm is no longer tight. For example,
 as shown in Figure \ref{fig:llevel-connecting}, when we talk about
 having enough arm $a$ pulls in the history observed by agents in
 $G_{l,1,1}$, it could be that only agents in group $G_{l-1,1,1}$ are
@@ -281,7 +281,7 @@ $a$. Therefore our estimate of the number of arm $a$ pulls can be off
 by an $\NG=\Theta(\log(T))$ multiplicative factor. This ultimately
 makes the boundary cases harder to deal with.
 
-We resolve this problem by introducing an additional type of \emph{amplifying groups}, called $\Gamma$-groups. For each $l \in [L], u,v \in [\NG]$, we create a $\Gamma$-group $\Gamma_{l,u,v}$. Agents in $\Gamma_{l,u,v}$ observe the same history as the one observed by agents in $G_{l,u,v}$ and the number of agents in $\Gamma_{l,u,v}$ is $\Theta(\log(T)$ times the number of agents in $G_{l,u,v}$. The main difference between the $G$-groups and $\Gamma$-groups is that the history of $\Gamma$-groups in level $l$ is not sent to agents in level $l+1$ but agents in higher levels. When we are in the boundary case in which we don't have good guarantees about the $l+1$ level agents' pulls, the new construction makes sure that agents in levels higher than $l+1$ get enough pulls of each arm and all pull the best arm. 
+We resolve this problem by introducing an additional type of \emph{amplifying groups}, called $\Gamma$-groups. For each $l \in [L], u,v \in [\NG]$, we create a $\Gamma$-group $\Gamma_{l,u,v}$. Agents in $\Gamma_{l,u,v}$ observe the same history as the one observed by agents in $G_{l,u,v}$ and the number of agents in $\Gamma_{l,u,v}$ is $\Theta(\log(T))$ times the number of agents in $G_{l,u,v}$. The main difference between $G$-groups and $\Gamma$-groups is that the history of $\Gamma$-groups in level $l$ is not sent to agents in level $l+1$ but agents in higher levels. When we are in the boundary case in which we don't have good guarantees about the $l+1$ level agents' pulls, the new construction makes sure that agents in levels higher than $l+1$ get to see enough pulls of each arm and all pull the best arm. 
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "main"
