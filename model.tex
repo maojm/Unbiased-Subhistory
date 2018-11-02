@@ -92,11 +92,11 @@ This regret bound can only be achieved using \emph{adaptive exploration}: \ie wh
 \footnote{The first explicit reference we know of is \cite{MechMAB-ec09,DevanurK09}, but this fact has been known in the community for much longer.}
 
 \xhdr{Preliminaries.}
-\asedit{We assume that $K$ is constant, and focus on the dependence on $T$. However, we explicitly state the dependence on $K$, \eg using the $O_K()$ notation.}
+We assume that $K$ is constant, and focus on the dependence on $T$. However, we explicitly state the dependence on $K$, \eg using the $O_K()$ notation.
 
 Throughout the paper, we use the standard concentration and anti-concentration inequalities: respectively, Chernoff Bounds and Berry-Esseen Theorem. The former states that that a sum of independent random variables converges to its expectation quickly. The latter states that the CDF of an appropriately scaled average of IID random variables converges to the CDF of the standard normal distribution pointwise. In particular, the average strays far enough from its expectation with some guaranteed probability. The theorem statements are moved to Appendix~\ref{sec:prelim}.
 
-\asedit{We use the notion of \emph{reward tape} to simplify the application of (anti-)concentration inequalities. This is a $K\times T$ random matrix with rows and columns corresponding to arms and rounds, respectively. For each arm $a$ and round $t$, the value in cell $(a,t)$ is drawn independently from Bernoulli distribution $\mD_a$. W.l.o.g., rewards in our model are defined by the rewards tape: namely, the reward for the $j$-th pull of arm $a$ is taken from the $(a,j)$-th entry of the reward matrix.}
+We use the notion of \emph{reward tape} to simplify the application of (anti-)concentration inequalities. This is a $K\times T$ random matrix with rows and columns corresponding to arms and rounds, respectively. For each arm $a$ and round $t$, the value in cell $(a,t)$ is drawn independently from Bernoulli distribution $\mD_a$. W.l.o.g., rewards in our model are defined by the rewards tape: namely, the reward for the $j$-th pull of arm $a$ is taken from the $(a,j)$-th entry of the reward matrix.
 
 We use $O_K(\cdot)$ notation to hide the dependence on parameter $K$, and $\tilde O(\cdot)$ notation to hide polylogarithmic factors. We denote $[T]= \{1,2 \LDOTS T\}$.
 
