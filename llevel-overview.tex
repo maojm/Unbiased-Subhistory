@@ -135,7 +135,14 @@ $\{1, \ldots, l-2\}$.
   group sizes of level $l-1$ and the independent randomness in level
   $l-1$ is sufficient.}
 
-This motivates the following interlacing connection structure between levels. For each level in the info-graph, there are  $\NG^2$ groups for some $\NG = \Theta(\log(T))$. The groups in the $l$-th level are labeled as $G_{l,u,v}$ for $u,v\in[\NG]$. For any $l \in \{2,...,L\}$ and $u,v,w\in [\NG]$, agents in group $G_{l,u,v}$ see the history of agents in group $G_{l-1,v,w}$ (and by transitivity all agents in levels below $l-1$). See Figure \ref{fig:llevel-connecting} for a graphical view (as space limit, we only show 3 levels and 4 groups in each level). 
+This motivates the following interlacing connection structure between
+levels. For each level in the info-graph, there are $\NG^2$ groups for
+some $\NG = \Theta(\log(T))$. The groups in the $l$-th level are
+labeled as $G_{l,u,v}$ for $u,v\in[\NG]$. For any $l \in \{2,...,L\}$
+and $u,v,w\in [\NG]$, agents in group $G_{l,u,v}$ see the history of
+agents in group $G_{l-1,v,w}$ (and by transitivity all agents in
+levels below $l-1$). See Figure \ref{fig:llevel-connecting} for a
+visualization of simple case with $\sigma = 2$).
 
 This connecting structure has the following nice properties: \\
 \OMIT{(i) The number of groups does not grow with $L$ and stays as $\NG^2 = \Theta(\log^2(T))$ in each level. Having these groups only incurs a $\Theta(\log^2(T))$ multiplicative factor to the regret.\\}
