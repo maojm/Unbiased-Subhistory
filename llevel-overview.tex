@@ -59,7 +59,7 @@ levels as multiple ``check points", so the policy can incentivize the
 agents to perform more adaptive exploration. However, we need to
 introduce two main modifications in the info-graph two accomendate
 some new challenges. We will first informally describe our techniques
-the two-arm case.
+for the two-arm case.
 
 % \begin{description}
 % \item[Challenge 1] \emph{Exponentially growing number of groups.} 
@@ -95,12 +95,12 @@ structure such that the number of groups at each level stays as
 $\sigma^2 = \Theta(\log^2(T))$.
 
 We will leverage the following key observation: in order to maintain
-the ``lucky'' property, it suffices to have agents in different $l$-th
-level groups to observe disjoint sub-histories that takes place in
-level $(l - 1)$. Moreover, as long as the group size in levels lower
-than $(l-1)$ are substantially smaller than group size of level $l-1$,
-the ``lucky'' property does not break even if different groups in
-level $l$ observe overlapping sub-history from levels
+the ``lucky'' property, it suffices to have the agents in different
+$l$-th level groups to observe disjoint sub-histories that takes place
+in level $(l - 1)$. Moreover, as long as the group size in levels
+lower than $(l-1)$ are substantially smaller than group size of level
+$l-1$, the ``lucky'' property does not break even if different groups
+in level $l$ observe overlapping sub-history from levels
 $\{1, \ldots, l-2\}$.
 
 
