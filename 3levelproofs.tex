@@ -1,3 +1,5 @@
+%!TEX root = main.tex
+
 \section{Missing proofs from Section~\ref{sec:3level}}
 \label{sec:3level-pfs}
 
@@ -6,14 +8,14 @@
 The following lemma can be derived from combining Lemma~\ref{lem:t1runs} and union bound.
 
 \begin{lemma}[Concentration of first-level number of pulls.]\label{3levelw1}
-  Let $W_1$ be the event that for all groups $s\in [S]$ and arms
+  Let $W_1$ be the event that for all groups $s\in [\NG]$ and arms
   $a\in \{1, 2\}$, the number of arm $a$ pulls in the $s$-th
   first-level group is in the range of
   $$
   \left[\fdpN  T_1- \GdT \sqrt{T_1\log(T)}, \fdpN  T_1 + \GdT \sqrt{T_1\log(T)}\right],
   $$
   where $\fdpN $ is the expected number of arm $a$ pulls in a $\ALGG$ run
-  of length $\GdT$. Then $\Pr[W_1] \geq 1- \frac{4S}{T^2}$.
+  of length $\GdT$. Then $\Pr[W_1] \geq 1- \frac{4\NG}{T^2}$.
 \end{lemma}
 
 To state the events, it will be useful to think of a
@@ -27,14 +29,14 @@ consecutive pulls among all such tapes, which follows from Chernoff
 bound and union bound.
 
 \begin{lemma}[Concentration of empirical means in the first level]\label{3levelw2}
-  For any $t_1, t_2\in [T]$ such that $t_1 < t_2$, $s\in [S]$, and
+  For any $t_1, t_2\in [T]$ such that $t_1 < t_2$, $s\in [\NG]$, and
   $a\in \{1,2\}$, let $W_2^{s,a,t_1,t_2}$ be the event that the mean
   among the cells indexed by $t_1, (t_1+1), \ldots, t_2$ in the tape
   $\cT^1_{a, s}$ is at most $\sqrt{\frac{2\log(T)}{t_2-t_1+1}}$ away
   from $\mu_a$.  Let $W_2$ be the intersection of all these events
   (i.e.  $W_2 = \bigcap_{a,s,t_1,t_2} W_2^{s,a,t_1,t_2}$). Then
   \[
-    \Pr[W_2] \geq 1- \frac{4S}{T^2}.
+    \Pr[W_2] \geq 1- \frac{4\NG}{T^2}.
   \]
 \end{lemma}
 
@@ -48,14 +50,14 @@ mean rewards are indistinguishable after the first level.
 
 
 \begin{lemma}[Co-occurence of high and low deviations]\label{3levelw4}
-  For any group $s\in [S]$, any arm $a$, let $\tilde\mu_{a,s}$ be the
+  For any group $s\in [\NG]$, any arm $a$, let $\tilde\mu_{a,s}$ be the
   empirical mean of the first $\fdpN  T_1$ cells in tape $\cT^1_{a, s}$.
   Let $W_4^{s,a,\text{high}}$ be the event
   $\tilde\mu_{a, s} \geq \mu_a + 1/\sqrt{\fdpN  T_1}$ and let
   $W_4^{s,a,\text{low}}$ be the event that
   $\tilde\mu_{a, s} \leq \mu_a - 1/\sqrt{\fdpN  T_1}$.  Let $W_4$ be the
   event that for every $a\in \{1, 2\}$, there exists a group
-  $s_a\in [S]$ in the first level such that both $W_4^{s_a,a,\text{high}}$
+  $s_a\in [\NG]$ in the first level such that both $W_4^{s_a,a,\text{high}}$
   and $W_4^{s_a,3-a,\text{low}}$ occur. Then
   \[
     \Pr[W_4]\geq 1 -2 /T.
@@ -111,7 +113,7 @@ $O(1/T) \cdot T = O(1)$, so it suffices to bound the regret conditioned on $W$.
 Let $W_1$  be the intersection of all these events (i.e.
 $W_1 = \bigcap_{a,s}W_1^{a,s}$). By union bound, we have
 \[
-\Pr[W_1] \geq 1- \frac{4S}{T^2}.
+\Pr[W_1] \geq 1- \frac{4\NG}{T^2}.
 \]
 \end{proof}
 
@@ -124,7 +126,7 @@ $W_1 = \bigcap_{a,s}W_1^{a,s}$). By union bound, we have
 \]
 By union bound, we have
 \[
-\Pr[W_2] \geq 1- \frac{4S}{T^2}.
+\Pr[W_2] \geq 1- \frac{4\NG}{T^2}.
 \]
 \end{proof}
 
@@ -147,7 +149,7 @@ Since $W_4^{s,a,high}$ is independent with $W_4^{s,3-a,low}$, we have
 Notice that $(W_4^{s,a,high} \cap W_4^{s,3-a,low})$ are independent
 across different $s$'s. By union bound, we have
 \[
-\Pr[W_4] \geq 1- 2(1-1/16)^S \geq 1 -2 /T.
+\Pr[W_4] \geq 1- 2(1-1/16)^\NG \geq 1 -2 /T.
 \]
 \end{proof}
 
@@ -199,7 +201,7 @@ The last inequality holds when $T$ is larger than some constant.
   For each arm $a$, define $\bar{\mu}_a$ to be the empirical mean of
   arm $a$ pulls in the first two levels. If $W$ holds, then
   \[
-    |\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{4\log(T)}{S \fdpN T_1}} .
+    |\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{4\log(T)}{\NG \fdpN T_1}} .
   \]
 Furthermore, if there are at least $T_2$ pulls of arm $a$ in the first two levels,
 \[
@@ -208,9 +210,9 @@ Furthermore, if there are at least $T_2$ pulls of arm $a$ in the first two level
 \end{lemma}
 
 \begin{proof}
-The events $W_1$ and $W_3^{a,t}$ for $t \geq  (\fdpN T_1- \GdT \sqrt{T_1\log(T)})S$ together imply that
+The events $W_1$ and $W_3^{a,t}$ for $t \geq  (\fdpN T_1- \GdT \sqrt{T_1\log(T)})\NG$ together imply that
   \[
-    |\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{S\left(\fdpN T_1- \GdT \sqrt{T_1\log(T)}\right)}} \leq \sqrt{\frac{4\log(T)}{S \fdpN T_1}} .
+    |\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{\NG\left(\fdpN T_1- \GdT \sqrt{T_1\log(T)}\right)}} \leq \sqrt{\frac{4\log(T)}{\NG \fdpN T_1}} .
 \]
 The last inequality holds when $T$ is larger than some constant.
 \end{proof}
@@ -271,37 +273,37 @@ Therefore, we know agents in the $s$-th second-level group will all pull arm 1.
 Now consider the agents in the third level group. Recall $\bar{\mu}_a$
 is the empirical mean of arm $a$ in the history they see. We have
 \[
-\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}}
+\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{\NG\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{\NG\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}.
 \]
 Similarly as above, by Assumption \ref{ass:embehave}, we know
 $\hat{\mu}_1^t - \hat{\mu}_2^t > 0$ for any agent $t$ in the third
 level. Therefore, the agents in the third-level group will all pull
 arm 1.  \OMIT{Therefore the expected regret is at most
-  $S \GdT T_1 = O(T^{4/7} \log^{6/7}(T))$.}
+  $\NG \GdT T_1 = O(T^{4/7} \log^{6/7}(T))$.}
 \end{proof}
 
 
 \begin{proof}[Proof of Lemma~\ref{3levelmedium} (Medium gap case)]
-  % $2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} +
-  %   \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right) \leq \mu_1-\mu_2 <
+  % $2\left(\sqrt{\frac{4\log(T)}{\NG\fdpN[1]T_1}} +
+  %   \sqrt{\frac{4\log(T)}{\NG\fdpN[2]T_1}}\right) \leq \mu_1-\mu_2 <
   % 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} +
   %   \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right)$.
   Recall $\bar{\mu}_a$ is
   the empirical mean of arm $a$ in the first two levels. We have
 \[
-\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}}
-+ \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}.
+\bar{\mu}_1 - \bar{\mu}_2 \geq \mu_1 -\mu_2 - \sqrt{\frac{4\log(T)}{\NG\fdpN[1]T_1}} - \sqrt{\frac{4\log(T)}{\NG\fdpN[2]T_1}} \geq  \sqrt{\frac{4\log(T)}{\NG\fdpN[1]T_1}}
++ \sqrt{\frac{4\log(T)}{\NG\fdpN[2]T_1}}.
 \]
 For any agent $t$ in the third level, by Assumption \ref{ass:embehave}, we have
 \begin{align*}
-\hat{\mu}_1^t - \hat{\mu}_2^t &>\bar{\mu}_1 - \bar{\mu}_2 - \frac{\estC}{\sqrt{S\fdpN[1]T_1/2}} - \frac{\estC}{\sqrt{S\fdpN[2]T_1/2}}\\
-&\geq  \sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} + \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}- \frac{\estC}{\sqrt{S\fdpN[1]T_1/2}} - \frac{\estC}{\sqrt{S\fdpN[2]T_1/2}}\\
+\hat{\mu}_1^t - \hat{\mu}_2^t &>\bar{\mu}_1 - \bar{\mu}_2 - \frac{\estC}{\sqrt{\NG\fdpN[1]T_1/2}} - \frac{\estC}{\sqrt{\NG\fdpN[2]T_1/2}}\\
+&\geq  \sqrt{\frac{4\log(T)}{\NG\fdpN[1]T_1}} + \sqrt{\frac{4\log(T)}{\NG\fdpN[2]T_1}}- \frac{\estC}{\sqrt{\NG\fdpN[1]T_1/2}} - \frac{\estC}{\sqrt{\NG\fdpN[2]T_1/2}}\\
  &> 0.
 \end{align*}
 So we know agents in the third-level group will all pull arm 1. \OMIT{Therefore the expected regret is at most
 \[
-(S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}}
+(\NG \GdT T_1 + \NG T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}}
 + \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right) = O(T^{4/7} \log^{6/7}(T))
 \]
 }
@@ -310,16 +312,16 @@ So we know agents in the third-level group will all pull arm 1. \OMIT{Therefore 
 
 \begin{proof}[Proof of Lemma~\ref{3levelsmallcase} (Small gap case)]
   % $ 3\sqrt{\frac{2\log(T)}{T_2}} < \mu_1-\mu_2 <
-  % 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}} +
-  %   \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right)$.
+  % 2\left(\sqrt{\frac{4\log(T)}{\NG\fdpN[1]T_1}} +
+  %   \sqrt{\frac{4\log(T)}{\NG\fdpN[2]T_1}}\right)$.
   In this case, we need both arms to be pulled at least $T_2$ rounds
   in the second level. For every arm $a$, consider the $s_a$-th
   second-level group, with $s_a$ given by Lemma~\ref{lem:luck}. We
   have
 \begin{align*}
 \bar{\mu}_a^{1,s_a} - \bar{\mu}_{3-a}^{1,s_a} &> \mu_a + \frac{1}{4\sqrt{\fdpN T_1}} -\mu_{3-a} +\frac{1}{4\sqrt{\fdpN[3-a]T_1}} \\
-&> \frac{1}{4\sqrt{\fdpN[1]T_1}}+ \frac{1}{4\sqrt{\fdpN[2]T_1}} - 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}}
-+ \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right) \\
+&> \frac{1}{4\sqrt{\fdpN[1]T_1}}+ \frac{1}{4\sqrt{\fdpN[2]T_1}} - 2\left(\sqrt{\frac{4\log(T)}{\NG\fdpN[1]T_1}}
++ \sqrt{\frac{4\log(T)}{\NG\fdpN[2]T_1}}\right) \\
 &\geq \frac{1}{8\sqrt{\fdpN[1]T_1}}+ \frac{1}{8\sqrt{\fdpN[2]T_1}}.
 \end{align*}
 For any agent $t$ in the $s_a$-th second-level group, by Assumption \ref{ass:embehave}, we have
@@ -335,8 +337,8 @@ So we know agents in the $s_a$-th second-level group will all pull arm $a$. Ther
 Similarly as above, by Assumption \ref{ass:embehave}, we know $\hat{\mu}_1^t - \hat{\mu}_2^t > 0$ for any agent $t$ in the third level. So we know agents in the third-level group will all pull arm 1.\OMIT{
 Therefore the expected regret is at most
 \[
-(S \GdT T_1 + S T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{S\fdpN[1]T_1}}
-+ \sqrt{\frac{4\log(T)}{S\fdpN[2]T_1}}\right) \leq O(T^{4/7} \log^{6/7}(T))
+(\NG \GdT T_1 + \NG T_2) \cdot 2\left(\sqrt{\frac{4\log(T)}{\NG\fdpN[1]T_1}}
++ \sqrt{\frac{4\log(T)}{\NG\fdpN[2]T_1}}\right) \leq O(T^{4/7} \log^{6/7}(T))
 \]
 }
 \end{proof} 
