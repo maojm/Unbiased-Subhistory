@@ -7,10 +7,16 @@
 
 We strive to design disclosure policies which mitigate these issues and (still) incentivize a good balance between exploration and exploitation. While some assumptions on human behavior are unavoidable, we are looking for a class of disclosure policies for which we can make plausible behavioral assumptions. Then we arrive at a concrete mathematical problem: design policies from this class so as to optimize performance, \ie  the induced explore-exploit tradeoff. Our goal in terms of performance is as ambitious as the one in prior work on incentivizing exploration: essentially, to approach the performance of the social planner.
 
+\xhdr{Our contributions.}
+We start by revisiting the \emph{full-disclosure policy} that reveals the full history of observations from the previous users. We interpret it as the ``gold standard": we posit that users would trust such policy, even if they cannot verify it. Unfortunately, the full-disclosure policy is not good for our purposes, essentially because rational users would \emph{exploit} rather than \emph{explore}. However, for the sake of the argument, what if a disclosure policy reveals the outcomes for every other agent, rather than the outcomes for all agents? We posit that users would trust such policy, too. Given a large volume of data, we posit that users would not be too unhappy with having access to only a fraction this data. A crucial aspect of our intuition here is that the ``subhistory" revealed to a given user comes from a subset of previous users that is chosen in advance, without looking at what happens during the execution. In particular, the subhistory is not ``biased", in the sense that the disclosure policy cannot subsample the observations in favor of a particular action.
+
+With this intuition in mind, we define the class of \emph{unbiased-subhistory policies}: disclosure policies that reveal, to each arriving agent $t$, a subhistory  consisting of the outcomes for a subset $S_t$ of previous agents, where $S_t$ is chosen ahead of time. Further, we impose a transitivity property: if $t' \in S_t$, for some previous agent $t'$, then $S_{t'}\subset S_t$. So, agent $t$ has all information that agent $t'$ had at the time she chose her action. In particular, agent $t$ does not need to second-guess which message has caused aget $t'$ to make choose that action.
+
+
 \ascomment{stable text up to here.}
 
-\xhdr{Our contributions.}
-We build one such conceptual framework for a particular type of disclosure policies. Consider the \emph{full-disclosure policy} that reveals the full history of observations from the previous users. We interpret it as the ``gold standard": we posit that users would trust such policy, even if they cannot verify it. Unfortunately, the full-disclosure policy is not good for our purposes, essentially because rational users would \emph{exploit} rather than \emph{explore}. However, for the sake of the argument, what if the policy reveals the history for every other agent, rather than the history for all agents? We posit that users would trust such policy, too. Given a large volume of data, we posit that users would not be too unhappy with having access to only a fraction this data. A crucial aspect of our intuition here is that the ``subhistory" revealed to a given user is chosen in advance, without looking at the observations. In particular, the disclosure policy cannot subsample the observations that make a particular action look good.
+
+
 
 
 
