@@ -1,25 +1,65 @@
 %!TEX root = main.tex
 
-\section{$\tilde O(T)$ Regret with $L$-Level Policy}
+\section{$\tilde O(\sqrt{T})$ regret with $L$-level policy}
 \label{sec:llevel}
-In this section, we give an overview of how we extend our 3-level policy to an $L$-level policy for $L > 3$ in order to achieve better regret. In Theorem \ref{thm:llevel-1}, we show our $L$-level policy. We can achieve nearly optimal regret $O_K(T^{1/2} \polylog(T))$ with $O(\log\log(T))$ levels.
+In this section, we give an overview of how we extend our three-level
+policy to an $L$-level policy for $L > 3$ in order to achieve a regret
+rate of $O_K(\sqrt{T} \polylog(T))$. We provide two such policies. The
+first policy achieves the root-$T$ regret rate with $O(\log \log T)$
+levels.
+
+% In Theorem \ref{thm:llevel-1}, we show our $L$-level policy. We can
+% achieve nearly optimal regret $O_K(T^{1/2} \polylog(T))$ with
+% $O(\log\log(T))$ levels.
 \begin{theorem}
 \label{thm:llevel-1}
-For any $L > 3$, we have an $L$-level recommendation policy with regret \\$O_K\left(T^{2^{L-1}/(2^L-1)} \polylog(T) \right)$. In particular, we have an $O(\log\log(T))$-level recommendation policy with regret $O_K(T^{1/2} \polylog(T))$. 
+For any $L > 3$, there exists an $L$-level disclosure policy with
+regret $$O_K\left(T^{2^{L-1}/(2^L-1)} \polylog(T) \right).$$ In
+particular, there exists a $O(\log\log(T))$-level recommendation
+policy with regret $O_K(T^{1/2} \polylog(T))$.
 \end{theorem}
 
-In Theorem \ref{thm:llevel-2}, we show a recommendation policy with instance-dependent regret guarantee. This policy has the same structure as the one in Theorem \ref{thm:llevel-1} but different parameters. Its regret depends on $\Delta$ which is the difference between the largest mean and second largest mean of arms and its construction does not depend on $\Delta$. Its regret bound outperforms the one in Theorem \ref{thm:llevel-1} when $\Delta$ is much bigger than $T^{-1/2}$. The only downside is that this policy requires more levels, i.e. $O(\log(T)/\log\log(T))$ levels. It also has the property that each agent observes a good fraction of history till its round. 
+% In Theorem \ref{thm:llevel-2}, we show a policy with
+Our second policy achieves an instance-dependent regret
+guarantee. This policy has the same info-graph structure as the first
+one in Theorem \ref{thm:llevel-1}, but requires a higher number of
+levels $L = O(\log(T/\log\log(T)))$ and larger group sizes. We will
+bound its regret as a function of on the gap parameter $\Delta$ even
+though the construction of the policy does not depend on $\Delta$. In
+particular, this regret bound outperforms the one in Theorem
+\ref{thm:llevel-1} when $\Delta$ is much bigger than $T^{-1/2}$.  It
+also has the desirable property that the policy does not conceal too
+much information from agents---any agent $t$ observes a good fraction
+of history in previous rounds.
 
 \begin{theorem}
 \label{thm:llevel-2}
- We have an $O(\log(T)/\log\log(T))$-level recommendation policy with regret \\$O_K(\min(1/\Delta, T^{1/2})polylog(T))$. Here $\Delta$ is the difference between the largest mean and second largest mean of arms. The recommendation policy does not depend on $\Delta$. Moreover, agent in round $t$ observes a subhistory of size at least $\Omega( \lfloor t/\polylog(T)\rfloor)$. 
+There exists a $O(\log(T)/\log\log(T))$-level policy such that for
+every multi-armed bandit instance with gap parameter $\Delta$, the
+policy has regret $$O_K(\min(1/\Delta, T^{1/2})\polylog(T))$$
+Moreover, under this policy, each agent $t$ observes a subhistory of
+size at least $\Omega( t/\polylog(T))$.
 \end{theorem}
+\swcomment{think the theorem statement implies independence of
+  $\Delta$}
 
 Detailed proofs and discussions of Theorem \ref{thm:llevel-1} and Theorem \ref{thm:llevel-2} can be found in Appendix \ref{sec:llevel-details}. Similarly as Section \ref{sec:3level}, we first prove them in the case of 2 arms (Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel}). We then extend them to the case of constant number of arms (Theorem \ref{thm:constarm}).
 
-The main idea of extending from 3-level to $L$-level is that instead of using the second level as one ``check-point'', we use more levels to have multiple ``check points''.  Some new challenges appear in this process. Here we give an overview of the additional techniques we use to get our $L$-level results. 
+We will now present the main idea of extending from 3-level to
+$L$-level is that instead of using the second level as one
+``check-point'', we use more levels to have multiple ``check points''.
+Some new challenges appear in this process. Here we give an overview
+of the additional techniques we use to get our $L$-level results.
 
-\xhdr{Connecting structures between levels.} In our 3-level policy, the second level has $S = \Theta(\log(T))$ groups. We do so to ensure that in the small gap case (Lemma \ref{3levelsmallcase}), with high probability, both arms are pulled enough times in the second level. The argument relies on the fact that agents in different second-level groups observe disjoint histories of the first level and the independent randomness in first level groups guarantees each arm $a$ to have a ``lucky'' second-level group such that agents in that group all pull arm $a$ with high probability. 
+\xhdr{Connecting structures between levels with $S=2$.} In our 3-level
+policy, the second level has $S = \Theta(\log(T))$ groups. We do so to
+ensure that in the small gap case (Lemma \ref{3levelsmallcase}), with
+high probability, both arms are pulled enough times in the second
+level. The argument relies on the fact that agents in different
+second-level groups observe disjoint histories of the first level and
+the independent randomness in first level groups guarantees each arm
+$a$ to have a ``lucky'' second-level group such that agents in that
+group all pull arm $a$ with high probability.
 
 Simply generalizing this idea to an $L$-level policy would give us a $S$-ary tree like structure and the first level will have $S^{L-1}$ groups. It incurs an extra $S^{\Omega(L)}$ factor in the regret. If we use $\log\log(T)$ levels as in Theorem \ref{thm:llevel-1}, this factor super poly-logarithmic. If we use $\log(T)/\log\log(T)$ levels as in Theorem \ref{thm:llevel-2}, this factor goes up to polynomial in $T$. 
 
