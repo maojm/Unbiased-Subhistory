@@ -36,7 +36,7 @@ This graph is henceforth called the \emph{information flow graph} of the policy,
 
 \xhdr{Agents' behavior.} Let us define agents' behavior in response to an unbiased-history policy. We posit that each agent $t$ uses its observed subhistory $m_t$ to form a reward estimate $\hat{\mu}_{t,a} \in [0,1]$ for each arm $a\in \A$, and chooses an arm with a maximal estimator. (Ties are broken according to an arbitrary rule that is the same for all agents.) The basic model is that $\hat{\mu}_{t,a}$ is the sample average for arm $a$ over the subhistory $m_t$, as long as it includes at least one sample for $a$; else, $\hat{\mu}_{t,a}\geq \tfrac13$.
 
-We allow a much more permissive model that allows each agent to form arbitrary reward estimates as long as they lie within some ``confidence range" of the sample average. Formally, the model is characterized by the following assumption (which we make without further notice).
+We allow a much more permissive model that allows agents to form arbitrary reward estimates as long as they lie within some ``confidence range" of the sample average. Formally, the model is characterized by the following assumptions (which we make without further notice).
 
 %If an arm is not pulled in $H_t$, we will let $\bar{\mu}_a^t = 0$.
 
@@ -52,6 +52,16 @@ Also,
     $\hat{\mu}^t_a\geq\tfrac13$ if $N_{t,a}=0$.
 (NB: we make no assumption if $1\leq N_{t,a}<\estN$.)
 \end{assumption}
+
+
+\begin{assumption}\label{ass:simplifying}
+In each round $t$, the estimates $\hat{\mu}_{t,a}$ depend only on the multiset
+    $\left\{\; (a_s,r_s):\;s\in S_t \;\right\}$,
+called \emph{anonymized subhistory}. Each agent $t$ forms its estimates according to an \emph{estimate function} $f_t$ from anonymized subhistories to $[0,1]^K$, so that the estimate vector
+        $(\hat{\mu}_{t,a}:\, a\in\A)$
+equals $f_t(m_t)$. This function is drawn from some fixed distribution over estimate functions.
+\end{assumption}
+
 
 \OMIT{ %%%%%%%%%%
 The first assumption ensures that the reward distributions have sufficient entropy to induce natural exploration. We choose the bounded range $[1/3, 2/3]$ for the simplicity of our analysis, and it can further relaxed to $[1/C, (C-1)/C]$ for any constant $C$. The second assumption says that the estimates computed by the agents are well-behaved, and are close to the empirical estimates given by the sub-history, provided that the number of observations is sufficiently large.
