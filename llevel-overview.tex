@@ -1,18 +1,18 @@
 %!TEX root = main.tex
 
-\section{$L$-level Recommendation Policy}
+\section{$\tilde O(T)$ Regret with $L$-Level Policy}
 \label{sec:llevel}
-In this section, we give an overview of how we extend our 3-level policy to an $L$-level policy for $L > 3$ in order to achieve better regret. In Theorem \ref{thm:llevel-1}, we show our $L$-level policy. We can achieve nearly optimal regret $O_K(T^{1/2} polylog(T))$ with $O(\log\log(T))$ levels.
+In this section, we give an overview of how we extend our 3-level policy to an $L$-level policy for $L > 3$ in order to achieve better regret. In Theorem \ref{thm:llevel-1}, we show our $L$-level policy. We can achieve nearly optimal regret $O_K(T^{1/2} \polylog(T))$ with $O(\log\log(T))$ levels.
 \begin{theorem}
 \label{thm:llevel-1}
-For any $L > 3$, we have an $L$-level recommendation policy with regret \\$O_K\left(T^{2^{L-1}/(2^L-1)} polylog(T) \right)$. In particular, we have an $O(\log\log(T))$-level recommendation policy with regret $O_K(T^{1/2} polylog(T))$. 
+For any $L > 3$, we have an $L$-level recommendation policy with regret \\$O_K\left(T^{2^{L-1}/(2^L-1)} \polylog(T) \right)$. In particular, we have an $O(\log\log(T))$-level recommendation policy with regret $O_K(T^{1/2} \polylog(T))$. 
 \end{theorem}
 
 In Theorem \ref{thm:llevel-2}, we show a recommendation policy with instance-dependent regret guarantee. This policy has the same structure as the one in Theorem \ref{thm:llevel-1} but different parameters. Its regret depends on $\Delta$ which is the difference between the largest mean and second largest mean of arms and its construction does not depend on $\Delta$. Its regret bound outperforms the one in Theorem \ref{thm:llevel-1} when $\Delta$ is much bigger than $T^{-1/2}$. The only downside is that this policy requires more levels, i.e. $O(\log(T)/\log\log(T))$ levels. It also has the property that each agent observes a good fraction of history till its round. 
 
 \begin{theorem}
 \label{thm:llevel-2}
- We have an $O(\log(T)/\log\log(T))$-level recommendation policy with regret \\$O_K(\min(1/\Delta, T^{1/2})polylog(T))$. Here $\Delta$ is the difference between the largest mean and second largest mean of arms. The recommendation policy does not depend on $\Delta$. Moreover, agent in round $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
+ We have an $O(\log(T)/\log\log(T))$-level recommendation policy with regret \\$O_K(\min(1/\Delta, T^{1/2})polylog(T))$. Here $\Delta$ is the difference between the largest mean and second largest mean of arms. The recommendation policy does not depend on $\Delta$. Moreover, agent in round $t$ observes a subhistory of size at least $\Omega( \lfloor t/\polylog(T)\rfloor)$. 
 \end{theorem}
 
 Detailed proofs and discussions of Theorem \ref{thm:llevel-1} and Theorem \ref{thm:llevel-2} can be found in Appendix \ref{sec:llevel-details}. Similarly as Section \ref{sec:3level}, we first prove them in the case of 2 arms (Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel}). We then extend them to the case of constant number of arms (Theorem \ref{thm:constarm}).
@@ -96,3 +96,7 @@ For each level, our $L$-level policy has $S^2$ groups for some $S = \Theta(\log(
 When we extend the 3-level policy to an $L$-level policy, we have such boundary case for each intermediate level. Moreover, the worry mentioned above does not get naturally resolved as in some of these boundary cases, the ratios between the upper and lower bounds of the gap rise from $\Theta(\sqrt{\log(T)})$ to $\Theta(\log(T))$. The reason for such rise is that, except the first level, we don't have good enough guarantee of the number of pulls of each arm. For example, in Figure \ref{fig:llevel-connecting}, when we talk about having enough arm $a$ pulls in the history observed by agents in $G_{l,1,1}$, it could be that  only agents in group $G_{l-1,1,1}$ are pulling arm $a$ and it also could be that most agents in groups $G_{l-1,1,1},G_{l-1,1,2},...,G_{l-1,1,S}$ are pulling arm $a$. Therefore our estimate of the number of arm $a$ pulls can be off by an $S=\Theta(\log(T))$ multiplicative factor. This finally makes the boundary cases harder to deal with.
 
 In our $L$-level policy, after understanding the boundary cases well, we resolve this problem by introducing an additional type of groups: $\Gamma$-groups. For each $l \in [L], u,v \in [S]$, we create a $\Gamma$-group $\Gamma_{l,u,v}$. Agents in $\Gamma_{l,u,v}$ observe the same history as the one observed by agents in $G_{l,u,v}$ and the number of agents in $\Gamma_{l,u,v}$ is $\Theta(\log(T)$ times the number of agents in $G_{l,u,v}$. The main difference between the $G$-groups and $\Gamma$-groups is that the history of $\Gamma$ groups in level $l$ is not sent to agents in level $l+1$ but agents in higher levels. When we are in the boundary case in which we don't have good guarantees about the $l+1$ level agents' pulls, the new construction makes sure that agents in levels higher than $l+1$ get enough pulls of each arm and all pull the best arm. 
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
