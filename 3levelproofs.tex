@@ -50,12 +50,12 @@ consecutive pulls among all such tapes, which follows from Chernoff
 bound and union bound.
 
 \begin{lemma}[Concentration of empirical means in the first level]\label{3levelw2}
-  For any $t_1, t_2\in [T]$ such that $t_1 < t_2$, $s\in [\NG]$, and
-  $a\in \{1,2\}$, let $W_2^{s,a,t_1,t_2}$ be the event that the mean
-  among the cells indexed by $t_1, (t_1+1), \ldots, t_2$ in the tape
-  $\cT^1_{a, s}$ is at most $\sqrt{\frac{2\log(T)}{t_2-t_1+1}}$ away
+  For any $\z_1, \z_2\in [T]$ such that $\z_1 < \z_2$, $s\in [\NG]$, and
+  $a\in \{1,2\}$, let $W_2^{s,a,\z_1,\z_2}$ be the event that the mean
+  among the cells indexed by $\z_1, (\z_1+1), \ldots, \z_2$ in the tape
+  $\cT^1_{a, s}$ is at most $\sqrt{\frac{2\log(T)}{\z_2-\z_1+1}}$ away
   from $\mu_a$.  Let $W_2$ be the intersection of all these events
-  (i.e.  $W_2 = \bigcap_{a,s,t_1,t_2} W_2^{s,a,t_1,t_2}$). Then
+  (i.e.  $W_2 = \bigcap_{a,s,\z_1,\z_2} W_2^{s,a,\z_1,\z_2}$). Then
   \[
     \Pr[W_2] \geq 1- \frac{4\NG}{T^2}.
   \]
@@ -65,7 +65,7 @@ bound and union bound.
 \begin{proof}[Proof of Lemma~\ref{3levelw2}]
   By Chernoff bound,
 \[
-\Pr[W_2^{s,a,t_1,t_2}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
+\Pr[W_2^{s,a,\z_1,\z_2}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
 \]
 By union bound, we have
 \[
@@ -85,15 +85,15 @@ mean rewards are indistinguishable after the first level.
 \begin{lemma}[Co-occurence of high and low deviations in this first level]\label{3levelw4}
   For any group $s\in [\NG]$, any arm $a$, let $\tilde\mu_{a,s}$ be the
   empirical mean of the first $\fdpN  T_1$ cells in tape $\cT^1_{a, s}$.
-  Let $W_4^{s,a,\text{high}}$ be the event
+  Let $W_3^{s,a,\text{high}}$ be the event
   $\tilde\mu_{a, s} \geq \mu_a + 1/\sqrt{\fdpN  T_1}$ and let
-  $W_4^{s,a,\text{low}}$ be the event that
-  $\tilde\mu_{a, s} \leq \mu_a - 1/\sqrt{\fdpN  T_1}$.  Let $W_4$ be the
+  $W_3^{s,a,\text{low}}$ be the event that
+  $\tilde\mu_{a, s} \leq \mu_a - 1/\sqrt{\fdpN  T_1}$.  Let $W_3$ be the
   event that for every $a\in \{1, 2\}$, there exists a group
-  $s_a\in [\NG]$ in the first level such that both $W_4^{s_a,a,\text{high}}$
-  and $W_4^{s_a,3-a,\text{low}}$ occur. Then
+  $s_a\in [\NG]$ in the first level such that both $W_3^{s_a,a,\text{high}}$
+  and $W_3^{s_a,3-a,\text{low}}$ occur. Then
   \[
-    \Pr[W_4]\geq 1 -2 /T.
+    \Pr[W_3]\geq 1 -2 /T.
   \]
 \end{lemma}
 
@@ -103,21 +103,21 @@ mean rewards are indistinguishable after the first level.
 By Berry-Esseen Theorem and
   $\mu_a \in [1/3,2/3]$, we have for any $a$,
 \[
-\Pr[W_4^{s,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{\fdpN T_1}} > 1/4.
+\Pr[W_3^{s,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{\fdpN T_1}} > 1/4.
 \]
 The last inequality follows when $T$ is larger than some constant.
 Similarly we also have
 \[
-\Pr[W_4^{s,a,low}] > 1/4.
+\Pr[W_3^{s,a,low}] > 1/4.
 \]
-Since $W_4^{s,a,high}$ is independent with $W_4^{s,3-a,low}$, we have
+Since $W_3^{s,a,high}$ is independent with $W_3^{s,3-a,low}$, we have
 \[
-\Pr[W_4^{s,a,high} \cap W_4^{s,3-a,low}] =\Pr[W_4^{s,a,high}] \cdot  \Pr[W_4^{s,3-a,low}]>(1/4)^2 = 1/16.
+\Pr[W_3^{s,a,high} \cap W_3^{s,3-a,low}] =\Pr[W_3^{s,a,high}] \cdot  \Pr[W_3^{s,3-a,low}]>(1/4)^2 = 1/16.
 \]
-Notice that $(W_4^{s,a,high} \cap W_4^{s,3-a,low})$ are independent
+Notice that $(W_3^{s,a,high} \cap W_3^{s,3-a,low})$ are independent
 across different $s$'s. By union bound, we have
 \[
-\Pr[W_4] \geq 1- 2(1-1/16)^\NG \geq 1 -2 /T.
+\Pr[W_3] \geq 1- 2(1-1/16)^\NG \geq 1 -2 /T.
 \]
 \end{proof}
 
@@ -139,9 +139,11 @@ the first two levels.
 \begin{lemma}[Concentration of empirical means in the first two
   levels]\label{3levelw3}
   With probability at least $1 - \frac{4}{T^3}$, the following event
-  $W_3$ holds: for all $a\in \{1, 2\}$ and $m \in [N_{T, a}]$, the
-  empirical means of the first $t$ \nicomment{what is $t$ here; you mean $m$? in which case please replace $m$ with $t$ in the conditioning and bound} arm $a$ pulls is at most
-  $\sqrt{\frac{2\log(T)}{m}}$ away from $\mu_a$, where $N_{T, a}$ is
+  $W_4$ holds: for all $a\in \{1, 2\}$ and $\z \in [N_{T, a}]$, the
+  empirical means of the first $\z$ 
+  %\nicomment{what is $t$ here; you mean $m$? in which case please replace $m$ with $t$ in the conditioning and bound} 
+  arm $a$ pulls is at most
+  $\sqrt{\frac{2\log(T)}{\z}}$ away from $\mu_a$, where $N_{T, a}$ is
   the total number of arm $a$ pulls by the end of $T$ rounds.
 \end{lemma}
 
@@ -151,16 +153,16 @@ the first two levels.
   with each cell independently sampled from $\cD_a$. The tape encodes
   rewards of the first two levels as follows: the $j$-th time arm $a$
   is chosen in the first two levels, its reward is taken from the
-  $j$-th cell in the tape. Define $W_3^{a,t}$ to be the event that the
+  $j$-th cell in the tape. Define $W_4^{a,\z}$ to be the event that the
   mean of the first $t$ pulls in the tape is at most
-  $\sqrt{\frac{2\log(T)}{t}}$ away from $\mu_a$. By Chernoff bound,
+  $\sqrt{\frac{2\log(T)}{\z}}$ away from $\mu_a$. By Chernoff bound,
 \[
-\Pr[W_3^{a,t}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
+\Pr[W_4^{a,\z}] \geq 1 - 2\exp(-4\log(T)) \geq 1- 2/T^4.
 \]
 By union bound, the intersection of all these events has probability
 at least:
 \[
-\Pr[W_3] \geq 1- \frac{4}{T^3}.
+\Pr[W_4] \geq 1- \frac{4}{T^3}.
 \]
 \end{proof}
 
@@ -191,8 +193,8 @@ first provide some helper lemmas for our case analysis.
 \end{lemma}
 
 \begin{proof}
-  The events $W_1$ and $W_2^{a,s,1,t}$ for
-  $t = \fdpN T_1- \GdT \sqrt{T_1\log(T)},...,\fdpN T_1 + \GdT
+  The events $W_1$ and $W_2^{a,s,1,\z}$ for
+  $\z = \fdpN T_1- \GdT \sqrt{T_1\log(T)},...,\fdpN T_1 + \GdT
   \sqrt{T_1\log(T)}$ together imply that
 \[
 |\bar{\mu}_a^{1,s} - \mu_a| \leq \sqrt{\frac{2\log(T)}{\fdpN T_1- \GdT \sqrt{T_1\log(T)}}} \leq \sqrt{\frac{4\log(T)}{\fdpN T_1}}.
@@ -214,7 +216,7 @@ Furthermore, if there are at least $T_2$ pulls of arm $a$ in the first two level
 \end{lemma}
 
 \begin{proof}
-The events $W_1$ and $W_3^{a,t}$ for $t \geq  (\fdpN T_1- \GdT \sqrt{T_1\log(T)})\NG$ together imply that
+The events $W_1$ and $W_4^{a,\z}$ for $\z \geq  (\fdpN T_1- \GdT \sqrt{T_1\log(T)})\NG$ together imply that
   \[
     |\bar{\mu}_a - \mu_a| \leq \sqrt{\frac{2\log(T)}{\NG\left(\fdpN T_1- \GdT \sqrt{T_1\log(T)}\right)}} \leq \sqrt{\frac{4\log(T)}{\NG \fdpN T_1}} .
 \]
@@ -237,12 +239,12 @@ The last inequality holds when $T$ is larger than some constant.
 
 
 \begin{proof}% [Proof of Lemma~\ref{lem:luck}]
-  For each $a \in \{1,2\}$, $W_4$ implies that there exists $s_a$ such
-  that both $W_4^{s_a,a,high}$ and $W_4^{s_a,3-a,low}$ happen.  The
-  events $W_4^{s_a,a,high}$, $W_1$, $W_2^{s_a,a,t, \fdpN T_1}$
-  for $t = \fdpN T_1- \GdT \sqrt{T_1\log(T)}+1, ...,\fdpN T_1-1$ and
-  $W_2^{s_a,a,\fdpN T_1,t}$ for
-  $t= \fdpN T_1,...,\fdpN T_1+ \GdT \sqrt{T_1\log(T)}$ together imply that
+  For each $a \in \{1,2\}$, $W_3$ implies that there exists $s_a$ such
+  that both $W_3^{s_a,a,high}$ and $W_3^{s_a,3-a,low}$ happen.  The
+  events $W_3^{s_a,a,high}$, $W_1$, $W_2^{s_a,a,\z, \fdpN T_1}$
+  for $\z = \fdpN T_1- \GdT \sqrt{T_1\log(T)}+1, ...,\fdpN T_1-1$ and
+  $W_2^{s_a,a,\fdpN T_1,\z}$ for
+  $\z= \fdpN T_1,...,\fdpN T_1+ \GdT \sqrt{T_1\log(T)}$ together imply that
 \begin{align*}
 \bar{\mu}_a ^{1,s_a} &\geq \mu_a + \left(\fdpN T_1 \cdot \frac{1}{\sqrt{\fdpN T_1}} - \GdT \sqrt{T_1\log(T)} \cdot \sqrt{\frac{2\log(T)}{ \GdT \sqrt{T_1\log(T)}}} \right) \cdot \frac{1}{\fdpN T_1+ \GdT \sqrt{T_1\log(T)}} \\
 &> \mu_a + \frac{1}{4\sqrt{\fdpN T_1}}.

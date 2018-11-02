@@ -68,16 +68,16 @@ Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a}
 each arm $a$ is close to the true mean. To facilitate our reasoning,
 let us imagine there is a tape of length $T$ for each arm $a$, with
 each cell containing an independent draw of the realized reward from
-the distribution $\cD_a$. Then for each arm $a$ and any $m\in [T]$, we
-can think of the sequence of the first $m$ realized rewards of $a$
-coming from the prefix of $m$ cells in its reward tape. Define
-$W^{a,m}_2$ to be the event that the empirical mean of the first $m$
+the distribution $\cD_a$. Then for each arm $a$ and any $\z\in [T]$, we
+can think of the sequence of the first $\z$ realized rewards of $a$
+coming from the prefix of $\z$ cells in its reward tape. Define
+$W^{a,\z}_2$ to be the event that the empirical mean of the first $\z$
 realized rewards in the tape of arm $a$ is at most
-$\sqrt{\frac{2\log(T)}{m}}$ away from $\mu_a$. Define $W_2$ to be the
-intersection of these events (i.e.  $\bigcap_{a,m\in[T]} W^{a,m}_2$).  By
+$\sqrt{\frac{2\log(T)}{\z}}$ away from $\mu_a$. Define $W_2$ to be the
+intersection of these events (i.e.  $\bigcap_{a,\z\in[T]} W^{a,\z}_2$).  By
 Chernoff bound,%\swcomment{$t$ may be confusing here}
 \[
-\Pr[W^{a,m}_2] \geq 1 - 2\exp(-4\log(T)) \geq 1-2/T^4.
+\Pr[W^{a,\z}_2] \geq 1 - 2\exp(-4\log(T)) \geq 1-2/T^4.
 \]
 By union bound,
 \[
