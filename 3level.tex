@@ -16,7 +16,7 @@ The middle level consists of $\NG$ disjoint subsets of $T_2$ agents each, called
 \text{all nodes in $G$ are connected to the same nodes outside of $G$, but not to one another.}
 \end{align}
 
-\jmcomment{$N_2$ is also used in Lemma 3.6. We need to find another notation. And I think it should be something without subscript 2. It's generally a property of the whole construction. How about $\NG$.}
+%\jmcomment{$N_2$ is also used in Lemma 3.6. We need to find another notation. And I think it should be something without subscript 2. It's generally a property of the whole construction. How about $\NG$.}
 
 The full-disclosure paths in the first level are also split into $\NG$ disjoint subsets, called \emph{first-level groups}. Each first-level group consists of $T_1$ full-disclosure paths, for the total of $T_1\cdot \NG\cdot \fdpL$ rounds in the first layer. There is a 1-1 correspondence between first-level groups $G$ and second-level groups $G'$, whereby each agent in $G'$ observes the full history from the corresponding group $G$. More formally, agent in $G'$ is connected to the last node of each full-disclosure path in $G$. In other words, this agent receives message
     $\SubH{S}$,
@@ -121,10 +121,10 @@ If
 % $\Delta \geq 2\left(\sqrt{\frac{4\log(T)}{\fdpN[1]T_1}} +
 %  \sqrt{\frac{4\log(T)}{\fdpN[2]T_1}}\right)$,
   $ \Delta \geq 4 \sum_{a\in\A}\; \conf{\fdpN[a]\cdot T_1}$
-then all agents in Levels 2 and 3 pull arm 1.
+then all agents in the second and the third levels pull arm 1.
 \end{lemma}
 
-In the \emph{medium gap} case, the data collected in a given first-level group is no longer guaranteed to determine the best arm. However, the data collected by the second-level groups enables all agents in the third level to correctly identify the best arm.
+In the \emph{medium gap} case, the data collected in a given first-level group is no longer guaranteed to determine the best arm. However, agents in the third level see the history of not only one but all first-level groups and the data collected by all first-level groups enables agents in the third level to correctly identify the best arm.
 
 %(even though one of the arms may not be pulled at all in the second level).
 
@@ -148,7 +148,7 @@ In the \emph{medium gap} case, the data collected in a given first-level group i
 Finally, the \emph{small gap} case, when  $\Delta$ is between
 $\tilde\Omega(\sqrt{1/T_2})$ and $\tilde O(\sqrt{1/(\NG\, T_1)})$
 is more challenging since even aggregating the data from all $\NG$
-first-level groups is not sufficient for identify the best arm.
+first-level groups is not sufficient for identifying the best arm.
 We need to ensure that both arms continue to be explored in the second level.
 To achieve this, we leverage \event{4}, which implies
 that each arm $a$ has a first-level group $s_a$ where it gets ``lucky", in the sense that its empirical mean reward is slightly higher than $\mu_a$, while the empirical mean reward of the other arm is slightly lower than its true mean. Since the
