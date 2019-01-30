@@ -1,0 +1,108 @@
+%!TEX root = main.tex
+\section{Model and Preliminaries}
+\label{sec:model}
+
+We study the multi-armed bandit problem in a social learning context, in which a principal faces a sequence of $T$ myopic agents. There is a set $\A$ of $K$ possible actions, a.k.a. \emph{arms}. At each round $t\in [T]$, a new agent $t$ arrives, receives a message $m_t$ from the principal, chooses an arm $a_t\in \A$, and collects a reward $r_t\in \{0,1\}$ that is immediately observed by the principal. The reward from pulling an arm $a\in \A$ is drawn independently from Bernoulli distribution $\cD_a$ with an unknown mean $\mu_a$. An agent does not observe anything from the previous rounds, other than the message $m_t$. The problem instance is defined by (known) parameters $K,T$ and the (unknown) tuple of mean rewards, $(\mu_a:\,a\in\A)$. We are interested in \emph{regret}, defined as
+\begin{align}\label{eq:intro-regret-defn}
+\textstyle
+  \reg(T)
+  %= \reg(a_1, \ldots , a_T)
+  = T \max_{a\in \A} \mu_a -
+  \sum_{t\in [T]} \E[\mu_{a_t}].
+\end{align}
+(The expectation is over the chosen arms $a_t$, which depend on randomness in rewards, and possibly in the algorithm.)
+The principal chooses messages $m_t$ according to an online algorithm called \emph{disclosure policy}, with a goal to minimize regret. We assume that mean rewards are bounded away from $0$ and $1$, to ensure sufficient entropy in rewards. For concreteness, we posit
+    $\mu_a\in [\tfrac13,\tfrac23]$.
+
+\xhdr{Unbiased subhistories.}
+The \emph{subhistory} for a subset of rounds $S\subset [T]$ is defined as
+\begin{align} \label{eq:model-subhistory}
+    \SubH{S} = \left\{\; (s,a_s,r_s):\;s\in S \;\right\}.
+\end{align}
+Accordingly, $\SubH{[t-1]}$ is called the \emph{full history} at time $t$.
+The \emph{outcome} for agent $t$ is the tuple $(t,a_t,r_t)$.
+
+
+We focus on disclosure policies of a particular form, where the message in each round $t$ is $m_t = \SubH{S_t}$ for some subset $S_t\subset [t-1]$. We assume that the subset $S_t$ is chosen ahead of time, before round $1$ (and therefore does not depend on the observations $\SubH{t-1}$). Such message is called \emph{unbiased subhistory}, and the resulting disclosure policy is called an \emph{unbiased-history policy}.
+
+Further, we focus on disclosure policies that are \emph{transitive}, in the following sense:
+\[ t\in S_{t'} \Rightarrow S_t\subset S_{t'}
+    \qquad \text{for all rounds $t,t'\in [T]$}. \]
+In words, if agent $t'$ observes the outcome for some previous agent $t$, then she observes the entire message revealed to that agent. In particular, agent $t'$ does not need to second-guess which message has caused agent $t$ to choose action $a_t$.
+
+A transitive unbiased-history policy can be represented as an undirected graph, where nodes correspond to rounds, and any two rounds $t<t'$ are connected if and only if $t\in S_{t'}$ and there is no intermediate round $t''$ with
+    $t\in S_{t''}$ and $t''\in S_{t'}$.
+This graph is henceforth called the \emph{information flow graph} of the policy, or \emph{info-graph} for short. We assume that this graph is common knowledge.
+
+\xhdr{Agents' behavior.} Let us define agents' behavior in response to an unbiased-history policy. We posit that each agent $t$ uses its observed subhistory $m_t$ to form a reward estimate $\hat{\mu}_{t,a} \in [0,1]$ for each arm $a\in \A$, and chooses an arm with a maximal estimator. (Ties are broken according to an arbitrary rule that is the same for all agents.) The basic model is that $\hat{\mu}_{t,a}$ is the sample average for arm $a$ over the subhistory $m_t$, as long as it includes at least one sample for $a$; else, $\hat{\mu}_{t,a}\geq \tfrac13$.
+
+We allow a much more permissive model that allows agents to form arbitrary reward estimates as long as they lie within some ``confidence range" of the sample average. Formally, the model is characterized by the following assumptions (which we make without further notice).
+
+%If an arm is not pulled in $H_t$, we will let $\bar{\mu}_a^t = 0$.
+
+\begin{assumption}\label{ass:embehave}
+Reward estimates are close to empirical averages. Let $N_{t,a}$ and $\bar{\mu}_{t,a}$ denote the number of pulls and the empirical mean reward of arm $a$ in subhistory $m_t$. Then for some absolute constant $\estN\in \N$ and $\estC=\tfrac{1}{16}$, and for all agents $t\in [T]$ and arms $a\in\A$ it holds that
+\[
+\text{if}\; N_{t,a} \geq \estN
+\quad\text{then}\quad
+    \left|\hat{\mu}^t_a - \bar{\mu}^t_a \right| <
+		\frac{\estC}{\sqrt{N_{t,a}}}.
+\]
+Also,
+    $\hat{\mu}^t_a\geq\tfrac13$ if $N_{t,a}=0$.
+(NB: we make no assumption if $1\leq N_{t,a}<\estN$.)
+\end{assumption}
+
+
+\begin{assumption}\label{ass:simplifying}
+In each round $t$, the estimates $\hat{\mu}_{t,a}$ depend only on the multiset
+    $\left\{\; (a_s,r_s):\;s\in S_t \;\right\}$,
+called \emph{anonymized subhistory}. Each agent $t$ forms its estimates according to an \emph{estimate function} $f_t$ from anonymized subhistories to $[0,1]^K$, so that the estimate vector
+        $(\hat{\mu}_{t,a}:\, a\in\A)$
+equals $f_t(m_t)$. This function is drawn from some fixed distribution over estimate functions.
+\end{assumption}
+
+
+\OMIT{ %%%%%%%%%%
+The first assumption ensures that the reward distributions have sufficient entropy to induce natural exploration. We choose the bounded range $[1/3, 2/3]$ for the simplicity of our analysis, and it can further relaxed to $[1/C, (C-1)/C]$ for any constant $C$. The second assumption says that the estimates computed by the agents are well-behaved, and are close to the empirical estimates given by the sub-history, provided that the number of observations is sufficiently large.
+
+We model agents with heterogeneity in their arm selections. In particular, there is an unknown distribution over the set of agent estimators satisfying Assumption~\ref{ass:embehave}.  Each agent $t$ indepedently draws an estimator from this distribution, uses it to calculate the mean reward estimates $\hat{\mu}_a^t$ for every arm $a$, and then chooses the arm $a_t$ with the highest estimate.
+% \swcomment{why independently? can be be
+%   adversarial?} \jmcomment{Actually current proofs don't work when it's adversarial. It's fairly annoying for the anti-concentration argument. In the proof, we need to use independent to show that the amount of agents pulling arm $a$ in the first level is concentrated to $T_1 q_a$.}
+
+\begin{remark}
+We emphasize that the agents we consider in this paper are {\em frequentists}.  Thus their estimators, which determine their behavior, take samples as inputs and not priors.  The estimators satisfying Assumption~\ref{ass:embehave} include that of the natural greedy frequentist, who always pulls the arm with the highest empirical mean.
+\end{remark}
+} %%%%%%%
+
+\xhdr{Connection to multi-armed bandits.}
+The special case when each message $m_t$ is an arm, and the $t$-th agent always chooses this arm, corresponds to a standard multi-armed bandit problem with IID rewards. Thus, regret in our problem can be directly compared to regret in the bandit problem with the same mean rewards $(\mu_a:\,a\in\A)$. Following the literature on bandits, we define the \emph{gap parameter} $\Delta$ as the difference between the largest and second largest mean rewards.%
+\footnote{Formally, the second-largest mean reward is
+    $\max_{a\in\A:\mu(a)<\mu^*} \mu(a)$,
+where $\mu^* = \max_{a\in\A} \mu(a)$.
+}
+The gap parameter is not known to the principal (in our problem), or to the algorithm (in the bandit problem). Optimal regret rates for bandits with IID rewards are as follows \cite{bandits-ucb1,bandits-exp3,Lai-Robbins-85}:
+\begin{align}\label{eq:model-OptRegret}
+\reg(T) \leq O\left(\min\left(
+    \sqrt{KT\log T},\; \tfrac{1}{\Delta} \log T
+    \right)\right).
+\end{align}
+This regret bound can only be achieved using \emph{adaptive exploration}: \ie when exploration schedule is adapted to the observations. A simple example of \emph{non}-adaptive exploration is the \emph{explore-then-exploit} algorithm which samples arms uniformly at random for the first $N$ rounds, for some pre-set number $N$, then chooses one arm and sticks with it till the end. More generally,
+\emph{exploration-separating} algorithms have a property that in each round $t$, either the choice of an arm does not depend on the observations so far, or the reward collected in this round is not used in the subsequent rounds. Any such algorithm suffers from $\Omega(T^{2/3})$ regret in the worst case.%
+\footnote{The first explicit reference we know of is \cite{MechMAB-ec09,DevanurK09}, but this fact has been known in the community for much longer.}
+
+\xhdr{Preliminaries.}
+We assume that $K$ is constant, and focus on the dependence on $T$. However, we explicitly state the dependence on $K$, \eg using the $O_K()$ notation.
+
+Throughout the paper, we use the standard concentration and anti-concentration inequalities: respectively, Chernoff Bounds and Berry-Esseen Theorem. The former states that that a sum of independent random variables converges to its expectation quickly. The latter states that the CDF of an appropriately scaled average of IID random variables converges to the CDF of the standard normal distribution pointwise. In particular, the average strays far enough from its expectation with some guaranteed probability. The theorem statements are moved to Appendix~\ref{sec:prelim}.
+
+We use the notion of \emph{reward tape} to simplify the application of (anti-)concentration inequalities. This is a $K\times T$ random matrix with rows and columns corresponding to arms and rounds, respectively. For each arm $a$ and round $t$, the value in cell $(a,t)$ is drawn independently from Bernoulli distribution $\mD_a$. W.l.o.g., rewards in our model are defined by the rewards tape: namely, the reward for the $j$-th pull of arm $a$ is taken from the $(a,j)$-th entry of the reward matrix.
+
+We use $O_K(\cdot)$ notation to hide the dependence on parameter $K$, and $\tilde O(\cdot)$ notation to hide polylogarithmic factors. We denote $[T]= \{1,2 \LDOTS T\}$.
+
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
