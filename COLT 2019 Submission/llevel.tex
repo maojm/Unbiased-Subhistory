@@ -110,7 +110,7 @@ Finally we define the info-graph. Agents in the first level only observe the his
 
 \begin{theorem}
 \label{thm:llevel}
-The $L$-level recommendation policy gets regret $O\left(T^{2^{L-1}/(2^L-1)} \log^2(T) \right)$ for $L \leq \log(\ln(T)/\log(\NG^4))$. In particular, if we pick $L = \log(\ln(T)/\log(\NG^4))$, the regret is $O(T^{1/2} polylog(T))$. 
+The $L$-level recommendation policy gets regret $O\left(T^{2^{L-1}/(2^L-1)} \log^2(T) \right)$ for \\ $L \leq \log(\ln(T)/\log(\NG^4))$. In particular, if we pick $L = \log(\ln(T)/\log(\NG^4))$, the regret is $O(T^{1/2} polylog(T))$. 
 \end{theorem}
 
 \begin{proof}
@@ -214,7 +214,8 @@ We prove the above via induction on $l$. %For notation convenience, define $\bar
 We start by the base case when $l=2$. For each arm $a$, $W_4$ implies there exists $u_a$ such that $W^{u_a,a,high}_4$ and $W^{u_a,3-a,low}_4$ happen. For an agent $t$  in groups $G_{2,1,u_a},...,G_{2,\NG,u_a}$ and $\Gamma_{2,1,u_a},...,\Gamma_{2,\NG,u_a}$.
 $W_4^{u_a,a,high}$,  $W_1^{a,u_a,v}$ and $W_2$ together imply that 
 \begin{align*}
-\bar{\mu}_a ^t &\geq \mu_a + \left(\fdpN T_1\NG \cdot \frac{1}{\sqrt{\fdpN T_1\NG}} - \GdT \sqrt{T_1\log(T)} \NG\cdot \sqrt{\frac{3\log(T)}{ \GdT \sqrt{T_1\log(T)}\NG}} \right) \cdot \frac{1}{(\fdpN T_1+ \GdT \sqrt{T_1\log(T)})\NG} \\
+\bar{\mu}_a ^t &\geq \mu_a + \left(\fdpN T_1\NG \cdot \frac{1}{\sqrt{\fdpN T_1\NG}} - \GdT \sqrt{T_1\log(T)} \NG\cdot \sqrt{\frac{3\log(T)}{ \GdT \sqrt{T_1\log(T)}\NG}} \right) \\
+&~~~~~~~~~~~\cdot \frac{1}{(\fdpN T_1+ \GdT \sqrt{T_1\log(T)})\NG} \\
 &> \mu_a + \frac{1}{4\sqrt{\fdpN T_1\NG}}.
 \end{align*}
 The second last inequality holds when $T$ is larger than some constant.
@@ -280,7 +281,8 @@ By Assumption \ref{ass:embehave}, we have
 \begin{align*}
 \hat{\mu}_1^t - \hat{\mu}_2^t &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{\estC}{\sqrt{\NG\fdpN[1]T_1/2}} -  \frac{\estC}{\sqrt{\NG\fdpN[2]T_1/2}}\\
 &\geq \mu_1 -\mu_2-\sqrt{\frac{3\log(T)}{\NG\fdpN[1]T_1/2}} - \sqrt{\frac{3\log(T)}{\NG\fdpN[2]T_1/2}}- \frac{\estC}{\sqrt{\NG\fdpN[1]T_1/2}} -  \frac{\estC}{\sqrt{\NG\fdpN[2]T_1/2}}\\
-&\geq\frac{\sqrt{\NG}}{4\sqrt{\fdpN[1]T_1}} +  \frac{\sqrt{\NG}}{4\sqrt{\fdpN[2]T_1}}-\sqrt{\frac{3\log(T)}{\NG\fdpN[1]T_1/2}} - \sqrt{\frac{3\log(T)}{\NG\fdpN[2]T_1/2}}- \frac{\estC}{\sqrt{\NG\fdpN[1]T_1/2}} -  \frac{\estC}{\sqrt{\NG\fdpN[2]T_1/2}}\\
+&\geq\frac{\sqrt{\NG}}{4\sqrt{\fdpN[1]T_1}} +  \frac{\sqrt{\NG}}{4\sqrt{\fdpN[2]T_1}}-\sqrt{\frac{3\log(T)}{\NG\fdpN[1]T_1/2}} - \sqrt{\frac{3\log(T)}{\NG\fdpN[2]T_1/2}}\\
+&~~~~~~- \frac{\estC}{\sqrt{\NG\fdpN[1]T_1/2}} -  \frac{\estC}{\sqrt{\NG\fdpN[2]T_1/2}}\\
 &>0.
 \end{align*}
 Therefore agents in level at least 2 will all pull arm 1. 
@@ -307,7 +309,8 @@ By Assumption \ref{ass:embehave}, we have
 &~~~\hat{\mu}_1^t - \hat{\mu}_2^t\\
  &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{\estC}{\sqrt{\NG^2\fdpN[1]T_1/2}}-\frac{\estC}{\sqrt{\NG^2\fdpN[2]T_1/2}}  \\
 &\geq \mu_1 -\mu_2 -  \sqrt{\frac{3\log(T)}{\NG^2\fdpN[1]T_1/2}}- \sqrt{\frac{3\log(T)}{\NG^2\fdpN[2]T_1/2}}- \frac{\estC}{\sqrt{\NG^2\fdpN[1]T_1/2}}-\frac{\estC}{\sqrt{\NG^2\fdpN[2]T_1/2}}  \\
-&\geq\frac{1}{4\sqrt{\NG\fdpN[1]T_1}} + \frac{1}{4\sqrt{\NG\fdpN[2]T_1}}  -  \sqrt{\frac{3\log(T)}{\NG^2\fdpN[1]T_1/2}}- \sqrt{\frac{3\log(T)}{\NG^2\fdpN[2]T_1/2}}- \frac{\estC}{\sqrt{\NG^2\fdpN[1]T_1/2}}-\frac{\estC}{\sqrt{\NG^2\fdpN[2]T_1/2}}  \\
+&\geq\frac{1}{4\sqrt{\NG\fdpN[1]T_1}} + \frac{1}{4\sqrt{\NG\fdpN[2]T_1}}  -  \sqrt{\frac{3\log(T)}{\NG^2\fdpN[1]T_1/2}}- \sqrt{\frac{3\log(T)}{\NG^2\fdpN[2]T_1/2}}\\
+&~~~~~~~~- \frac{\estC}{\sqrt{\NG^2\fdpN[1]T_1/2}}-\frac{\estC}{\sqrt{\NG^2\fdpN[2]T_1/2}}  \\
 &>0.
 \end{align*}
 Therefore agents in level at least 3 will all pull arm 1. 
