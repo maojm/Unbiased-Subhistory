@@ -44,12 +44,9 @@ Moreover, under this policy, each agent $t$ observes a subhistory of
 size at least $\Omega( t/\polylog(T))$.
 \end{theorem}
 
-Note for constant number of arms, this result matches the optimal
-regret rate (given in \Cref{eq:model-OptRegret}) for stochastic
-bandits, up to logarithmic factors.
-
-
-In this section, we present the main techniques in our solution, and
+For constant number of arms, this result matches the optimal
+regret rate \eqref{eq:model-OptRegret} for stochastic
+bandits, up to logarithmic factors. Below we present the main techniques in our solution, and
 the full proofs of Theorem \ref{thm:llevel-1} and Theorem
 \ref{thm:llevel-2} will be deferred to Appendix
 \ref{sec:llevel-details}. Similarly as Section \ref{sec:3level}, we
@@ -59,9 +56,8 @@ constant number of arms (Theorem \ref{thm:constarm}).
 
 A natural idea to extend the three-level policy is to insert more
 levels as multiple ``check points", so the policy can incentivize the
-agents to perform more adaptive exploration. However, we need to
-introduce two main modifications in the info-graph to accommodate
-some new challenges. We will first informally describe our techniques
+agents to perform more adaptive exploration. However, we need two key modifications in the info-graph to accommodate
+some new challenges. We first informally describe our techniques
 for the two-arm case.
 
 % \begin{description}
@@ -144,14 +140,15 @@ some $\NG = \Theta(\log(T))$. The groups in the $l$-th level are
 labeled as $G_{l,u,v}$ for $u,v\in[\NG]$. For any $l \in \{2,\ldots,L\}$
 and $u,v,w\in [\NG]$, agents in group $G_{l,u,v}$ see the history of
 agents in group $G_{l-1,v,w}$ (and by transitivity all agents in
-levels below $l-1$). See Figure \ref{fig:llevel-connecting} for a
-visualization of simple case with $\NG = 2$). Two observations are
-in order:
+levels below $l-1$). See Figure \ref{fig:llevel-connecting} for the simple case with $\NG = 2$).
+
+Two observations are in order.
 % \OMIT{(i) The number of groups does not grow with $L$ and stays as
 %   $\NG^2 = \Theta(\log^2(T))$ in each level. Having these groups only
 %   incurs a $\Theta(\log^2(T))$ multiplicative factor to the regret.\\}
-\begin{itemize}
-\item[(i)] Consider level $(l - 1)$ and fix the last group index to be
+%\begin{itemize}
+%\item[(i)] 
+(i) Consider level $(l - 1)$ and fix the last group index to be
   $v$, and consider the set of groups
   $\cG_{l-1, v}=\{G_{l-1,i,v}\mid i \in [\NG]\}$ (e.g. $G_{l-1,1,1}$
   and $G_{l-1,2,1}$ circled in red in the Figure
@@ -160,8 +157,8 @@ in order:
   empirical mean of arm $a$ is sufficiently high in their shared
   sub-history, then all groups in $\cG_{l-1, v}$ will become ``lucky''
   for $a$.
-
-\item[(ii)] Every agent in level $l$ observes the sub-history from
+%\item[(ii)] 
+(ii) Every agent in level $l$ observes the sub-history from
   $\NG$ $(l-1)$-th level groups, each of which belonging to a
   different set $\cG_{l-1, v}$. Thus, for each arm $a$, we just need
   one set of groups $\cG_{l-1, v}$ in level $l-1$ to be ``lucky'' for
@@ -172,9 +169,9 @@ in order:
     one of these groups. Therefore, for each arm $a$, we just need one
     set of groups in level $l-1$ to get ``lucky'' and then all agents
     in level $l$ will see enough pulls of arm $a$.}
-\end{itemize}
+%\end{itemize}
 
-\begin{figure}[h]
+\begin{figure}[t]
 \centering
 \begin{tikzpicture} [scale = 0.9]
  \foreach \x in {0,3,6,9}
