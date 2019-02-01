@@ -9,7 +9,7 @@ For the sake of intuition, consider the framework of bandit algorithms with limi
 
 
 \begin{construction}
-The \emph{three-level policy} is defined as follows (see Figure~\ref{fig:3level} on page \pageref{fig:3level}). The info-graph consists of three levels: the first two correspond to \emph{exploration}, and the third implements \emph{exploitation}. Like in the two-level policy, the first level consists of multiple full-disclosure paths of length $\fdpL$ each, and each agent $t$ in the exploitation level sees full history from exploration. The middle level consists of $\NG$ disjoint subsets of $T_2$ agents each, called \emph{second-level groups}. Each second-level group $G$ has the following property:
+The \emph{three-level policy} is defined as follows (see Figure~\ref{fig:3level}). The info-graph consists of three levels: the first two correspond to \emph{exploration}, and the third implements \emph{exploitation}. Like in the two-level policy, the first level consists of multiple full-disclosure paths of length $\fdpL$ each, and each agent $t$ in the exploitation level sees full history from exploration. The middle level consists of $\NG$ disjoint subsets of $T_2$ agents each, called \emph{second-level groups}. Each second-level group $G$ has the following property:
 \begin{align}\label{eq:group-defn}
 \text{all nodes in $G$ are connected to the same nodes outside of $G$, but not to one another.}
 \end{align}
@@ -20,7 +20,7 @@ The full-disclosure paths in the first level are also split into $\NG$ disjoint 
     $\SubH{S}$,
 where $S$ is the set of all rounds in $G$.
 \end{construction}
-\iffalse
+%\iffalse
 \begin{figure}[t]
 \centering
 \begin{tikzpicture}
@@ -68,7 +68,7 @@ where $S$ is the set of all rounds in $G$.
 \caption{Info-graph for the three-level policy. Each red box in level 1 corresponds to $T_1$ full-disclosure paths of length $\GdT$ each.}
 \label{fig:3level}
 \end{figure}
-\fi
+%\fi
 The key idea is as follows. Consider the gap parameter $\Delta = |\mu_1-\mu_2|$. If it is is large, then each first-level group produces enough data to determine the best arm with high confidence, and so each agent in the upper levels chooses the best arm. If $\Delta$ is small, then due to \emph{anti-concentration} each arm gets ``lucky" within  at least once first-level group, in the sense that it appears much better than the other arm based on the data collected in this group (and therefore this arm gets explored by the corresponding second-level group). To summarize, the middle level exploits if the gap parameter is large, and provides some more exploration if it is small.
 
 \begin{theorem}

@@ -140,7 +140,7 @@ some $\NG = \Theta(\log(T))$. The groups in the $l$-th level are
 labeled as $G_{l,u,v}$ for $u,v\in[\NG]$. For any $l \in \{2,\ldots,L\}$
 and $u,v,w\in [\NG]$, agents in group $G_{l,u,v}$ see the history of
 agents in group $G_{l-1,v,w}$ (and by transitivity all agents in
-levels below $l-1$). See Figure \ref{fig:llevel-connecting} on page \pageref{fig:llevel-connecting}
+levels below $l-1$). See Figure \ref{fig:llevel-connecting}
 for the simple case with $\NG = 2$.
 
 Two observations are in order.
@@ -172,10 +172,10 @@ Two observations are in order.
     in level $l$ will see enough pulls of arm $a$.}
 %\end{itemize}
 
-\iffalse
+%\iffalse
 \begin{figure}[t]
 \centering
-\begin{tikzpicture} [scale = 0.9]
+\begin{tikzpicture} [scale = 0.75]
  \foreach \x in {0,3,6,9}
  {
  \filldraw[fill=purple!20!white]
@@ -222,9 +222,9 @@ Two observations are in order.
 }
 
 
-  \node at(-1.2,3){\textbf{Level $l-2$}};
-  \node at(-1.2,5.5){\textbf{Level $l-1$}};
-  \node at(-1.2,8){\textbf{Level $l$}};
+  \node at(-2,3){\textbf{Level $l-2$}};
+  \node at(-2,5.5){\textbf{Level $l-1$}};
+  \node at(-2,8){\textbf{Level $l$}};
   \draw[->] (13.3,2)--(13.3,8.5);
   \node at(13.7,5)[ rotate=90]{Time};
 
@@ -234,7 +234,7 @@ Two observations are in order.
 \caption{Interlacing connections between levels for the $L$-level policy.}
 \label{fig:llevel-connecting}
 \end{figure}
-\fi
+%\fi
 \paragraph{Amplifying groups for boundary cases.} Recall in the
 three-level policy, the medium gap case (Lemma \ref{3levelmedium})
 corresponds to the case where the gap $\Delta$ is between
