@@ -81,7 +81,7 @@ The special case when each message $m_t$ is an arm, and the $t$-th agent always 
     $\max_{a\in\A:\mu(a)<\mu^*} \mu(a)$,
 where $\mu^* = \max_{a\in\A} \mu(a)$.
 }
-The gap parameter is not known to the principal (in our problem), or to the algorithm (in the bandit problem). Optimal regret rates for bandits with IID rewards are as follows \cite{bandits-ucb1,bandits-exp3,Lai-Robbins-85}:
+The gap parameter is not known to the principal (in our problem), or to the algorithm (in the bandit problem). Optimal regret rates for bandits with IID rewards are as follows \citep{bandits-ucb1,bandits-exp3}:
 \begin{align}\label{eq:model-OptRegret}
 \reg(T) \leq O\left(\min\left(
     \sqrt{KT\log T},\; \tfrac{1}{\Delta} \log T
