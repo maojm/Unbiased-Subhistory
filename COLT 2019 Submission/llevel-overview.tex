@@ -14,9 +14,10 @@ $O(\log \log T)$ levels.
 % $O(\log\log(T))$ levels.
 \begin{theorem}
 \label{thm:llevel-1}
-For any $L > 3$, there exists an $L$-level disclosure policy with
-regret $$O_K\left(T^{2^{L-1}/(2^L-1)} \cdot \polylog(T) \right).$$ In
-particular, there exists a $O(\log\log(T))$-level recommendation
+For any $L > 3$, there is an $L$-level disclosure policy with
+regret 
+    $O_K\left(T^{2^{L-1}/(2^L-1)} \cdot \polylog(T) \right)$.
+ In particular, there is a $O(\log\log(T))$-level recommendation
 policy with regret $O_K(T^{1/2} \polylog(T))$.
 \end{theorem}
 
@@ -37,7 +38,8 @@ of history in previous rounds.
 \label{thm:llevel-2}
 There exists an $O(\log(T)/\log\log(T))$-level policy such that for
 every multi-armed bandit instance with gap parameter $\Delta$, the
-policy has regret $$O_K(\min(1/\Delta, T^{1/2}) \cdot \polylog(T))$$
+policy has regret 
+    $O_K(\min(1/\Delta, T^{1/2}) \cdot \polylog(T))$
 Moreover, under this policy, each agent $t$ observes a subhistory of
 size at least $\Omega( t/\polylog(T))$.
 \end{theorem}

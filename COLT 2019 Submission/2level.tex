@@ -1,7 +1,7 @@
 %!TEX root = main.tex
 \section{Warm-up: full-disclosure paths}
 \label{sec:warmup}
-We first consider a disclosure policy that reveals the full history in each round $t$, \ie $m_t=\SubH{t-1}$; we call it the \emph{full-disclosure policy}. The info-path for this policy is a simple path. We use this policy as a ``gadget" in our constructions. Hence, we formulate it slightly more generally:
+We first consider a disclosure policy that reveals the full history in each round $t$, \ie $m_t=\SubH{t-1}$; we call it the \emph{full-disclosure policy}. The info-path for this policy is a simple path. We use this policy as a ``gadget" in our constructions. Hence, we formulate it more generally:
 
 \begin{definition}
 A subset of rounds $S\subset [T]$ is called a \emph{full-disclosure path} in the  info-graph $G$ if the induced subgraph $G_S$ is a simple path, and it connects to the rest of the graph only through the terminal node $\max(S)$, if at all.
@@ -86,9 +86,10 @@ The proofs can be found in Appendix~\ref{app:warmup}. One important quantity is 
 
 \begin{lemma}\label{lem:t1runs}
 Suppose the info-graph contains $T_1$ full-disclosure paths of $\fdpL$ rounds each. Let $N_a$ be the number of samples of arm $a$ collected by all paths. Then with probability at
-  least $1-\delta$, for all $a\in \A$,
+  least $1-\delta$, 
   \[
-    \left| N_a - \fdpN T_1\right| \leq \fdpL\cdot \sqrt{T_1 \log(2K/\delta) / 2}.
+    \left| N_a - \fdpN T_1\right| \leq \fdpL\cdot \sqrt{T_1 \log(2K/\delta) / 2},\quad
+    \text{for all $a\in \A$}.
   \]
 \end{lemma}
 

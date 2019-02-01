@@ -77,7 +77,7 @@ The key idea is as follows. Consider the gap parameter $\Delta = |\mu_1-\mu_2|$.
 \label{thm:3level}
 For two arms, the three-level policy
 achieves regret
-\[ \reg(T) \leq O\left( T^{4/7}\, \log T \right).\]
+$ \reg(T) \leq O\left( T^{4/7}\, \log T \right)$.
 This is achieved with parameters
     $T_1 = T^{4/7}\log^{-1/7}(T)$,
     $\NG = 2^{10}\log(T)$, and
@@ -87,7 +87,7 @@ This is achieved with parameters
 Let us sketch the proof of this theorem; the full proof can be found in Appendix~\ref{sec:3level-pfs}.
 
 \xhdr{The ``good events".}
-We establish four ``good events" each of which occurs with high probability.
+We establish four ``good events" which occur with high probability.
 \begin{description}
 \item[(\event{1})] \emph{Exploration in Level 1:} Every first-level group collects  $\Omega(T_1)$ samples of each arm.
 \item[(\event{2})] \emph{Concentration in Level 1:} Within each first-level group, empirical mean rewards of each arm $a$ concentrate around $\mu_a$.
