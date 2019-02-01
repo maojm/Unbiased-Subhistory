@@ -23,9 +23,10 @@ There exist numbers $\fdpL>0$ and $\fdpP>0$ that depend only on $K$, the number 
 
 We provide a simple disclosure policy based on full-disclosure paths. The policy follows the ``explore-then-exploit'' paradigm. The ``exploration phase" comprises the first $N = T_1\cdot \fdpL$ rounds, and consists of $T_1$ full-disclosure paths of length $\fdpL$ each, where $T_1$ is a parameter. In the ``exploitation phase", each agent $t>N$ receives the full subhistory from exploration, \ie $m_t = \SubH{[N]}$. The info-graph for this disclosure policy is in Figure~\ref{fig:2level}.
 
+%\iffalse
 \begin{figure}[t]
 \centering
-\begin{tikzpicture}
+\begin{tikzpicture}[scale =0.8]
  \filldraw[fill=blue!20!white]
  (0,2)--(10,2)--(10,3)--(0,3)--cycle;
   \filldraw[fill=red!20!white]
@@ -68,7 +69,7 @@ We provide a simple disclosure policy based on full-disclosure paths. The policy
 %  shown to each agent in level 2.}
 \label{fig:2level}
 \end{figure}
-
+%\fi
 
 The info-graph has two ``levels", corresponding to exploration and exploitation. Accordingly, we call this policy the \emph{\2LEVEL}. We show that it incentivizes the agents to perform non-adaptive exploration, and achieves a regret rate of  $\tilde O_K(T^{2/3})$. The key idea is that since one full-disclosure path collects one sample of a given arm with constant probability, using many full-disclosure paths ``in parallel" ensures that sufficiently many samples of this arm are collected.
 

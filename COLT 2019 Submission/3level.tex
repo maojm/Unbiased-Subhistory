@@ -22,7 +22,7 @@ The full-disclosure paths in the first level are also split into $\NG$ disjoint 
     $\SubH{S}$,
 where $S$ is the set of all rounds in $G$.
 \end{construction}
-
+\iffalse
 \begin{figure}[t]
 \centering
 \begin{tikzpicture}
@@ -70,7 +70,7 @@ where $S$ is the set of all rounds in $G$.
 \caption{Info-graph for the three-level policy. Each red box in level 1 corresponds to $T_1$ full-disclosure paths of length $\GdT$ each.}
 \label{fig:3level}
 \end{figure}
-
+\fi
 The key idea is as follows. Consider the gap parameter $\Delta = |\mu_1-\mu_2|$. If it is is large, then each first-level group produces enough data to determine the best arm with high confidence, and so each agent in the upper levels chooses the best arm. If $\Delta$ is small, then due to \emph{anti-concentration} each arm gets ``lucky" within  at least once first-level group, in the sense that it appears much better than the other arm based on the data collected in this group (and therefore this arm gets explored by the corresponding second-level group). To summarize, the middle level exploits if the gap parameter is large, and provides some more exploration if it is small.
 
 \begin{theorem}
@@ -182,9 +182,6 @@ first and second levels, so
 = O(T^{4/7} \log^{6/7}(T)).
 \]
 Therefore, we obtain the stated regret bound in all cases.
-
-
-
 
 \OMIT{
 \begin{proof}
