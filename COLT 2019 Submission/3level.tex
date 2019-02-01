@@ -99,7 +99,7 @@ Empirical mean reward of each arm $a$ concentrates around $\mu_a$ in any prefix 
 The analysis of these events applies Chernoff Bounds to a suitable version of ``reward tape" (see the definition of ``reward tape" in Section~\ref{sec:model}). For example, \event{2} considers a reward tape restricted to a given first-level group.
 
 \xhdr{Case analysis.}
-We now proceed to bound the regret conditioned on the four ``good events". W.l.o.g., assume $\mu_1 \geq \mu_2$. We break down the regret analysis into four cases, based on the magnitude the gap parameter $\Delta = \mu_1-\mu_2$. As a shorthand, 
+We now proceed to bound the regret conditioned on the four ``good events". W.l.o.g., assume $\mu_1 \geq \mu_2$. We break down the regret analysis into four cases, based on the magnitude the gap parameter $\Delta = \mu_1-\mu_2$. As a shorthand,
     $\conf{n} = \sqrt{\log(T)/n}$.
 In words, this is a confidence term, up to constant factors, for $n$ independent random samples.
 The simplest case is very small gap, which trivially yields an upper bound on regret.
@@ -176,11 +176,12 @@ first level, so it is upper-bounded by the total number of agents in this level,
     $\NG\cdot \GdT \cdot T_1 = O(T^{4/7} \log T)$.
 In both intermediate cases, it suffices to bound the regret from the
 first and second levels, so
-\[ \textstyle
-\reg(T) \leq (\NG\,T_1\cdot \GdT + \NG\, T_2)
-\cdot 4\,\sum_{a\in\A}\; \conf{\fdpN[a]\cdot T_1}
-= O(T^{4/7} \log^{6/7}(T)).
-\]
+%\[ \textstyle
+$\reg(T) \leq (\NG\,T_1\cdot \GdT + \NG\, T_2)
+\cdot 4\,\sum_{a\in\A}\; \conf{\fdpN[a]\cdot T_1}$,
+which is at most 
+$O(T^{4/7} \log^{6/7}(T))$.
+%\]
 Therefore, we obtain the stated regret bound in all cases.
 
 \OMIT{

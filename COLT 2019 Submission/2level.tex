@@ -74,8 +74,12 @@ We provide a simple disclosure policy based on full-disclosure paths. The policy
 The info-graph has two ``levels", corresponding to exploration and exploitation. Accordingly, we call this policy the \emph{\2LEVEL}. We show that it incentivizes the agents to perform non-adaptive exploration, and achieves a regret rate of  $\tilde O_K(T^{2/3})$. The key idea is that since one full-disclosure path collects one sample of a given arm with constant probability, using many full-disclosure paths ``in parallel" ensures that sufficiently many samples of this arm are collected.
 
 \begin{theorem}\label{thm:2level}
-The \2LEVEL with parameter $T_1 = T^{2/3}\,\log(T)^{1/3}$ achieves regret
-\[ \reg(T) \leq O_K\left( T^{2/3}\, (\log T)^{1/3} \right).\]
+The \2LEVEL with parameter 
+    $T_1 = \tilde{O}(T^{2/3})$ 
+%    $T_1 = T^{2/3}\,\log(T)^{1/3}$ 
+achieves regret
+     $\tilde{O}_K (T^{2/3})$.
+%\[ \reg(T) \leq O_K\left( T^{2/3}\, (\log T)^{1/3} \right).\]
 \end{theorem}
 
 \begin{remark}
@@ -83,11 +87,11 @@ For a constant $K$, the number of arms, we match the optimal regret rate for non
   $\reg(T) \leq O_K(\log(T) \cdot \Delta^{-2})$.
 \end{remark}
 
-The proofs can be found in Appendix~\ref{app:warmup}. One important quantity is the expected number of samples of a given arm $a$ collected by a full-disclosure path $S$ of length $\fdpL$ (\ie present in the subhistory $\SubH{S}$. Indeed, this number, denoted $\fdpN$, is the same for all such paths. 
+The proofs can be found in Appendix~\ref{app:warmup}. One important quantity is the expected number of samples of a given arm $a$ collected by a full-disclosure path $S$ of length $\fdpL$ (\ie present in the subhistory $\SubH{S}$. Indeed, this number, denoted $\fdpN$, is the same for all such paths.
 
 \begin{lemma}\label{lem:t1runs}
 Suppose the info-graph contains $T_1$ full-disclosure paths of $\fdpL$ rounds each. Let $N_a$ be the number of samples of arm $a$ collected by all paths. Then with probability at
-  least $1-\delta$, 
+  least $1-\delta$,
   \[
     \left| N_a - \fdpN T_1\right| \leq \fdpL\cdot \sqrt{T_1 \log(2K/\delta) / 2},\quad
     \text{for all $a\in \A$}.

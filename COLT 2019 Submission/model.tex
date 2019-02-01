@@ -87,16 +87,18 @@ The gap parameter is not known to the principal (in our problem), or to the algo
     \sqrt{KT\log T},\; \tfrac{1}{\Delta} \log T
     \right)\right).
 \end{align}
-This regret bound can only be achieved using \emph{adaptive exploration}: \ie when exploration schedule is adapted to the observations. A simple example of \emph{non}-adaptive exploration is the \emph{explore-then-exploit} algorithm which samples arms uniformly at random for the first $N$ rounds, for some pre-set number $N$, then chooses one arm and sticks with it till the end. More generally,
-\emph{exploration-separating} algorithms have a property that in each round $t$, either the choice of an arm does not depend on the observations so far, or the reward collected in this round is not used in the subsequent rounds. Any such algorithm suffers from $\Omega(T^{2/3})$ regret in the worst case.%
-\footnote{The first explicit reference we know of is \cite{MechMAB-ec09,DevanurK09}, but this fact has been known in the community for much longer.}
+This regret bound can only be achieved using \emph{adaptive exploration}: \ie when exploration schedule is adapted to the observations. A simple example of \emph{non}-adaptive exploration is the \emph{explore-then-exploit} algorithm which samples arms uniformly at random for the first $N$ rounds, for some pre-set $N$, then chooses one arm and sticks with it till the end. Any such algorithm suffers from $\Omega(T^{2/3})$ regret in the worst case.%
+\footnote{More generally, this lower bound applies to \emph{exploration-separating} algorithms, where in each round $t$, either the choice of an arm does not depend on the observations so far, or the reward collected in this round is not used in the subsequent rounds. The first explicit reference we know of is \cite{MechMAB-ec09,DevanurK09}, but this fact has been known in the community for much longer.}
+
+
 
 \xhdr{Preliminaries.}
 We assume that $K$ is constant, and focus on the dependence on $T$. However, we explicitly state the dependence on $K$, \eg using the $O_K()$ notation.
 
-Throughout the paper, we use the standard concentration and anti-concentration inequalities: respectively, Chernoff Bounds and Berry-Esseen Theorem. The former states that that a sum of independent random variables converges to its expectation quickly. The latter states that the CDF of an appropriately scaled average of IID random variables converges to the CDF of the standard normal distribution pointwise. In particular, the average strays far enough from its expectation with some guaranteed probability. The theorem statements are moved to Appendix~\ref{sec:prelim}.
+Throughout the paper, we use the standard concentration and anti-concentration inequalities: resp., Chernoff Bounds and Berry-Esseen Theorem (see Appendix~\ref{sec:prelim}). The former states that that a sum of independent random variables converges to its expectation quickly. The latter states that the CDF of an appropriately scaled average of IID random variables converges to the CDF of the standard normal distribution pointwise. In particular, the average strays far enough from its expectation with some guaranteed probability.
+%The theorem statements are moved to Appendix~\ref{sec:prelim}.
 
-We use the notion of \emph{reward tape} to simplify the application of (anti-)concentration inequalities. This is a $K\times T$ random matrix with rows and columns corresponding to arms and rounds, respectively. For each arm $a$ and round $t$, the value in cell $(a,t)$ is drawn independently from Bernoulli distribution $\mD_a$. W.l.o.g., rewards in our model are defined by the rewards tape: namely, the reward for the $j$-th pull of arm $a$ is taken from the $(a,j)$-th entry of the reward matrix.
+We use the notion of \emph{reward tape} to simplify applications of (anti-)concentration inequalities. This is a $K\times T$ random matrix with rows and columns corresponding to arms and rounds. For each arm $a$ and round $t$, the value in cell $(a,t)$ is drawn independently from Bernoulli distribution $\mD_a$. W.l.o.g., rewards in our model are defined by the rewards tape: the reward for the $j$-th pull of arm $a$ is taken from cell $(a,j)$ of the reward tape.
 
 We use $O_K(\cdot)$ notation to hide the dependence on parameter $K$, and $\tilde O(\cdot)$ notation to hide polylogarithmic factors. We denote $[T]= \{1,2 \LDOTS T\}$.
 
