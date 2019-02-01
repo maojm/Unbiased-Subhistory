@@ -89,20 +89,19 @@ Let us sketch the proof of this theorem; the full proof can be found in Appendix
 \xhdr{The ``good events".}
 We establish four ``good events" each of which occurs with high probability.
 \begin{description}
-\item[(\event{1})] \emph{Exploration in Level 1:} Every first-level group collects at least $\Omega(T_1)$ samples of each arm.
+\item[(\event{1})] \emph{Exploration in Level 1:} Every first-level group collects  $\Omega(T_1)$ samples of each arm.
 \item[(\event{2})] \emph{Concentration in Level 1:} Within each first-level group, empirical mean rewards of each arm $a$ concentrate around $\mu_a$.
 \item[(\event{3})] \emph{Anti-concentration in Level 1:} For each arm, some first-level subgroup collects data which makes this arm look much better than its actual mean and other arms look worse than their actual means.
 \item[(\event{4})] \emph{Concentration in prefix:}
-The empirical mean reward of each arm $a$ concentrates around $\mu_a$ in any prefix of its pulls. (This ensures accurate reward estimates in exploitation.)
+Empirical mean reward of each arm $a$ concentrates around $\mu_a$ in any prefix of its pulls (ensuring accurate reward estimates in exploitation.)
 \end{description}
 
 The analysis of these events applies Chernoff Bounds to a suitable version of ``reward tape" (see the definition of ``reward tape" in Section~\ref{sec:model}). For example, \event{2} considers a reward tape restricted to a given first-level group.
 
 \xhdr{Case analysis.}
-We now proceed to bound the regret conditioned on the four ``good events". W.l.o.g., assume $\mu_1 \geq \mu_2$. We break down the regret analysis into four cases, based on the magnitude the gap parameter $\Delta = \mu_1-\mu_2$. As a shorthand, denote
+We now proceed to bound the regret conditioned on the four ``good events". W.l.o.g., assume $\mu_1 \geq \mu_2$. We break down the regret analysis into four cases, based on the magnitude the gap parameter $\Delta = \mu_1-\mu_2$. As a shorthand, 
     $\conf{n} = \sqrt{\log(T)/n}$.
 In words, this is a confidence term, up to constant factors, for $n$ independent random samples.
-
 The simplest case is very small gap, which trivially yields an upper bound on regret.
 
 \begin{claim}[Negligible gap]
@@ -113,7 +112,7 @@ then
   $\reg(T)\leq O(T^{4/7} \log^{6/7}(T))$.
 \end{claim}
 
-Another simple case is when $\Delta$ is sufficiently large, so that
+The second case is when $\Delta$ is sufficiently large, so that
 the data collected in any first-level group suffices to determine the best arm. The proof follows from \event{1} and \event{2}.
 
 \begin{lemma}[Large gap]\label{3levelbigcase}

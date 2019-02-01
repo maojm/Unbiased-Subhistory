@@ -2,7 +2,8 @@
 
 \section{$\tilde O(\sqrt{T})$ regret with $L$-level policy}
 \label{sec:llevel}
-In this section, we give an overview of how we extend our three-level
+
+We give an overview of how we extend our three-level
 policy to a more adaptive $L$-level policy for $L > 3$ in order to
 achieve a regret rate of $O_K(\sqrt{T} \polylog(T))$. We provide two
 such policies. The first policy achieves the root-$T$ regret rate with
@@ -62,8 +63,8 @@ some new challenges. We will first informally describe our techniques
 for the two-arm case.
 
 % \begin{description}
-% \item[Challenge 1] \emph{Exponentially growing number of groups.} 
-% \item[Challenge 2] \emph{Uncertain number of arm pulls.}  
+% \item[Challenge 1] \emph{Exponentially growing number of groups.}
+% \item[Challenge 2] \emph{Uncertain number of arm pulls.}
 % \end{description}
 
 
@@ -171,7 +172,7 @@ in order:
     in level $l$ will see enough pulls of arm $a$.}
 \end{itemize}
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \begin{tikzpicture} [scale = 0.9]
  \foreach \x in {0,3,6,9}
@@ -186,25 +187,25 @@ in order:
 \foreach \y in {2.5,5,7.5}
 {
   \node at (12.5,\y+0.5){$\cdots$};
-} 
+}
 
 
 \foreach \y in {3.5,6}
 {
   \draw (1,\y) -- (1,\y+1.5);
   \draw (1,\y) -- (7,\y+1.5);
-  
+
   \draw (4,\y) -- (1,\y+1.5);
   \draw (4,\y) -- (7,\y+1.5);
-  
-  
+
+
   \draw (7,\y) -- (4,\y+1.5);
   \draw (7,\y) -- (10,\y+1.5);
-  
-  
+
+
   \draw (10,\y) -- (4,\y+1.5);
   \draw (10,\y) -- (10,\y+1.5);
-} 
+}
 
 \foreach \u in {1,2}
 {
@@ -270,7 +271,7 @@ above does not get naturally resolved since the ratios between the
 upper and lower bounds of $\Delta$ increase from $\Theta\left(\sqrt{\log(T)}\right)$
 to $\Theta(\log(T))$, and it would require more observations from
 level $(l-2)$ to distinguish two arms at level $l$. The reason for
-this larger disparity is that, except the first level, our guarantee on 
+this larger disparity is that, except the first level, our guarantee on
 the number of pulls of each arm is no longer tight. For example,
 as shown in Figure \ref{fig:llevel-connecting}, when we talk about
 having enough arm $a$ pulls in the history observed by agents in
@@ -281,7 +282,7 @@ $a$. Therefore our estimate of the number of arm $a$ pulls can be off
 by an $\NG=\Theta(\log(T))$ multiplicative factor. This ultimately
 makes the boundary cases harder to deal with.
 
-We resolve this problem by introducing an additional type of \emph{amplifying groups}, called $\Gamma$-groups. For each $l \in [L], u,v \in [\NG]$, we create a $\Gamma$-group $\Gamma_{l,u,v}$. Agents in $\Gamma_{l,u,v}$ observe the same history as the one observed by agents in $G_{l,u,v}$ and the number of agents in $\Gamma_{l,u,v}$ is $\Theta(\log(T))$ times the number of agents in $G_{l,u,v}$. The main difference between $G$-groups and $\Gamma$-groups is that the history of $\Gamma$-groups in level $l$ is not sent to agents in level $l+1$ but agents in higher levels. When we are in the boundary case in which we don't have good guarantees about the $l+1$ level agents' pulls, the new construction makes sure that agents in levels higher than $l+1$ get to see enough pulls of each arm and all pull the best arm. 
+We resolve this problem by introducing an additional type of \emph{amplifying groups}, called $\Gamma$-groups. For each $l \in [L], u,v \in [\NG]$, we create a $\Gamma$-group $\Gamma_{l,u,v}$. Agents in $\Gamma_{l,u,v}$ observe the same history as the one observed by agents in $G_{l,u,v}$ and the number of agents in $\Gamma_{l,u,v}$ is $\Theta(\log(T))$ times the number of agents in $G_{l,u,v}$. The main difference between $G$-groups and $\Gamma$-groups is that the history of $\Gamma$-groups in level $l$ is not sent to agents in level $l+1$ but agents in higher levels. When we are in the boundary case in which we don't have good guarantees about the $l+1$ level agents' pulls, the new construction makes sure that agents in levels higher than $l+1$ get to see enough pulls of each arm and all pull the best arm.
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "main"
