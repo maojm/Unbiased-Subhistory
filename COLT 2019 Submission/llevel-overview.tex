@@ -15,7 +15,7 @@ $O(\log \log T)$ levels.
 \begin{theorem}
 \label{thm:llevel-1}
 For any $L > 3$, there is an $L$-level disclosure policy with
-regret 
+regret
     $O_K\left(T^{2^{L-1}/(2^L-1)} \cdot \polylog(T) \right)$.
  In particular, there is a $O(\log\log(T))$-level recommendation
 policy with regret $O_K(T^{1/2} \polylog(T))$.
@@ -38,7 +38,7 @@ of history in previous rounds.
 \label{thm:llevel-2}
 There exists an $O(\log(T)/\log\log(T))$-level policy such that for
 every multi-armed bandit instance with gap parameter $\Delta$, the
-policy has regret 
+policy has regret
     $O_K(\min(1/\Delta, T^{1/2}) \cdot \polylog(T))$
 Moreover, under this policy, each agent $t$ observes a subhistory of
 size at least $\Omega( t/\polylog(T))$.
@@ -140,14 +140,15 @@ some $\NG = \Theta(\log(T))$. The groups in the $l$-th level are
 labeled as $G_{l,u,v}$ for $u,v\in[\NG]$. For any $l \in \{2,\ldots,L\}$
 and $u,v,w\in [\NG]$, agents in group $G_{l,u,v}$ see the history of
 agents in group $G_{l-1,v,w}$ (and by transitivity all agents in
-levels below $l-1$). See Figure \ref{fig:llevel-connecting} for the simple case with $\NG = 2$).
+levels below $l-1$). See Figure \ref{fig:llevel-connecting} on page \pageref{fig:llevel-connecting}
+for the simple case with $\NG = 2$.
 
 Two observations are in order.
 % \OMIT{(i) The number of groups does not grow with $L$ and stays as
 %   $\NG^2 = \Theta(\log^2(T))$ in each level. Having these groups only
 %   incurs a $\Theta(\log^2(T))$ multiplicative factor to the regret.\\}
 %\begin{itemize}
-%\item[(i)] 
+%\item[(i)]
 (i) Consider level $(l - 1)$ and fix the last group index to be
   $v$, and consider the set of groups
   $\cG_{l-1, v}=\{G_{l-1,i,v}\mid i \in [\NG]\}$ (e.g. $G_{l-1,1,1}$
@@ -157,7 +158,7 @@ Two observations are in order.
   empirical mean of arm $a$ is sufficiently high in their shared
   sub-history, then all groups in $\cG_{l-1, v}$ will become ``lucky''
   for $a$.
-%\item[(ii)] 
+%\item[(ii)]
 (ii) Every agent in level $l$ observes the sub-history from
   $\NG$ $(l-1)$-th level groups, each of which belonging to a
   different set $\cG_{l-1, v}$. Thus, for each arm $a$, we just need
