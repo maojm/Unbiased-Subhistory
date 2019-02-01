@@ -3,13 +3,13 @@
 \label{sec:model}
 
 We study the multi-armed bandit problem in a social learning context, in which a principal faces a sequence of $T$ myopic agents. There is a set $\A$ of $K$ possible actions, a.k.a. \emph{arms}. At each round $t\in [T]$, a new agent $t$ arrives, receives a message $m_t$ from the principal, chooses an arm $a_t\in \A$, and collects a reward $r_t\in \{0,1\}$ that is immediately observed by the principal. The reward from pulling an arm $a\in \A$ is drawn independently from Bernoulli distribution $\cD_a$ with an unknown mean $\mu_a$. An agent does not observe anything from the previous rounds, other than the message $m_t$. The problem instance is defined by (known) parameters $K,T$ and the (unknown) tuple of mean rewards, $(\mu_a:\,a\in\A)$. We are interested in \emph{regret}, defined as
-\begin{align}\label{eq:intro-regret-defn}
-\textstyle
-  \reg(T)
+%\begin{align}\label{eq:intro-regret-defn}
+%\textstyle
+ $ \reg(T)
   %= \reg(a_1, \ldots , a_T)
   = T \max_{a\in \A} \mu_a -
-  \sum_{t\in [T]} \E[\mu_{a_t}].
-\end{align}
+  \sum_{t\in [T]} \E[\mu_{a_t}].$
+%\end{align}
 (The expectation is over the chosen arms $a_t$, which depend on randomness in rewards, and possibly in the algorithm.)
 The principal chooses messages $m_t$ according to an online algorithm called \emph{disclosure policy}, with a goal to minimize regret. We assume that mean rewards are bounded away from $0$ and $1$, to ensure sufficient entropy in rewards. For concreteness, we posit
     $\mu_a\in [\tfrac13,\tfrac23]$.
@@ -19,11 +19,11 @@ The \emph{subhistory} for a subset of rounds $S\subset [T]$ is defined as
 \begin{align} \label{eq:model-subhistory}
     \SubH{S} = \left\{\; (s,a_s,r_s):\;s\in S \;\right\}.
 \end{align}
-Accordingly, $\SubH{[t-1]}$ is called the \emph{full history} at time $t$.
+$\SubH{[t-1]}$ is called the \emph{full history} at time $t$.
 The \emph{outcome} for agent $t$ is the tuple $(t,a_t,r_t)$.
 
 
-We focus on disclosure policies of a particular form, where the message in each round $t$ is $m_t = \SubH{S_t}$ for some subset $S_t\subset [t-1]$. We assume that the subset $S_t$ is chosen ahead of time, before round $1$ (and therefore does not depend on the observations $\SubH{t-1}$). Such message is called \emph{unbiased subhistory}, and the resulting disclosure policy is called an \emph{unbiased-history policy}.
+We focus on disclosure policies of a particular form: the message in each round $t$ is $m_t = \SubH{S_t}$ for some subset $S_t\subset [t-1]$. We assume that $S_t$ is chosen ahead of time, before round $1$ (and therefore does not depend on the observations $\SubH{t-1}$). Such message is called \emph{unbiased subhistory}, and the resulting disclosure policy is called an \emph{unbiased-history policy}.
 
 Further, we focus on disclosure policies that are \emph{transitive}, in the following sense:
 \[ t\in S_{t'} \Rightarrow S_t\subset S_{t'}
@@ -36,12 +36,12 @@ This graph is henceforth called the \emph{information flow graph} of the policy,
 
 \xhdr{Agents' behavior.} Let us define agents' behavior in response to an unbiased-history policy. We posit that each agent $t$ uses its observed subhistory $m_t$ to form a reward estimate $\hat{\mu}_{t,a} \in [0,1]$ for each arm $a\in \A$, and chooses an arm with a maximal estimator. (Ties are broken according to an arbitrary rule that is the same for all agents.) The basic model is that $\hat{\mu}_{t,a}$ is the sample average for arm $a$ over the subhistory $m_t$, as long as it includes at least one sample for $a$; else, $\hat{\mu}_{t,a}\geq \tfrac13$.
 
-We allow a much more permissive model that allows agents to form arbitrary reward estimates as long as they lie within some ``confidence range" of the sample average. Formally, the model is characterized by the following assumptions (which we make without further notice).
+We allow a much more permissive model which allows agents to form arbitrary reward estimates as long as they lie within some ``confidence range" of the sample average. The model is characterized by the following assumptions (made without further notice).
 
 %If an arm is not pulled in $H_t$, we will let $\bar{\mu}_a^t = 0$.
 
 \begin{assumption}\label{ass:embehave}
-Reward estimates are close to empirical averages. Let $N_{t,a}$ and $\bar{\mu}_{t,a}$ denote the number of pulls and the empirical mean reward of arm $a$ in subhistory $m_t$. Then for some absolute constant $\estN\in \N$ and $\estC=\tfrac{1}{16}$, and for all agents $t\in [T]$ and arms $a\in\A$ it holds that
+Reward estimates are close to empirical averages. Let $N_{t,a}$ and $\bar{\mu}_{t,a}$ denote the number of pulls and the empirical mean reward of arm $a$ in subhistory $m_t$. Then for some absolute constant $\estN\in \N$ and $\estC=\tfrac{1}{16}$, and for all agents $t\in [T]$ and arms $a\in\A$ we have
 \[
 \text{if}\; N_{t,a} \geq \estN
 \quad\text{then}\quad
