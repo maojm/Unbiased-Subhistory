@@ -7,10 +7,11 @@ Several other papers study related, but technically different models: same model
 Full-disclosure policy, and closely related ``greedy" (exploitation-only) algorithm in multi-armed bandits, have been a subject of a recent line of work \citep{Sven-aistats18,kannan2018smoothed,bastani2017exploiting,externalities-colt18}.
 A common theme is that the greedy algorithm performs well in theory, under  substantial assumptions on heterogeneity of the agents. Yet, it suffers $\Omega(T)$ regret in the worst case.%
 \footnote{This is a well-known folklore result; \eg see \citep{CompetingBandits-itcs18} for a concrete example.}
-\citet{Baransi-ecml14} use the ``greedy" algorithm on randomly sub-sampled subhistories to achieve optimal regret rate for two arms. However, their result is insufficient for our motivation, as the subhistories are not \emph{unbiased} or \emph{transitive}, in the sense defined earlier. In particular, the sub-sampling scheme depends on the history, which may distort agents' incentives.
+\citet{Baransi-ecml14} use the ``greedy" algorithm on sub-sampled subhistories to achieve optimal regret rate for two arms. However, their result is insufficient for our motivation, as the subhistories are not \emph{unbiased} or \emph{transitive}, in the sense defined earlier. In particular, the sub-sampling scheme depends on the history, which may distort agents' incentives.
 
-Exploration-exploitation tradeoff received much attention over the past decades, usually under the rubric of ``multi-armed bandits"; see  \citep{Bubeck-survey12,Gittins-book11} for background.
-Exploration-exploitation problems with incentives issues arise in several other scenarios: dynamic pricing
+Exploration-exploitation tradeoff received much attention over the past decades, usually under the rubric of ``multi-armed bandits"; see  \citep{Bubeck-survey12% ,Gittins-book11
+} for background.
+Exploration-exploitation problems with incentives issues arise in other scenarios, including dynamic pricing
     \citep{KleinbergL03,BZ09,BwK-focs13},
 dynamic auctions
     \citep{AtheySegal-econometrica13,DynPivot-econometrica10,Kakade-pivot-or13},
