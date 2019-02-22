@@ -1,0 +1,36 @@
+ ======= Response to Review A ========
+
+The review points out several issues which, we believe, can be easily addressed via a more careful discussion. We will fix this in a revision.
+
+The main concern is that the agents' response model does not take into account the fact that mean rewards lie in [1/3, 2/3]. Our justification is two-fold. First, we could posit that agents operate under incomplete information: they simply do not know that mean rewards are restricted. Second, typical users of a recommendation system are unlikely to implement a fully rational model, even if they have Bayesian beliefs (which is a big "if"). Following empirical averages appears much more natural. In particular, a realistic user should not estimate mean rewards as 1/3 if it keeps getting 0 rewards. Of course, the [1/3, 2/3] restriction can be replaced with [eps,1-eps] for any given global constant eps>0 (which would then propagate into the regret bounds). 
+
+
+The primary issue re "power to commit" is whether the principal can be trusted to not deviate *intentionally* from the policy that it has declared. A secondary, but still important issue is whether the principal can be trusted to implement the intended policy without bugs. Subtle machine learning algorithms, and especially systems that implement these algorithms in scale, are notoriously difficult to debug. In comparison, with unbiased histories, a given agent only needs to trust that the subhistory that she sees is indeed "unbiased". Of course, even a code that returns such subhistory can contain bugs -- there are no absolutes here -- but it is a much weaker assumption.
+
+“Unbiased history” is desirable because otherwise the mechanism could, for example, choose only rounds that make arm 2 look good, and show them to the user. Such tweaked history is really not trustworthy. Showing it to the user is essentially no better than just issuing a recommendation without any supporting evidence. 
+
+Indeed, our regret depends exponentially on #arms. However, such dependence is state-of-art even for the "unrestricted" incentivized exploration (i.e., without the restriction to unbiased histories, see Mansour, Slivkins, Syrgkanis, Bayesian Incentive-Compatible Bandit Exploration, ACM EC'15). We conjecture that this is an inevitable "price of incentive-compatibility". However, note that this whole issue is irrelevant for the basic case of two arms. 
+
+
+======= Response to Review B ========
+
+As the reviewer points out, there is always *some* need for trust. Moreover, quantifying the amount of trust needed for a given policy is a great open question in Economics, in our opinion, to which we do not know a satisfactory answer. In this paper, we put forward some conditions that, to our intuition, make the disclosure policies substantially more trustworthy, and design policies satisfying these conditions.
+
+======= Response to Review C ========
+
+Below are some comments on this review; we will clarify these issues in a revision.
+
+"Quantifying how acceptable the disclosure policy really is" is a great open question in Economics, in our opinion. We are not aware of a satisfactory answer, neither in general nor for our specific problem. In this paper, we put forward some conditions that, to our intuition, make disclosure policies substantially more acceptable.
+
+Re whether users would be happy with viewing only a fraction of the history. First, we provide a result that the fraction is at least 1/polylog(T) (Theorem 15). Second, even a small fraction of history would realistically contain a large number of datapoints. A user usually looks at a small random sample of reviews, anyway, and in this case these reviews are just pre-selected by the algorithm. 
+
+Indeed, processing a big subhistory is tedious without automation. But as the reviewer pointed out, the system can easily provide summary statistics. (This is another trust issue, of course, but a relatively minor one; in particular, this is where "cheating" can be easily verified, in principle.)
+
+Whether we can make algorithms parameter-free is a great follow-up question! However, parameter-free algorithms are not known even for the "unrestricted" incentivized exploration (i.e., without the restriction to unbiased histories, see [Mansour, Slivkins, Syrgkanis, Bayesian Incentive-Compatible Bandit Exploration, ACM EC'15] for some partial results in this direction.)
+
+Arms with mean rewards close to 1 should [probably] make the *exploration* problem easier, because it would take less samples to estimate their mean rewards, but this intuition does not immediately carry over to *incentivized* exploration.
+
+
+
+ 
+ 
