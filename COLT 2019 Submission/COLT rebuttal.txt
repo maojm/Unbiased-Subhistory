@@ -1,0 +1,38 @@
+AnonReviewer1:
+Q: Why does it matter if agent t' knows which observations agent t got if all agent t' does is essentially compute the sample mean from its observations?
+A: First of all, they may not computing exactly sample means. Second, even if they are computing sample means, it matters to know if these are means from which sets of agents.
+
+Q: I was surprised that the proof of Lemma 7 is not included
+A: It could be proved using Chernoff bound and union bound. We will include it in the next version for completeness. 
+
+Q: Relatedly, in the proof of Lemma 18 when Lemma 7 is used to bound W^{a, s}_1, where does the middle inequality come from 
+A: Sorry for the confusion. Lemma 7 is stated after applying union bound. And in Lemma 18, we are using Lemma 7 before the union bound step. We will make it more clear in the next version.
+
+PC3: 
+Q: I found the motivation behind the “unbiased subhistories” model not convincing: I don’t see why users, who wouldn’t trust minimal disclosure policies, should trust policies based on subhistories.  Even if the subhistories revealed to the agents are “unbiased”, the principal might still behave very differently (e.g., employ exploration) on the other rounds that are never disclosed.  Further, users do NOT know in advance whether they will be part of future subhistories.  Why would they react rationally in this setting?
+A:
+
+Q: The behaviour of agents in the model is also weird: the authors assume that the true mean reward of each arm is in the interval [1/3,2/3] (which is already suspicious), but then posit that agents make decisions according to empirical averages over revealed subhistories, which might fall out of this interval (granted, this happens only with a small probability, but precisely when exploration is needed).  So, it seems that agents in this model are not behaving very rationally.
+A:
+
+Q: The regret bounds in the paper are exponential in the number of arms K and other parameters of the problem.  Furthermore, the authors never mention this caveat explicitly in the paper, and only after browsing through the appendix (proof of Thm 5, with definitions from proof of Lem 4) did I realize that. (The authors do hint that their bounds are suboptimal w.r.t. K, but that is of course unsatisfactory.)
+A:
+
+AnonReviewer2: 
+Q: In "Our scope" you assume that the info-graph is common knowledge. Do you mean that it is known by the agents? If so, where do they use it and is that reasonable to assume?
+A: 
+
+Q: The authors claim that Assumption 1 is "much more permissive" than just assuming that the agents maximize their empirical averages. It seems a bit of an overstatement. Pulling each arm at least N_est ensures that the estimate used by the agents is at most 1/256N the empirical everage, where N is the number of pulls of the chosen arm up to the current round. It does not seem to change generality. If that is the case, can the authors elaborate on exactly why? 
+A:
+
+Q:In all the policies proposed in the paper, the constant L_K^FDP, used by the algorithm, depends on N_est (see proof of Lemma 4, page 15). This would imply that the algorithm knows N_est. It should be clearly stated as an assumption for the model.
+A:
+
+Q: In section 4 the authors set the number K of actions to 2. Is this without loss of generality? How do bounds depend on K if K is arbitrary?
+A:
+
+Q: Page 5, rewards are Bernoulli. Is this necessary? Do things work for arbitrary distributions on [0,1]?
+A:
+
+Q: Page 5, means are in [1/3, 2/3]. Is this necessary? Where do things break down if means are in [0,1]?
+A: 
