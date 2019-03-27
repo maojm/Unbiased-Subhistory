@@ -4,15 +4,15 @@ Thanks for the positive comments!
 
 Q: Why does it matter if agent t' knows which observations agent t got if all agent t' does is essentially compute the sample mean from its observations?
 
-A: Indeed, it doesn't matter once the behavioral model is fixed. But it helps to justify this model. As we explain (page 3, para 1), due to this "transitivity property" agent t' does not need to worry why agent t chose a particular action. Essentially, t' can just treat the subhistory as a set of data points, and not worry where they came from. 
+A: Indeed, it doesn't matter once the behavioral model is fixed. But it helps to justify this model. As we explain (page 3, para 1), due to this "transitivity property" agent t' does not need to worry why agent t chose a particular action. Essentially, t' can just treat the subhistory as a set of data points, and not worry where they came from.
 
 Q: I was surprised that the proof of Lemma 7 is not included
 
-A: It has a fairly standard proof via Chernoff bounds. But good point, we will include it in a revision. 
+A: It has a fairly standard proof via Chernoff bounds. But good point, we will include it in a revision.
 
 Q: Relatedly, in the proof of Lemma 18 when Lemma 7 is used to bound W^{a, s}_1, where does the middle inequality come from
 
-A: Good catch, thanks! Lemma 7 is stated after applying union bound, and in Lemma 18, we are using Lemma 7 before the union bound step. We will fix this in a revision. 
+A: Good catch, thanks! Lemma 7 is stated after applying union bound, and in Lemma 18, we are using Lemma 7 before the union bound step. We will fix this in a revision.
 
 
 
@@ -25,35 +25,35 @@ Thanks for raising several important conceptual concerns. We believe these conce
 
 "why users, who wouldn’t trust minimal disclosure policies, should trust policies based on subhistories."
 
-We argue that our mechanism requires substantially weaker trust/rationality assumptions compared to the minimal-disclosure policies.  
+We argue that our mechanism requires substantially weaker trust/rationality assumptions compared to the minimal-disclosure policies.
 
-There are several distinct issues here: that the agents (i) sufficiently understanding the announced policy, (ii) trusting the principal to want to implement it, (iii) trust him to actually implement it without bugs, and (iv) react to the policy in the way that we want. 
+There are several distinct issues here: that the agents (i) sufficiently understanding the announced policy, (ii) trusting the principal to want to implement it, (iii) trust him to actually implement it without bugs, and (iv) react to the policy in the way that we want.
 
-Re (i), we only need an agent to understand that he is given an unbiased history -- doesn't matter which one  -- and it sees the entire message received by each agent in this subhistory. This is arguably pretty accessible, compared to a full-blown spec of a bandit algorithm. 
+Re (i), we only need an agent to understand that he is given an unbiased history -- doesn't matter which one -- and it sees the entire message received by each agent in this subhistory. This is arguably pretty accessible, compared to a full-blown spec of a bandit algorithm.
 
 Re (iii), faithfully revealing a subhistory is arguably easy, whereas debugging an actual bandit algorithm in a production-level system tends to be tricky.
 
 Re (ii), a third party can, at least in principle, check collect subhistories from multiple agents and check them for consistency (e.g., that arms' average rewards are within the statistical deviations). Such checks appear virtually impossible for minimal-disclosure policies.
 
-Re (iv), the agent should react to his subhistory as if it was just given a dataset, not thinking where this data came from. Whereas verifying that a minimal-disclosure policy is indeed incentive-compatible typically requires a sophisticated Bayesian reasoning. 
+Re (iv), the agent should react to his subhistory as if it was just given a dataset, not thinking where this data came from. Whereas verifying that a minimal-disclosure policy is indeed incentive-compatible typically requires a sophisticated Bayesian reasoning.
 
 "... the principal might still behave very differently ... on the other rounds that are never disclosed."
 
-What happens outside of the revealed subhistory should not matter to the agent, because it does not affect the revealed subhistory. 
+What happens outside of the revealed subhistory should not matter to the agent, because it does not affect the revealed subhistory.
 
 "users do NOT know in advance whether they will be part of future subhistories."
 
-It doesn't really matter for our model, but they do know: the info-flow graph is public. 
+It doesn't really matter for our model, but they do know: the info-flow graph is public.
 
 
 
 "... mean reward of each arm is in the interval [1/3,2/3] (which is already suspicious), but ... agents make decisions according to empirical averages"
 
-Indeed, our agents do not take into account that mean rewards lie in [1/3, 2/3]. Our justification is two-fold. First, we could posit incomplete information: agents simply do not know that mean rewards are restricted. Second, typical users are unlikely to implement a fully rational model. Following empirical averages appears much more natural. In particular, a realistic user should not estimate mean rewards as 1/3 if it keeps getting 0 rewards. 
+Indeed, our agents do not take into account that mean rewards lie in [1/3, 2/3]. Our justification is two-fold. First, we could posit incomplete information: agents simply do not know that mean rewards are restricted. Second, typical users are unlikely to implement a fully rational model. Following empirical averages appears much more natural. In particular, a realistic user should not estimate mean rewards as 1/3 if it keeps getting 0 rewards.
 
 That the mean rewards lie in [1/3, 2/3] is a fairly mild assumption -- even for a bandit problem, let alone an incentivized exploration problem where NOTHING is known (without very strong trust/rationality assumptions).
 
-Of course, [1/3, 2/3] can be replaced with [eps,1-eps] for any constant eps>0, which then propagates into the regret bounds. 
+Of course, [1/3, 2/3] can be replaced with [eps,1-eps] for any constant eps>0, which then propagates into the regret bounds.
 
 
 
@@ -70,7 +70,7 @@ Thanks for raising several important conceptual concerns. We believe these conce
 
 "Overall, assumptions seem a bit heavy compared to the results obtained. "
 
-A relevant comparison, in our opinion, is the state-of-art on incentivized exploration, where NOTHING was known without very strong trust/rationality assumptions. 
+A relevant comparison, in our opinion, is the state-of-art on incentivized exploration, where NOTHING was known without very strong trust/rationality assumptions.
 
 
 "... you assume that the info-graph is common knowledge. Do you mean that it is known by the agents?"
@@ -78,20 +78,20 @@ A relevant comparison, in our opinion, is the state-of-art on incentivized explo
 Yes. It is reasonable, in the sense that the mechanism can "publish" whatever it wants. However, we don't need this assumption, neither formally nor to justify our model. We only need "unbiased history" with "transitivity".
 
 
-"Assumption 1 is "much more permissive" than just assuming that the agents maximize their empirical averages." 
+"Assumption 1 is "much more permissive" than just assuming that the agents maximize their empirical averages."
 
 We allow reward estimates to be within constant*ConfidenceRadius from the empirical averages, and we only make this assumption if N>N_est.
 
 Put simply: rewards estimates are can differ from the empirical average, but not too much, and users reliably form such estimates only if they have sufficiently many samples.
 
 
-"the algorithm knows N_est. It should be clearly stated." 
-Agreed! 
+"the algorithm knows N_est. It should be clearly stated."
+Agreed!
 
 
 
-"In section 4 the authors set the number K of actions to 2." 
-Section 4 is a graceful intro to the general result in Section 5. So, it posits K=2 for simplicity only. 
+"In section 4 the authors set the number K of actions to 2."
+Section 4 is a graceful intro to the general result in Section 5. So, it posits K=2 for simplicity only.
 
 "How do bounds depend on K if K is arbitrary?"
 
@@ -101,12 +101,13 @@ Our regret bounds are exponential in K (which we should make clearer). However, 
 
 Q: Page 5, rewards are Bernoulli. Is this necessary? Do things work for arbitrary distributions on [0,1]?
 
-Bernoulli rewards is arguably the most important special case. However, this restriction is just for ease of exposition. Essentially, we only need {reward>3/4} and {reward<1/4} to happen with constant probability. 
+Bernoulli rewards is arguably the most important special case. However, this restriction is just for ease of exposition. Essentially, we only need {reward>3/4} and {reward<1/4} to happen with constant probability.
 
 
-"means are in [1/3, 2/3]. Is this necessary? Where do things break down  if means are in [0,1]?"
+"means are in [1/3, 2/3]. Is this necessary? Where do things break down if means are in [0,1]?"
 
-Yes, this seems essential for our analysis. Of course, [1/3, 2/3] can be replaced with [eps,1-eps] for any constant eps>0, which then propagates into the regret bounds. When arms' means can get closer to 1, for example, let's say some arm has mean 1-1/T^{0.1}. Then in our solution, this arm will with high probability stop agents from exploring other arms with small inital estimates (e.g. 0.5) and better actual means (e.g. 1).
+Yes, this seems essential for our analysis. When arms' means can get closer to 1, for example, let's say some arm has mean 1-1/T^{0.1}. Then in our solution, this arm will with high probability stop agents from exploring other arms with small initial estimates (e.g. 0.5) and better actual means (e.g. 1).
 
-Somewhat controversially, our behavioral model for agents does not take this fact into account. Our justification is two-fold. First, we could posit incomplete information: agents simply do not know that mean rewards are restricted. Second, typical users are unlikely to implement a fully rational model. Following empirical averages appears much more natural. In particular, a realistic user should not estimate mean rewards as 1/3 if it keeps getting 0 rewards. 
+Of course, [1/3, 2/3] can be replaced with [eps,1-eps] for any constant eps>0, which then propagates into the regret bounds. 
+ 
 
