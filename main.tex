@@ -2,10 +2,12 @@
 \usepackage{fullpage}
 \usepackage{mathrsfs}
 \usepackage{float}
+
 % ======    PACKAGES
 \usepackage{slivkins-setup,slivkins-theorems}
 %\usepackage{amsmath, amsfonts, amssymb, amsthm, amsbsy, amscd, bm, bbm}
 %\usepackage{amsbsy,amscd, bm, bbm}
+\usepackage{nicefrac}
 \usepackage{kpfonts}
 \usepackage{array}
 \usepackage{booktabs}
@@ -19,7 +21,8 @@
 \usepackage{xspace}
 \usepackage[noend]{algorithmic}
 \usepackage{algorithm}
-\usepackage[colorlinks,citecolor={black},urlcolor={black},linkcolor={black}]{hyperref}
+%\usepackage[colorlinks,citecolor={black},urlcolor={black},linkcolor={black}]{hyperref}
+\usepackage[breaklinks]{hyperref}
 \usepackage{url}
 \usepackage{tocbibind}
 \usepackage{enumerate}
@@ -32,12 +35,12 @@
 \DeclareMathOperator*{\argmin}{argmin}
 
 % a very useful package for edits and comments, from David Kempe (USC)
-%\usepackage{color-edits}
+\usepackage{color-edits}
 %\usepackage[suppress]{color-edits}  % use this to suppress the package
-%\addauthor{as}{red}      % as for Alex
-%\addauthor{jm}{blue}     % jm for Jieming
-%\addauthor{ni}{magenta}     % ni for Nicole
-%\addauthor{sw}{brown}     % sw for Steven
+\addauthor{as}{red}      % as for Alex
+\addauthor{jm}{blue}     % jm for Jieming
+\addauthor{ni}{magenta}     % ni for Nicole
+\addauthor{sw}{brown}     % sw for Steven
 % e.g. for Alex, provides \asedit{}, \ascomment{} and \asdelete{}.
 
 
@@ -119,6 +122,7 @@
 \def\z{\tau}
 \title{Incentivizing Exploration with Unbiased Histories}
 
+\date{First version: November 2018\\This version: April 2019}
 
 \author{
 Nicole Immorlica \thanks{Microsoft Research, Cambridge, MA. Email: nicimm@microsoft.com.}
@@ -129,17 +133,28 @@ Aleksandrs Slivkins  \thanks{Microsoft Research, New York, NY. email: slivkins@m
 \and
 Zhiwei Steven Wu  \thanks{University of Minnesota, Minneapolis, MN. Email: zsw@umn.edu. Results in this paper were obtained while Z.S. Wu was a postdoc at Microsoft Research NYC.}
 }
+
 \begin{document}
-\begin{titlepage}
+
 \maketitle
 
-\thispagestyle{empty}
 \begin{abstract}
 In a social learning setting, there is a set of actions, each of which has a payoff that depends on a hidden state of the world. A sequence of agents each chooses an action with the goal of maximizing payoff given estimates of the state of the world.  A disclosure policy tries to coordinate the choices of the agents by sending messages about the history of past actions.  The goal of the algorithm is to minimize the regret of the action sequence.
 
 In this paper, we study a particular class of disclosure policies that use messages, called {\em unbiased subhistories}, consisting of the actions and rewards from by a subsequence of past agents, where the subsequence is chosen ahead of time. One trivial message of this form contains the full history; a disclosure policy that chooses to use such messages risks inducing herding behavior among the agents and thus has regret linear in the number of rounds.  Our main result is a disclosure policy using unbiased subhistories that obtains regret $\tilde{O}(\sqrt{T})$.  We also exhibit simpler policies with higher, but still sublinear, regret.  These policies can be interpreted as dividing a sublinear number of agents into constant-sized focus groups, whose histories are then fed to future agents.
 \end{abstract}
-\end{titlepage}
+
+
+
+\thispagestyle{empty}
+\addtocontents{toc}{\setcounter{tocdepth}{0}}
+\newpage
+\thispagestyle{empty}
+\tableofcontents
+\newpage
+\addtocontents{toc}{\setcounter{tocdepth}{2}}
+
+
 
 \input{intro}
 \input{model}
