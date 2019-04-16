@@ -1,34 +1,7 @@
 %!TEX root = main.tex
-\section{Proofs from Section~\ref{sec:warmup}}
+\subsection{Proof of Theorem~\ref{thm:2level}}
 \label{app:warmup}
 
-\begin{proof}[Proof of Lemma~\ref{lem:greedy}]
-  Fix any arm $a$. Let $\GdT = (K-1) \cdot \estN + 1$ and
-  $\GdP = (1/3)^{\GdT}$. We will condition on the event that
-    all the realized rewards in $\GdT$ rounds are 0, which occurs with
-    probability at least $\GdP$ under Assumption~\ref{ass:embehave}.
-  In this case, we want to show that arm $a$ is pulled at least
-  once. We prove this by contradiction. Suppose arm $a$ is not pulled. By
-  the pigeonhole principle, we know that there is some other arm $a'$
-  that is pulled at least $\estN + 1$ rounds. Let $t$ be the round in
-  which arm $a'$ is pulled exactly $\estN + 1$ times. By Assumption
-  \ref{ass:embehave}, we know
-  \[
-    \hat{\mu}_{a'}^t \leq 0 + \estC / \sqrt{\estN}  \leq \estC < 1/3.
-  \]
-  %\nicomment{Wait, where did we set $\estN$?} 
-  On the other hand, we have
-  $\hat{\mu}_a^t \geq 1/3 > \hat{\mu}_{a'}^t$. This contradicts with
-  the fact that in round $t$, arm $a'$ is pulled, instead of arm $a$.
-  %\swdelete{ In addition, we know that this case happens with
-    %probability at least $(1/3)^{\GdT} = \GdP$ as each arm's mean is
-    %at most $2/3$. To sum up, we know that with probability at least
-    %$\GdP$, \ALGG of $\GdT$ rounds pulls arm $a$ at least once.}
-  % \jmcomment{Agree with these changes.}
-\end{proof}
-
-
-\begin{proof}[Proof of Theorem~\ref{thm:2level}]
   We will set $T_1$ later in the proof, depending on whether the gap
   parameter $\Delta$ is known. For now, we just need to know we will
   make $T_1 \geq \frac{4(\GdT)^2}{(\GdP)^2}\log(T)$. Since this policy is
@@ -107,14 +80,5 @@ So the second-level agents will pick an arm $a$ which has $\mu_a$ at most $6 \sq
 T_1 \cdot \GdT + T \cdot (1-\Pr[W_1 \cap W_2]) + T \cdot  6 \sqrt{\frac{\log(T)}{\GdP T_1 }}.
 \]
 By setting $T_1 = T^{2/3}\log(T)^{1/3}$, we get regret $O(T^{2/3}\log(T)^{1/3})$.
-\OMIT{Notice that if we know the gap parameter is known to be larger than
-$\Delta$, we can set
-\[
-T_1 = \max\left( \frac{4\GdT^2}{\GdP^2}\log(T), \frac{36 }{\Delta^2 \cdot p_G} \log(T) \right).
-\]
-In this case, since $\Delta \geq 6 \sqrt{\frac{\log(T)}{\GdP T_1 }}$, we know agents in the second level will all pull arm 1. Therefore, the total regret is at most
-\[
-T_1 \cdot \GdT + T \cdot (1- \Pr[W_1 \cap W_2]) = O(\Delta^{-2} \log(T)).
-\]
-This completes the proof.}
-\end{proof}
+
+
