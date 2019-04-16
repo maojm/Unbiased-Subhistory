@@ -94,7 +94,34 @@ This regret bound can only be achieved using \emph{adaptive exploration}: \ie wh
 \xhdr{Preliminaries.}
 We assume that $K$ is constant, and focus on the dependence on $T$. However, we explicitly state the dependence on $K$, \eg using the $O_K()$ notation.
 
-Throughout the paper, we use the standard concentration and anti-concentration inequalities: respectively, Chernoff Bounds and Berry-Esseen Theorem. The former states that that a sum of independent random variables converges to its expectation quickly. The latter states that the CDF of an appropriately scaled average of IID random variables converges to the CDF of the standard normal distribution pointwise. In particular, the average strays far enough from its expectation with some guaranteed probability. The theorem statements are moved to Appendix~\ref{sec:prelim}.
+Throughout the paper, we use the standard concentration and anti-concentration inequalities: respectively, Chernoff Bounds and Berry-Esseen Theorem. The former states that 
+    $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$, 
+the average of $n$ independent random variables $X_1 \LDOTS X_n$, converges to its expectation quickly. The latter states that the CDF of an appropriately scaled average $\bar{X}$ converges to the CDF of the standard normal distribution pointwise. In particular, the average strays far enough from its expectation with some guaranteed probability. The theorem statements are as follows:
+
+\begin{theorem}
+Fix $n$. Let $X_1,...,X_n$  be independent random variables, and let $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$. Then:
+
+\begin{itemize}
+\item[(a)] \emph{(Chernoff Bounds)} %\label{thm:prelims-chernoff}
+Assume $X_i \in [0,1]$ for all $i$. Then
+\[
+\Pr[ |\bar{X} - \E[\bar{X}]| > \varepsilon] \leq 2\exp(-2n\varepsilon^2).
+\]
+
+
+\item[(b)] \emph{(Berry-Esseen Theorem)} %\label{thm:prelims-Berry}
+Assume $X_1 \LDOTS X_n$ are identically distributed, with 
+\[ 
+    \sigma^2 := \E[ (X_1 - \E[X_1])^2] = \sigma^2
+    \quad\text{and}\quad
+    \rho := \E[ |X_1 - \E[X_1]|^3] <\infty.\]
+Let $F_n$ be the cumulative distribution function of $\frac{(\bar{X} - \E[\bar{X}]) \sqrt{n}}{\sigma}$ and $\Phi$ be the cumulative distribution function of the standard normal distribution. 
+\[
+|F_n(x) - \Phi(x) | \leq \frac{\rho}{2\sigma^3\sqrt{n}}
+\quad \forall x\in \R.
+\]
+\end{itemize}
+\end{theorem}
 
 We use the notion of \emph{reward tape} to simplify the application of (anti-)concentration inequalities. This is a $K\times T$ random matrix with rows and columns corresponding to arms and rounds, respectively. For each arm $a$ and round $t$, the value in cell $(a,t)$ is drawn independently from Bernoulli distribution $\mD_a$. W.l.o.g., rewards in our model are defined by the rewards tape: namely, the reward for the $j$-th pull of arm $a$ is taken from the $(a,j)$-th entry of the reward matrix.
 
