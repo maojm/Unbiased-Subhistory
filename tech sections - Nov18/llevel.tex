@@ -1,0 +1,397 @@
+%!TEX root = main.tex
+
+\section{Proofs from Section \ref{sec:llevel}}
+\label{sec:llevel-details}
+In this section, we design our $L$-level recommendation policy for $L > 3$. Similarly as Section \ref{sec:3level}, we first prove them in the case of 2 arms (Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel}). We then extend them to the case of constant number of arms (Theorem \ref{thm:constarm}). 
+
+Now we start with the case of 2 arms. Our recommendation policy has $L$ levels and two types of groups: $G$-groups and $\Gamma$-groups. Each level has $\NG^2$ $G$-groups for $\NG = 2^{10}\log(T)$. Label the $G$-groups in the $l$-th level as $G_{l,u,v}$ for $u,v \in [\NG]$. Level $2$ to level $L$ also have $\NG^2$ $\Gamma$-groups. Label the $\Gamma$-groups in the $l$-th level as $\Gamma_{l,u,v}$ for $u,v \in [\NG]$. Each first-level group ($G_{1,u,v}$ for $u,v\in [\NG]$) has $T_1$ \ALGG of $\GdT$ rounds in parallel. For $l \geq 2$, there are $T_l$ agents in group $G_{l,u,v}$ and there are $T_l (\NG-1)$ agents in group $\Gamma_{l,u,v}$. We will pick $T_1,...,T_L$ in the proof of Theorem \ref{thm:llevel}.
+
+Finally we define the info-graph. Agents in the first level only observe the history defined in the \ALGG run. For agents in group $G_{l,u,v}$ with $l\geq 2$, they observe all the history in the first $l-2$ levels (both $G$-groups and $\Gamma$-groups) and history in group $G_{l-1,v,w}$ for all $w \in [\NG]$. Agents in group $\Gamma_{l,u,v}$ observe the same history as agents in group $G_{l,u,v}$.
+ 
+ \begin{comment}
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}  
+ \foreach \x in {0,3,6,9}
+ {
+ \filldraw[fill=orange!20!white]
+ (\x+0,10)--(\x+0.8,10)--(\x+0.8,11)--(\x+0,11)--cycle;
+ \filldraw[fill=orange!30!white]
+ (\x+0.8,10)--(\x+2.8,10)--(\x+2.8,11)--(\x+0.8,11)--cycle;
+ \filldraw[fill=purple!20!white]
+ (\x+0,7.5)--(\x+0.8,7.5)--(\x+0.8,8.5)--(\x+0,8.5)--cycle;
+ \filldraw[fill=purple!30!white]
+ (\x+0.8,7.5)--(\x+2.8,7.5)--(\x+2.8,8.5)--(\x+0.8,8.5)--cycle;
+ \filldraw[fill=green!20!white]
+ (\x+0,5)--(\x+0.8,5)--(\x+0.8,6)--(\x+0,6)--cycle;
+ \filldraw[fill=green!30!white]
+ (\x+0.8,5)--(\x+2.8,5)--(\x+2.8,6)--(\x+0.8,6)--cycle;
+ \filldraw[fill=blue!20!white]
+ (\x+0,2.5)--(\x+0.8,2.5)--(\x+0.8,3.5)--(\x+0,3.5)--cycle;
+ \filldraw[fill=blue!30!white]
+ (\x+0.8,2.5)--(\x+2.8,2.5)--(\x+2.8,3.5)--(\x+0.8,3.5)--cycle;
+ \filldraw[fill=red!20!white]
+ (\x+0,0)--(\x+2.8,0)--(\x+2.8,1)--(\x+0,1)--cycle;
+ \draw[dashed] (\x+0.4,0)--(\x+0.4,1); 
+ \draw[dashed] (\x+0.8,0)--(\x+0.8,1); 
+ \draw[dashed] (\x+1.2,0)--(\x+1.2,1); 
+ \draw[dashed] (\x+1.6,0)--(\x+1.6,1);  
+ \draw[dashed] (\x+2,0)--(\x+2,1);  
+ \draw[dashed] (\x+2.4,0)--(\x+2.4,1);  
+ \node at(\x+0.4,3){$T_{l-2}$};
+ \node at(\x+1.8,3){$T_{l-2} (\NG-1)$};
+ \node at(\x+0.4,5.5){$T_{l-1}$};
+ \node at(\x+1.8,5.5){$T_{l-1} (\NG-1)$};
+ \node at(\x+0.4,8){$T_l$};
+ \node at(\x+1.8,8){$T_l (\NG-1)$};
+ \node at(\x+0.4,10.5){$T_L$};
+ \node at(\x+1.8,10.5){$T_L (\NG-1)$};
+ \node at(\x+1.4,0.5){$T_1 \cdot \GdT$};
+ }
+\foreach \y in {0,2.5,5,7.5,10}
+{
+  \node at (12.5,\y+0.5){$\cdots$};
+} 
+\foreach \u in {1,2}
+{
+	\foreach \v in {1,2}
+	{
+	\pgfmathsetmacro{\x}{((\u-1)*2+(\v-1))*3};
+	\pgfmathsetmacro{\xa}{((\u-1))*3};
+	\pgfmathsetmacro{\xb}{(2+(\u-1))*3};
+   \node at(\x+0.6,7){$G_{l,\u,\v}$};
+   \node at(\x+0.6,4.5){$G_{l-1,\u,\v}$};
+   \node at(\x+0.6,2){$G_{l-2,\u,\v}$};
+   \node at(\x+2,7){$\Gamma_{l,\u,\v}$};
+   \node at(\x+2,4.5){$\Gamma_{l-1,\u,\v}$};
+   \node at(\x+2,2){$\Gamma_{l-2,\u,\v}$};
+   %\draw[dashed] (\x+0.4,3.5)--(\xa+0.4,5);  
+   %\draw[dashed] (\x+0.4,3.5)--(\xb+0.4,5);  
+   %\draw[dashed] (\x+0.4,3.5)--(\xa+1.8,5);  
+   %\draw[dashed] (\x+0.4,3.5)--(\xb+1.8,5);  
+   
+   
+   %\draw[dashed] (\x+0.4,6)--(\xa+0.4,7.5);  
+   %\draw[dashed] (\x+0.4,6)--(\xb+0.4,7.5);  
+   %\draw[dashed] (\x+0.4,6)--(\xa+1.8,7.5);  
+   %\draw[dashed] (\x+0.4,6)--(\xb+1.8,7.5);  
+	}
+}
+
+   \draw[dashed] (0+1.8,3.5)--(6.4,7.5);  	
+   \draw[dashed] (3+1.8,3.5)--(6.4,7.5);  	
+   \draw[dashed] (6+1.8,3.5)--(6.4,7.5);  	
+   \draw[dashed] (9+1.8,3.5)--(6.4,7.5);  	
+   
+   %\draw[dashed] (0+0.4,3.5)--(6.4,7.5);  	
+   %\draw[dashed] (3+0.4,3.5)--(6.4,7.5);  	
+   %\draw[dashed] (6+0.4,3.5)--(6.4,7.5);  	
+   %\draw[dashed] (9+0.4,3.5)--(6.4,7.5);  	
+   
+   \draw[dashed] (0+0.4,6)--(6.4,7.5);  	
+   \draw[dashed] (3+0.4,6)--(6.4,7.5);  	
+  \node at (6,1.5)[rotate = 90]{$\cdots$};
+  \node at (-1,1.5)[rotate = 90]{$\cdots$};
+  \node at (6,9.5)[rotate = 90]{$\cdots$};
+  \node at (-1,9.5)[rotate = 90]{$\cdots$};
+  \node at(-1.2,0.5){\textbf{Level 1}};
+  \node at(-1.2,3){\textbf{Level $l-2$}};
+  \node at(-1.2,5.5){\textbf{Level $l-1$}};
+  \node at(-1.2,8){\textbf{Level $l$}};
+  \node at(-1.2,10.5){\textbf{Level $L$}};
+  \draw[->] (13.3,0)--(13.3,12);
+  \node at(13.7,6)[ rotate=90]{Time};
+  \draw [rounded corners=5mm, line width=1mm, red](-0.2,1.75)--(12,1.75)--(12,9)--(-0.2,9)--cycle;\draw [rounded corners=2.5mm, line width=0.5mm, brown](5.9,6.5)--(8.9,6.5)--(8.9,8.8)--(5.9,8.8)--cycle;
+\end{tikzpicture}
+\caption{$l$-level Recommendation Policy.}
+\label{fig:llevel}
+\end{figure}
+\end{comment}
+
+\begin{theorem}
+\label{thm:llevel}
+The $L$-level recommendation policy gets regret $O\left(T^{2^{L-1}/(2^L-1)} \log^2(T) \right)$ for $L \leq \log(\ln(T)/\log(\NG^4))$. In particular, if we pick $L = \log(\ln(T)/\log(\NG^4))$, the regret is $O(T^{1/2} polylog(T))$. 
+\end{theorem}
+
+\begin{proof}
+Wlog we assume $\mu_1 \geq \mu_2$ as the recommendation policy is symmetric to both arms. We will set $T_l$'s later in the proof. Before that, we are only going to assume $T_l / T_{l-1} \geq \NG^4$ for $l=2,...,L-1$ and $T_1 \geq \NG^4$. 
+
+Similarly as the proof of Theorem \ref{thm:3level}, we start with some clean events.
+
+\begin{itemize}
+\item  \textbf{Concentration of the number of arm $a$ pulls in the first level:} 
+
+For $a \in \{1,2\}$, define $\fdpN$ to be the expected number of arm $a$ pulls in one run of \ALGG used in the first level. By Lemma \ref{lem:greedy}, we know $\GdP \leq \fdpN \leq \GdT$ For group $G_{1,u,v}$, define $W_1^{a,u,v}$ to be the event that the number of arm $a$ pulls in this group is between $\fdpN T_1- \GdT \sqrt{T_1\log(T)}$ and $\fdpN T_1 + \GdT \sqrt{T_1\log(T)}$. By Chernoff bound,
+\[
+\Pr[W_1^{a,u,v}] \geq 1-2\exp(-2\log(T)) \geq 1-2/T^2.
+\]
+Define $W_1$ to be the intersection of all these events (i.e. $W_1 = \bigcap_{a,u,v}W_1^{a,u,v}$). By union bound, we have
+\[
+\Pr[W_1] \geq 1- \frac{4\NG^2}{T^2}.
+\]
+
+
+\item \textbf{Concentration of the empirical mean of arm $a$ pulls in the history observed by agent $t$:}
+
+ For each agent $t$ and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in agent $t$'s observed history pull arm $a$.  Define $W_2^{t,a,\z_1,\z_2}$ to be the event that the mean of $\z_1$-th to $\z_2$-th pulls in the tape is at most $\sqrt{\frac{3\log(T)}{\z_2-\z_1+1}}$ away from $\mu_a$. By Chernoff bound, 
+\[
+\Pr[W_2^{t,a,\z_1,\z_2}] \geq 1 - 2\exp(-6\log(T)) \geq 1- 2/T^6.
+\]
+
+Define $W_2$ to be the intersection of all these events (i.e. $W_2 = \bigcap_{t,a,\z_1,\z_2} W_2^{t,a,\z_1,\z_2}$). By union bound, we have
+\[
+\Pr[W_2] \geq 1- \frac{4}{T^3}.
+\]
+
+
+\item \textbf{Anti-concentration of the empirical mean of arm $a$ pulls in the $l$-th level  for $l \geq 2$:}
+
+For $2\leq l \leq L-1$, $u\in [\NG]$ and each arm $a$, define $n^{l,u,a}$ to be the number of arm $a$ pulls in groups $G_{l,u,1},...,G_{l,u,\NG}$. Define $W_3^{l,u,a,high}$ as the event that $n^{l,u,a} \geq T_l$ implies the empirical mean of arm $a$ pulls in group $G_{l,u,1},...,G_{l,u,\NG}$ is at least $\mu_a + 1/\sqrt{n^{l,u,a}}$. Define $W_3^{l,u,a,low}$ as the event that $n^{l,u,a} \geq T_l$ implies the empirical mean of arm $a$ pulls in group $G_{l,u,1},...,G_{l,u,\NG}$ is at most $\mu_a - 1/\sqrt{n^{l,u,a}}$.
+
+Define $H_l$ to be random variable the history of all agents in the first $l-1$ levels and which agents are chosen in the $l$-th level. Let $h_l$ be some realization of $H_l$. Notice that once we fix $H_l$, $n^{l,u,a}$ is also fixed. 
+
+Now consider $h_l$ to be any possible realized value of $H_l$. If fixing $H_l= h_l$ makes $n^{l,u,a}<T_l$, then $\Pr[W_3^{l,u,a,high} |H_l = h_l]=1$  If fixing $H_l = h_l$ makes $n^{l,u,a} \geq T_l$, by Berry-Esseen Theorem and $\mu_a \in [1/3,2/3]$, we have
+\[
+\Pr[W_3^{l,u,a,high}|H_l = h_l] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{T_l}} > 1/4.
+\]
+Similarly we also have
+\[
+\Pr[W_3^{l,u,a,low}|H_l = h_l]  > 1/4
+\]
+Since $W_3^{l,u,a,high}$ is independent with $W_3^{l,u,3-a,low}$ when fixing $H_l$, we have
+\[
+\Pr[ W_3^{l,u,a,high} \cap W_3^{l,u,3-a,low}|H_l = h_l]  > (1/4)^2 = 1/16.
+\]
+Now define $W_3^{l,a} = \bigcup_u (W_3^{l,u,a,high} \cap W_3^{l,u,3-a,low})$. Since  $(W_3^{l,u,a,high} \cap W_3^{l,u,3-a,low})$ are independent across different $u$'s when fixing $H_l=h_l$, we have
+\[
+\Pr[W_3^{l,a}|H_l= h_l] \geq 1- (1-1/16)^\NG \geq 1 - 1/T^2.
+\]
+Since this holds for all $h_l$'s, we have $\Pr[W_3^{l,a}] \geq 1-1/T^2$. Finally define $W_3 = \bigcap_{l,a} W_3^{l,a}$. By union bound, we have
+\[
+W_3 \geq 1 - 2L/T^2.
+\]
+
+\item \textbf{Anti-concentration of the empirical mean of arm $a$ pulls in the first level:}
+
+For first-level groups $G_{1,u,1},...,G_{1,u,\NG}$ and arm $a$, imagine there is a tape of enough arm $a$ pulls sampled before the recommendation policy starts and these samples are revealed one by one whenever agents in these groups pull arm $a$. Define $W_4^{u,a,high}$  to be the event that first $\fdpN T_1 \NG$ pulls of arm $a$ in the tape has empirical mean at least $\mu_a + 1/\sqrt{\fdpN T_1 \NG}$ and define $W_4^{u,a,low}$  to be the event that first $\fdpN T_1\NG$ pulls of arm $a$ in the tape has empirical mean at most $\mu_a - 1/\sqrt{\fdpN T_1\NG }$. By Berry-Esseen Theorem and $\mu_a \in [1/3,2/3]$, we have
+\[
+\Pr[W_4^{u,a,high}] \geq (1-\Phi(1/2)) - \frac{5}{\sqrt{\fdpN T_1\NG}} > 1/4.
+\]
+The last inequality follows when $T$ is larger than some constant.
+Similarly we also have 
+\[
+\Pr[W_4^{u,a,low}] > 1/4.
+\]
+Since $W_4^{u,a,high}$ is independent with $W_4^{u,3-a,low}$, we have
+\[
+\Pr[W_4^{u,a,high} \cap W_4^{u,3-a,low}] =\Pr[W_4^{u,a,high}] \cdot  \Pr[W_4^{u,3-a,low}]>(1/4)^2 = 1/16.
+\]
+Now define $W^{a}_4$ as $\bigcup_u (W_4^{u,a,high} \cap W_4^{u,3-a,low})$. Notice that $(W_4^{u,a,high} \cap W_4^{u,3-a,low})$ are independent across different $u$'s. So we have
+\[
+\Pr[W^{a}_4] \geq 1- (1-1/16)^\NG \geq 1 -1/T^2.
+\]
+Finally we define $W_4$ as $\bigcap_{a} W^{a}_4$. By union bound,
+\[
+\Pr[W_4] \geq 1- 2/T^2.
+\]
+\end{itemize}
+
+By union bound, the intersection of these clean events (i.e. $\bigcap_{i=1}^4 W_i$) happens with probability $1-O(1/T)$. When this intersection does not happen, since the probability is $O(1/T)$, it contributes $O(1/T) \cdot T = O(1)$ to the regret. 
+
+Now we assume the intersection of clean events happens and prove upper bound on the regret.
+
+By event $W_1$, we know that in each first-level group, there are at least $\fdpN T_1- \GdT \sqrt{T_1\log(T)}$ pulls of arm $a$. We prove in the next claim that there are enough pulls of both arms in higher levels if $\mu_1-\mu_2$ is small enough. For notation convenience, we set $\varepsilon_0 = 1$, $\varepsilon_1 = \frac{1}{4\sqrt{\fdpN T_1\NG}} + \frac{1}{4\sqrt{\fdpN[3-a] T_1\NG}}$ and $\varepsilon_l = 1/(4\sqrt{T_l\NG})$ for $l \geq 2$. 
+
+\begin{claim}
+\label{clm:l2_explore}
+For any arm $a$ and $2\leq l \leq L$, if $\mu_1 - \mu_2 \leq \varepsilon_{l-1}$, then for any $u \in [\NG]$, there are at least $T_l$ pulls of arm $a$ in groups $G_{l,u,1},G_{l,u,2}, ... ,G_{l,u,\NG}$ and there are at least $T_l\NG(\NG-1)$ pulls of arm $a$ in the $l$-th level $\Gamma$-groups.
+\end{claim}
+
+\begin{proof}
+We are going to show that for each $l$ and arm $a$ there exists $u_a$ such that agents in groups $G_{l,1,u_a},...,G_{l,\NG,u_a}$ and $\Gamma_{l,1,u_a},...,\Gamma_{l,\NG,u_a}$ all pull arm $a$. This suffices to prove the claim.
+
+We prove the above via induction on $l$. %For notation convenience, define $\bar{\mu}^{l,u}_a$  to be the empirical mean of arm $a$ pulls in the history observed by agents in groups $G_{l,1,u},...,G_{l,\NG,u}$ and $\Gamma_{l,1,u},...,\Gamma_{l,\NG,u}$ (they observe the same history).
+We start by the base case when $l=2$. For each arm $a$, $W_4$ implies there exists $u_a$ such that $W^{u_a,a,high}_4$ and $W^{u_a,3-a,low}_4$ happen. For an agent $t$  in groups $G_{2,1,u_a},...,G_{2,\NG,u_a}$ and $\Gamma_{2,1,u_a},...,\Gamma_{2,\NG,u_a}$.
+$W_4^{u_a,a,high}$,  $W_1^{a,u_a,v}$ and $W_2$ together imply that 
+\begin{align*}
+\bar{\mu}_a ^t &\geq \mu_a + \left(\fdpN T_1\NG \cdot \frac{1}{\sqrt{\fdpN T_1\NG}} - \GdT \sqrt{T_1\log(T)} \NG\cdot \sqrt{\frac{3\log(T)}{ \GdT \sqrt{T_1\log(T)}\NG}} \right) \cdot \frac{1}{(\fdpN T_1+ \GdT \sqrt{T_1\log(T)})\NG} \\
+&> \mu_a + \frac{1}{4\sqrt{\fdpN T_1\NG}}.
+\end{align*}
+The second last inequality holds when $T$ is larger than some constant.
+Similarly, we also have
+\[
+\bar{\mu}_{3-a}^t< \mu_{3-a}   - \frac{1}{4\sqrt{\fdpN[3-a] T_1\NG}}.
+\]
+Then we have
+\begin{align*}
+\bar{\mu}^t_a - \bar{\mu}^t_{3-a} &> \mu_a - \mu_{3-a} + \frac{1}{4\sqrt{\fdpN T_1\NG}} + \frac{1}{4\sqrt{\fdpN[3-a] T_1\NG}}\\
+&\geq -\varepsilon_1+ \frac{1}{4\sqrt{\fdpN T_1\NG}} + \frac{1}{4\sqrt{\fdpN[3-a] T_1\NG}}\\
+&\geq \frac{1}{8\sqrt{\fdpN T_1\NG}} + \frac{1}{8\sqrt{\fdpN[3-a] T_1\NG}}.
+\end{align*}
+By Assumption \ref{ass:embehave}, we have
+\begin{align*}
+\hat{\mu}_a^t - \hat{\mu}_{3-a}^t &> \bar{\mu}^t_a - \bar{\mu}^t_{3-a} -  \frac{\estC}{\sqrt{\fdpN T_1\NG/2}} - \frac{\estC}{\sqrt{\fdpN[3-a] T_1\NG/2}}\\
+&> \frac{1}{8\sqrt{\fdpN T_1\NG}} + \frac{1}{8\sqrt{\fdpN[3-a] T_1\NG}} -   \frac{\estC}{\sqrt{\fdpN T_1\NG/2}} - \frac{\estC}{\sqrt{\fdpN[3-a] T_1\NG/2}}\\
+&>0.
+\end{align*}
+The last inequality holds since $\estC$ is a small enough constant defined in Assumption \ref{ass:embehave}. Therefore we know agents in groups $G_{2,1,u_a},...,G_{2,\NG,u_a}$ and $\Gamma_{2,1,u_a},...,\Gamma_{2,\NG,u_a}$ all pull arm $a$.
+
+Now we consider the case when $l > 2$ and assume the claim is true for smaller $l$'s. For each arm $a$, $W_3$ implies that there exists $u_a$ such that $W^{l-1,u_a,a,high}_3$ and $W^{l-1,u_a,3-a,low}_3$ happen. Recall $n^{l-1,u_a,a}$ is the number of arm $a$ pulls in groups $G_{l-1,u_a,1},...,G_{l-1,u_a,\NG}$. The induction hypothesis implies that $n^{l-1,u_a,a} \geq T_{l-1}$. $W^{l-1,u_a,a,high}_3$ together with $n^{l-1,u_a,a} \geq T_{l-1}$ implies that the empirical mean of arm $a$ pulls in group $G_{l-1,u_a,1},...,G_{l-1,u_a,\NG}$ is at least $\mu_a + 1/\sqrt{n^{l-1,u_a,a}}$. For any agent $t$ in groups $G_{l,1,u_a},...,G_{l,\NG,u_a}$ and $\Gamma_{l,1,u_a},...,\Gamma_{l,\NG,u_a}$, it observes history of groups $G_{l-1,u_a,1},...,G_{l-1,u_a,\NG}$ and all groups in levels below level $l-1$. Notice that the groups in the first $l-2$ levels have at most $(T_1 \GdT + T_2 + \cdots +T_{l-2})\NG^3 \leq T_{l-1}/(12\log(T)) \leq n^{l-1,u_a,a}/(12\log(T))$ agents. By $W_2$, we have
+\begin{align*}
+\bar{\mu}_a ^t &\geq \mu_a + \left(n^{l-1,u_a,a}  \cdot \frac{1}{\sqrt{n^{l-1,u_a,a} }}- (T_1 \GdT + T_2 + \cdots +T_{l-2})\NG^3\cdot \sqrt{\frac{3\log(T)}{ (T_1 \GdT + T_2 + \cdots +T_{l-2})\NG^3}} \right) \\
+&~~~\cdot \frac{1}{n^{l-1,u_a,a}+ (T_1 \GdT + T_2 + \cdots +T_{l-2})\NG^3} \\
+&> \mu_a + \frac{1}{4\sqrt{n^{l-1,u_a,a}  }}.
+\end{align*}
+The third last inequality holds when $T$ larger than some constant.
+Similarly, we also have
+\[
+\bar{\mu}_{3-a}^t < \mu_{3-a}   -\frac{1}{4\sqrt{n^{l-1,u_a,3-a}  }}.
+\]
+Then we have
+\begin{align*}
+\bar{\mu}^t_a - \bar{\mu}^t_{3-a} &> \mu_a - \mu_{3-a}+ \frac{1}{4\sqrt{n^{l-1,u_a,a}  }} +\frac{1}{4\sqrt{n^{l-1,u_a,3-a}  }}\\
+&\geq -\varepsilon_{l-1}+ \frac{1}{4\sqrt{n^{l-1,u_a,a}  }} +\frac{1}{4\sqrt{n^{l-1,u_a,3-a}  }}\\
+&\geq \frac{1}{8\sqrt{n^{l-1,u_a,a}  }} +\frac{1}{8\sqrt{n^{l-1,u_a,3-a}  }}.
+\end{align*}
+The last inequality holds because $n^{l-1,u_a,a}$ and $n^{l-1,u_a,3-a}$ are at most $T_{l-1} \NG$. By Assumption \ref{ass:embehave}, we have
+\begin{align*}
+\hat{\mu}_a^t - \hat{\mu}_{3-a}^t &> \bar{\mu}^t_a - \bar{\mu}^t_{3-a} -  \frac{\estC}{\sqrt{n^{l-1,u_a,a} }} - \frac{\estC}{\sqrt{n^{l-1,u_a,3-a}}}\\
+&> \frac{1}{8\sqrt{n^{l-1,u_a,a}  }} +\frac{1}{8\sqrt{n^{l-1,u_a,3-a}  }} -  \frac{\estC}{\sqrt{n^{l-1,u_a,a} }} - \frac{\estC}{\sqrt{n^{l-1,u_a,3-a}}}\\
+&>0.
+\end{align*}
+The last inequality holds since $\estC$ is a small enough constant defined in Assumption \ref{ass:embehave}.
+Therefore agents in groups $G_{l,1,u_a},...,G_{l,\NG,u_a}$ and $\Gamma_{l,1,u_a},...,\Gamma_{l,\NG,u_a}$ all pull arm $a$.
+\end{proof}
+
+\begin{claim}
+\label{clm:l2_exploit}
+For any $2 \leq l \leq L$, if $\varepsilon_{l-1} \NG\leq \mu_1 - \mu_2 < \varepsilon_{l-2} \NG$, there are no pulls of arm 2 in groups with level $l,...,L$. 
+\end{claim}
+
+\begin{proof}
+We argue in 2 cases $\varepsilon_{l-1} \sqrt{\NG} \leq \mu_1 - \mu_2 \leq \varepsilon_{l-2}$ for $l \geq 2$ and $\varepsilon_{l-2}  \leq \mu_1 - \mu_2 \leq \varepsilon_{l-2} \sqrt{\NG}$ for $l > 2$. Since our recommendation policy's first level is slightly different from other levels, we need to argue case $\varepsilon_{l-1} \sqrt{\NG} \leq \mu_1 - \mu_2 \leq \varepsilon_{l-2}$ for $l=2$ and case $\varepsilon_{l-2}  \leq \mu_1 - \mu_2 \leq \varepsilon_{l-2} \sqrt{\NG}$ for $l =3$ separately.
+
+\begin{itemize}
+\item $\varepsilon_{l-1} \NG \leq \mu_1 - \mu_2 \leq \varepsilon_{l-2}$ for $l = 2$(i.e. $\varepsilon_1\NG\leq \mu_1 - \mu_2 \leq \varepsilon_0$): We know agents in level at least 2 will observe at least $\fdpN T_1/2$ pulls of arm $a$ for $a \in \{1,2\}$. By $W_2$, for any agent in level at least 2, we have
+\[
+|\bar{\mu}_a^t - \mu_a| \leq \sqrt{\frac{3\log(T)}{\NG\fdpN T_1/2}}.
+\]
+By Assumption \ref{ass:embehave}, we have
+\begin{align*}
+\hat{\mu}_1^t - \hat{\mu}_2^t &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{\estC}{\sqrt{\NG\fdpN[1]T_1/2}} -  \frac{\estC}{\sqrt{\NG\fdpN[2]T_1/2}}\\
+&\geq \mu_1 -\mu_2-\sqrt{\frac{3\log(T)}{\NG\fdpN[1]T_1/2}} - \sqrt{\frac{3\log(T)}{\NG\fdpN[2]T_1/2}}- \frac{\estC}{\sqrt{\NG\fdpN[1]T_1/2}} -  \frac{\estC}{\sqrt{\NG\fdpN[2]T_1/2}}\\
+&\geq\frac{\sqrt{\NG}}{4\sqrt{\fdpN[1]T_1}} +  \frac{\sqrt{\NG}}{4\sqrt{\fdpN[2]T_1}}-\sqrt{\frac{3\log(T)}{\NG\fdpN[1]T_1/2}} - \sqrt{\frac{3\log(T)}{\NG\fdpN[2]T_1/2}}- \frac{\estC}{\sqrt{\NG\fdpN[1]T_1/2}} -  \frac{\estC}{\sqrt{\NG\fdpN[2]T_1/2}}\\
+&>0.
+\end{align*}
+Therefore agents in level at least 2 will all pull arm 1. 
+
+\item $\varepsilon_{l-1} \NG \leq \mu_1 - \mu_2 \leq \varepsilon_{l-2}$ for $l > 2$: By claim \ref{clm:l2_explore}, for any agent $t$ in level at least $l$, that agent will observe at least $T_{l-1}$ arm $a$ pulls. By $W_2$, we have
+\[
+|\bar{\mu}_a^t - \mu_a| \leq \sqrt{\frac{3\log(T)}{T_{l-1}}}.
+\]
+By Assumption \ref{ass:embehave}, we have
+\begin{align*}
+\hat{\mu}_1^t - \hat{\mu}_2^t &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{2\estC}{\sqrt{T_{l-1}}} \\
+&\geq \mu_1 -\mu_2 - 2 \sqrt{\frac{3\log(T)}{T_{l-1}}}- \frac{2\estC}{\sqrt{T_{l-1}}} \\
+&\geq\sqrt{\frac{\NG}{16T_{l-1}}} -  2 \sqrt{\frac{3\log(T)}{T_{l-1}}}- \frac{2\estC}{\sqrt{T_{l-1}}} \\
+&>0.
+\end{align*}
+Therefore agents in level at least $l$ will all pull arm 1. 
+
+\item $\varepsilon_{l-2} < \mu_1 - \mu_2 < \varepsilon_{l-2}\NG$ for $l =3$ (i.e. $\varepsilon_1 < \mu_1 - \mu_2 < \varepsilon_1\NG$): By Claim \ref{clm:l2_explore}, for any agent $t$ in level at least $3$, that agent will observe at least $T_1\fdpN \NG^2/2$ arm $a$ pulls (just from the first level). By $W_2$, we have
+\[
+|\bar{\mu}_a^t - \mu_a| \leq \sqrt{\frac{3\log(T)}{\NG^2\fdpN T_1/2}}.
+\]
+By Assumption \ref{ass:embehave}, we have
+\begin{align*}
+\hat{\mu}_1^t - \hat{\mu}_2^t &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{\estC}{\sqrt{\NG^2\fdpN[1]T_1/2}}-\frac{\estC}{\sqrt{\NG^2\fdpN[2]T_1/2}}  \\
+&\geq \mu_1 -\mu_2 -  \sqrt{\frac{3\log(T)}{\NG^2\fdpN[1]T_1/2}}- \sqrt{\frac{3\log(T)}{\NG^2\fdpN[2]T_1/2}}- \frac{\estC}{\sqrt{\NG^2\fdpN[1]T_1/2}}-\frac{\estC}{\sqrt{\NG^2\fdpN[2]T_1/2}}  \\
+&\geq\frac{1}{4\sqrt{\NG\fdpN[1]T_1}} + \frac{1}{4\sqrt{\NG\fdpN[2]T_1}}  -  \sqrt{\frac{3\log(T)}{\NG^2\fdpN[1]T_1/2}}- \sqrt{\frac{3\log(T)}{\NG^2\fdpN[2]T_1/2}}- \frac{\estC}{\sqrt{\NG^2\fdpN[1]T_1/2}}-\frac{\estC}{\sqrt{\NG^2\fdpN[2]T_1/2}}  \\
+&>0.
+\end{align*}
+Therefore agents in level at least 3 will all pull arm 1. 
+
+\item $\varepsilon_{l-2} < \mu_1 - \mu_2 < \varepsilon_{l-2}\NG$ for $l >3$: Since $\mu_1-\mu_2 < \varepsilon_{l-2}\NG < \varepsilon_{l-3}$, by Claim \ref{clm:l2_explore}, for any agent $t$ in level at least $l$, that agent will observe at least $T_{l-2}\NG^2$ arm $a$ pulls (just from level $l-2$). By $W_2$, we have
+\[
+|\bar{\mu}_a^t - \mu_a| \leq \sqrt{\frac{3\log(T)}{\NG^2T_{l-2}}}.
+\]
+By Assumption \ref{ass:embehave}, we have
+\begin{align*}
+\hat{\mu}_1^t - \hat{\mu}_2^t &\geq \bar{\mu}_1^t - \bar{\mu}_2^t - \frac{2\estC}{\sqrt{\NG^2T_{l-2}}} \\
+&\geq \mu_1 -\mu_2 - 2 \sqrt{\frac{3\log(T)}{\NG^2T_{l-2}}}- \frac{2\estC}{\sqrt{\NG^2T_{l-2}}} \\
+&\geq\frac{1}{4\sqrt{\NG T_{l-2}}} -  2 \sqrt{\frac{3\log(T)}{T_{l-1}}}- \frac{2\estC}{\sqrt{T_{l-1}}} \\
+&>0.
+\end{align*}
+Therefore agents in level at least $l$ will all pull arm 1. 
+\end{itemize}
+\end{proof}
+
+Now we set the group sizes $T_l$'s as following. For $l < L$,
+\[
+T_l = T^{\frac{2^{L-1} + 2^{L-2} + \cdots + 2^{L-l}}{2^{L-1}+ 2^{L-2} + \cdots + 1}}/\NG^3.
+\]
+and 
+\[
+T_L = (T - T_1 \cdot \GdT\cdot \NG^2 - (T_2 + \cdots + T_{l-1}) \NG^3) /\NG^3
+\]
+We restrict $L$ to be at most $\log(\ln(T)/\log(\NG^4))$ so that $T_l / T_{l-1} \geq T^{1/2^L} \geq \NG^4$ for $l = 2,...,L-1$. $T_L$ is a little bit different because we want total number of agents to be $T$. 
+
+By Claim \ref{clm:l2_exploit}, we know that the regret conditioned the intersection of clean events is at most 
+\begin{align*}
+&\max\left( T_1\GdT \NG^2 , \max_{l \geq 2} \varepsilon_{l-1}\NG(T_1\GdT \NG^2 + T_2 \NG^3 + \cdots + T_l\NG^3)\right) \\
+\leq & \max\left( T_1\GdT \NG^2 , \max_{l \geq 2} 2 \varepsilon_{l-1} T_l \NG^4 \right)\\
+= &O\left(T^{2^{L-1}/(2^L-1)} \log^2(T) \right).
+\end{align*}
+\end{proof}
+
+Now we are going to change the parameters of the $L$-level recommendation policy a little bit and prove the below corollary. We will keep $\NG$ the same (i.e. $\NG = 2^{10}\log(T)$). We are going to change $L$ and $T_1,...,T_L$. We set $L = \log(T)/\log(\NG^4)$, $T_l = (\NG^4)^l$ for $l=1,...,L-1$ and $T_L = (T - T_1 \GdT \NG^2 - \NG^3\sum_{l=2}^{L-1} T_l)/\NG^3$.  
+
+\begin{corollary}
+\label{cor:llevel}
+With the proper setting of $L$ and $T_1,...,T_L$ described above, the $L$-level recommendation policy gets regret $O(\min(1/\Delta, T^{1/2})polylog(T))$. Here $\Delta = |\mu_1 -\mu_2|$ and the $L$-level recommendation policy does not need to know $\Delta$. Moreover, agent $t$ observes a subhistory of size at least $\Omega( \lfloor t/polylog(T)\rfloor)$. 
+\end{corollary}
+
+\begin{proof}
+Notice that in the proof of Theorem \ref{thm:llevel}, by the end of Claim \ref{clm:l2_exploit}, the only constraint we need about $T_l$'s is that $T_l / T_{l-1} \geq \NG^4$ for $l=2,...,L-1$ and $T_1 \geq \NG^4$. And our new settings of $T_l$'s still satisfy this constraint. So we can reuse the proof of Theorem \ref{thm:llevel} till the end of Claim \ref{clm:l2_exploit}.
+
+Recall in the proof of Theorem \ref{thm:llevel}, $\varepsilon_l =\Theta(1/\sqrt{T_l \NG})$ for $l \in [L-1]$ and $\varepsilon_0 = 1$. Consider two cases:
+\begin{itemize}
+\item $\Delta < \varepsilon_{L-1} \NG$. In this case, notice that even always picking the sub-optimal arm gives expected regret at most $T(\mu_1-\mu_2) = T\Delta = O(T^{1/2} polylog(T))$. On the other hand, $T^{1/2} = O(polylog(T)/\Delta)$. Therefore, the regret is $O(\min(1/\Delta, T^{1/2})polylog(T))$.
+\item $\Delta \geq \varepsilon_{L-1} \NG$. In this case, we can find $l \in \{2,...,L\}$ such that $\varepsilon_{l-1} \NG\leq \Delta < \varepsilon_{l-2} \NG$. By Claim \ref{clm:l2_exploit}, we can upper bound the regret by
+\begin{align*}
+&\Delta \cdot (T_1 \GdT \NG^2  +T_2 \NG^3+ \cdots T_{l-1} \NG^3)\\
+=& O(\Delta T_{l-1}\NG^3) \\
+=&O(\Delta T_{l-2}\NG^7) \\
+=&O(\Delta\cdot  \frac{1}{\varepsilon^2_{l-2}}\cdot \NG^6)\\
+=&O(\Delta \cdot \frac{1}{\Delta^2}\cdot \NG^8)\\
+=&O(polylog(T)/\Delta).
+\end{align*}
+We also have $1/\Delta \leq 1/(\varepsilon_{L-1}\NG)= O(T^{1/2})$. Therefore, the regret is $O(\min(1/\Delta, T^{1/2})polylog(T))$.
+\end{itemize}
+
+Finally we discuss about the subhistory sizes. We know that agents in level $l$ observes the history of all agents below level $l-2$ (including level $l-2$). It is easy to check that the ratio between the number of agents below level $l$ and the number of agents below level $l-2$ is bounded by $O(polylog(T))$. Therefore our statement about the subhistory sizes holds.
+\end{proof}
+
+Here we discuss about how to extend Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel} to the case when $K$ is a constant larger than 2. As the proof is very similar to the proofs of Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel}, we only provide a proof sketch of what changes to make.
+
+\begin{theorem}
+\label{thm:constarm}
+Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel} can be extended to the case when $K$ is constant larger than 2. In the extension of Corollary \ref{cor:llevel}, $\Delta$ is defined as the difference between means of the best and the second best arm.
+\end{theorem}
+
+\xhdr{Proof Sketch.}
+We still wlog assume arm 1 has the highest mean (i.e. $\mu_1 \geq \mu_a, \forall a \in \A$. We first extend the clean events (i.e. $W_1,W_2,W_3,W_4$) in Theorem \ref{thm:llevel} to the case when $K$ is larger than 2. $W_1$ and $W_2$ extend naturally: we still set $W_1 = \bigcap_{a,s}W_1^{a,s}$ and $W_2 = \bigcap_{t,a,\z_1,\z_2} W_2^{t,a,\z_1,\z_2}$. The difference is that now $a$ is taken over $K$ arms instead of 2 arms. For $W_3$, we change the definition $W_3^{l,a} = \bigcup_u \left(W_3^{l,u,a,high}  \cap \left(\bigcap_{a' \neq a} W_3^{l,u,a',low}\right) \right)$ and $W_3 = \bigcap_{l,a} W_3^{l,a}$. We extend $W_4$ in a similar way: define $W^{a}_4$ as $\bigcup_u \left(W_4^{u,a,high} \cap \left(\bigcap_{a' \neq a} W_4^{u,a',low}\right) \right)$ and $W_4 = \bigcap_a W^a_4$. Since $K$ is a constant, it's easy to check that the same proof technique shows that the intersection of these clean events happen with probability  $1-O(1/T)$. So the case when some clean event does not happen contributes $O(1)$ to the regret. 
+
+Now we proceed to extend Claim \ref{clm:l2_explore} and Claim \ref{clm:l2_exploit}. The statement of Claim \ref{clm:l2_explore} should be changed to ``For any arm $a$ and $2\leq l \leq L$, if $\mu_1 - \mu_a \leq \varepsilon_{l-1}$, then for any $u \in [\NG]$, there are at least $T_l$ pulls of arm $a$ in groups $G_{l,u,1},G_{l,u,2}, ... ,G_{l,u,\NG}$ and there are at least $T_l\NG(\NG-1)$ pulls of arm $a$ in the $l$-th level $\Gamma$-groups''. The statement of Claim \ref{clm:l2_exploit} should be changed to ``For any $2 \leq l \leq L$, if $\varepsilon_{l-1} \NG\leq \mu_1 - \mu_a < \varepsilon_{l-2} \NG$, there are no pulls of arm $a$ in groups with level $l,...,L$.'' 
+
+The proof of Claim \ref{clm:l2_exploit} can be easily changed to prove the new version by changing ``arm 2'' to ``arm $a$''. The proof of Claim \ref{clm:l2_explore} needs some additional argument. In the proof of Claim \ref{clm:l2_explore}, we show that $\hat{\mu}_a^t - \hat{\mu}_{3-a} > 0 $ for agent $t$ in the chosen groups. When extending to more than 2 arms, we need to show $\hat{\mu}_a^t - \hat{\mu}_{a'}^t > 0$ for all arm $a' \neq a$. The proof of Claim \ref{clm:l2_explore} goes through if $\mu_1- \mu_{a'} \leq \varepsilon_{l-2}$ since then there will be enough arm $a'$ pulls in level $l-1$. We need some additional argument for the case when $\mu_1 - \mu_{a'} > \varepsilon_{l-2}$. Since $\mu_1- \mu_{a'} > \varepsilon_{l-2} > \varepsilon_{l-1}\NG$, we can use the same proof of Claim \ref{clm:l2_exploit} (which rely on Claim \ref{clm:l2_explore} but for smaller $l$'s) to show that there are no arm $a'$ pulls in level $l$ and therefore $\hat{\mu}_a^t - \hat{\mu}_{a'}^t > 0$. 
+
+Finally we proceed to bound the regret conditioned on the intersection of clean events happens. The proofs of Theorem \ref{thm:llevel} and Corollary \ref{cor:llevel} bound it by consider the regret from pulling the suboptimal arm (i.e. arm 2). When extending to more than 2 arms, we can do the exactly same argument for all arms except arm 1. This will blow up the regret by a factor of $(K-1)$ which is a constant.
+\qed
+
+ 
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main"
+%%% End:
