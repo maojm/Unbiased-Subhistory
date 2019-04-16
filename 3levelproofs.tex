@@ -1,15 +1,9 @@
 %!TEX root = main.tex
 
-\section{Missing proofs from Section~\ref{sec:3level}}
+\subsection{Details of the analysis}
 \label{sec:3level-pfs}
 
-%\ascomment{I copied this from the 3-level section. This needs to be revised and made consistent, etc.}
-
-
-
-%\ascomment{end of copy-and-paste}
-
-\subsection{Events}
+\subsubsection*{Events}
 
 The following lemmas can be derived from combining Lemma~\ref{lem:t1runs} and union bound.
 
@@ -140,8 +134,8 @@ the first two levels.
   levels]\label{3levelw3}
   With probability at least $1 - \frac{4}{T^3}$, the following event
   $W_4$ holds: for all $a\in \{1, 2\}$ and $\z \in [N_{T, a}]$, the
-  empirical means of the first $\z$ 
-  %\nicomment{what is $t$ here; you mean $m$? in which case please replace $m$ with $t$ in the conditioning and bound} 
+  empirical means of the first $\z$
+  %\nicomment{what is $t$ here; you mean $m$? in which case please replace $m$ with $t$ in the conditioning and bound}
   arm $a$ pulls is at most
   $\sqrt{\frac{2\log(T)}{\z}}$ away from $\mu_a$, where $N_{T, a}$ is
   the total number of arm $a$ pulls by the end of $T$ rounds.
@@ -179,7 +173,7 @@ $O(1/T) \cdot T = O(1)$, so it suffices to bound the regret conditioned on $W$.
 
 
 
-\subsection{Case Analysis}
+\subsubsection*{Case Analysis}
 Now we assume the intersection $W$ of events $W_1,\cdots,W_4$ happens. We will
 first provide some helper lemmas for our case analysis.
 
