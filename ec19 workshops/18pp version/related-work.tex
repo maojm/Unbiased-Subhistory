@@ -1,0 +1,19 @@
+\xhdr{Related work.}
+The problem of incentivizing exploration via information asymmetry was introduced in \cite{Kremer-JPE14}, under the Bayesian rationality and the (implicit) power-to-commit assumptions. The original problem -- essentially, a version of our model with unrestricted disclosure policies -- was largely resolved in \cite{Kremer-JPE14} and the subsequent work \cite{ICexploration-ec15,ICexplorationGames-ec16}. Several extensions were considered: to contextual bandits \cite{ICexploration-ec15}, to repeated games
+\cite{ICexplorationGames-ec16}, and to social networks \cite{Bahar-ec16}.
+
+Several other papers study related, but technically different models: same model with time-discounted utilities \cite{Bimpikis-exploration-ms17}; a version with monetary incentives \cite{Frazier-ec14} and moreover with heterogenous agents \cite{Kempe-colt18}; a version with a continuous information flow and a continuum of agents \cite{Che-13}; coordination of costly exploration decisions when they are separate from the ``payoff-generating" decisions \cite{Bobby-Glen-ec16,Annie-ec18-traps,Liang-ec18}. Scenarios with long-lived, exploring agents and no principal to coordinate them have been studied in \cite{Bolton-econometrica99,Keller-econometrica05}.
+
+Full-disclosure policy, and closely related ``greedy" (exploitation-only) algorithm in multi-armed bandits, have been a subject of a recent line of work \cite{Sven-aistats18,kannan2018smoothed,bastani2017exploiting,externalities-colt18}.
+A common theme is that the greedy algorithm performs well in theory, under  substantial assumptions on heterogeneity of the agents. Yet, it suffers $\Omega(T)$ regret in the worst case.%
+\footnote{This is a well-known folklore result; \eg see \cite{CompetingBandits-itcs18} for a concrete example.}
+
+Exploration-exploitation tradeoff received much attention over the past decades, usually under the rubric of ``multi-armed bandits"; see books \cite{CesaBL-book,Bubeck-survey12,Gittins-book11} for background.
+Exploration-exploitation problems with incentives issues arise in several other scenarios: dynamic pricing
+    \cite{KleinbergL03,BZ09,BwK-focs13},
+dynamic auctions
+    \cite{AtheySegal-econometrica13,DynPivot-econometrica10,Kakade-pivot-or13},
+pay-per-click ad auctions
+    \cite{MechMAB-ec09,DevanurK09,Transform-ec10-jacm},
+and human computation
+    \cite{RepeatedPA-ec14,Ghosh-itcs13,Krause-www13}.

@@ -1,0 +1,28 @@
+%!TEX root = main.tex
+\section{Tools from Probability: concentration and anti-concentration [OBSOLETE!]}
+\label{sec:prelim}
+
+We use standard tools for concentration and anti-concentration, stated below.
+
+\begin{theorem}[Chernoff Bounds]\label{thm:prelims-chernoff}
+Let $X_1,...,X_n$  be independent random variables such that $X_i \in [0,1]$ for all $i$. Let $\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i$ denote their empirical mean. Then
+\[
+\Pr[ |\bar{X} - \E[\bar{X}]| > \varepsilon] \leq 2\exp(-2n\varepsilon^2).
+\]
+\end{theorem}
+
+\begin{theorem}[Berry-Esseen Theorem]\label{thm:prelims-Berry}
+Let $X_1,...,X_n$ be i.i.d. variables with $\E[ (X_1 - \E[X_1])^2] = \sigma^2 >0$ and $\E[ |X_1 - \E[X_1]|^3] =\rho <\infty$. Let $\bar{X} = \frac{1}{n} \sum_{i=1}^n X_i$. Let $F_n$ be the cumulative distribution function of $\frac{(\bar{X} - \E[\bar{X}]) \sqrt{n}}{\sigma}$ and $\Phi$ be the cumulative distribution function of the standard normal distribution. For all $x$ and $n$,
+\[
+|F_n(x) - \Phi(x) | \leq \frac{\rho}{2\sigma^3\sqrt{n}}.
+\]
+\end{theorem}
+
+
+%\jmcomment{
+%In proofs, we use reward tapes to argue about concentration and anti-concentration of empirical means of some arm $a$ in certain rounds.
+%\begin{definition}[Reward Tapes]
+%A reward tape of arm $a$ and length $L$ is a tape of $L$ cells, with each cell independently sampled from $\cD_a$.
+%\end{definition}
+
+%}
