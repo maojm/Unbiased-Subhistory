@@ -149,12 +149,12 @@ In this paper, we design disclosure policies which incentivize good performance 
 
 
 \thispagestyle{empty}
-\addtocontents{toc}{\setcounter{tocdepth}{0}}
-\newpage
-\thispagestyle{empty}
-\tableofcontents
-\newpage
-\addtocontents{toc}{\setcounter{tocdepth}{2}}
+%\addtocontents{toc}{\setcounter{tocdepth}{0}}
+%\newpage
+%\thispagestyle{empty}
+%\tableofcontents
+%\newpage
+%\addtocontents{toc}{\setcounter{tocdepth}{2}}
 
 
 
@@ -164,23 +164,25 @@ In this paper, we design disclosure policies which incentivize good performance 
 %\input{algg}
 
 \input{2level}
-\input{app-warmup}
+%\input{app-warmup}
 \input{3level}
-\input{3levelproofs}
+%\input{3levelproofs}
 \input{llevel-overview}
-\input{llevel}
-
-\bibliographystyle{plain}
-\bibliography{bib-abbrv,bib-AGT,bib-bandits,bib-ML,bib-random,bib-slivkins}
+%\input{llevel}
 
 \section*{Acknowledgment}
 We would like to thank Robert Kleinberg for discussions in the early stage of this project.
 
+
+\bibliographystyle{plain}
+\bibliography{bib-abbrv,bib-AGT,bib-bandits,bib-ML,bib-random,bib-slivkins}
+
+
 \appendix
 %\input{prelim}
-%\input{app-warmup}
-%\input{3levelproofs}
-%\input{llevel}
+\input{app-warmup}
+\input{3levelproofs}
+\input{llevel}
 
 %\input{posterior}
 \end{document}
