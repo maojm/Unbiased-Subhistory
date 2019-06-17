@@ -1,0 +1,38 @@
+% LaTeX package 'mysetup' by Alex Slivkins
+
+\usepackage{amsthm} % must be loaded **after** amsmath
+
+
+\theoremstyle{plain}
+
+
+%%%%%%%%%%% proofs %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%\newenvironment{proofof}[1]
+%	{\begin{proof}[{\bf Proof of #1:}]}
+%	{\end{proof}}
+
+
+\newcommand{\pfof}[2]{
+	\begin{proofof}{#1}
+		#2
+	\end{proofof}
+}
+
+\newenvironment{myproof}
+	{\begin{proof}}
+	{\end{proof}}
+
+\newcommand{\sketch}[1]{
+	\begin{proof}[Proof Sketch.]
+		#1
+	\end{proof}
+}
+	
+\newcommand{\sketchof}[2]{
+	\begin{proof}[{\bf Proof Sketch of #1:}]
+		#2
+	\end{proof}
+}
